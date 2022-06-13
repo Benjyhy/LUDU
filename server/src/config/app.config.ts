@@ -5,4 +5,7 @@ export default registerAs('app', () => ({
   database: {
     url: process.env.DATABASE_URL,
   },
+  auth: {
+    jwtSecret: process.env.JWT_SECRET,
+  },
 }));

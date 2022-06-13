@@ -8,20 +8,27 @@ import {
   ValidationPipe,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserDocument, User } from 'src/schemas/user.schema';
 import { UserDto } from './dto/user.dto';
-import { LoginDto } from '../auth/dto/login.dto';
 import { JwtAuthGuard } from 'src/middlewares/jwt-auth.guard';
 
 @Controller('user')
+@ApiTags('User')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
   @Get('')
   findAll(): Promise<UserDocument[]> {
+    console.log('out');
     return this.userService.findAll();
   }
 
@@ -34,7 +41,7 @@ export class UserController {
   }
 
   @Put('/:id')
-  @ApiOperation({ summary: 'Create a new location' })
+  @ApiOperation({ summary: 'Create a new user' })
   @ApiOkResponse({ description: 'Success', type: User })
   update(
     @Param('id')
@@ -46,7 +53,7 @@ export class UserController {
   }
 
   @Delete('/:id')
-  @ApiOperation({ summary: 'Delete a location' })
+  @ApiOperation({ summary: 'Delete an user' })
   @ApiOkResponse({ description: 'Success', type: User })
   async remove(
     @Param('id')

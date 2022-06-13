@@ -6,16 +6,22 @@ import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { readFileSync } from 'fs';
 import { JwtStrategy } from 'src/helpers/jwt.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import appConfig from 'src/config/app.config';
 
 @Module({
   imports: [
     UserModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({
-      secret: readFileSync(`${process.cwd()}/jwt.private.key`).toString(),
-      signOptions: {
-        expiresIn: 3600,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async () => {
+        // console.log(appConfig().auth.jwtSecret);
+        return {
+          secret: appConfig().auth.jwtSecret,
+        };
       },
+      inject: [ConfigService],
     }),
   ],
   providers: [AuthService, JwtStrategy],

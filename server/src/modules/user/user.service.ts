@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { StoreDocument } from 'src/schemas/store.schema';
 import { UserDocument } from 'src/schemas/user.schema';
 import { UserDto } from './dto/user.dto';
-import { Credentials } from '../../schemas/user.schema';
+// import { Credentials } from '../../schemas/user.schema';
 
 @Injectable()
 export class UserService {
@@ -25,15 +25,26 @@ export class UserService {
     return await this.userModel.findOne(field).exec();
   }
 
-  public async findOnePassword(username: any): Promise<UserDocument> {
+  public async findOnePassword(username: string): Promise<UserDocument> {
     return await this.userModel
       .findOne({ username: username })
       .select('credentials.local.password');
   }
 
+  public async findOneUsername(username: string): Promise<UserDocument> {
+    return this.userModel.findOne({ username: username });
+  }
+
+  public async findOneLocalEmail(email: string): Promise<UserDocument> {
+    return this.userModel.findOne({ 'credentials.local.email': email });
+  }
+
+  public async findOneOauthEmail(email: string): Promise<UserDocument> {
+    return this.userModel.findOne({ 'credentials.oauth.email': email });
+  }
+
   async create(UserDto: UserDto): Promise<UserDocument> {
-    const createdUser = await this.userModel.create(UserDto);
-    return await this.userModel.findById(createdUser._id).exec();
+    return this.userModel.create(UserDto);
   }
 
   public async update(

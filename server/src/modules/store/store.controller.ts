@@ -14,6 +14,7 @@ import { StoreDocument, Store } from 'src/schemas/store.schema';
 import { StoreDto } from './dto/store.dto';
 
 @Controller('store')
+@ApiTags('Store')
 export class StoreController {
   constructor(private storeService: StoreService) {}
 

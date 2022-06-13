@@ -13,8 +13,8 @@ import { Location, LocationDocument } from 'src/schemas/location.schema';
 import { LocationService } from './location.service';
 import { LocationDto } from './dto/location.dto';
 
-@ApiTags('Location')
 @Controller('location')
+@ApiTags('Location')
 export class LocationController {
   constructor(private locationService: LocationService) {}
 

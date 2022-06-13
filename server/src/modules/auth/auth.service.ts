@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
@@ -13,12 +13,14 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  validateUser(userDto: UserDto) {
+  validateUser(userDto: any) {
     return { username: userDto.username };
   }
 
   createToken(payload: any) {
-    return this.jwtService.sign(payload, { algorithm: 'RS256' });
+    return this.jwtService.sign(payload, {
+      expiresIn: '1d',
+    });
   }
 
   async login(userLogin: LoginDto): Promise<any> {
