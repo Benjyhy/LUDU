@@ -1,7 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsString } from 'class-validator';
+import { IsString, IsNotEmpty, IsPhoneNumber } from 'class-validator';
 import { ROLES } from 'src/schemas/user.schema';
+import { StoreDocument } from 'src/schemas/store.schema';
 
 import { OauthDto } from './oauth.dto';
 import { LocalDto } from './local.dto';
@@ -15,43 +16,41 @@ export class UserDto {
   @Transform(({ value }) => value.toString())
   _id: string;
 
-  // @ApiProperty({
-  //   example: 'Location 1',
-  //   description: 'The name of the store',
-  // })
-  // @IsString()
-  // readonly role: [ROLES];
+  @ApiProperty({
+    example: 'Location 1',
+    description: 'The name of the store',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly role: [ROLES];
 
   @ApiProperty({
     example: 'popolito',
     description: 'Your nickname',
   })
+  @IsNotEmpty()
   @IsString()
   readonly username: string;
 
+  @ApiProperty()
   credentials: ICredentials;
 
-  // @ApiProperty()
-  // @IsString()
-  // email: string;
+  @ApiProperty({
+    example: "User's phone number",
+    description: '+33620202020',
+  })
+  @IsNotEmpty()
+  @IsPhoneNumber('FR')
+  phone: string;
 
-  // @ApiProperty()
-  // @IsString()
-  // password: string;
+  @ApiProperty({
+    example: "User's adresse",
+    description: '16 rue de beaumont, Montesson 78360',
+  })
+  @IsNotEmpty()
+  @IsString()
+  address: string;
 
-  // @ApiProperty()
-  // @IsString()
-  // phone: string;
-
-  // @ApiProperty()
-  // @IsString()
-  // avatar: string;
-
-  // @ApiProperty()
-  // @IsString()
-  // description: string;
-
-  // @ApiProperty()
-  // @IsString()
-  // address: string;
+  @ApiPropertyOptional({ description: 'Stores' })
+  readonly stores: StoreDocument[];
 }

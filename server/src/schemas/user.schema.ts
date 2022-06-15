@@ -1,12 +1,15 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { ObjectId } from 'mongoose';
+import { ObjectId, Types } from 'mongoose';
+import { IsEmail } from 'class-validator';
 import { Exclude, Transform } from 'class-transformer';
+import { HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { hashPassword } from 'src/helpers/bcrypt';
+import { isPasswordInvalid } from 'src/helpers/utils';
 
 export enum ROLES {
-  OWNER,
-  ADMIN,
   USER,
+  SELLER,
+  ADMIN,
 }
 
 export type UserDocument = User & Document;
@@ -23,6 +26,7 @@ export class Oauth {
 }
 
 export class LocalAuth {
+  @IsEmail()
   @Prop({ unique: false })
   email: string;
 
@@ -59,23 +63,20 @@ export class User {
   @Prop({ type: Credentials })
   credentials: Credentials;
 
-  // @Prop()
-  // role: [ROLES];
+  @Prop()
+  role: [ROLES];
 
-  // @Prop({ required: true })
-  // phone: number;
+  @Prop({ required: true })
+  phone: number;
 
   // @Prop()
   // avatar: string;
 
-  // @Prop()
-  // description: string;
+  @Prop()
+  address: string;
 
-  // @Prop()
-  // address: string;
-
-  // @Prop({ type: Types.ObjectId, ref: 'Store' })
-  // store: string;
+  @Prop({ type: Types.ObjectId, ref: 'Store' })
+  store: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -84,6 +85,15 @@ UserSchema.pre<UserDocument>('save', function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
   if (user.credentials.local.password) {
+    // if (isPasswordInvalid(user.credentials.local.password))
+    //   throw new HttpException(
+    //     {
+    //       status: HttpStatus.BAD_REQUEST,
+    //       error: 'password:invalid:min(8)|required(upper,lower,number)',
+    //     },
+    //     HttpStatus.BAD_REQUEST,
+    //   );
+
     this.credentials.local.password = hashPassword(
       this.credentials.local.password,
     );

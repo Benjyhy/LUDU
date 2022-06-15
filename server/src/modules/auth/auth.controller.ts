@@ -5,13 +5,18 @@ import {
   ValidationPipe,
   HttpException,
   HttpStatus,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
-import { UserDocument, User } from 'src/schemas/user.schema';
+import { UserDocument } from 'src/schemas/user.schema';
 import { UserDto } from '../user/dto/user.dto';
 import { LoginDto } from './dto/login.dto';
+import { join } from 'path';
+import { diskStorage } from 'multer';
 
 @Controller('')
 export class AuthController {
@@ -21,9 +26,17 @@ export class AuthController {
   ) {}
 
   @Post('/local/register')
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      storage: diskStorage({
+        destination: join(process.cwd(), 'static/images/user/avatar/'),
+      }),
+    }),
+  )
   async create(
     @Body(new ValidationPipe({ transform: true }))
     userDto: UserDto,
+    @UploadedFile() avatar: Express.Multer.File,
   ): Promise<UserDocument> {
     let user = await this.userService.findOneUsername(userDto.username);
     if (user)
@@ -45,6 +58,8 @@ export class AuthController {
         },
         HttpStatus.FORBIDDEN,
       );
+    console.log(avatar);
+    return;
     return this.authService.register(userDto);
   }
 

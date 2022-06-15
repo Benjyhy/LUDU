@@ -12,6 +12,12 @@ export class LocationDto {
   })
   readonly name: string;
 
+  @ApiProperty({
+    example: 'Location 1',
+    description: 'The name of the location',
+  })
+  readonly postalCode: number;
+
   @ApiPropertyOptional({ description: 'Stores' })
   readonly stores: StoreDocument[];
 }
