@@ -51,6 +51,10 @@ export class UserDto {
   @IsString()
   address: string;
 
+  @IsNotEmpty()
+  @IsString()
+  avatar: string;
+
   @ApiPropertyOptional({ description: 'Stores' })
   readonly stores: StoreDocument[];
 }

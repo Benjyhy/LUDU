@@ -5,6 +5,7 @@ jwt.key.pub
 # compiled output
 /dist
 /node_modules
+/static
 
 # Logs
 logs

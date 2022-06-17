@@ -16,7 +16,6 @@ import { MulterModule } from '@nestjs/platform-express';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async () => {
-        // console.log(appConfig().auth.jwtSecret);
         return {
           secret: appConfig().auth.jwtSecret,
         };

@@ -69,8 +69,8 @@ export class User {
   @Prop({ required: true })
   phone: number;
 
-  // @Prop()
-  // avatar: string;
+  @Prop()
+  avatar: string;
 
   @Prop()
   address: string;
