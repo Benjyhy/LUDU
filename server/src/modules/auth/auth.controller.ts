@@ -5,14 +5,18 @@ import {
   ValidationPipe,
   HttpException,
   HttpStatus,
+  UploadedFile,
+  UseInterceptors,
+  Logger,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
-import { UserDocument, User } from 'src/schemas/user.schema';
+import { UserDocument } from 'src/schemas/user.schema';
 import { UserDto } from '../user/dto/user.dto';
 import { LoginDto } from './dto/login.dto';
-
+import { SaveUserAvatar } from 'src/helpers/utils';
 @Controller('')
 export class AuthController {
   constructor(
@@ -45,6 +49,7 @@ export class AuthController {
         },
         HttpStatus.FORBIDDEN,
       );
+    userDto.avatar = await SaveUserAvatar(userDto.avatar);
     return this.authService.register(userDto);
   }
 

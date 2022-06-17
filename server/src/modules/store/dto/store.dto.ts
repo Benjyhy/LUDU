@@ -20,15 +20,24 @@ export class StoreDto {
   @IsString()
   readonly address: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    example: 'Santamaria',
+    description: "Name of the shop's owner",
+  })
   @IsString()
   owner: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    example: '+33639393939',
+    description: "Number of the shop's owner",
+  })
   @IsString()
   phone: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    example: 'Paris',
+    description: 'Location of the shop, OneToMany relation',
+  })
   @IsString()
   location: string;
 }
