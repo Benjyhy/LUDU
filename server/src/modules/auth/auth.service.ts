@@ -3,7 +3,7 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { UserDto } from '../user/dto/user.dto';
-import { comparePassword } from 'src/helpers/bcrypt';
+import { comparePassword } from 'src/helpers/Bcrypt';
 import { UserDocument } from 'src/schemas/user.schema';
 
 @Injectable()
@@ -42,7 +42,11 @@ export class AuthService {
       username: userLogin.username,
     });
 
-    const token = this.createToken({ id: user._id, username: user.username });
+    const token = this.createToken({
+      id: user._id,
+      username: user.username,
+      role: user.role,
+    });
 
     return { token: token, user: user };
   }

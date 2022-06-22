@@ -12,12 +12,17 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { StoreService } from './store.service';
 import { StoreDocument, Store } from 'src/schemas/store.schema';
 import { StoreDto } from './dto/store.dto';
+import { JWTAuth } from 'src/middlewares/decorators/JWTAuth';
+import { Roles } from 'src/middlewares/decorators/RoleAuth';
+import { ROLES } from 'src/schemas/user.schema';
 
 @Controller('store')
 @ApiTags('Store')
 export class StoreController {
   constructor(private storeService: StoreService) {}
 
+  @JWTAuth()
+  @Roles(ROLES.ADMIN)
   @Get('')
   findAll(): Promise<StoreDocument[]> {
     return this.storeService.findAll();

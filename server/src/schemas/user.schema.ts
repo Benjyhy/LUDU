@@ -2,9 +2,8 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectId, Types } from 'mongoose';
 import { IsEmail } from 'class-validator';
 import { Exclude, Transform } from 'class-transformer';
-import { HttpException, HttpStatus, Logger } from '@nestjs/common';
-import { hashPassword } from '../helpers/bcrypt';
-import { isPasswordInvalid } from 'src/helpers/utils';
+import { hashPassword } from 'src/helpers/Bcrypt';
+import { isPasswordInvalid } from 'src/helpers/Utils';
 
 export enum ROLES {
   USER,
@@ -27,7 +26,7 @@ export class Oauth {
 
 export class LocalAuth {
   @IsEmail()
-  @Prop({ unique: false })
+  @Prop({ unique: true })
   email: string;
 
   @Prop({
@@ -41,7 +40,7 @@ export class LocalAuth {
   password: string;
 
   @Prop()
-  emailVerified: string;
+  emailVerified: boolean;
 }
 
 export class Credentials {
@@ -63,8 +62,8 @@ export class User {
   @Prop({ type: Credentials })
   credentials: Credentials;
 
-  @Prop()
-  role: [ROLES];
+  @Prop({ type: String, enum: ['USER', 'SELLER', 'ADMIN'], required: true })
+  role: string[];
 
   @Prop({ required: true })
   phone: number;

@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import * as Sharp from 'sharp';
 import { HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { ROLES } from 'src/schemas/user.schema';
 
 export const isPasswordInvalid = (password: string) => {
   const match = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
@@ -15,8 +16,7 @@ export const imageFileFilter = (req, file, callback) => {
 };
 
 export const SaveUserAvatar = async (base64: string): Promise<string> => {
-  const validUriForBuffer = base64.split(';base64,').pop();
-  const buffer = Buffer.from(validUriForBuffer, 'base64');
+  const buffer = Buffer.from(base64, 'base64');
   const filename = v4();
   await Sharp(buffer)
     .resize(100, 100)
@@ -34,3 +34,5 @@ export const SaveUserAvatar = async (base64: string): Promise<string> => {
     });
   return filename;
 };
+
+// export const ValidateRoles = async () => {};

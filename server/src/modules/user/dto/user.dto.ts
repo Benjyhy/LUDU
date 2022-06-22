@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsString, IsNotEmpty, IsPhoneNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsPhoneNumber, IsBase64 } from 'class-validator';
 import { ROLES } from 'src/schemas/user.schema';
 import { StoreDocument } from 'src/schemas/store.schema';
 
@@ -12,13 +12,28 @@ interface ICredentials {
   oauth: OauthDto;
 }
 
+class LocalProperty {
+  @ApiProperty()
+  email: string;
+
+  @ApiProperty()
+  password: string;
+
+  @ApiProperty()
+  emailVerified: boolean;
+}
+class CredentialsProperty {
+  @ApiProperty({ type: LocalProperty })
+  local: LocalProperty;
+}
+
 export class UserDto {
   @Transform(({ value }) => value.toString())
   _id: string;
 
   @ApiProperty({
-    example: 'Location 1',
-    description: 'The name of the store',
+    example: 'USER | SELLER | ADMIN',
+    description: "User's role",
   })
   @IsNotEmpty()
   @IsString()
@@ -32,29 +47,35 @@ export class UserDto {
   @IsString()
   readonly username: string;
 
+  @ApiProperty({ type: CredentialsProperty })
   @ApiProperty()
   credentials: ICredentials;
 
   @ApiProperty({
-    example: "User's phone number",
-    description: '+33620202020',
+    example: '+33620202020',
+    description: "User's phone number",
   })
   @IsNotEmpty()
   @IsPhoneNumber('FR')
   phone: string;
 
   @ApiProperty({
-    example: "User's adresse",
+    example: "User's address",
     description: '16 rue de beaumont, Montesson 78360',
   })
   @IsNotEmpty()
   @IsString()
   address: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @ApiPropertyOptional({ description: 'avatar' })
+  // @IsNotEmpty()
+  @IsBase64()
   avatar: string;
 
+  @ApiProperty({
+    example: 'Store ID',
+    description: 'Mongoose ID related to a existing store',
+  })
   @ApiPropertyOptional({ description: 'Stores' })
   readonly stores: StoreDocument[];
 }

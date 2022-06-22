@@ -6,7 +6,6 @@ import {
   Put,
   Delete,
   ValidationPipe,
-  UseGuards,
 } from '@nestjs/common';
 import {
   ApiOkResponse,
@@ -17,14 +16,14 @@ import {
 import { UserService } from './user.service';
 import { UserDocument, User } from '../../schemas/user.schema';
 import { UserDto } from './dto/user.dto';
-import { JwtAuthGuard } from '../../middlewares/jwt-auth.guard';
+import { JWTAuth } from 'src/middlewares/decorators/JWTAuth';
 
 @Controller('user')
 @ApiTags('User')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @JWTAuth()
   @ApiBearerAuth('JWT')
   @Get('')
   findAll(): Promise<UserDocument[]> {
