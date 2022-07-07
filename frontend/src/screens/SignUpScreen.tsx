@@ -1,7 +1,8 @@
 import React from "react";
+import { Text } from "native-base";
 
 const SignUpScreen = () => {
-    return <div>SignUpScreen</div>;
+    return <Text>SignUpScreen</Text>;
 };
 
 export default SignUpScreen;

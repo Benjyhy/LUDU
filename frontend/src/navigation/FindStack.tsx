@@ -1,12 +1,12 @@
 import React from "react";
-import { findRoutes } from "./appRoutes/findRoutes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import findRoutes from "./appRoutes/findRoutes";
 import HomeFeedScreen from "../screens/find/HomeFeedScreen";
 import MapViewScreen from "../screens/find/MapViewScreen";
 
 const Stack = createNativeStackNavigator();
 
-export const FindStack = () => {
+const FindStack = () => {
     return (
         <Stack.Navigator initialRouteName={findRoutes.HOME_FEED}>
             <Stack.Screen
@@ -20,3 +20,5 @@ export const FindStack = () => {
         </Stack.Navigator>
     );
 };
+
+export default FindStack;

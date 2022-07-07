@@ -1,7 +1,8 @@
 import React from "react";
+import { Text } from "native-base";
 
 const LoginScreen = () => {
-    return <div>LoginScreen</div>;
+    return <Text>LoginScreen</Text>;
 };
 
 export default LoginScreen;

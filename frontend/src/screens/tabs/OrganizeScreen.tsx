@@ -1,7 +1,8 @@
 import React from "react";
+import { Text } from "native-base";
 
 const OrganizeScreen = () => {
-    return <div>OrganizeScreen</div>;
+    return <Text>OrganizeScreen</Text>;
 };
 
 export default OrganizeScreen;

@@ -1,7 +1,8 @@
 import React from "react";
+import { Text } from "native-base";
 
 const HomeFeedScreen = () => {
-    return <div>HomeFeedScreen</div>;
+    return <Text>HomeFeedScreen</Text>;
 };
 
 export default HomeFeedScreen;
