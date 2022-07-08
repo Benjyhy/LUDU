@@ -1,11 +1,33 @@
-import { Injectable, NotFoundException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Logger,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { UserDto } from '../user/dto/user.dto';
 import { comparePassword } from 'src/helpers/Bcrypt';
-import { UserDocument } from 'src/schemas/user.schema';
+import { ROLES, UserDocument } from 'src/schemas/user.schema';
+import { SaveUserAvatar } from 'src/helpers/Utils';
+import { Credentials } from '../../schemas/user.schema';
+import { ObjectId } from 'mongoose';
 
+interface AuthToken {
+  id: ObjectId;
+  username: string;
+  role: ROLES;
+}
+
+interface UserToken {
+  id: ObjectId;
+  role: ROLES;
+  username: string;
+  iat: string;
+  exp: string;
+}
 @Injectable()
 export class AuthService {
   constructor(
@@ -13,34 +35,39 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  validateUser(userDto: any) {
-    return { username: userDto.username };
+  async validateUser(userToken: UserToken): Promise<boolean> {
+    Logger.log(userToken);
+    const user = await this.userService.findById(userToken.id);
+
+    if (!user || user.username != userToken.username) return false;
+
+    return true;
   }
 
-  createToken(payload: any) {
+  createToken(payload: AuthToken) {
     return this.jwtService.sign(payload, {
       expiresIn: '1d',
     });
   }
 
   async login(userLogin: LoginDto): Promise<any> {
-    const userPassword = await this.userService.findOnePassword(
+    // find an user mathcing the username
+    const userExist = await this.userService.findOnePassword(
       userLogin.username,
     );
 
-    if (!userPassword)
+    if (!userExist)
       throw new NotFoundException(`User #${userLogin.username} not found`);
 
+    // checking password
     const isCorrectPassword = comparePassword(
       userLogin.password,
-      userPassword.credentials.local.password,
+      userExist.credentials.local.password,
     );
 
     if (!isCorrectPassword) throw new NotFoundException(`Wrong password`);
 
-    const user = await this.userService.findOne({
-      username: userLogin.username,
-    });
+    const user = await this.userService.findById(userExist._id);
 
     const token = this.createToken({
       id: user._id,
@@ -51,7 +78,40 @@ export class AuthService {
     return { token: token, user: user };
   }
 
-  async register(userDto: UserDto): Promise<UserDocument> {
-    return await this.userService.create(userDto);
+  async register(userDto: UserDto): Promise<any> {
+    let userExist = await this.userService.findOneUsername(userDto.username);
+
+    // if username is already taken
+    if (userExist)
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Email already exist',
+        },
+        HttpStatus.FORBIDDEN,
+      );
+
+    userExist = await this.userService.findOneLocalEmail(
+      userDto.credentials.local.email,
+    );
+    // if email is already taken
+    if (userExist)
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Email already exist',
+        },
+        HttpStatus.FORBIDDEN,
+      );
+    userDto.avatar = await SaveUserAvatar(userDto.avatar);
+    const user = await this.userService.create(userDto);
+
+    const token = this.createToken({
+      id: user._id,
+      username: user.username,
+      role: user.role,
+    });
+
+    return { token: token, user: user };
   }
 }

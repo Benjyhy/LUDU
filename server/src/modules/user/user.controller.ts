@@ -14,27 +14,31 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { UserDocument, User } from '../../schemas/user.schema';
+import { UserDocument, User, ROLES } from 'src/schemas/user.schema';
 import { UserDto } from './dto/user.dto';
 import { JWTAuth } from 'src/middlewares/decorators/JWTAuth';
+import { ObjectId } from 'mongoose';
+import { Roles } from 'src/middlewares/decorators/RoleAuth';
 
 @Controller('user')
 @ApiTags('User')
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @Get('')
   @JWTAuth()
   @ApiBearerAuth('JWT')
-  @Get('')
+  @Roles(ROLES.SELLER)
   findAll(): Promise<UserDocument[]> {
-    console.log('out');
     return this.userService.findAll();
   }
 
+  @JWTAuth()
+  @ApiBearerAuth('JWT')
   @Get('/:id')
   async findById(
     @Param('id')
-    id: string,
+    id: ObjectId,
   ): Promise<UserDocument> {
     return this.userService.findById(id);
   }

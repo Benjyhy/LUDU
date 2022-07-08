@@ -21,7 +21,6 @@ import { ROLES } from 'src/schemas/user.schema';
 export class StoreController {
   constructor(private storeService: StoreService) {}
 
-  @JWTAuth()
   @Roles(ROLES.ADMIN)
   @Get('')
   findAll(): Promise<StoreDocument[]> {

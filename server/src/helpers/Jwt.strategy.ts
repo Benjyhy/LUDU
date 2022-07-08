@@ -1,4 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  SetMetadata,
+} from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { AuthService } from '../modules/auth/auth.service';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -14,11 +19,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload) {
-    const user = await this.authService.validateUser(payload);
+    const userValide = await this.authService.validateUser(payload);
 
-    if (!user) {
-      throw new Error();
+    if (!userValide) {
+      throw new NotFoundException(`Token has been corrupted`);
     }
-    return user;
+    return payload;
   }
 }

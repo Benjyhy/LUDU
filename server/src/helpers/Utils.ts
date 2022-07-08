@@ -34,5 +34,3 @@ export const SaveUserAvatar = async (base64: string): Promise<string> => {
     });
   return filename;
 };
-
-// export const ValidateRoles = async () => {};

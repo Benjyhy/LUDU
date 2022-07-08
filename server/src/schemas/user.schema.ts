@@ -36,7 +36,6 @@ export class LocalAuth {
     minlength: 6,
     select: false,
   })
-  @Exclude()
   password: string;
 
   @Prop()
@@ -44,7 +43,7 @@ export class LocalAuth {
 }
 
 export class Credentials {
-  @Prop({ type: LocalAuth })
+  @Prop({ type: LocalAuth, select: false })
   local: LocalAuth;
 
   @Prop({ type: Oauth })
@@ -63,7 +62,7 @@ export class User {
   credentials: Credentials;
 
   @Prop({ type: String, enum: ['USER', 'SELLER', 'ADMIN'], required: true })
-  role: string[];
+  role: ROLES;
 
   @Prop({ required: true })
   phone: number;

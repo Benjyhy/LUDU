@@ -1,6 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsString, IsNotEmpty, IsPhoneNumber, IsBase64 } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsPhoneNumber,
+  IsBase64,
+  IsOptional,
+} from 'class-validator';
 import { ROLES } from 'src/schemas/user.schema';
 import { StoreDocument } from 'src/schemas/store.schema';
 
@@ -68,7 +74,7 @@ export class UserDto {
   address: string;
 
   @ApiPropertyOptional({ description: 'avatar' })
-  // @IsNotEmpty()
+  @IsOptional()
   @IsBase64()
   avatar: string;
 
