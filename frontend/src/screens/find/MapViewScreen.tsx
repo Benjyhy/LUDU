@@ -1,8 +1,21 @@
 import React from "react";
-import { Text } from "native-base";
+import { Center } from "native-base";
+import MapView from "react-native-maps";
+import { Dimensions, StyleSheet } from "react-native";
 
 const MapViewScreen = () => {
-    return <Text>MapViewScreen</Text>;
+    return (
+        <Center>
+            <MapView style={styles.map}></MapView>
+        </Center>
+    );
 };
+
+const styles = StyleSheet.create({
+    map: {
+        width: Dimensions.get("window").width,
+        height: Dimensions.get("window").height,
+    },
+});
 
 export default MapViewScreen;
