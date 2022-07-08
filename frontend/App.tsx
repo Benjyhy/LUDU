@@ -2,6 +2,7 @@ import React from "react";
 import { NativeBaseProvider } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNav from "./src/navigation/Navigator";
+import { navigationRef } from "./src/navigation/rootNavigation";
 
 // Define the config
 // const config = {
@@ -39,7 +40,7 @@ import StackNav from "./src/navigation/Navigator";
 const App = () => {
     return (
         <NativeBaseProvider>
-            <NavigationContainer>
+            <NavigationContainer ref={navigationRef}>
                 <StackNav />
             </NavigationContainer>
         </NativeBaseProvider>
