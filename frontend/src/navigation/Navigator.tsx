@@ -1,6 +1,6 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { appRoutes } from "./appRoutes";
+import appRoutes from "./appRoutes";
 import TabsStack from "./TabsStack";
 import LoadingScreen from "../screens/LoadingScreen";
 import LoginScreen from "../screens/LoginScreen";
@@ -8,7 +8,7 @@ import SignUpScreen from "../screens/SignUpScreen";
 
 const Stack = createNativeStackNavigator();
 
-function StackNav() {
+const StackNav = () => {
     return (
         <Stack.Navigator
             initialRouteName={appRoutes.TAB_NAVIGATOR}
@@ -32,6 +32,6 @@ function StackNav() {
             />
         </Stack.Navigator>
     );
-}
+};
 
 export default StackNav;
