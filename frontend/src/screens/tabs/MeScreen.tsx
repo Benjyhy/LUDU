@@ -1,7 +1,8 @@
 import React from "react";
+import { Text } from "native-base";
 
 const MeScreen = () => {
-    return <div>MeScreen</div>;
+    return <Text>MeScreen</Text>;
 };
 
 export default MeScreen;

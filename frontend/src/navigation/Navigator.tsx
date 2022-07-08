@@ -1,14 +1,14 @@
 import React from "react";
-import { appRoutes } from "./appRoutes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { appRoutes } from "./appRoutes";
 import TabsStack from "./TabsStack";
 import LoadingScreen from "../screens/LoadingScreen";
 import LoginScreen from "../screens/LoginScreen";
-import SignUpScreen from "../screens/SignupScreen";
+import SignUpScreen from "../screens/SignUpScreen";
 
 const Stack = createNativeStackNavigator();
 
-const StackNav = () => {
+function StackNav() {
     return (
         <Stack.Navigator
             initialRouteName={appRoutes.TAB_NAVIGATOR}
@@ -32,6 +32,6 @@ const StackNav = () => {
             />
         </Stack.Navigator>
     );
-};
+}
 
 export default StackNav;

@@ -1,7 +1,8 @@
 import React from "react";
+import { Text } from "native-base";
 
 const MapViewScreen = () => {
-    return <div>MapViewScreen</div>;
+    return <Text>MapViewScreen</Text>;
 };
 
 export default MapViewScreen;

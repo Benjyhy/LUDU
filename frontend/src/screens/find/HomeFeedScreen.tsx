@@ -1,7 +1,9 @@
 import React from "react";
+import { Text } from "native-base";
+import GameNameScreen from "./GameNameScreen";
 
 const HomeFeedScreen = () => {
-    return <div>HomeFeedScreen</div>;
+    return <GameNameScreen />;
 };
 
 export default HomeFeedScreen;
