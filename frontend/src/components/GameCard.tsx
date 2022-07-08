@@ -19,6 +19,7 @@ const GameCard = ({ item }) => {
                 source={{
                     uri: item.gameImgUrl,
                 }}
+                alt={item.id}
             ></Image>
             <Text>{item.gameName}</Text>
             <Text>{item.rating}</Text>
