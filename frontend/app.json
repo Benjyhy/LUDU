@@ -29,7 +29,7 @@
             }
         },
         "android": {
-            "packgage": "com.luduTeam.ludu",
+            "package": "com.luduTeam.ludu",
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#FFFFFF"
