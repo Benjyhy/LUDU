@@ -13,20 +13,31 @@
         "updates": {
             "fallbackToCacheTimeout": 0
         },
-        "assetBundlePatterns": ["**/*"],
+        "assetBundlePatterns": [
+            "**/*"
+        ],
         "ios": {
             "supportsTablet": true,
             "infoPlist": {
                 "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow Ludu to use your location",
                 "NSLocatiNSLocationAlwaysUsageDescriptiononAlwaysAndWhenInUseUsageDescription": "Allow Ludu to use your location",
                 "NSLocationWhenInUseUsageDescription": "Allow Ludu to use your location",
-                "UIBackgroundModes": ["location", "fetch"]
+                "UIBackgroundModes": [
+                    "location",
+                    "fetch"
+                ]
             }
         },
         "android": {
+            "packgage": "com.luduTeam.ludu",
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#FFFFFF"
+            },
+            "config": {
+                "googleMaps": {
+                    "apiKey": ""
+                }
             }
         },
         "web": {
