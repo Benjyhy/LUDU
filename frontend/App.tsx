@@ -3,8 +3,8 @@ import { NativeBaseProvider, Text } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNav from "./src/navigation/Navigator";
 import { navigationRef } from "./src/navigation/rootNavigation";
-import { useEffect, useState } from "react";
-import * as Location from 'expo-location';
+import { Provider } from "react-redux";
+import store from "./src/store"
 
 // Define the config
 // const config = {
@@ -40,34 +40,13 @@ import * as Location from 'expo-location';
 // };
 
 const App = () => {
-    const [location, setLocation] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
-
-    useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
-                return;
-            }
-
-            let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
-        })();
-    }, []);
-
-    let text = 'Waiting..';
-    if (errorMsg) {
-        text = errorMsg;
-    } else if (location) {
-        text = JSON.stringify(location);
-    }
     return (
         <NativeBaseProvider>
-            <NavigationContainer ref={navigationRef}>
-                <StackNav />
-                <Text>{text}</Text>
-            </NavigationContainer>
+            <Provider store={store}>
+                <NavigationContainer ref={navigationRef}>
+                    <StackNav />
+                </NavigationContainer>
+            </Provider>
         </NativeBaseProvider>
     );
 };
