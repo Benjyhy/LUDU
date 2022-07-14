@@ -1,7 +1,8 @@
 import React from "react";
+import { Text } from "native-base";
 
 const PlayScreen = () => {
-    return <div>PlayScreen</div>;
+    return <Text>PlayScreen</Text>;
 };
 
 export default PlayScreen;

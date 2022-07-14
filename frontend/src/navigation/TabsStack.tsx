@@ -1,6 +1,6 @@
 import React from "react";
-import { tabRoutes } from "./appRoutes/tabRoutes";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import tabRoutes from "./appRoutes/tabRoutes";
 import FindScreen from "../screens/tabs/FindScreen";
 import OrganizeScreen from "../screens/tabs/OrganizeScreen";
 import PlayScreen from "../screens/tabs/PlayScreen";
