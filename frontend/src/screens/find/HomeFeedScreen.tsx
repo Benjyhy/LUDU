@@ -5,31 +5,18 @@ import GameCard from "../../components/GameCard";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { TouchableOpacity } from "react-native";
 import Filter from "../../components/Filter";
-import * as Location from 'expo-location';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentLocation } from "../../store/actions/currentLocationAction";
+import { useSelector } from 'react-redux';
 import { MainAppState } from "../../models/states";
 
 const HomeFeedScreen = () => {
     const [isActiveFilter, setIsActiveFilter] = useState(false);
     const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
-    const dispatch = useDispatch();
+
+    const currentLocation = useSelector((state: MainAppState) => state.currentLocation);
 
     useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status === 'granted') {
-                let location = await Location.getCurrentPositionAsync({});
-                const { latitude, longitude } = location.coords;
-                dispatch(setCurrentLocation({ latitude, longitude }));
-                setLocation({ latitude, longitude })
-            }
-        })();
-
-    }, []);
-
-    // const currentLocation = useSelector((state: MainAppState) => state.currentLocation);
-    // setLocation(currentLocation)
+        setLocation(currentLocation)
+    }, [currentLocation]);
 
     return (
         <Box>
