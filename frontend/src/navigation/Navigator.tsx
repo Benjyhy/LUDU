@@ -18,7 +18,7 @@ const StackNav = () => {
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status === 'granted') {
-                let location = await Location.getCurrentPositionAsync({});
+                let location = await Location.getCurrentPositionAsync();
                 const { latitude, longitude } = location.coords;
                 dispatch(setCurrentLocation({ latitude, longitude }));
             }

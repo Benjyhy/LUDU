@@ -15,7 +15,7 @@ const HomeFeedScreen = () => {
     const currentLocation = useSelector((state: MainAppState) => state.currentLocation);
 
     useEffect(() => {
-        setLocation(currentLocation)
+        setLocation(currentLocation);
     }, [currentLocation]);
 
     return (
