@@ -15,9 +15,9 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { UserDocument, User } from 'src/schemas/user.schema';
+import { UserDocument, User } from '../../schemas/user.schema';
 import { UserDto } from './dto/user.dto';
-import { JwtAuthGuard } from 'src/middlewares/jwt-auth.guard';
+import { JwtAuthGuard } from '../../middlewares/jwt-auth.guard';
 
 @Controller('user')
 @ApiTags('User')
@@ -33,7 +33,7 @@ export class UserController {
   }
 
   @Get('/:id')
-  findById(
+  async findById(
     @Param('id')
     id: string,
   ): Promise<UserDocument> {

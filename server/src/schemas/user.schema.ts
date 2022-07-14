@@ -3,7 +3,7 @@ import { ObjectId, Types } from 'mongoose';
 import { IsEmail } from 'class-validator';
 import { Exclude, Transform } from 'class-transformer';
 import { HttpException, HttpStatus, Logger } from '@nestjs/common';
-import { hashPassword } from 'src/helpers/bcrypt';
+import { hashPassword } from '../helpers/bcrypt';
 import { isPasswordInvalid } from 'src/helpers/utils';
 
 export enum ROLES {
