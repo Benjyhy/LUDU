@@ -36,7 +36,6 @@ export class AuthService {
   ) {}
 
   async validateUser(userToken: UserToken): Promise<boolean> {
-    Logger.log(userToken);
     const user = await this.userService.findById(userToken.id);
 
     if (!user || user.username != userToken.username) return false;

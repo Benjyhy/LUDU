@@ -27,16 +27,14 @@ export class UserController {
 
   @Get('')
   @JWTAuth()
-  @ApiBearerAuth('JWT')
-  @Roles(ROLES.SELLER)
+  // @Roles(ROLES.SELLER)
   findAll(): Promise<UserDocument[]> {
     return this.userService.findAll();
   }
 
-  @JWTAuth()
-  @ApiBearerAuth('JWT')
   @Get('/:id')
-  async findById(
+  @JWTAuth()
+  findById(
     @Param('id')
     id: ObjectId,
   ): Promise<UserDocument> {
