@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
-import { CreateGameDto } from './dto/create-game.dto';
-import { UpdateGameDto } from './dto/update-game.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { GameDto } from './dto/game.dto';
+import { GameUpdateDto } from './dto/game.update.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, ObjectId } from 'mongoose';
+import { GameDocument } from 'src/schemas/game.schema';
 
 @Injectable()
 export class GameService {
-  create(createGameDto: CreateGameDto) {
-    return 'This action adds a new game';
+  constructor(
+    @InjectModel('Game')
+    private gameModel: Model<GameDocument>,
+  ) {}
+
+  async create(gameDto: GameDto): Promise<GameDocument> {
+    return this.gameModel.create(gameDto);
   }
 
-  findAll() {
-    return `This action returns all game`;
+  public async findAll(): Promise<GameDocument[]> {
+    return await this.gameModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} game`;
+  public async findById(id: string): Promise<GameDocument> {
+    return await this.gameModel.findById(id).exec();
   }
 
-  update(id: number, updateGameDto: UpdateGameDto) {
-    return `This action updates a #${id} game`;
+  public async gameAlreadyExist(ean: string): Promise<GameDocument> {
+    return await this.gameModel.findOne({
+      ean: ean,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} game`;
+  public async update(
+    id: string,
+    updateGameDto: GameUpdateDto,
+  ): Promise<GameDocument> {
+    const createdGame = await this.gameModel
+      .findByIdAndUpdate({ _id: id }, updateGameDto)
+      .populate('stores');
+
+    if (!createdGame) throw new NotFoundException(`Game #${id} not found`);
+
+    return createdGame;
+  }
+
+  public async remove(id: string): Promise<any> {
+    const isGame = await this.gameModel.findByIdAndRemove(id);
+
+    if (!isGame) throw new NotFoundException(`Game #${id} not found`);
+
+    return isGame;
   }
 }

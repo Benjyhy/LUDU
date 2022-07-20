@@ -14,6 +14,8 @@ export class AuthController {
     private userService: UserService,
   ) {}
 
+  readonly avatarPath = `${process.env.STATIC_USER_FOLDER}/thumbnail/`;
+
   @Post('/local/register')
   async create(
     @Body(new ValidationPipe({ transform: true }))

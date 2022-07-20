@@ -16,7 +16,7 @@ export class Location {
   @Prop({ required: true })
   postalCode: number;
 
-  @Prop({ type: [Types.ObjectId], ref: Store.name })
+  @Prop({ type: [Types.ObjectId], ref: 'Store' })
   stores: Store[];
 }
 

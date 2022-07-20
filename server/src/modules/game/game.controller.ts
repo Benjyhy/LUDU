@@ -1,34 +1,105 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+  ValidationPipe,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
+  Logger,
+} from '@nestjs/common';
+import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { GameService } from './game.service';
-import { CreateGameDto } from './dto/create-game.dto';
-import { UpdateGameDto } from './dto/update-game.dto';
+import { GameDto } from './dto/game.dto';
+import { GameUpdateDto } from './dto/game.update.dto';
+import { saveImage, deleteImage } from 'src/helpers/utils';
+import { GameDocument, Game } from 'src/schemas/game.schema';
+import { ValidateMongoId } from 'src/middlewares/validateMongoId';
 
 @Controller('game')
 export class GameController {
   constructor(private readonly gameService: GameService) {}
 
-  @Post()
-  create(@Body() createGameDto: CreateGameDto) {
-    return this.gameService.create(createGameDto);
-  }
+  readonly thumbnailPath = `${process.env.STATIC_GAME_FOLDER}/thumbnail/`;
 
-  @Get()
-  findAll() {
+  @Get('')
+  findAll(): Promise<GameDocument[]> {
     return this.gameService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.gameService.findOne(+id);
+  @Get('/:id')
+  findById(
+    @Param('id')
+    id: string,
+  ): Promise<GameDocument> {
+    return this.gameService.findById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGameDto: UpdateGameDto) {
-    return this.gameService.update(+id, updateGameDto);
+  @Post('')
+  async create(
+    @Body(new ValidationPipe({ transform: true }))
+    gameDto: GameDto,
+  ): Promise<GameDocument> {
+    const game = await this.gameService.gameAlreadyExist(gameDto.ean);
+    if (game)
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'game with the same EAN code already exist',
+        },
+        HttpStatus.FORBIDDEN,
+      );
+
+    gameDto.thumbnail = await saveImage(gameDto.thumbnail, this.thumbnailPath);
+    return this.gameService.create(gameDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.gameService.remove(+id);
+  @Put('/:id')
+  @ApiOperation({ summary: 'Create a new location' })
+  @ApiOkResponse({ description: 'Success', type: Game })
+  update(
+    @Param('id', new ValidateMongoId())
+    id: string,
+    @Body(new ValidationPipe({ transform: true }))
+    gameDto: GameUpdateDto,
+  ): Promise<GameDocument> {
+    return this.gameService.update(id, gameDto);
+  }
+
+  @Delete('/:id')
+  @ApiOperation({ summary: 'Delete a game' })
+  @ApiOkResponse({ description: 'Success', type: Game })
+  async remove(
+    @Param('id', new ValidateMongoId())
+    id: string,
+  ): Promise<GameDocument> {
+    const existingGame = await this.gameService.findById(id);
+    if (!existingGame) throw new NotFoundException(`Game #${id} not found`);
+
+    const isImageDeleted = await deleteImage(
+      existingGame.thumbnail,
+      this.thumbnailPath,
+    );
+
+    Logger.log(isImageDeleted);
+
+    // If false, delete ha not occur
+    if (!isImageDeleted)
+      throw new HttpException(
+        {
+          status: HttpStatus.CONFLICT,
+          error: 'An error occur when the images of the game has been deleted',
+        },
+        HttpStatus.FORBIDDEN,
+      );
+
+    // delete model only if its images has been deleted
+    const gameDeleted = await this.gameService.remove(id);
+
+    return gameDeleted;
   }
 }
