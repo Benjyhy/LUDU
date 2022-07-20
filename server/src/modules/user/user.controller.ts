@@ -6,7 +6,6 @@ import {
   Put,
   Delete,
   ValidationPipe,
-  UseGuards,
 } from '@nestjs/common';
 import {
   ApiOkResponse,
@@ -15,27 +14,29 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { UserDocument, User } from '../../schemas/user.schema';
+import { UserDocument, User, ROLES } from 'src/schemas/user.schema';
 import { UserDto } from './dto/user.dto';
-import { JwtAuthGuard } from '../../middlewares/jwt-auth.guard';
+import { JWTAuth } from 'src/middlewares/decorators/JWTAuth';
+import { ObjectId } from 'mongoose';
+import { Roles } from 'src/middlewares/decorators/RoleAuth';
 
 @Controller('user')
 @ApiTags('User')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('JWT')
   @Get('')
+  @JWTAuth()
+  // @Roles(ROLES.SELLER)
   findAll(): Promise<UserDocument[]> {
-    console.log('out');
     return this.userService.findAll();
   }
 
   @Get('/:id')
-  async findById(
+  @JWTAuth()
+  findById(
     @Param('id')
-    id: string,
+    id: ObjectId,
   ): Promise<UserDocument> {
     return this.userService.findById(id);
   }
