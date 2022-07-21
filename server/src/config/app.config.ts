@@ -8,4 +8,10 @@ export default registerAs('app', () => ({
   auth: {
     jwtSecret: process.env.JWT_SECRET,
   },
+  user: {
+    staticFolder: process.env.STATIC_USER_FOLDER,
+  },
+  game: {
+    staticFolder: process.env.STATIC_GAME_FOLDER,
+  },
 }));

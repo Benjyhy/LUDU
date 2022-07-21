@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import * as Sharp from 'sharp';
 import { HttpException, HttpStatus, Logger } from '@nestjs/common';
-import { ROLES } from 'src/schemas/user.schema';
+import { access, accessSync, unlink, unlinkSync } from 'fs';
 
 export const isPasswordInvalid = (password: string) => {
   const match = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
@@ -15,13 +15,17 @@ export const imageFileFilter = (req, file, callback) => {
   callback(null, true);
 };
 
-export const SaveUserAvatar = async (base64: string): Promise<string> => {
-  const buffer = Buffer.from(base64, 'base64');
+export const saveImage = async (
+  base64: string,
+  path: string,
+): Promise<string> => {
+  const validUriForBuffer = base64.split(';base64,').pop();
+  const buffer = Buffer.from(validUriForBuffer, 'base64');
   const filename = v4();
   await Sharp(buffer)
     .resize(100, 100)
     .webp({ lossless: true })
-    .toFile(`${process.env.STATIC_USER_FOLDER}/avatar/${filename}.webp`)
+    .toFile(`${path}${filename}.webp`)
     .catch((err) => {
       Logger.log(err);
       throw new HttpException(
@@ -33,4 +37,20 @@ export const SaveUserAvatar = async (base64: string): Promise<string> => {
       );
     });
   return filename;
+};
+
+export const deleteImage = (fileName: string, path: string): boolean => {
+  const filePath = `${path}${fileName}.webp`;
+  try {
+    unlinkSync(filePath);
+    return true;
+  } catch (err) {
+    Logger.log(err);
+    // If ENOENT error, it mean that file does not exist
+    if (err.code === 'ENOENT') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 };

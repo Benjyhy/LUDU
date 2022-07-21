@@ -21,7 +21,7 @@ import { ROLES } from 'src/schemas/user.schema';
 export class StoreController {
   constructor(private storeService: StoreService) {}
 
-  @Roles(ROLES.ADMIN)
+  // @Roles(ROLES.ADMIN)
   @Get('')
   findAll(): Promise<StoreDocument[]> {
     return this.storeService.findAll();

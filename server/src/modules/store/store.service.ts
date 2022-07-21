@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { LocationDocument } from 'src/schemas/location.schema';
@@ -15,7 +15,12 @@ export class StoreService {
   ) {}
 
   public async findAll(): Promise<StoreDocument[]> {
-    return await this.storeModel.find().populate('location').exec();
+    const lol = await this.storeModel
+      .find()
+      .populate('location')
+      .populate('games');
+    Logger.log(lol);
+    return lol;
   }
 
   public async findById(id: string): Promise<StoreDocument> {
