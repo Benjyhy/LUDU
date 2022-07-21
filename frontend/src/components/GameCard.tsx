@@ -15,7 +15,8 @@ const GameCard = ({ item }: any) => {
                     color: "coolGray.800",
                 }}
                 marginBottom="15px"
-                onTouchStart={() => RootNavigation.navigate('game', {item})}
+                
+                onTouchEnd={() => RootNavigation.navigate('game', {item})}
             >
                 <Image
                     size={150}
