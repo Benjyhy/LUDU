@@ -17,7 +17,7 @@ const GameScreen = (props: any) => {
         )
     }
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1}} mt="10">
             <ScrollView>
                 {/* display title and button to like review and shares */}
                 <Flex direction="row" mt="1.5">
@@ -94,6 +94,7 @@ const GameScreen = (props: any) => {
                         borderRadius="20"
                         borderStyle="solid"
                         borderWidth="2"
+                        onTouchEnd={() => console.log('Play now')}
                     >
                         <Flex direction="row">
                             <Text fontSize={18}>
@@ -110,6 +111,7 @@ const GameScreen = (props: any) => {
                         borderRadius="20"
                         borderStyle="solid"
                         borderWidth="2"
+                        onTouchEnd={() => console.log('Book')}
                     >
                         <Flex direction="row">
                             <Text fontSize={18}>
