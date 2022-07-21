@@ -1,10 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types, ObjectId } from 'mongoose';
 import { StoreDocument } from 'src/schemas/store.schema';
 import { UserDocument } from 'src/schemas/user.schema';
 import { UserDto } from './dto/user.dto';
-import { SaveUserAvatar } from 'src/helpers/Utils';
+import { saveImage, deleteImage } from 'src/helpers/Utils';
+import appConfig from 'src/config/app.config';
 
 @Injectable()
 export class UserService {
@@ -53,16 +59,37 @@ export class UserService {
   ): Promise<UserDocument> {
     const existingUser = await this.userModel.findById(id);
 
-    // checking if avatar has been changed
-    if (existingUser.avatar === updateUserDto.avatar)
-      updateUserDto.avatar = await SaveUserAvatar(updateUserDto.avatar);
+    if (!existingUser) throw new NotFoundException(`User #${id} not found`);
 
-    const createdUser = await this.userModel.findByIdAndUpdate(
-      { _id: id },
-      updateUserDto,
+    // checking if avatar has been changed
+    if (existingUser.avatar === updateUserDto.avatar) {
+      const updatedUser = await this.userModel.findByIdAndUpdate(
+        { _id: id },
+        updateUserDto,
+      );
+      return updatedUser;
+    }
+
+    const isImageDeleted = await deleteImage(
+      existingUser.avatar,
+      `${appConfig().user.staticFolder}/avatar/`,
     );
 
-    if (!createdUser) throw new NotFoundException(`User #${id} not found`);
+    // If false, delete ha not occur
+    if (!isImageDeleted)
+      throw new HttpException(
+        {
+          status: HttpStatus.CONFLICT,
+          error:
+            "An error occur when the images of the user' avatar has been deleted",
+        },
+        HttpStatus.FORBIDDEN,
+      );
+
+    updateUserDto.avatar = await saveImage(
+      updateUserDto.avatar,
+      `${appConfig().user.staticFolder}/avatar/`,
+    );
 
     return await this.userModel.findById(id);
   }

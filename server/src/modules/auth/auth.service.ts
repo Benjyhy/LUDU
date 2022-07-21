@@ -10,9 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { UserDto } from '../user/dto/user.dto';
 import { comparePassword } from 'src/helpers/Bcrypt';
-import { ROLES, UserDocument } from 'src/schemas/user.schema';
-import { SaveUserAvatar } from 'src/helpers/Utils';
-import { Credentials } from '../../schemas/user.schema';
+import { ROLES } from 'src/schemas/user.schema';
 import { ObjectId } from 'mongoose';
 
 interface AuthToken {
@@ -78,6 +76,18 @@ export class AuthService {
   }
 
   async register(userDto: UserDto): Promise<any> {
+    const user = await this.userService.create(userDto);
+
+    const token = this.createToken({
+      id: user._id,
+      username: user.username,
+      role: user.role,
+    });
+
+    return { token: token, user: user };
+  }
+
+  async checkUniqueField(userDto: UserDto): Promise<any> {
     let userExist = await this.userService.findOneUsername(userDto.username);
 
     // if username is already taken
@@ -102,15 +112,5 @@ export class AuthService {
         },
         HttpStatus.FORBIDDEN,
       );
-    userDto.avatar = await SaveUserAvatar(userDto.avatar);
-    const user = await this.userService.create(userDto);
-
-    const token = this.createToken({
-      id: user._id,
-      username: user.username,
-      role: user.role,
-    });
-
-    return { token: token, user: user };
   }
 }

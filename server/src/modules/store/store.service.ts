@@ -20,7 +20,7 @@ export class StoreService {
       .populate('location')
       .populate('games');
     Logger.log(lol);
-    return;
+    return lol;
   }
 
   public async findById(id: string): Promise<StoreDocument> {

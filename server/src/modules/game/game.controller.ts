@@ -16,15 +16,14 @@ import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { GameService } from './game.service';
 import { GameDto } from './dto/game.dto';
 import { GameUpdateDto } from './dto/game.update.dto';
-import { saveImage, deleteImage } from 'src/helpers/utils';
+import { saveImage, deleteImage } from 'src/helpers/Utils';
 import { GameDocument, Game } from 'src/schemas/game.schema';
 import { ValidateMongoId } from 'src/middlewares/validateMongoId';
+import appConfig from 'src/config/app.config';
 
 @Controller('game')
 export class GameController {
   constructor(private readonly gameService: GameService) {}
-
-  readonly thumbnailPath = `${process.env.STATIC_GAME_FOLDER}/thumbnail/`;
 
   @Get('')
   findAll(): Promise<GameDocument[]> {
@@ -54,19 +53,57 @@ export class GameController {
         HttpStatus.FORBIDDEN,
       );
 
-    gameDto.thumbnail = await saveImage(gameDto.thumbnail, this.thumbnailPath);
+    gameDto.thumbnail = await saveImage(
+      gameDto.thumbnail,
+      `${appConfig().game.staticFolder}/thumbnail/`,
+    );
     return this.gameService.create(gameDto);
   }
 
   @Put('/:id')
   @ApiOperation({ summary: 'Create a new location' })
   @ApiOkResponse({ description: 'Success', type: Game })
-  update(
+  async update(
     @Param('id', new ValidateMongoId())
     id: string,
     @Body(new ValidationPipe({ transform: true }))
     gameDto: GameUpdateDto,
   ): Promise<GameDocument> {
+    const existingGame = await this.gameService.findById(id);
+    if (!existingGame) throw new NotFoundException(`Game #${id} not found`);
+
+    // if image was not updated
+    if (
+      existingGame.thumbnail &&
+      existingGame.thumbnail === gameDto.thumbnail
+    ) {
+      return this.gameService.update(id, gameDto);
+    }
+
+    // If imagr has been updated delete old image
+
+    const isImageDeleted = await deleteImage(
+      existingGame.thumbnail,
+      `${appConfig().user.staticFolder}/thumbnail/`,
+    );
+
+    Logger.log(isImageDeleted);
+
+    // If false, delete ha not occur
+    if (!isImageDeleted)
+      throw new HttpException(
+        {
+          status: HttpStatus.CONFLICT,
+          error: 'An error occur when the images of the game has been deleted',
+        },
+        HttpStatus.FORBIDDEN,
+      );
+
+    gameDto.thumbnail = await saveImage(
+      gameDto.thumbnail,
+      `${appConfig().game.staticFolder}/thumbnail/`,
+    );
+
     return this.gameService.update(id, gameDto);
   }
 
@@ -82,7 +119,7 @@ export class GameController {
 
     const isImageDeleted = await deleteImage(
       existingGame.thumbnail,
-      this.thumbnailPath,
+      `${appConfig().user.staticFolder}/thumbnail/`,
     );
 
     Logger.log(isImageDeleted);
