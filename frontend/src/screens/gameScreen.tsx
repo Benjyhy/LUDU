@@ -111,7 +111,7 @@ const GameScreen = (props: any) => {
                         borderRadius="20"
                         borderStyle="solid"
                         borderWidth="2"
-                        onTouchEnd={() => console.log('Book')}
+                        onTouchEnd={() => console.log('book')}
                     >
                         <Flex direction="row">
                             <Text fontSize={18}>
