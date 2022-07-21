@@ -18,6 +18,7 @@ import { Location, LocationSchema } from 'src/schemas/location.schema';
   ],
   controllers: [StoreController],
   providers: [StoreService],
+  exports: [StoreService],
 })
 // export class StoreModule implements NestModule {
 //   configure(consumer: MiddlewareConsumer) {

@@ -1,9 +1,10 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { LocationDocument } from 'src/schemas/location.schema';
-import { StoreDocument } from 'src/schemas/store.schema';
+import { StoreDocument, Store } from 'src/schemas/store.schema';
 import { StoreDto } from './dto/store.dto';
+import { Copy } from 'src/schemas/copy.schema';
 
 @Injectable()
 export class StoreService {
@@ -15,16 +16,17 @@ export class StoreService {
   ) {}
 
   public async findAll(): Promise<StoreDocument[]> {
-    const lol = await this.storeModel
+    return await this.storeModel
       .find()
-      .populate('location')
-      .populate('games');
-    Logger.log(lol);
-    return lol;
+      .populate('location', 'name')
+      .populate('copies');
   }
 
-  public async findById(id: string): Promise<StoreDocument> {
-    return await this.storeModel.findById(id).populate('location').exec();
+  public async findById(id: string | Store): Promise<StoreDocument> {
+    return await this.storeModel
+      .findById(id)
+      .populate('location', 'name')
+      .populate('copies');
   }
 
   async create(storeDto: StoreDto): Promise<StoreDocument> {
@@ -41,7 +43,7 @@ export class StoreService {
   }
 
   public async update(
-    id: string,
+    id: string | Store,
     updateStoreDto: StoreDto,
   ): Promise<StoreDocument> {
     const existingStore = await this.storeModel.findByIdAndUpdate(
@@ -57,6 +59,20 @@ export class StoreService {
       throw new NotFoundException(`Store ${updateStoreDto.location} not found`);
 
     return await this.storeModel.findById(id).populate('location').exec();
+  }
+
+  public async updateCopies(
+    id: string,
+    copyID: (string | Copy)[],
+  ): Promise<any> {
+    const updatedGame = await this.storeModel.updateOne(
+      { _id: id },
+      { $set: { copies: copyID } },
+    );
+
+    if (!updatedGame) throw new NotFoundException(`Game #${id} not found`);
+
+    return await this.storeModel.findById(id);
   }
 
   public async remove(id: string): Promise<any> {

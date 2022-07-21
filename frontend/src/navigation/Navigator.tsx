@@ -5,6 +5,7 @@ import TabsStack from "./TabsStack";
 import LoadingScreen from "../screens/LoadingScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SignUpScreen from "../screens/SignUpScreen";
+import GameScreen from "../screens/gameScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,10 @@ const StackNav = () => {
             <Stack.Screen
                 name={appRoutes.LOGIN_SCREEN}
                 component={LoginScreen}
+            />
+            <Stack.Screen 
+                name={appRoutes.GAME_SCREEN}
+                component={GameScreen}
             />
             <Stack.Screen
                 name={appRoutes.TAB_NAVIGATOR}

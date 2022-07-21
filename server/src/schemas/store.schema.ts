@@ -1,7 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectId, Types } from 'mongoose';
 import { Transform } from 'class-transformer';
-import { Game } from './game.schema';
+import { Copy } from './copy.schema';
 import { Location } from './location.schema';
 
 export type StoreDocument = Store & Document;
@@ -26,8 +26,8 @@ export class Store {
   @Prop({ type: Types.ObjectId, ref: 'Location' })
   location: Location;
 
-  @Prop({ type: [Types.ObjectId], ref: 'Game' })
-  games: Game[];
+  @Prop({ type: [Types.ObjectId], ref: 'Copy' })
+  copies: Copy[];
 }
 
 export const StoreSchema = SchemaFactory.createForClass(Store);

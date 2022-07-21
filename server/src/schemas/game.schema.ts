@@ -36,9 +36,6 @@ export class Game {
 
   @Prop({ required: true })
   playTime: number;
-
-  @Prop({ type: [Types.ObjectId], ref: 'Store' })
-  stores: Store[];
 }
 
 export const GameSchema = SchemaFactory.createForClass(Game);
