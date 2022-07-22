@@ -10,6 +10,7 @@ import { StoreModule } from './modules/store/store.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { GameModule } from './modules/game/game.module';
+import { CopyModule } from './modules/copy/copy.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { GameModule } from './modules/game/game.module';
     AuthModule,
     UserModule,
     GameModule,
+    CopyModule,
   ],
   controllers: [AppController, UserController],
   providers: [AppService],

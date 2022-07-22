@@ -7,6 +7,7 @@ import {
   Delete,
   Put,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Location, LocationDocument } from 'src/schemas/location.schema';
@@ -25,7 +26,17 @@ export class LocationController {
     return this.locationService.findAll();
   }
 
-  @Get('/:id')
+  @Get('/:zip')
+  @ApiOperation({ summary: 'Get location by zip code' })
+  @ApiOkResponse({ description: 'Success', type: Location, isArray: true })
+  findByZip(
+    @Param('zip')
+    zip: number,
+  ): Promise<LocationDocument[]> {
+    return this.locationService.findByZib(zip);
+  }
+
+  @Get('/id/:id')
   @ApiOperation({ summary: 'Get a location by id' })
   @ApiOkResponse({ description: 'Success', type: Location })
   findById(

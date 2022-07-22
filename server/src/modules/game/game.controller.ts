@@ -80,7 +80,7 @@ export class GameController {
       return this.gameService.update(id, gameDto);
     }
 
-    // If imagr has been updated delete old image
+    // If image has been updated delete old image
 
     const isImageDeleted = await deleteImage(
       existingGame.thumbnail,

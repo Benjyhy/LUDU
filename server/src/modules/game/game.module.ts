@@ -17,5 +17,6 @@ import { MongooseModule } from '@nestjs/mongoose';
   ],
   controllers: [GameController],
   providers: [GameService],
+  exports: [GameService],
 })
 export class GameModule {}
