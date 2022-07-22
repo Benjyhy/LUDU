@@ -2,6 +2,7 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectId, Types } from 'mongoose';
 import { Transform } from 'class-transformer';
 import { Store } from './store.schema';
+import { Category } from './category.schema';
 
 export type GameDocument = Game & Document;
 

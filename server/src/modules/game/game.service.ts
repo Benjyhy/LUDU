@@ -17,7 +17,7 @@ export class GameService {
   }
 
   public async findAll(): Promise<GameDocument[]> {
-    return await this.gameModel.find().exec();
+    return await this.gameModel.find().populate('categories').exec();
   }
 
   public async findById(id: string): Promise<GameDocument> {
