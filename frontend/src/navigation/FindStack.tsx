@@ -9,7 +9,10 @@ const Stack = createNativeStackNavigator();
 
 const FindStack = () => {
     return (
-        <Stack.Navigator initialRouteName={findRoutes.HOME_FEED}>
+        <Stack.Navigator
+            initialRouteName={findRoutes.HOME_FEED}
+            screenOptions={{ headerShown: false }}
+        >
             <Stack.Screen
                 name={findRoutes.HOME_FEED}
                 component={HomeFeedScreen}
