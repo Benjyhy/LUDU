@@ -1,23 +1,23 @@
 import React from "react";
 import { Heading, ScrollView, View, Flex, Spacer, Text, Image, Box, Button } from "native-base";
 import { Icon } from 'react-native-elements'
-import gameData from '../mocks/gameMockData'
-import GameReviewCard from "../components/GameReviewCard";
-import GameAlikeCard from "../components/GameAlikeCard";
+import gameData from '../../mocks/gameMockData'
+import GameReviewCard from "../../components/GameReviewCard";
+import GameAlikeCard from "../../components/GameAlikeCard";
 
 const GameScreen = (props: any) => {
     const game = gameData.find(game => game.id === props.route.params.item.id)
-    if(!game) {
+    if (!game) {
         return (
-            <View style={{flex: 1}}>
-            <ScrollView >
-                <Heading size="md">An error occured</Heading>           
-            </ScrollView>
-        </View>
+            <View style={{ flex: 1 }}>
+                <ScrollView >
+                    <Heading size="md">An error occured</Heading>
+                </ScrollView>
+            </View>
         )
     }
     return (
-        <View style={{flex: 1}} mt="10">
+        <View style={{ flex: 1 }} mt="10">
             <ScrollView>
                 {/* display title and button to like review and shares */}
                 <Flex direction="row" mt="1.5">
@@ -38,17 +38,17 @@ const GameScreen = (props: any) => {
                         {game.likes} likes
                     </Text>
                     <Text ml="5" fontSize={15}>
-                    <Icon tvParallaxProperties size={15} name="chat-bubble" />
+                        <Icon tvParallaxProperties size={15} name="chat-bubble" />
                         {' '}
                         {game.reviews.length} reviews
                     </Text>
-                    <Text ml="5"  fontSize={15}>
+                    <Text ml="5" fontSize={15}>
                         <Icon tvParallaxProperties size={15} name="share" />
                         {' '}
                         {game.shares} shares
                     </Text>
                 </Flex>
-                
+
                 {/* display image, tags, description */}
                 <Flex direction="row" mt="3" ml="2.5" mr="1">
                     <Box>
@@ -62,12 +62,12 @@ const GameScreen = (props: any) => {
                     </Box>
                     <View style={{
                         flex: 1,
-                        flexDirection:'row',
+                        flexDirection: 'row',
                         flexWrap: "wrap",
                     }}>
-                        {game.tags.map((tag:string) =>
-                            <Text 
-                                style={{backgroundColor:"black", color: 'white'}}
+                        {game.tags.map((tag: string, index) =>
+                            <Text
+                                style={{ backgroundColor: "black", color: 'white' }}
                                 paddingLeft="2"
                                 paddingRight="2"
                                 borderRadius={20}
@@ -77,6 +77,7 @@ const GameScreen = (props: any) => {
                                 ml="1"
                                 mr="1"
                                 mb="1"
+                                key={index}
                             >
                                 {tag}
                             </Text>
@@ -103,7 +104,7 @@ const GameScreen = (props: any) => {
                             </Text>
                         </Flex>
                     </Button>
-                    <Spacer/>
+                    <Spacer />
                     <Button
                         mr="12"
                         width="35%"
@@ -125,13 +126,13 @@ const GameScreen = (props: any) => {
                 {/* render 'they loved playing it' */}
                 <Heading mt="3" mb="2" ml="1">They loved playing it</Heading>
                 <ScrollView horizontal>
-                    {game.reviews.map((review) => <GameReviewCard review={review} />)}
+                    {game.reviews.map((review, index) => <GameReviewCard review={review} key={index} />)}
                 </ScrollView>
 
                 {/* render 'game alike' */}
                 <Heading mt="3" mb="2" ml="1">Game alike</Heading>
                 <ScrollView horizontal>
-                    {gameData.map((game: any) => <GameAlikeCard game={game} />)}
+                    {gameData.map((game: any, index) => <GameAlikeCard game={game} key={index} />)}
                 </ScrollView>
             </ScrollView>
         </View>
