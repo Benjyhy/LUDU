@@ -8,7 +8,7 @@ import Filter from "../../components/Filter";
 import { useSelector } from 'react-redux';
 import { MainAppState } from "../../models/states";
 
-const HomeFeedScreen = () => {
+const HomeFeedScreen = ({ navigation }) => {
     const [isActiveFilter, setIsActiveFilter] = useState(false);
     const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
 
@@ -35,7 +35,7 @@ const HomeFeedScreen = () => {
                     numColumns={2}
                     horizontal={false}
                     columnWrapperStyle={{ justifyContent: "space-between" }}
-                    renderItem={({ item }) => <GameCard item={item} />}
+                    renderItem={({ item }) => <GameCard item={item} navigation={navigation} />}
                 />
             </VStack>
             <Filter
