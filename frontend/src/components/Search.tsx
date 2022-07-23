@@ -6,7 +6,8 @@ import * as RootNavigation from "../navigation/rootNavigation";
 
 const Search = () => {
     const [isMap, setIsMap] = useState(true);
-
+    const routesToDisplaySearchComponent = [findRoutes.HOME_FEED, findRoutes.MAP_VIEW];
+    const currentRoute = RootNavigation.navigationRef.getCurrentRoute()?.name;
     const handleToggle = () => {
         setIsMap(!isMap);
         const targetedRoute = isMap
@@ -14,6 +15,10 @@ const Search = () => {
             : findRoutes.HOME_FEED;
         RootNavigation.navigate(targetedRoute, {});
     };
+
+    if (!routesToDisplaySearchComponent.includes(currentRoute)) {
+        return null;
+    }
 
     return (
         <Flex>
