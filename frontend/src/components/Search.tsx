@@ -7,7 +7,13 @@ import * as RootNavigation from "../navigation/rootNavigation";
 const Search = () => {
     const [isMap, setIsMap] = useState(true);
     const routesToDisplaySearchComponent = [findRoutes.HOME_FEED, findRoutes.MAP_VIEW];
-    const currentRoute = RootNavigation.navigationRef.getCurrentRoute()?.name;
+    let currentRoute;
+
+    if (RootNavigation.navigationRef.isReady())
+        currentRoute = RootNavigation.navigationRef.getCurrentRoute()?.name as findRoutes
+    else
+        currentRoute = findRoutes.HOME_FEED;
+
     const handleToggle = () => {
         setIsMap(!isMap);
         const targetedRoute = isMap
