@@ -5,7 +5,6 @@ import TabsStack from "./TabsStack";
 import LoadingScreen from "../screens/LoadingScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SignUpScreen from "../screens/SignUpScreen";
-import GameScreen from "../screens/gameScreen";
 import { useDispatch } from "react-redux";
 import { setCurrentLocation } from "../store/actions/currentLocationAction";
 import * as Location from 'expo-location';
@@ -38,10 +37,6 @@ const StackNav = () => {
             <Stack.Screen
                 name={appRoutes.LOGIN_SCREEN}
                 component={LoginScreen}
-            />
-            <Stack.Screen
-                name={appRoutes.GAME_SCREEN}
-                component={GameScreen}
             />
             <Stack.Screen
                 name={appRoutes.TAB_NAVIGATOR}

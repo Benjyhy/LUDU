@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import findRoutes from "./appRoutes/findRoutes";
 import HomeFeedScreen from "../screens/find/HomeFeedScreen";
 import MapViewScreen from "../screens/find/MapViewScreen";
+import GameScreen from "../screens/find/GameScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,10 @@ const FindStack = () => {
             <Stack.Screen
                 name={findRoutes.MAP_VIEW}
                 component={MapViewScreen}
+            />
+            <Stack.Screen
+                name={findRoutes.GAME_SCREEN}
+                component={GameScreen}
             />
         </Stack.Navigator>
     );
