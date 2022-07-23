@@ -25,6 +25,7 @@
 		"@reduxjs/toolkit": "^1.8.0",
 		"@types/react-native-elements": "^0.18.0",
 		"@types/react-redux": "^7.1.23",
+		"@types/react": "18.0.15",
 		"expo": "^44.0.0",
 		"expo-constants": "~13.0.1",
 		"expo-file-system": "~13.1.4",
