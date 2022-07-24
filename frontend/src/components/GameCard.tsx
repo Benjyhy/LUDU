@@ -1,6 +1,7 @@
 import React from "react";
 import { AspectRatio, Box, Heading, HStack, Image, Stack, Text } from "native-base";
 import findRoutes from "../navigation/appRoutes/findRoutes";
+import Tag from "./Tag";
 
 
 const GameCard = ({ item, navigation }: any) => {
@@ -33,20 +34,7 @@ const GameCard = ({ item, navigation }: any) => {
                         </Heading>
                         <HStack space={3}>
                             {item.tags.map((tag: string, index: React.Key | null | undefined) =>
-                                <Text
-                                    color="orange.500"
-                                    w="auto"
-                                    borderRadius={3}
-                                    borderColor="orange.500"
-                                    borderWidth={1}
-                                    fontSize={14}
-                                    fontWeight="bold"
-                                    px="5"
-                                    py="1"
-                                    key={index}
-                                >
-                                    {tag}
-                                </Text>
+                                <Tag tagName={tag} key={index} />
                             )}
                         </HStack>
                     </Stack>
