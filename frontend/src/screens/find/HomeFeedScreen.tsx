@@ -29,7 +29,6 @@ const HomeFeedScreen = ({ navigation }: any) => {
                         <Ionicons name="ios-filter" size={24} color="black" />
                     </TouchableOpacity>
                 </Flex>
-                <Text>{location.latitude}{location.longitude}</Text>
                 {homeFeedMockData.map(item => <GameCard item={item} navigation={navigation} key={item.id} />)}
             </VStack>
             <Filter

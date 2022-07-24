@@ -27,16 +27,16 @@ const Search = () => {
     }
 
     return (
-        <Flex>
-            <Text>Select your address</Text>
-            <Flex direction="row" justify="space-between">
+        <Flex my="5" mx="3">
+            <Text fontWeight="bold">Select your address</Text>
+            <Flex direction="row" justify="space-between" alignItems="center">
                 <Input
-                    mx="3"
                     placeholder="Search..."
                     w="75%"
                     maxWidth="300px"
+                    mt="3"
                 />
-                <Switch onToggle={handleToggle} isChecked={!isMap} />
+                <Switch onToggle={handleToggle} isChecked={!isMap} colorScheme="orange" />
             </Flex>
         </Flex>
     );

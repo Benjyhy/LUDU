@@ -1,5 +1,5 @@
 import React from "react";
-import { Slide, Button, Checkbox } from "native-base";
+import { Slide, Button, Checkbox, Flex } from "native-base";
 import { useState } from "react";
 import filters from "../mocks/filterMockData";
 
@@ -14,15 +14,20 @@ const Filter = (props: FilterProps) => {
         props.onFilterClick(!props.active);
     };
     return (
-        <Slide in={props.active} placement="bottom" bg="white" px="5" py="20">
-            <Checkbox.Group onChange={setGroupValues} value={groupValues}>
-                {filters.map((filter, index) => (
-                    <Checkbox value={index.toString()} key={index}>
-                        {filter}
-                    </Checkbox>
-                ))}
-            </Checkbox.Group>
-            <Button onPress={onButtonPress}>Close filter</Button>
+        <Slide in={props.active} placement="bottom" bg="white" px="5" py="10">
+            <Flex justify="space-between" h="100%">
+                <Checkbox.Group onChange={setGroupValues} value={groupValues}>
+                    {filters.map((filter, index) => (
+                        <Checkbox colorScheme="orange" value={index.toString()} key={index}>
+                            {filter}
+                        </Checkbox>
+                    ))}
+                </Checkbox.Group>
+                <Button.Group colorScheme="orange">
+                    <Button size="lg" w="50%" variant="outline" onPress={onButtonPress}>Cancel</Button>
+                    <Button size="lg" w="50%" onPress={onButtonPress}>Filter</Button>
+                </Button.Group>
+            </Flex>
         </Slide>
     );
 };

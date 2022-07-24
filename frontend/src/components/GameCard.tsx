@@ -28,7 +28,7 @@ const GameCard = ({ item, navigation }: any) => {
                 </Box>
                 <Stack p="4" space={3}>
                     <Stack space={2}>
-                        <Heading size="md" ml="-1">
+                        <Heading size="sm" ml="-1">
                             {item.gameName}
                         </Heading>
                         <HStack space={3}>
