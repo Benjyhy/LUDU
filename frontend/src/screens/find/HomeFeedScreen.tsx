@@ -8,7 +8,7 @@ import Filter from "../../components/Filter";
 import { useSelector } from 'react-redux';
 import { MainAppState } from "../../models/states";
 
-const HomeFeedScreen = ({ navigation }) => {
+const HomeFeedScreen = ({ navigation }: any) => {
     const [isActiveFilter, setIsActiveFilter] = useState(false);
     const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
 
