@@ -32,9 +32,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
                 <Text>{location.latitude}{location.longitude}</Text>
                 <FlatList
                     data={homeFeedMockData}
-                    numColumns={2}
                     horizontal={false}
-                    columnWrapperStyle={{ justifyContent: "space-between" }}
                     renderItem={({ item }) => <GameCard item={item} navigation={navigation} />}
                 />
             </VStack>
