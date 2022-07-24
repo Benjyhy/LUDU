@@ -1,4 +1,4 @@
-import { Box, ScrollView, VStack, Heading, FlatList, Flex, Text } from "native-base";
+import { ScrollView, VStack, Heading, Flex, Text } from "native-base";
 import React, { useEffect, useState } from "react";
 import homeFeedMockData from "../../mocks/homeFeedMockData";
 import GameCard from "../../components/GameCard";
@@ -19,7 +19,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
     }, [currentLocation]);
 
     return (
-        <Box>
+        <ScrollView>
             <VStack space={2.5} w="100%" px="3">
                 <Flex direction="row" justify="space-between">
                     <Heading size="md">Games near you</Heading>
@@ -30,17 +30,13 @@ const HomeFeedScreen = ({ navigation }: any) => {
                     </TouchableOpacity>
                 </Flex>
                 <Text>{location.latitude}{location.longitude}</Text>
-                <FlatList
-                    data={homeFeedMockData}
-                    horizontal={false}
-                    renderItem={({ item }) => <GameCard item={item} navigation={navigation} />}
-                />
+                {homeFeedMockData.map(item => <GameCard item={item} navigation={navigation} key={item.id} />)}
             </VStack>
             <Filter
                 active={isActiveFilter}
                 onFilterClick={(value) => setIsActiveFilter(value)}
             />
-        </Box>
+        </ScrollView>
     );
 };
 
