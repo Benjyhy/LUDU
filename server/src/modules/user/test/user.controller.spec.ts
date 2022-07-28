@@ -4,22 +4,29 @@ import { UserService } from '../user.service';
 import { User, UserSchema } from '../../../schemas/user.schema';
 import { userStub } from './stubs/user.stub';
 import { UserDto } from '../dto/user.dto';
+import { AuthController } from '../../auth/auth.controller';
+import { AuthService } from '../../auth/auth.service';
 
-jest.mock('..gitgg/user.service');
+jest.mock('../user.service');
+jest.mock('../auth.service');
 
 describe('UserController', () => {
   let usersController: UserController;
   let usersService: UserService;
-
+  let authController: AuthController;
+  let authService: AuthService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [],
-      controllers: [UserController],
-      providers: [UserService],
+      controllers: [UserController, AuthController],
+      providers: [UserService, AuthService],
     }).compile();
 
     usersController = module.get<UserController>(UserController);
     usersService = module.get<UserService>(UserService);
+    authController = module.get<AuthController>(AuthController);
+    authService = module.get<AuthService>(AuthService);
+
     jest.clearAllMocks();
   });
 
