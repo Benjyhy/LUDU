@@ -65,12 +65,12 @@ export class StoreService {
     id: string,
     copyID: (string | Copy)[],
   ): Promise<any> {
-    const updatedGame = await this.storeModel.updateOne(
+    const updatedStore = await this.storeModel.updateOne(
       { _id: id },
       { $set: { copies: copyID } },
     );
 
-    if (!updatedGame) throw new NotFoundException(`Game #${id} not found`);
+    if (!updatedStore) throw new NotFoundException(`Store #${id} not found`);
 
     return await this.storeModel.findById(id);
   }

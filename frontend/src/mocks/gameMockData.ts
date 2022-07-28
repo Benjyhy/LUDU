@@ -105,6 +105,14 @@ const data = [
                 name: 'Christel',
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore'
             }
+        ],
+        stores: [
+            { storeName: "Boutique de Nelly", id: "1", city: "Lille" },
+            { storeName: "Store of Jim", id: "2", city: "Paris" },
+            { storeName: "Nardisson", id: "3", city: "Yvelines" },
+            { storeName: "Directt", id: "4", city: "Roubaix" },
+            { storeName: "Play Friendly!!", id: "5", city: "Courbevoie" },
+            { storeName: "Boutique du Nord", id: "6", city: "Lomme" },
         ]
     },
     {
@@ -141,6 +149,14 @@ const data = [
                 name: 'Christel',
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore'
             }
+        ],
+        stores: [
+            { storeName: "Boutique de Nelly", id: "1", city: "Lille" },
+            { storeName: "Store of Jim", id: "2", city: "Paris" },
+            { storeName: "Nardisson", id: "3", city: "Yvelines" },
+            { storeName: "Directt", id: "4", city: "Roubaix" },
+            { storeName: "Play Friendly!!", id: "5", city: "Courbevoie" },
+            { storeName: "Boutique du Nord", id: "6", city: "Lomme" },
         ]
     },
     {
@@ -177,6 +193,14 @@ const data = [
                 name: 'Christel',
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore'
             }
+        ],
+        stores: [
+            { storeName: "Boutique de Nelly", id: "1", city: "Lille" },
+            { storeName: "Store of Jim", id: "2", city: "Paris" },
+            { storeName: "Nardisson", id: "3", city: "Yvelines" },
+            { storeName: "Directt", id: "4", city: "Roubaix" },
+            { storeName: "Play Friendly!!", id: "5", city: "Courbevoie" },
+            { storeName: "Boutique du Nord", id: "6", city: "Lomme" },
         ]
     },
 ];

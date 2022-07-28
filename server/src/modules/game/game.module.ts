@@ -1,16 +1,18 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { GameService } from './game.service';
 import { GameController } from './game.controller';
-import { Store, StoreSchema } from 'src/schemas/store.schema';
+import { Category, CategorySchema } from 'src/schemas/category.schema';
 import { Game, GameSchema } from 'src/schemas/game.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CategoryModule } from '../category/category.module';
 
 @Module({
   imports: [
+    forwardRef(() => CategoryModule),
     MongooseModule.forFeature(
       [
-        { name: Store.name, schema: StoreSchema },
         { name: Game.name, schema: GameSchema },
+        { name: Category.name, schema: CategorySchema },
       ],
       'mongo',
     ),
