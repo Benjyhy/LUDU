@@ -11,18 +11,20 @@ import {
     Text,
     View,
     VStack,
-    Image
+    Image, Flex, ScrollView
 } from "native-base";
 import { findRoutes } from "../../navigation/appRoutes/findRoutes";
 import storeMockData from "../../mocks/storeMockData";
+import StoreListing from "../../components/StoreListing";
 
 
-function BookingGameScreen({ route, navigation }) {
+function BookingGameScreen({ route, navigation }: any) {
     const item = route.params.game;
     const gamePlaces = storeMockData;
 
     const game = gamePlaces.find(game => game.gameId.id === item.id)
     const items = gamePlaces.filter(game => game.gameId.id === item.id)
+
     // const storeId = items.find(store => store.id === game.id)
     // const getBackgroundColor = () => {
     //     let color;
@@ -34,9 +36,13 @@ function BookingGameScreen({ route, navigation }) {
     //     return color;
     // };
     return (
-        <NativeBaseProvider>
-            <View alignItems="center">
-                <View display="flex" flexDirection="row" padding={20}><Text backgroundColor="#F5F5F5" fontWeight="bold" fontSize={20}>Booking for {game.gameId.gameName}</Text></View>
+        <ScrollView>
+            <View display="flex" alignItems="center" padding={20} backgroundColor="orange.500" borderWidth={3} borderColor="#545454" borderRadius={5} borderStyle="solid">
+                <Text fontWeight="bold" fontSize={20} color="white">
+                    Booking for {game.gameId.gameName}
+                </Text>
+            </View>
+            <Flex alignItems="center">
                 <VStack display="flex" flexDirection="column" marginTop={10}>
                     <Radio.Group
                         name="exampleGroup"
@@ -63,67 +69,22 @@ function BookingGameScreen({ route, navigation }) {
                             <Switch colorScheme="orange" />
                         </HStack>
                     </View>
-                    <FlatList
-                        data={items}
-                        renderItem={({ item }) => (
-                            <Box
-                                borderBottomWidth="1"
-                                _dark={{
-                                    borderColor: "gray.600",
-                                }}
-                                borderColor="coolGray.200"
-                                py="6"
-                            >
-                                <HStack
-                                    space={3}
-                                    justifyContent="space-between"
-                                >
-                                    {/* <Avatar
-                                    size="48px"
-                                    source={{
-                                        uri: item.avatarUrl,
-                                    }}
-                                /> */}
-                                    <VStack>
-                                        <Text
-                                            _dark={{
-                                                color: "warmGray.50",
-                                            }}
-                                            color="coolGray.800"
-                                            bold
-                                        >
-                                            {item.storeName}
-                                        </Text>
-                                        <Text
-                                            color="coolGray.600"
-                                            _dark={{
-                                                color: "warmGray.200",
-                                            }}
-                                        >
-                                            {item.city}
-                                        </Text>
-                                    </VStack>
-                                    <Spacer />
-                                </HStack>
-                            </Box>
-                        )}
-                        keyExtractor={item => item.id}
-                    />
-                    <Button
-                        size="md"
-                        background="#545454"
-                        alignContent="center"
-                        marginY={6}
-                        borderRadius={5}
-                        onPress={() =>
-                            navigation.navigate(findRoutes.DATEPICKER_FEED)
-                        }
-                    >
-                        Continue
-                    </Button>
+                    <ScrollView>
+                        {items.map(item => <StoreListing item={item} key={item.id} />)}
+                        <Button
+                            size="md"
+                            background="#545454"
+                            alignContent="center"
+                            marginY={10}
+                            borderRadius={5}
+                            onTouchEnd={() => navigation.navigate(findRoutes.DATEPICKER_FEED)}
+                        >
+                            Continue
+                        </Button>
+                    </ScrollView>
                 </VStack>
-            </View>
-        </NativeBaseProvider>
+            </Flex>
+        </ScrollView>
     );
 }
 

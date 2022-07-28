@@ -9,6 +9,7 @@ const data = [
             gameName: "Monopoly"} },
     { storeName: "Play Friendly!!", id: "5", city: "Courbevoie", gameId: {id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
             gameName: "Monopoly"} },
+
     { storeName: "Paul's fun", id: "6", city: "Perpignan", gameId: {id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
             gameName: "Cluedo"} },
     { storeName: "Digi", id: "7", city: "Tournefeuille", gameId:{id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",

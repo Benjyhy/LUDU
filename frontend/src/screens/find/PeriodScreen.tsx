@@ -4,7 +4,7 @@ import { CheckBox, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { findRoutes } from "../../navigation/appRoutes/findRoutes";
 
-function PeriodScreen({ route, navigation }) {
+function PeriodScreen({ route, navigation }: any) {
 
     const [buttonSelected, setButtonSelected] = useState(false);
     const [isSelected, setSelection] = useState(false);
@@ -43,7 +43,7 @@ function PeriodScreen({ route, navigation }) {
                     <Text fontWeight="bold">
                         Game store name on{" "}
                         <Text fontWeight="bold" fontSize={18}>
-                            {route.params.names}
+                            Hello
                         </Text>
                     </Text>
                 </Text>
