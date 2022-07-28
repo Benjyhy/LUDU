@@ -7,9 +7,10 @@ import LoginScreen from "../screens/LoginScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import { useDispatch } from "react-redux";
 import { setCurrentLocation } from "../store/actions/currentLocationAction";
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import * as Location from 'expo-location';
 
-const Stack = createNativeStackNavigator();
+const Stack = createDrawerNavigator();
 
 const StackNav = () => {
     //Before any navigation, get current position of the user and set it in redux

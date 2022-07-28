@@ -5,10 +5,9 @@ import gameData from '../../mocks/gameMockData'
 import GameReviewCard from "../../components/GameReviewCard";
 import GameAlikeCard from "../../components/GameAlikeCard";
 import findRoutes from "../../navigation/appRoutes/findRoutes";
-import {useNavigation} from "@react-navigation/native";
 
-const GameScreen = (props: any) => {
-    const game = gameData.find(game => game.id === props.route.params.item.id)
+const GameScreen = ({ route, navigation }: any) => {
+    const game = gameData.find(game => game.id === route.params.item.id)
 
     if (!game) {
         return (
@@ -115,7 +114,7 @@ const GameScreen = (props: any) => {
                         borderRadius="20"
                         borderStyle="solid"
                         borderWidth="2"
-                        onTouchEnd={() => props.navigation.navigate(findRoutes.BOOKING_FEED, { game: game })}
+                        onTouchEnd={() => navigation.navigate(findRoutes.BOOKING_FEED, { game: game })}
                     >
                         <Flex direction="row">
                             <Text fontSize={18}>
