@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
     Box,
     Button,
@@ -13,7 +13,7 @@ import {
     VStack,
     Image, Flex, ScrollView
 } from "native-base";
-import { findRoutes } from "../../navigation/appRoutes/findRoutes";
+import findRoutes from "../../navigation/appRoutes/findRoutes";
 import storeMockData from "../../mocks/storeMockData";
 import StoreListing from "../../components/StoreListing";
 

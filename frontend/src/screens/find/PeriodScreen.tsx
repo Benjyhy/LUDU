@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Button, View, Text, Heading } from "native-base";
-import { CheckBox, TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
+import { Checkbox } from "native-base";
 import { useNavigation } from "@react-navigation/native";
-import { findRoutes } from "../../navigation/appRoutes/findRoutes";
+import findRoutes from "../../navigation/appRoutes/findRoutes";
 
 function PeriodScreen({ route, navigation }: any) {
 
@@ -48,7 +49,7 @@ function PeriodScreen({ route, navigation }: any) {
                     </Text>
                 </Text>
                 <View display="flex" flexDirection="row">
-                    <CheckBox value={isSelected} onValueChange={setSelection} />
+                    <Checkbox value={isSelected} onValueChange={setSelection} />
                     <Text marginTop={1}>Bring me the game home</Text>
                 </View>
                 <Text marginTop={5}>When do you want to come and play?</Text>
@@ -77,8 +78,8 @@ function PeriodScreen({ route, navigation }: any) {
                 onPress={() =>
                     isSelected
                         ? navigation.navigate(findRoutes.TIME_FEED, {
-                              names: `${route.params.names}`,
-                          })
+                            names: `${route.params.names}`,
+                        })
                         : navigation.navigate(findRoutes.DATEPICKER_FEED)
                 }
             >

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Button, View, Text, Heading } from "native-base";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
-import { findRoutes } from "../../navigation/appRoutes/findRoutes";
-import {useNavigation} from "@react-navigation/native";
+import findRoutes from "../../navigation/appRoutes/findRoutes";
+import { useNavigation } from "@react-navigation/native";
 
 function DatePickerScreen() {
     const navigation = useNavigation()
