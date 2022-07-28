@@ -8,7 +8,7 @@ export type LocationDocument = Location & Document;
 @Schema({ timestamps: true })
 export class Location {
   @Transform(({ value }) => value.toString())
-  _id: ObjectId | number;
+  _id: ObjectId | string;
 
   @Prop({ required: true })
   name: string;

@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LocationController } from '../location.controller';
 import { LocationService } from '../location.service';
-import { userStub } from '../../user/test/stubs/user.stub';
-import { Location } from '../../../schemas/location.schema';
+import { Location, LocationDocument } from '../../../schemas/location.schema';
 import { locationStub } from './stubs/location.stub';
+import { createLocationDto } from '../dto/createLocation.dto';
 
 jest.mock('../location.service');
 
@@ -23,17 +23,73 @@ describe('LocationController', () => {
   });
 
   describe('getLocation', () => {
-    describe('when get location By ID is called', () => {
+    //TEST FINDBYID
+    describe('when get findById is called', () => {
       let location: Location;
-
       beforeEach(async () => {
-        await locationController.findById(userStub()._id);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        location = await locationController.findById(locationStub()._id);
       });
-      test('then it should called locationService', () => {
-        expect(locationService.findById).toBeCalledWith(userStub()._id);
+      test('then it should called locationService.findById', () => {
+        expect(locationService.findById).toBeCalledWith(locationStub()._id);
       });
 
       test('then it should return a location', () => {
+        expect(location).toEqual(locationStub());
+      });
+    });
+    //TEST FINDALL
+    describe('when get findAll  is called', () => {
+      let location: LocationDocument[];
+
+      beforeEach(async () => {
+        location = await locationController.findAll();
+      });
+      test('then it should called locationService.findAll', () => {
+        expect(locationService.findAll).toBeCalled();
+      });
+
+      test('then it should return a location', () => {
+        expect(location).toEqual([locationStub()]);
+      });
+    });
+    //TEST FINDBYZIP
+    describe('when get findByZip is called', () => {
+      let location: LocationDocument[];
+
+      beforeEach(async () => {
+        location = await locationController.findByZip(
+          locationStub().postalCode,
+        );
+      });
+      test('then it should called locationService.findByZib', () => {
+        expect(locationService.findByZib).toBeCalledWith(
+          locationStub().postalCode,
+        );
+      });
+
+      test('then it should return an array of location', () => {
+        expect(location).toEqual([locationStub()]);
+      });
+    });
+  });
+  // CREATE LOCATION
+  describe('Create Location', () => {
+    describe('when create location is called', () => {
+      let location: Location;
+      let createLocation: createLocationDto;
+      beforeEach(async () => {
+        createLocation = {
+          name: locationStub().name,
+          postalCode: locationStub().postalCode,
+        };
+        location = await locationController.create(createLocation);
+      });
+      test('then it should called locationService.create', () => {
+        expect(locationService.create).toBeCalledWith(createLocation);
+      });
+      test('then it should return the location created', () => {
         expect(location).toEqual(locationStub());
       });
     });

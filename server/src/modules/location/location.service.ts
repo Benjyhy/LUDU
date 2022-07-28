@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Location, LocationDocument } from 'src/schemas/location.schema';
 import { LocationDto } from './dto/location.dto';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class LocationService {
@@ -15,7 +16,7 @@ export class LocationService {
     return await this.locationModel.find().populate('stores').exec();
   }
 
-  public async findById(id: string): Promise<LocationDocument> {
+  public async findById(id: ObjectId | string): Promise<LocationDocument> {
     return await this.locationModel.findById(id).populate('stores').exec();
   }
 
