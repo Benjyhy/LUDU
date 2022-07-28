@@ -7,6 +7,13 @@ export class StoreDto {
   _id: string;
 
   @ApiProperty({
+    example: 'FR7612548029989876543210917',
+    description: 'Iban of the company',
+  })
+  @IsString()
+  readonly iban: string;
+
+  @ApiProperty({
     example: 'Location 1',
     description: 'The name of the store',
   })
