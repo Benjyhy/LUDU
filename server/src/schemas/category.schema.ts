@@ -12,9 +12,6 @@ export class Category {
 
   @Prop({ required: true, unique: true })
   name: string;
-
-  @Prop({ type: [Types.ObjectId], ref: 'Game' })
-  games: Game[];
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);

@@ -10,7 +10,7 @@ import {
   ArrayMinSize,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { GameDocument } from 'src/schemas/game.schema';
+import { GameDocument, Game } from 'src/schemas/game.schema';
 
 export class CategoryDto {
   @Transform(({ value }) => value.toString())
@@ -22,10 +22,4 @@ export class CategoryDto {
   })
   @IsString()
   readonly name: string;
-
-  @ApiProperty({
-    example: 'game ID',
-    description: 'Mongoose ID related to a existing game',
-  })
-  readonly games: GameDocument[];
 }

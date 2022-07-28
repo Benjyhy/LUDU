@@ -20,10 +20,14 @@ import { saveImage, deleteImage } from 'src/helpers/Utils';
 import { GameDocument, Game } from 'src/schemas/game.schema';
 import { ValidateMongoId } from 'src/middlewares/validateMongoId';
 import appConfig from 'src/config/app.config';
+import { CategoryService } from '../category/category.service';
 
 @Controller('game')
 export class GameController {
-  constructor(private readonly gameService: GameService) {}
+  constructor(
+    private readonly gameService: GameService,
+    private readonly categoryService: CategoryService,
+  ) {}
 
   @Get('')
   findAll(): Promise<GameDocument[]> {
@@ -52,7 +56,18 @@ export class GameController {
         },
         HttpStatus.FORBIDDEN,
       );
-
+    // check if each categories exist
+    gameDto.categories.map(async (category) => {
+      const isCategory = await this.categoryService.findById(category);
+      if (!isCategory)
+        throw new HttpException(
+          {
+            status: HttpStatus.FORBIDDEN,
+            error: 'category not found',
+          },
+          HttpStatus.FORBIDDEN,
+        );
+    });
     gameDto.thumbnail = await saveImage(
       gameDto.thumbnail,
       `${appConfig().game.staticFolder}/thumbnail/`,
@@ -71,6 +86,19 @@ export class GameController {
   ): Promise<GameDocument> {
     const existingGame = await this.gameService.findById(id);
     if (!existingGame) throw new NotFoundException(`Game #${id} not found`);
+
+    // check if each categories exist
+    gameDto.categories.map(async (category) => {
+      const isCategory = await this.categoryService.findById(category);
+      if (!isCategory)
+        throw new HttpException(
+          {
+            status: HttpStatus.FORBIDDEN,
+            error: 'category not found',
+          },
+          HttpStatus.FORBIDDEN,
+        );
+    });
 
     // if image was not updated
     if (
