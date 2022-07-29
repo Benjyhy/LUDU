@@ -114,7 +114,9 @@ const GameScreen = ({ route, navigation }: any) => {
                         borderRadius="20"
                         borderStyle="solid"
                         borderWidth="2"
-                        onTouchEnd={() => navigation.navigate(findRoutes.BOOKING_FEED, { game: game })}
+                        onTouchEnd={() => {
+                            navigation.navigate(findRoutes.BOOKING_FEED, { game: game })
+                        }}
                     >
                         <Flex direction="row">
                             <Text fontSize={18}>
