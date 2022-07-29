@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import { Button, View, Text, Heading } from "native-base";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
-import { findRoutes } from "../../navigation/appRoutes/findRoutes";
-import {useNavigation} from "@react-navigation/native";
+import findRoutes from "../../navigation/appRoutes/findRoutes";
 
-function DatePickerScreen() {
-    const navigation = useNavigation()
-
+function DatePickerScreen({ route, navigation }: any) {
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
     const onChange = (event, selectedDate) => {
@@ -22,9 +19,9 @@ function DatePickerScreen() {
         setShow(true);
     };
     return (
-        <View>
+        <View alignItems="center" marginTop={100} >
             <View paddingX={8} paddingTop={5}>
-                <Heading>Booking for:Uno</Heading>
+                <Heading>Booking for: {route.params.gameName}</Heading>
                 <Text>
                     at <Text fontWeight="bold">Game store name</Text>
                 </Text>
