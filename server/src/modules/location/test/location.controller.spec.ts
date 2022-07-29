@@ -3,7 +3,7 @@ import { LocationController } from '../location.controller';
 import { LocationService } from '../location.service';
 import { Location, LocationDocument } from '../../../schemas/location.schema';
 import { locationStub } from './stubs/location.stub';
-import { createLocationDto } from '../dto/createLocation.dto';
+import { LocationDto } from '../dto/location.dto';
 
 jest.mock('../location.service');
 
@@ -78,11 +78,13 @@ describe('LocationController', () => {
   describe('Create Location', () => {
     describe('when create location is called', () => {
       let location: Location;
-      let createLocation: createLocationDto;
+      let createLocation: LocationDto;
       beforeEach(async () => {
         createLocation = {
+          _id: undefined,
           name: locationStub().name,
           postalCode: locationStub().postalCode,
+          stores: undefined,
         };
         location = await locationController.create(createLocation);
       });

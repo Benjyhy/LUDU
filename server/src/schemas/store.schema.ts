@@ -9,7 +9,7 @@ export type StoreDocument = Store & Document;
 @Schema({ timestamps: true })
 export class Store {
   @Transform(({ value }) => value.toString())
-  _id: ObjectId;
+  _id: ObjectId | string;
 
   @Prop({ required: true })
   iban: string;
