@@ -18,10 +18,11 @@ function DatePickerScreen({ route, navigation }: any) {
     const showDatePicker = () => {
         setShow(true);
     };
+    const gameName = route.params.gameName;
     return (
         <View alignItems="center" marginTop={100} >
             <View paddingX={8} paddingTop={5}>
-                <Heading>Booking for: {route.params.gameName}</Heading>
+                <Heading>Booking for: {gameName}</Heading>
                 <Text>
                     at <Text fontWeight="bold">Game store name</Text>
                 </Text>
@@ -54,12 +55,13 @@ function DatePickerScreen({ route, navigation }: any) {
                 <Button
                     width={80}
                     background="#545454"
-                    alignContent="center"
-                    marginTop={100}
                     borderRadius={5}
+                    position="absolute"
+                    top="360%"
                     onPress={() =>
                         navigation.navigate(findRoutes.PERIOD_FEED, {
-                            names: moment(date).format("DD/MM/YYYY"),
+                            date: moment(date).format("DD/MM/YYYY"),
+                            gameName: gameName
                         })
                     }
                 >

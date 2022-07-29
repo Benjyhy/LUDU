@@ -35,8 +35,7 @@ export class UserController {
   @Get('/:id')
   @JWTAuth()
   findById(
-    @Param('id')
-    id: ObjectId,
+      @Param('id') id: string,
   ): Promise<UserDocument> {
     return this.userService.findById(id);
   }

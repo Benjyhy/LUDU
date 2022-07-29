@@ -28,7 +28,7 @@ const Search = () => {
 
     return (
         <Flex my="5" mx="3">
-            <Text fontWeight="bold">Select your address</Text>
+            <Text fontWeight="bold" mt="5">Select your address</Text>
             <Flex direction="row" justify="space-between" alignItems="center">
                 <Input
                     placeholder="Search..."

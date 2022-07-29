@@ -23,7 +23,7 @@ export class UserService {
     return await this.userModel.find().exec();
   }
 
-  public async findById(id: ObjectId): Promise<UserDocument> {
+  public async findById(id: ObjectId | string): Promise<UserDocument> {
     return await this.userModel.findById(id).exec();
   }
 

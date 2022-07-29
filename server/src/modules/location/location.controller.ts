@@ -10,7 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Location, LocationDocument } from 'src/schemas/location.schema';
+import { Location, LocationDocument } from '../../schemas/location.schema';
 import { LocationService } from './location.service';
 import { LocationDto } from './dto/location.dto';
 
@@ -39,10 +39,7 @@ export class LocationController {
   @Get('/id/:id')
   @ApiOperation({ summary: 'Get a location by id' })
   @ApiOkResponse({ description: 'Success', type: Location })
-  findById(
-    @Param('id')
-    id: string,
-  ): Promise<LocationDocument> {
+  findById(@Param('id') id: string): Promise<LocationDocument> {
     return this.locationService.findById(id);
   }
 

@@ -11,6 +11,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { GameModule } from './modules/game/game.module';
 import { CopyModule } from './modules/copy/copy.module';
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CopyModule } from './modules/copy/copy.module';
     UserModule,
     GameModule,
     CopyModule,
+    CategoryModule,
   ],
   controllers: [AppController, UserController],
   providers: [AppService],

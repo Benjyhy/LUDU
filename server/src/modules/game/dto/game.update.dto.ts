@@ -9,8 +9,9 @@ import {
   ArrayMinSize,
   IsOptional,
 } from 'class-validator';
-import { StoreDocument } from 'src/schemas/store.schema';
 import { Type } from 'class-transformer';
+
+// Only diffence with game.dto is the optional base64 for thumbnail
 
 export class GameUpdateDto {
   @Transform(({ value }) => value.toString())
@@ -79,8 +80,11 @@ export class GameUpdateDto {
   readonly playTime: number;
 
   @ApiProperty({
-    example: 'Store ID',
-    description: 'Mongoose ID related to a existing store',
+    example: '[62e16c1b3f6a897c767bec7d, 62dafb6aabb3d527725fb11a]',
+    description: 'array Id de categories',
   })
-  readonly stores: StoreDocument[];
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  readonly categories: string[];
 }

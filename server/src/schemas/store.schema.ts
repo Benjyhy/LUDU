@@ -12,6 +12,9 @@ export class Store {
   _id: ObjectId;
 
   @Prop({ required: true })
+  iban: string;
+
+  @Prop({ required: true })
   name: string;
 
   @Prop({ unique: true })
