@@ -26,34 +26,6 @@ function BookingGameScreen({ route, navigation }: any) {
     const items = gamePlaces.filter(game => game.gameId.id === item.id);
     const gameName = game.gameId.gameName;
 
-    const [isMap, setIsMap] = useState(true);
-    const routesToDisplayBooking = [findRoutes.BOOKING_FEED, findRoutes.MAP_VIEW];
-    let currentRoute;
-
-    if (RootNavigation.navigationRef.isReady())
-        currentRoute = RootNavigation.navigationRef.getCurrentRoute()?.name as findRoutes
-    else
-        currentRoute = findRoutes.BOOKING_FEED;
-
-    const handleToggle = () => {
-        setIsMap(!isMap);
-        const targetedRoute = isMap
-            ? findRoutes.MAP_VIEW
-            : findRoutes.BOOKING_FEED;
-        RootNavigation.navigate(targetedRoute, {});
-    };
-
-    if (!routesToDisplayBooking.includes(currentRoute)) {
-        return null;
-    }
-
-    const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
-    const currentLocation = useSelector((state: MainAppState) => state.currentLocation);
-
-    useEffect(() => {
-        setLocation(currentLocation);
-    }, [currentLocation]);
-
     // const storeId = items.find(store => store.id === game.id)
     // const getBackgroundColor = () => {
     //     let color;
@@ -95,7 +67,7 @@ function BookingGameScreen({ route, navigation }: any) {
                         </Text>
                         <HStack alignItems="center">
                             <Text>Map view</Text>
-                            <Switch onToggle={handleToggle} isChecked={!isMap} colorScheme="orange" />
+                            <Switch colorScheme="orange" />
                         </HStack>
                     </View>
                     <ScrollView>
