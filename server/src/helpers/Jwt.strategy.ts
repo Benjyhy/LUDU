@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  Logger,
-  NotFoundException,
-  SetMetadata,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { AuthService } from '../modules/auth/auth.service';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -18,6 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
+  // Return user Data from token
   async validate(payload) {
     const userValide = await this.authService.validateUser(payload);
 

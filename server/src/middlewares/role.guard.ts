@@ -1,29 +1,35 @@
-import {
-  Injectable,
-  CanActivate,
-  ExecutionContext,
-  Logger,
-} from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES } from 'src/schemas/user.schema';
 import { ROLES_KEY } from './decorators/RoleAuth';
 
+/**
+ * Check if the given roles match the role extract from JWT token
+ *
+ * @param {ROLES[]} roles[] given role to check
+ * @return {boolean} x true if role match the given one
+ */
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private _reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.getAllAndOverride<ROLES[]>(ROLES_KEY, [
+    // get Role required from decorator
+    const requiredRoles = this._reflector.get<ROLES[]>(
+      ROLES_KEY,
       context.getHandler(),
-      context.getClass(),
-    ]);
-    // Logger.log(requiredRoles);
+    );
+
+    // if requiredRoles is empty, route is not under roles restrictions
     if (!requiredRoles) {
       return true;
     }
-    const user = context.switchToHttp().getRequest();
-    // Logger.log(user);
-    // console.log({ tamer: user.user });
-    return requiredRoles.some((role) => user.roles?.includes(role));
+
+    // Get role from user token
+    const request = context.switchToHttp().getRequest();
+    const user = request.user;
+
+    const currentRole = ROLES[user.role];
+    return requiredRoles.includes(currentRole as never);
   }
 }

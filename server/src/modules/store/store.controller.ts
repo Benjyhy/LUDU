@@ -18,11 +18,12 @@ import { ROLES } from 'src/schemas/user.schema';
 
 @Controller('store')
 @ApiTags('Store')
+@JWTAuth()
 export class StoreController {
   constructor(private storeService: StoreService) {}
 
-  // @Roles(ROLES.ADMIN)
   @Get('')
+  @Roles(ROLES.ADMIN)
   findAll(): Promise<StoreDocument[]> {
     return this.storeService.findAll();
   }
