@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Button, View, Text, Heading } from "native-base";
+import {Button, View, Text, Heading, HStack, Box} from "native-base";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { Checkbox } from "native-base";
-import { useNavigation } from "@react-navigation/native";
 import findRoutes from "../../navigation/appRoutes/findRoutes";
 
 function PeriodScreen({ route, navigation }: any) {
@@ -10,51 +9,60 @@ function PeriodScreen({ route, navigation }: any) {
     const [buttonSelected, setButtonSelected] = useState(false);
     const [isSelected, setSelection] = useState(false);
     const [clickedId, setClickedId] = useState(0);
-    function handleClick(item, id) {
-        setClickedId(id);
+    const gameName = route.params.gameName;
+    const date = route.params.date;
+    const handleChange = (e) => {
+        setSelection(e)
     }
-    function ButtonGroup({ buttons }) {
-        {
-            <View />;
-            buttons.map((buttonLabel, index) => {
-                return (
-                    <TouchableOpacity
-                        onPress={item => handleClick(item, index)}
-                        key={index}
-                        style={[
-                            index === clickedId
-                                ? styles.buttonActive
-                                : styles.button,
-                        ]}
-                    >
-                        <Text color="#000000" paddingTop={5}>
-                            {buttonLabel}
-                        </Text>
-                    </TouchableOpacity>
-                );
-            });
-        }
+    const handleNavigation = () => {
+        isSelected
+            ? navigation.navigate(findRoutes.TIME_FEED, {
+                gameName: gameName,
+                date: date,
+            })
+            : navigation.goBack();
     }
+    // function ButtonGroup({ buttons }) {
+    //     {
+    //         <View />;
+    //         buttons.map((buttonLabel, index) => {
+    //             return (
+    //                 <TouchableOpacity
+    //                     onPress={item => handleClick(item, index)}
+    //                     key={index}
+    //                     style={[
+    //                         index === clickedId
+    //                             ? styles.buttonActive
+    //                             : styles.button,
+    //                     ]}
+    //                 >
+    //                     <Text color="#000000" paddingTop={5}>
+    //                         {buttonLabel}
+    //                     </Text>
+    //                 </TouchableOpacity>
+    //             );
+    //         });
+    //     }
+    // }
     return (
-        <View>
+        <View alignItems="center" paddingTop={100}>
             <View paddingX={8} paddingTop={5}>
-                <Heading>Booking for:Uno</Heading>
+                <Heading>Booking for: {route.params.gameName}</Heading>
                 <Text>
                     at{" "}
                     <Text fontWeight="bold">
                         Game store name on{" "}
                         <Text fontWeight="bold" fontSize={18}>
-                            Hello
+                            {route.params.date}
                         </Text>
                     </Text>
                 </Text>
-                <View display="flex" flexDirection="row">
-                    <Checkbox value={isSelected} onValueChange={setSelection} />
-                    <Text marginTop={1}>Bring me the game home</Text>
-                </View>
+                <Box width="100%" display="flex" flexDirection="row" marginTop={50}>
+                    <Checkbox value="time" onChange={handleChange}>Bring me the game home</Checkbox>
+                </Box>
                 <Text marginTop={5}>When do you want to come and play?</Text>
             </View>
-            <View style={styles.container}>
+            <View style={styles.container} marginLeft={70} paddingTop={20}>
                 <Button.Group
                     isAttached
                     colorScheme="blue"
@@ -64,24 +72,18 @@ function PeriodScreen({ route, navigation }: any) {
                     }}
                     width={80}
                 >
-                    <Button>Morning</Button>
+                    <Button variant="outline">Morning</Button>
                     <Button variant="outline">Afternoon</Button>
-                    <Button>Evening</Button>
+                    <Button variant="outline">Evening</Button>
                 </Button.Group>
             </View>
             <Button
-                marginTop={20}
                 background="#545454"
                 width={80}
-                alignSelf="center"
                 borderRadius={5}
-                onPress={() =>
-                    isSelected
-                        ? navigation.navigate(findRoutes.TIME_FEED, {
-                            names: `${route.params.names}`,
-                        })
-                        : navigation.navigate(findRoutes.DATEPICKER_FEED)
-                }
+                position="absolute"
+                top="210%"
+                onPress={(e) => handleNavigation(e)}
             >
                 Continue
             </Button>

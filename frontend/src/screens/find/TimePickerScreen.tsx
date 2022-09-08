@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Button, View, Text, Heading } from "native-base";
+import {Button, View, Text, Heading, Flex, Box, Checkbox} from "native-base";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import moment from "moment";
 import { findRoutes } from "../../navigation/appRoutes/findRoutes";
 
-function DatePickerScreen({ route, navigation }) {
+function TimePickerScreen({ route, navigation }: any) {
 
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
@@ -20,17 +19,21 @@ function DatePickerScreen({ route, navigation }) {
         setShow(true);
     };
     return (
-        <View>
+        <Flex alignItems="center" paddingTop={100}>
             <View paddingX={8} paddingTop={5}>
-                <Heading>Booking for:Uno</Heading>
+                <Heading>Booking for: { route.params.gameName }</Heading>
                 <Text>
                     at <Text fontWeight="bold">Game store name on{" "}</Text>
                     <Text fontWeight="bold" fontSize={18}>
-                        {route.params.names}
+                        {route.params.date}
                     </Text>
                 </Text>
+                <Box width="100%" display="flex" flexDirection="row" marginTop={50}>
+                    <Checkbox value="time" defaultIsChecked>Bring me the game home</Checkbox>
+                </Box>
+                <Text marginTop={5}>When do you want us to bring you the game?</Text>
             </View>
-            <View alignItems="center" marginTop={40}>
+            <View display="flex" flexDirection="column" alignItems="center" paddingTop={75}>
                 <Button
                     width={80}
                     background="#545454"
@@ -57,18 +60,18 @@ function DatePickerScreen({ route, navigation }) {
                         onChange={onChange}
                     />
                 )}
-                <Button
-                    width={80}
-                    background="#545454"
-                    alignContent="center"
-                    marginTop={90}
-                    borderRadius={5}
-                >
-                    Continue
-                </Button>
             </View>
-        </View>
+            <Button
+                width={80}
+                background="#545454"
+                borderRadius={5}
+                position="absolute"
+                top="190%"
+            >
+                Continue
+            </Button>
+        </Flex>
     );
 }
 
-export default DatePickerScreen;
+export default TimePickerScreen;
