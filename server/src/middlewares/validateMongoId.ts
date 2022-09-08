@@ -1,5 +1,4 @@
 import {
-  ArgumentMetadata,
   HttpException,
   HttpStatus,
   Injectable,
@@ -7,10 +6,12 @@ import {
 } from '@nestjs/common';
 import { ObjectId } from 'mongodb';
 
-// Check if Params ID is  a valid Mongo ID
+/**
+ * Check if Params ID is  a valid Mongo ID
+ */
 @Injectable()
 export class ValidateMongoId implements PipeTransform<string> {
-  transform(value: string, metadata: ArgumentMetadata): string {
+  transform(value: string): string {
     // Optional casting into ObjectId if wanted!
     if (ObjectId.isValid(value)) {
       if (String(new ObjectId(value)) === value) return value;
