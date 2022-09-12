@@ -1,10 +1,12 @@
 import React from "react";
-import { AspectRatio, Box, Heading, HStack, Image, Stack, Text } from "native-base";
+import { AspectRatio, Box, Heading, HStack, Stack, Image, Text } from "native-base";
 import findRoutes from "../navigation/appRoutes/findRoutes";
 import Tag from "./Tag";
+import  Picture from "./Image"
 
 
 const GameCard = ({ item, navigation }: any) => {
+    console.log({lol: item})
     return (
         <Box
             alignItems="center"
@@ -21,11 +23,14 @@ const GameCard = ({ item, navigation }: any) => {
                 backgroundColor: "gray.50"
             }}>
                 <Box>
-                    <AspectRatio w="100%" ratio={16 / 9}>
-                        <Image source={{
+                    <AspectRatio ratio={ 16 / 9}>
+                        {/* <Image source={{
                             uri: item.gameImgUrl
-                        }} alt="image" />
+                        }} 
+                        alt="image" /> */}
+                    <Picture width={120} height={80} source={item.gameImgUrl} />
                     </AspectRatio>
+
                 </Box>
                 <Stack p="4" space={3}>
                     <Stack space={2}>
