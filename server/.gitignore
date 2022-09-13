@@ -1,6 +1,7 @@
 .env
 jwt.private.key
 jwt.key.pub
+package-lock.json
 
 # compiled output
 /dist

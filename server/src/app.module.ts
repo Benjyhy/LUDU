@@ -4,6 +4,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import appConfig from './config/app.config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { LocationModule } from './modules/location/location.module';
 import { UserController } from './modules/user/user.controller';
 import { StoreModule } from './modules/store/store.module';
@@ -21,6 +23,9 @@ import { CategoryModule } from './modules/category/category.module';
     }),
     MongooseModule.forRoot(appConfig().database.url, {
       connectionName: 'mongo',
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'static/images'),
     }),
     LocationModule,
     StoreModule,
