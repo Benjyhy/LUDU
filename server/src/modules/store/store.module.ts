@@ -20,9 +20,4 @@ import { Location, LocationSchema } from 'src/schemas/location.schema';
   providers: [StoreService],
   exports: [StoreService],
 })
-// export class StoreModule implements NestModule {
-//   configure(consumer: MiddlewareConsumer) {
-//     consumer.apply(RoleAuth).forRoutes(StoreController);
-//   }
-// }
 export class StoreModule {}

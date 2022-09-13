@@ -19,13 +19,22 @@ interface ICredentials {
 }
 
 class LocalProperty {
-  @ApiProperty()
+  @ApiProperty({
+    example: 'email@gmail.com',
+    description: 'an email',
+  })
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    example: '###',
+    description: 'password',
+  })
   password: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    example: 'true/false',
+    description: 'if the email is verified',
+  })
   emailVerified: boolean;
 }
 class CredentialsProperty {
