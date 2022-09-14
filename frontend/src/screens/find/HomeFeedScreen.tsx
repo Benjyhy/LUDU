@@ -29,7 +29,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
                         <Ionicons name="ios-filter" size={24} color="black" />
                     </TouchableOpacity>
                 </Flex>
-                {homeFeedMockData.map(item => <GameCard item={item} navigation={navigation} key={item.id} />)}
+                {homeFeedMockData.map(item => <GameCard item={item} navigation={navigation} direction="column" key={item.id} />)}
             </VStack>
             <Filter
                 active={isActiveFilter}
