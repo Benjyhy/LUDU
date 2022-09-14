@@ -14,6 +14,7 @@ import { UserModule } from './modules/user/user.module';
 import { GameModule } from './modules/game/game.module';
 import { CopyModule } from './modules/copy/copy.module';
 import { CategoryModule } from './modules/category/category.module';
+import { RentModule } from './rent/rent.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { CategoryModule } from './modules/category/category.module';
     GameModule,
     CopyModule,
     CategoryModule,
+    RentModule,
   ],
   controllers: [AppController, UserController],
   providers: [AppService],
