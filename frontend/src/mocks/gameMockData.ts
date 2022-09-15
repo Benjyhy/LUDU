@@ -14,24 +14,28 @@ const data = [
         shares: 5,
         reviews: [
             {
-                thumbnail: "https://via.placeholder.com/300",
+                avatar: "https://via.placeholder.com/300",
                 name: 'Pascal',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore'
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+                stars:4
             },
             {
-                thumbnail: "https://via.placeholder.com/300",
+                avatar: "https://via.placeholder.com/300",
                 name: 'Daphné',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore'
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+                stars:2
             },
             {
-                thumbnail: "https://via.placeholder.com/300",
+                avatar: "https://via.placeholder.com/300",
                 name: 'Jeannot',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore'
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+                stars:5
             },
             {
-                thumbnail: "https://via.placeholder.com/300",
+                avatar: "https://via.placeholder.com/300",
                 name: 'Christel',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore'
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+                stars:4
             }
         ]
     },
