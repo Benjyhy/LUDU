@@ -13,7 +13,6 @@ import {
 import { Icon } from "react-native-elements";
 import gameData from "../../mocks/gameMockData";
 import GameReviewCard from "../../components/GameReviewCard";
-import findRoutes from "../../navigation/appRoutes/findRoutes";
 import GameCard from "../../components/GameCard";
 import { TouchableOpacity } from "react-native";
 import { InlineTextIcon } from "../../components/InlineTextIcon";
@@ -32,10 +31,10 @@ const GameScreen = ({ route, navigation }: any) => {
     );
   }
   return (
-    <ScrollView>
+    <ScrollView mx={2}>
 
       {/* display title and button to like review and shares */}
-      <Flex mt="1.5" mx="8px" direction="row" alignItems={"center"}>
+      <Flex direction="row" alignItems={"center"}>
         <Heading fontSize={26} size="md">
           {game.gameName}
         </Heading>
@@ -60,7 +59,7 @@ const GameScreen = ({ route, navigation }: any) => {
       </Flex>
 
       {/* Display likes reviews and share number*/}
-      <Flex direction="row" mb="2" mx="8px">
+      <Flex direction="row" mb="2">
         <Box>
           <InlineTextIcon icon={"favorite"} text={"22 Likes"} />
         </Box>
@@ -132,7 +131,7 @@ const GameScreen = ({ route, navigation }: any) => {
       </Heading>
       <ScrollView horizontal>
         {game.reviews.map((review, index) => (
-          <GameReviewCard review={review} key={index} />
+          <GameReviewCard item={review} key={index} direction={"row"} />
         ))}
       </ScrollView>
 

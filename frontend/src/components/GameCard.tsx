@@ -10,6 +10,7 @@ const GameCard = ({ item, navigation, direction }: any) => {
         <Flex
             alignItems={direction === 'row' ? 'flex-start' : 'center'}
             width={Dimensions.get('window').width - 30}
+            height={'100%'} 
             marginBottom={5}
             marginRight={5}
             onTouchEnd={() => navigation.navigate(findRoutes.GAME_SCREEN, { item })}
@@ -55,7 +56,7 @@ const GameCard = ({ item, navigation, direction }: any) => {
                         )}
                     </HStack>
                 </Stack>
-                <Box>
+                <Box mb={8}>
                     <Text fontWeight="400">
                         {item.description}
                     </Text>
