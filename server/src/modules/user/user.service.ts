@@ -24,7 +24,7 @@ export class UserService {
   }
 
   public async findById(id: ObjectId | string): Promise<UserDocument> {
-    return await this.userModel.findById(id).exec();
+    return await this.userModel.findById(id);
   }
 
   public async findOne(field: any): Promise<UserDocument> {
@@ -75,13 +75,12 @@ export class UserService {
       `${appConfig().user.staticFolder}/avatar/`,
     );
 
-    // If false, delete ha not occur
+    // If false, delete has not occur
     if (!isImageDeleted)
       throw new HttpException(
         {
           status: HttpStatus.CONFLICT,
-          error:
-            "An error occur when the images of the user' avatar has been deleted",
+          error: "An error occur when the old  user'avatar has been deleted",
         },
         HttpStatus.FORBIDDEN,
       );

@@ -12,11 +12,11 @@ export class CopyService {
   ) {}
 
   public async findAll(): Promise<CopyDocument[]> {
-    return await this.CopyModel.find().populate('game').exec();
+    return await this.CopyModel.find();
   }
 
   public async findById(id: string): Promise<CopyDocument> {
-    return await this.CopyModel.findById(id).populate('game').exec();
+    return await this.CopyModel.findById(id);
   }
 
   public async create(copyDto: CopyDto): Promise<CopyDocument> {
@@ -36,7 +36,22 @@ export class CopyService {
       throw new NotFoundException(`Copy #${id} not found`);
     }
 
-    return await this.CopyModel.findById(id).populate('stores').exec();
+    return await this.CopyModel.findById(id).populate('game');
+  }
+
+  public async toggleAvailable(id: string): Promise<CopyDocument> {
+    const existingCopy = await this.CopyModel.findById(id);
+
+    if (existingCopy == null) {
+      throw new NotFoundException(`Copy #${id} not found`);
+    }
+
+    await this.CopyModel.updateOne(
+      { _id: id },
+      { $set: { available: !existingCopy.available } },
+    );
+
+    return await this.CopyModel.findById(id).populate('game');
   }
 
   public async remove(id: string): Promise<any> {

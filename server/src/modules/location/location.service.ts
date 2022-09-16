@@ -17,7 +17,7 @@ export class LocationService {
   }
 
   public async findById(id: ObjectId | string): Promise<LocationDocument> {
-    return await this.locationModel.findById(id).populate('stores').exec();
+    return await this.locationModel.findById(id).populate('stores');
   }
 
   public async findByZib(zip: number): Promise<LocationDocument[]> {

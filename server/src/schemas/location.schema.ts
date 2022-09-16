@@ -13,7 +13,7 @@ export class Location {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   postalCode: number;
 
   @Prop({ type: [Types.ObjectId], ref: 'Store' })

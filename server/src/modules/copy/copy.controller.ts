@@ -7,13 +7,16 @@ import {
   Param,
   Delete,
   NotFoundException,
+  Put,
 } from '@nestjs/common';
 import { CopyService } from './copy.service';
 import { CopyDto } from './dto/copy.dto';
 import { StoreService } from '../store/store.service';
 import { GameService } from '../game/game.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('copy')
+@ApiTags('Copy')
 export class CopyController {
   constructor(
     private readonly copyService: CopyService,
@@ -40,8 +43,9 @@ export class CopyController {
     // merge old copies with the new one
     const newCopies = [...store.copies, copyCreated._id.toString()];
 
-    // return store with his copies
-    return await this.storeService.updateCopies(copyDto.store, newCopies);
+    // store with his copies
+    await this.storeService.updateCopies(copyDto.store, newCopies);
+    return copyCreated;
   }
 
   @Get()
@@ -51,10 +55,13 @@ export class CopyController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.copyService.findById(id);
+    return this.copyService.findById(id).then((copy) => {
+      if (!copy) throw new NotFoundException(`Copy #${id} not found`);
+      return copy;
+    });
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() CopyDto: CopyDto) {
     return this.copyService.update(id, CopyDto);
   }

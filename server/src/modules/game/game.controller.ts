@@ -11,6 +11,7 @@ import {
   HttpStatus,
   NotFoundException,
   Logger,
+  Patch,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { GameService } from './game.service';
@@ -30,8 +31,8 @@ export class GameController {
   ) {}
 
   @Get('')
-  findAll(): Promise<GameDocument[]> {
-    return this.gameService.findAll();
+  async findAll(): Promise<GameDocument[]> {
+    return await this.gameService.findAll();
   }
 
   @Get('/:id')
@@ -39,7 +40,10 @@ export class GameController {
     @Param('id')
     id: string,
   ): Promise<GameDocument> {
-    return this.gameService.findById(id);
+    return this.gameService.findById(id).then((game) => {
+      if (!game) throw new NotFoundException(`Game #${id} not found`);
+      return game;
+    });
   }
 
   @Post('')
@@ -59,6 +63,7 @@ export class GameController {
     // check if each categories exist
     gameDto.categories.map(async (category) => {
       const isCategory = await this.categoryService.findById(category);
+      console.log(isCategory);
       if (!isCategory)
         throw new HttpException(
           {
@@ -76,8 +81,6 @@ export class GameController {
   }
 
   @Put('/:id')
-  @ApiOperation({ summary: 'Create a new location' })
-  @ApiOkResponse({ description: 'Success', type: Game })
   async update(
     @Param('id', new ValidateMongoId())
     id: string,
@@ -117,7 +120,7 @@ export class GameController {
 
     Logger.log(isImageDeleted);
 
-    // If false, delete ha not occur
+    // If false, delete has not occur
     if (!isImageDeleted)
       throw new HttpException(
         {
@@ -136,8 +139,6 @@ export class GameController {
   }
 
   @Delete('/:id')
-  @ApiOperation({ summary: 'Delete a game' })
-  @ApiOkResponse({ description: 'Success', type: Game })
   async remove(
     @Param('id', new ValidateMongoId())
     id: string,

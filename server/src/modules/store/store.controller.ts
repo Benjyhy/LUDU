@@ -7,33 +7,46 @@ import {
   Put,
   Delete,
   ValidationPipe,
+  NotFoundException,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { StoreService } from './store.service';
 import { StoreDocument, Store } from '../../schemas/store.schema';
 import { StoreDto } from './dto/store.dto';
+import { JWTAuth } from 'src/middlewares/decorators/JWTAuth';
+import { Roles } from 'src/middlewares/decorators/RoleAuth';
+import { ROLES } from 'src/schemas/user.schema';
 
 @Controller('store')
 @ApiTags('Store')
-@JWTAuth()
+// @JWTAuth()
 export class StoreController {
   constructor(private storeService: StoreService) {}
 
   @Get('')
   @Roles(ROLES.ADMIN)
+  @ApiOperation({ summary: 'Fetch all stores' })
+  @ApiOkResponse({ description: 'Success', type: Store })
   findAll(): Promise<StoreDocument[]> {
     return this.storeService.findAll();
   }
 
   @Get('/:id')
+  @ApiOperation({ summary: 'Find a store by ID' })
+  @ApiOkResponse({ description: 'Success', type: Store })
   findById(
     @Param('id')
     id: string,
   ): Promise<StoreDocument> {
-    return this.storeService.findById(id);
+    return this.storeService.findById(id).then((store) => {
+      if (!store) throw new NotFoundException(`Store #${id} not found`);
+      return store;
+    });
   }
 
   @Post('')
+  @ApiOperation({ summary: 'Create a store' })
+  @ApiOkResponse({ description: 'Success', type: Store })
   create(
     @Body(new ValidationPipe({ transform: true }))
     storeDto: StoreDto,
@@ -42,7 +55,7 @@ export class StoreController {
   }
 
   @Put('/:id')
-  @ApiOperation({ summary: 'Create a new location' })
+  @ApiOperation({ summary: 'Update a store' })
   @ApiOkResponse({ description: 'Success', type: Store })
   update(
     @Param('id')
@@ -54,7 +67,7 @@ export class StoreController {
   }
 
   @Delete('/:id')
-  @ApiOperation({ summary: 'Delete a location' })
+  @ApiOperation({ summary: 'Delete a store' })
   @ApiOkResponse({ description: 'Success', type: Store })
   async remove(
     @Param('id')

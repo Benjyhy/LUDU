@@ -6,6 +6,7 @@ import {
   Put,
   Delete,
   ValidationPipe,
+  NotFoundException,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
@@ -16,7 +17,6 @@ import { Roles } from 'src/middlewares/decorators/RoleAuth';
 
 @Controller('user')
 @ApiTags('User')
-@JWTAuth()
 export class UserController {
   constructor(private userService: UserService) {}
 
@@ -28,7 +28,10 @@ export class UserController {
 
   @Get('/:id')
   findById(@Param('id') id: string): Promise<UserDocument> {
-    return this.userService.findById(id);
+    return this.userService.findById(id).then((store) => {
+      if (!store) throw new NotFoundException(`Store #${id} not found`);
+      return store;
+    });
   }
 
   @Put('/:id')

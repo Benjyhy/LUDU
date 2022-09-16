@@ -1,7 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectId, Types } from 'mongoose';
 import { IsEmail } from 'class-validator';
-import { Exclude, Transform } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { hashPassword } from 'src/helpers/Bcrypt';
 import { isPasswordInvalid } from 'src/helpers/Utils';
 
@@ -70,7 +70,7 @@ export class User {
   @Prop()
   avatar: string;
 
-  @Prop()
+  @Prop({ required: true })
   address: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Store' })

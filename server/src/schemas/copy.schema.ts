@@ -13,8 +13,15 @@ export class Copy {
   @Prop({ type: Types.ObjectId, ref: 'Game' })
   game: Game;
 
-  @Prop({ required: true, default: true })
+  @Prop()
   available: boolean;
 }
 
 export const CopySchema = SchemaFactory.createForClass(Copy);
+
+CopySchema.pre<CopyDocument>('save', function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const copy = this;
+  copy.available = true;
+  next();
+});
