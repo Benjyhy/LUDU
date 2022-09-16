@@ -7,14 +7,7 @@ import findRoutes from "../../navigation/appRoutes/findRoutes";
 
 function DatePickerScreen({ route, navigation }: any) {
     const format = moment(new Date()).format('YYYY-MM-DD');
-    const [baseDate, setDate] = useState(format);
-    // const handleDayChange = (day: any) => {
-    //     setDate(day)
-    //     setSelected(!selected)
-    //     console.log(baseDate)
-    // }
     const [selected, setSelected] = useState(format);
-    const [currentMonth, setCurrentMonth] = useState(format);
 
     const onDayPress = useCallback((day) => {
         setSelected(day.dateString);
@@ -32,19 +25,6 @@ function DatePickerScreen({ route, navigation }: any) {
     }, [selected]);
 
 
-    // const [show, setShow] = useState(false);
-    // const onChange = (event, selectedDate) => {
-    //     setShow(false);
-    //     if (event?.type === "dismissed") {
-    //         setDate(date);
-    //         return;
-    //     }
-    //     setDate(selectedDate);
-    // };
-    // const showDatePicker = () => {
-    //     setShow(true);
-    // };
-
     const gameName = route.params.gameName;
     return (
         <ScrollView>
@@ -57,7 +37,6 @@ function DatePickerScreen({ route, navigation }: any) {
                 </View>
                 <View marginTop={20}>
                     <Calendar
-                        minDate={selected}
                         current={format}
                         onDayPress={onDayPress}
                         markedDates={marked}
@@ -66,11 +45,6 @@ function DatePickerScreen({ route, navigation }: any) {
                             selectedDayTextColor: '#ffffff',
                             arrowColor: '#545454',
                             monthTextColor: '#545454',
-                            textDayFontFamily: 'monospace',
-                            textMonthFontFamily: 'monospace',
-                            textDayHeaderFontFamily: 'monospace',
-                            textDayFontWeight: '300',
-                            textMonthFontWeight: 'bold',
                             textDayHeaderFontWeight: '300',
                         }}
                     />
