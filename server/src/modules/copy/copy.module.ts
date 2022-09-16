@@ -21,6 +21,7 @@ import { GameModule } from '../game/game.module';
       'mongo',
     ),
   ],
+  exports: [CopyService],
   controllers: [CopyController],
   providers: [CopyService],
 })

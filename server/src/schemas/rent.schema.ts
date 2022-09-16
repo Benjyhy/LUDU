@@ -20,8 +20,8 @@ export class Rent {
   @Prop({ type: Date, required: true })
   startDate: Date;
 
-  @Prop({ type: Date })
-  endDate: Date;
+  @Prop()
+  endDate: Date | null;
 
   @Prop()
   duration: number;
@@ -30,4 +30,11 @@ export class Rent {
   is_delivered: boolean;
 }
 
-export const CopySchema = SchemaFactory.createForClass(Rent);
+export const RentSchema = SchemaFactory.createForClass(Rent);
+
+RentSchema.pre<RentDocument>('save', function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const rent = this;
+  rent.is_delivered = false;
+  next();
+});

@@ -7,7 +7,7 @@ import {
   Delete,
   Put,
   ValidationPipe,
-  Query,
+  NotFoundException,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Location, LocationDocument } from '../../schemas/location.schema';
@@ -40,7 +40,10 @@ export class LocationController {
   @ApiOperation({ summary: 'Get a location by id' })
   @ApiOkResponse({ description: 'Success', type: Location })
   findById(@Param('id') id: string): Promise<LocationDocument> {
-    return this.locationService.findById(id);
+    return this.locationService.findById(id).then((location) => {
+      if (!location) throw new NotFoundException(`Location #${id} not found`);
+      return location;
+    });
   }
 
   @Post('')

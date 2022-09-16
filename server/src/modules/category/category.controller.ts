@@ -9,6 +9,7 @@ import {
   NotFoundException,
   HttpException,
   HttpStatus,
+  Put,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CategoryDto } from './dto/category.dto';
@@ -37,28 +38,6 @@ export class CategoryController {
       );
 
     return await this.categoryService.create(CategoryDto);
-
-    // Promise.all(
-    //   createCategory.games.map(async (item) => {
-    //     // check if each games exist
-    //     const existingGame = await this.gameService.findById(item.toString());
-
-    //     if (!existingGame)
-    //       throw new NotFoundException(`Game #${item.toString()} not found`);
-
-    //     // merge old categories with the new one
-    //     const newCategories = [
-    //       ...existingGame.categories,
-    //       createCategory._id.toString(),
-    //     ];
-
-    //     // update games' categories array
-    //     return await this.gameService.updateCategories(
-    //       existingGame._id.toString(),
-    //       newCategories,
-    //     );
-    //   }),
-    // );
   }
 
   @Get()
@@ -68,10 +47,13 @@ export class CategoryController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.categoryService.findById(id);
+    return this.categoryService.findById(id).then((category) => {
+      if (!category) throw new NotFoundException(`Category #${id} not found`);
+      return category;
+    });
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updateCategoryDto: CategoryDto,

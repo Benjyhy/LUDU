@@ -16,7 +16,7 @@ export class CategoryService {
   }
 
   public async findById(id: string): Promise<CategoryDocument> {
-    return await this.categoryModel.findById(id).exec();
+    return await this.categoryModel.findById(id);
   }
 
   public async categoryAlreadyExist(name: string): Promise<CategoryDocument> {

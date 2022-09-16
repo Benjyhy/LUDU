@@ -70,7 +70,7 @@ export class User {
   @Prop()
   avatar: string;
 
-  @Prop()
+  @Prop({ required: true })
   address: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Store' })

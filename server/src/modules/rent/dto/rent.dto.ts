@@ -1,14 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import {
-  IsString,
-  IsBase64,
-  IsNumber,
-  IsArray,
-  ArrayMaxSize,
-  ArrayMinSize,
-  IsOptional,
-} from 'class-validator';
+import { IsString, IsNumber, IsBoolean, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class RentDto {
@@ -16,43 +8,45 @@ export class RentDto {
   _id: string;
 
   @ApiProperty({
-    example: '8435407619432',
-    description: 'Codebar of the game',
+    example: "1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC",
+    description: 'Time where the game is delivered',
   })
   @IsString()
   readonly startDate: string;
 
   @ApiProperty({
-    example: 'Catan',
-    description: 'The name of the game',
+    example: "1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC",
+    description: 'Time where the game is return',
   })
   @IsString()
   readonly endDate: string;
 
   @ApiProperty({
-    example: 'Version Maritime',
-    description: 'Différentiation des différentes version du jeu ',
+    example: '12',
+    description: 'Number of Hours of the location',
   })
-  @IsString()
-  readonly duration: string;
+  @IsNumber()
+  readonly duration: number;
 
   @ApiProperty({
-    example:
-      "Lance-toi à la conquête d'une île vierge mais pleine de ressources. Sauras-tu construire tes villes et colonies plus vite que tes adversaires ? Un classique au succès mondial, qui revient avec un nouveau design. Construis ta route vers la victoire ! Dès 10 ans.",
-    description: 'Description du jeu',
+    example: 'true',
+    description: 'If the user got the location in present',
   })
-  @IsString()
-  readonly is_delivered: string;
+  @IsBoolean()
+  @IsOptional()
+  readonly is_delivered: boolean;
 
   @ApiProperty({
     example: '62e16c1b3f6a897c767bec7d',
     description: "Id d'un User",
   })
+  @IsString()
   readonly user: string;
 
   @ApiProperty({
     example: '62dafb6aabb3d527725fb11a',
     description: "Id d'une Copy d'un jeu",
   })
+  @IsString()
   readonly game: string;
 }

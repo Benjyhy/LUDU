@@ -13,8 +13,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { GameModule } from './modules/game/game.module';
 import { CopyModule } from './modules/copy/copy.module';
+import { RentModule } from './modules/rent/rent.module';
 import { CategoryModule } from './modules/category/category.module';
-import { RentModule } from './rent/rent.module';
 
 @Module({
   imports: [
