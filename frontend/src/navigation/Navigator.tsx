@@ -27,7 +27,7 @@ const StackNav = () => {
     }, []);
     return (
         <Stack.Navigator
-            initialRouteName={appRoutes.TAB_NAVIGATOR}
+            initialRouteName={appRoutes.LOGIN_SCREEN}
             screenOptions={{ headerShown: false }}
         >
             <Stack.Screen
