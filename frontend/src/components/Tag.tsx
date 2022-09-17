@@ -9,9 +9,9 @@ const Tag = ({ tagName }: any) => {
             borderRadius={3}
             borderColor="orange.500"
             borderWidth={1}
-            fontSize={14}
+            fontSize={11}
             fontWeight="bold"
-            px="5"
+            px="1"
             py="1"
         >
             {tagName}

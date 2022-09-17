@@ -1,8 +1,8 @@
 const data = [
     {
         id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-        name: "Cluedo",
-        thumbnail: "https://via.placeholder.com/300",
+        gameName: "Cluedo",
+        gameImgUrl: "https://via.placeholder.com/300",
         store_id: '',
         quantity: 0,
         likes: 17,
@@ -14,31 +14,35 @@ const data = [
         shares: 5,
         reviews: [
             {
-                thumbnail: "https://via.placeholder.com/300",
+                avatar: "https://via.placeholder.com/300",
                 name: 'Pascal',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore'
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+                stars:4
             },
             {
-                thumbnail: "https://via.placeholder.com/300",
+                avatar: "https://via.placeholder.com/300",
                 name: 'Daphné',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore'
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+                stars:2
             },
             {
-                thumbnail: "https://via.placeholder.com/300",
+                avatar: "https://via.placeholder.com/300",
                 name: 'Jeannot',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore'
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+                stars:5
             },
             {
-                thumbnail: "https://via.placeholder.com/300",
+                avatar: "https://via.placeholder.com/300",
                 name: 'Christel',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore'
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+                stars:4
             }
         ]
     },
     {
         id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-        name: "Monopoly",
-        thumbnail: "https://via.placeholder.com/300",
+        gameName: "Monopoly",
+        gameImgUrl: "https://via.placeholder.com/300",
         store_id: '',
         quantity: 4,
         likes: 8,
@@ -73,8 +77,8 @@ const data = [
     },
     {
         id: "58694a0f-3da1-471f-bd96-145571e29d72",
-        name: "Catan",
-        thumbnail: "https://via.placeholder.com/300",
+        gameName: "Catan",
+        gameImgUrl: "https://via.placeholder.com/300",
         store_id: '',
         quantity: 6,
         likes: 67,
@@ -117,8 +121,8 @@ const data = [
     },
     {
         id: "68694a0f-3da1-431f-bd56-142371e29d72",
-        name: "Risk",
-        thumbnail: "https://via.placeholder.com/300",
+        gameName: "Risk",
+        gameImgUrl: "https://via.placeholder.com/300",
         store_id: '',
         quantity: 1,
         likes: 2,
@@ -161,8 +165,8 @@ const data = [
     },
     {
         id: "28694a0f-3da1-471f-bd96-142456e29d72",
-        name: "Exploding Kittens",
-        thumbnail: "https://via.placeholder.com/300",
+        gameName: "Exploding Kittens",
+        gameImgUrl: "https://via.placeholder.com/300",
         store_id: '',
         quantity: 4,
         likes: 8,
