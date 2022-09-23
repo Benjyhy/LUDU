@@ -67,7 +67,17 @@ export class CopyController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
+    const existingCopy = await this.copyService.findById(id);
+
+    if (!existingCopy) throw new NotFoundException(`Store #${id} not found`);
+
+    const store = await this.storeService.findByCopy(id);
+
+    const newCopies = store.copies.filter((item) => {
+      return item.toString() !== id;
+    });
+    await this.storeService.updateCopies(store._id.toString(), newCopies);
     return this.copyService.remove(id);
   }
 }

@@ -2,6 +2,7 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectId, Types } from 'mongoose';
 import { Transform } from 'class-transformer';
 import { Category } from './category.schema';
+import { Review } from './review.schema';
 
 export type GameDocument = Game & Document;
 
@@ -39,6 +40,9 @@ export class Game {
 
   @Prop({ type: [Types.ObjectId], ref: 'Category' })
   categories: Category[];
+
+  @Prop({ type: [Types.ObjectId], ref: 'Review', default: [] })
+  reviews: Review[];
 }
 
 export const GameSchema = SchemaFactory.createForClass(Game);

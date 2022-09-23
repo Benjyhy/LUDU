@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import { Model } from 'mongoose';
 import { LocationDocument } from 'src/schemas/location.schema';
 import { StoreDocument, Store } from 'src/schemas/store.schema';
 import { StoreDto } from './dto/store.dto';
 import { Copy } from 'src/schemas/copy.schema';
+import { Review } from 'src/schemas/review.schema';
 
 @Injectable()
 export class StoreService {
@@ -27,6 +28,10 @@ export class StoreService {
       .findById(id)
       .populate('location', 'name')
       .populate('copies');
+  }
+
+  public async findByCopy(id: string | Copy): Promise<StoreDocument> {
+    return await this.storeModel.findOne({ copies: id });
   }
 
   async create(storeDto: StoreDto): Promise<StoreDocument> {
@@ -71,6 +76,21 @@ export class StoreService {
     );
 
     if (!updatedStore) throw new NotFoundException(`Store #${id} not found`);
+
+    return await this.storeModel.findById(id);
+  }
+
+  public async updateReviews(
+    id: string,
+    reviewId: (string | Review)[],
+  ): Promise<any> {
+    const updatedStore = await this.storeModel.updateOne(
+      { _id: id },
+      { $set: { reviews: reviewId } },
+    );
+
+    if (!updatedStore) throw new NotFoundException(`Store #${id} not found`);
+    console.log(updatedStore);
 
     return await this.storeModel.findById(id);
   }

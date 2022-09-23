@@ -2,6 +2,8 @@ export const userStub = (): {
   createdAt: string;
   role: [string];
   address: string;
+  city: string;
+  postCode: string;
   credentials: {
     local: { emailVerified: string; password: string; email: string };
   };
@@ -11,6 +13,7 @@ export const userStub = (): {
   avatar: string;
   username: string;
   updatedAt: string;
+  reviews: string[];
 } => {
   return {
     _id: '62c6d3251715b648a83c2e5b',
@@ -27,8 +30,11 @@ export const userStub = (): {
     role: ['USER'],
     phone: '629382938',
     avatar: '4a9c06e7-00b1-42c4-9104-4cc39c811e8f',
-    address: '4 avenue Hoche Maisons Laffitte',
+    address: '4 avenue Hoche',
+    city: 'Maisons Laffitte',
+    postCode: '78600',
     createdAt: '2022-07-07T12:35:49.239Z',
     updatedAt: '2022-07-07T12:35:49.239Z',
+    reviews: [],
   };
 };
