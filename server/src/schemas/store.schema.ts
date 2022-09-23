@@ -3,6 +3,7 @@ import { ObjectId, Types } from 'mongoose';
 import { Transform } from 'class-transformer';
 import { Copy } from './copy.schema';
 import { Location } from './location.schema';
+import { Review } from './review.schema';
 
 export type StoreDocument = Store & Document;
 
@@ -31,6 +32,9 @@ export class Store {
 
   @Prop({ type: [Types.ObjectId], ref: 'Copy' })
   copies: Copy[];
+
+  @Prop({ type: [Types.ObjectId], ref: 'Review', default: [] })
+  reviews: Review[];
 }
 
 export const StoreSchema = SchemaFactory.createForClass(Store);

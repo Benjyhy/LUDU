@@ -6,11 +6,11 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types, ObjectId } from 'mongoose';
-import { StoreDocument } from 'src/schemas/store.schema';
 import { UserDocument } from 'src/schemas/user.schema';
 import { UserDto } from './dto/user.dto';
 import { saveImage, deleteImage } from 'src/helpers/Utils';
 import appConfig from 'src/config/app.config';
+import { Review } from 'src/schemas/review.schema';
 
 @Injectable()
 export class UserService {
@@ -20,7 +20,7 @@ export class UserService {
   ) {}
 
   public async findAll(): Promise<UserDocument[]> {
-    return await this.userModel.find().exec();
+    return await this.userModel.find();
   }
 
   public async findById(id: ObjectId | string): Promise<UserDocument> {
@@ -89,6 +89,20 @@ export class UserService {
       updateUserDto.avatar,
       `${appConfig().user.staticFolder}/avatar/`,
     );
+
+    return await this.userModel.findById(id);
+  }
+
+  public async updateReviews(
+    id: string,
+    reviewId: (string | Review)[],
+  ): Promise<any> {
+    const updatedUser = await this.userModel.updateOne(
+      { _id: id },
+      { $set: { reviews: reviewId } },
+    );
+
+    if (!updatedUser) throw new NotFoundException(`User #${id} not found`);
 
     return await this.userModel.findById(id);
   }

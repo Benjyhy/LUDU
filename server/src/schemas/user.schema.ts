@@ -4,6 +4,7 @@ import { IsEmail } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { hashPassword } from 'src/helpers/Bcrypt';
 import { isPasswordInvalid } from 'src/helpers/Utils';
+import { Review } from './review.schema';
 
 export enum ROLES {
   USER,
@@ -73,8 +74,17 @@ export class User {
   @Prop({ required: true })
   address: string;
 
+  @Prop({ required: true })
+  city: string;
+
+  @Prop({ required: true })
+  postCode: number;
+
   @Prop({ type: Types.ObjectId, ref: 'Store' })
   store: string;
+
+  @Prop({ type: [Types.ObjectId], ref: 'Review', default: [] })
+  reviews: Review[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
