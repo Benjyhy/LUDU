@@ -16,7 +16,7 @@ export class GameSeeder implements Seeder {
     const categories = await this.category.find();
     // Generate 10 users.
     const users = DataFactory.createForClass(Game).generate(10, {
-      thumbnail: '191efb94-211a-4f7f-992f-d2b3b0be448a',
+      thumbnail: '3c3f8285-e8b8-4e79-87c3-96943be4e630',
       categories: [
         categories[
           Math.round(Math.floor(Math.random() * (await categories).length))

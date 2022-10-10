@@ -2,11 +2,12 @@
 jwt.private.key
 jwt.key.pub
 package-lock.json
+yarn.lock
+swagger-spec.json
 
 # compiled output
 /dist
 /node_modules
-/static
 
 # Logs
 logs
@@ -39,3 +40,9 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Default Image
+/static/images/game/thumbnail/*
+/static/images/user/avatar/*
+!/static/images/game/thumbnail/3c3f8285-e8b8-4e79-87c3-96943be4e630.webp
+!/static/images/user/avatar/6ecd936f-6d9b-4d4e-b147-db198e6b8b2c.webp
