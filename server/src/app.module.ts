@@ -23,7 +23,7 @@ import { ReviewModule } from './modules/review/review.module';
       isGlobal: true,
       load: [appConfig],
     }),
-    MongooseModule.forRoot(appConfig().database.url, {
+    MongooseModule.forRoot(appConfig().database.dev, {
       connectionName: 'mongo',
     }),
     ServeStaticModule.forRoot({
