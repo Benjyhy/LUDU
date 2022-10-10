@@ -3,7 +3,8 @@ import { registerAs } from '@nestjs/config';
 export default registerAs('app', () => ({
   port: process.env.PORT || 3000,
   database: {
-    url: process.env.DATABASE_URL,
+    dev: process.env.DATABASE_URL,
+    prod: process.env.DATABASE_URL_PRODUCTION,
   },
   auth: {
     jwtSecret: process.env.JWT_SECRET,

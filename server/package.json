@@ -18,9 +18,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "seed": "npx ts-node src/seeders/seed.ts",
+    "seed:refresh": "npx ts-node src/seeders/seed.ts --refresh",
+    "seed:drop": "npx ts-node src/seeders/seed.ts --drop"
   },
   "dependencies": {
+    "@faker-js/faker": "^7.5.0",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.0.0",
@@ -35,6 +39,7 @@
     "fs": "^0.0.1-security",
     "mongodb-memory-server": "^8.7.1",
     "mongoose": "^6.2.9",
+    "nestjs-seeder-impsdc": "^0.4.0",
     "passport": "^0.5.2",
     "passport-jwt": "4.0.0",
     "passport-local": "^1.0.0",
