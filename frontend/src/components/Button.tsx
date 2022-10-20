@@ -1,6 +1,6 @@
-import React from "react";
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
-import { InlineTextIcon } from "./InlineTextIcon";
+import React from 'react';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { InlineTextIcon } from './InlineTextIcon';
 
 export const Button = (props: any) => {
   // normalText | whiteTheme
@@ -8,7 +8,11 @@ export const Button = (props: any) => {
   return (
     <TouchableOpacity style={{ ...styles.button }} onPress={props.onPress}>
       {props.icon ? (
-        <InlineTextIcon icon={props.icon} text={props.text} />
+        <InlineTextIcon
+          icon={props.icon}
+          text={props.text}
+          inversed={props.inversed}
+        />
       ) : (
         <Text
           style={{ ...styles.text }}
@@ -24,19 +28,19 @@ export const Button = (props: any) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     height: 40,
     width: 140,
     borderRadius: 8,
     borderEndWidth: 2,
     borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 8,
   },
   text: {
-    color: "#000",
+    color: '#000',
     fontSize: 16,
-    fontFamily: "bold",
+    fontWeight: '800',
   },
 });

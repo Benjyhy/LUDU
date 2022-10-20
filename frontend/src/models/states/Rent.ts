@@ -1,5 +1,5 @@
-import { Copy } from "./Copy";
-import { User } from "./User";
+import { Copy } from './Copy';
+import { User } from './User';
 
 export interface Rent {
   _id: string;

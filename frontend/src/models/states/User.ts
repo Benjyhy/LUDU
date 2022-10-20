@@ -1,4 +1,4 @@
-import { Review } from "./Review";
+import { Review } from './Review';
 export declare enum ROLES {
   USER = 0,
   SELLER = 1,

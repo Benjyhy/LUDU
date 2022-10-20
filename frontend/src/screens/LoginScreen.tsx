@@ -1,34 +1,30 @@
-import { Spacer } from "native-base";
-import React, { useState } from "react";
-<<<<<<< HEAD
-import { View, Button, StyleSheet, Dimensions } from "react-native";
-=======
+import { Box, Spacer } from 'native-base';
+import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
   Dimensions,
   Text,
   TouchableOpacity,
-} from "react-native";
->>>>>>> 0b329ef (updating gitignore + setting up model)
-import { TextInput } from "react-native-element-textinput";
+} from 'react-native';
+import { TextInput } from 'react-native-element-textinput';
+import appRoutes from '../navigation/appRoutes/index';
+import { Button } from '../components/Button';
 
-const { width: ScreenWidth } = Dimensions.get("screen");
+const { width: ScreenWidth } = Dimensions.get('screen');
 
-export default function Login()  {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const register = async () => {
+export default function Login({ navigation }: any) {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const login = () => {
+    // navigation.navigate(appRoutes.TAB_NAVIGATOR);
     try {
-<<<<<<< HEAD
-=======
       console.log(email);
       console.log(password);
->>>>>>> 0b329ef (updating gitignore + setting up model)
       // here place your signup logic
-      console.log("user successfully signed up! ");
+      console.log('user successfully Login! ');
     } catch (err) {
-      console.log("error signing up: ", err);
+      console.log('error signing up: ', err);
     }
   };
 
@@ -41,8 +37,7 @@ export default function Login()  {
         labelStyle={styles.labelStyle}
         placeholderStyle={styles.placeholderStyle}
         textErrorStyle={styles.textErrorStyle}
-        label="TextInput"
-        placeholder="Placeholder"
+        label="Email"
         placeholderTextColor="gray"
         onChangeText={(text) => {
           setEmail(text);
@@ -56,17 +51,13 @@ export default function Login()  {
         placeholderStyle={styles.placeholderStyle}
         textErrorStyle={styles.textErrorStyle}
         label="Password"
-        placeholder="Placeholder"
         placeholderTextColor="gray"
         secureTextEntry
         onChangeText={(text) => {
           setPassword(text);
         }}
       />
-<<<<<<< HEAD
-      <Button title="Login" onPress={register} />
-=======
-      <Button onPress={login} text={"Login"} />
+      <Button onPress={login} text={'Login'} />
       <Box my={4}>
         <TouchableOpacity
           onPress={() => navigation.navigate(appRoutes.REGISTER_SCREEN)}
@@ -74,25 +65,24 @@ export default function Login()  {
           <Text style={styles.registerTextStyle}>Create an account</Text>
         </TouchableOpacity>
       </Box>
->>>>>>> 0b329ef (updating gitignore + setting up model)
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   input: {
     width: ScreenWidth * 0.8,
     height: 55,
-    marginBottom: 20, 
+    marginBottom: 20,
     paddingHorizontal: 12,
     borderRadius: 8,
-    backgroundColor: "white",
-    shadowColor: "#000",
+    backgroundColor: 'white',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -105,4 +95,7 @@ const styles = StyleSheet.create({
   labelStyle: { fontSize: 14 },
   placeholderStyle: { fontSize: 16 },
   textErrorStyle: { fontSize: 16 },
+  registerTextStyle: {
+    color: '#acabb0',
+  },
 });

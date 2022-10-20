@@ -1,5 +1,5 @@
-import { Copy } from "./Copy";
-import { Review } from "./Review";
+import { Copy } from './Copy';
+import { Review } from './Review';
 
 export interface Store {
   _id: string;

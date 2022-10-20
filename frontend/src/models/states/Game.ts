@@ -1,5 +1,5 @@
-import { Category } from "./Category";
-import { Review } from "./Review";
+import { Category } from './Category';
+import { Review } from './Review';
 
 export declare class Game {
   _id: string;

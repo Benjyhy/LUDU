@@ -1,33 +1,31 @@
-import { Box, Flex, Spacer } from "native-base";
-import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import { TextInput } from "react-native-element-textinput";
-import appRoutes from "../../navigation/appRoutes/index";
-import { Button } from "../../components/Button";
-const { width: ScreenWidth } = Dimensions.get("screen");
+import { Box, Flex } from 'native-base';
+import React, { useState } from 'react';
+import { StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
+import { TextInput } from 'react-native-element-textinput';
+import appRoutes from '../../navigation/appRoutes/index';
+import { Button } from '../../components/Button';
+import axios from '../../utils/axios';
+import { API_URL } from '@env';
+const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Register({ navigation }: any) {
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  // const lol = axios.get('lol');
+  console.log(API_URL);
 
   const register = async () => {
     navigation.navigate(appRoutes.REGISTER_PHONE_SCREEN);
     try {
-      console.log("user successfully signed up! ");
+      console.log('user successfully signed up! ');
     } catch (err) {
-      console.log("error signing up: ", err);
+      console.log('error signing up: ', err);
     }
   };
 
   return (
-    <Flex flex={1} justifyContent={"center"} alignItems={"center"}>
+    <Flex flex={1} justifyContent={'center'} alignItems={'center'}>
       <Box>
         <TextInput
           value={username}
@@ -69,15 +67,15 @@ export default function Register({ navigation }: any) {
             setPassword(text);
           }}
         />
-        <Box justifyContent={"flex-end"} alignItems={"flex-end"}>
+        <Box justifyContent={'flex-end'} alignItems={'flex-end'}>
           <Button
             onPress={register}
-            text={"Next"}
-            icon={"arrow-right-alt"}
+            text={'Next'}
+            icon={'arrow-right-alt'}
             inversed={true}
           />
         </Box>
-        <Box my={4} alignItems={"center"}>
+        <Box my={4} alignItems={'center'}>
           <TouchableOpacity
             onPress={() => navigation.navigate(appRoutes.LOGIN_SCREEN)}
           >
@@ -96,8 +94,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 12,
     borderRadius: 8,
-    backgroundColor: "white",
-    shadowColor: "#000",
+    backgroundColor: 'white',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -111,6 +109,6 @@ const styles = StyleSheet.create({
   placeholderStyle: { fontSize: 16 },
   textErrorStyle: { fontSize: 16 },
   registerTextStyle: {
-    color: "#acabb0",
+    color: '#acabb0',
   },
 });

@@ -1,6 +1,6 @@
-import { User } from "./User";
-import { Game } from "./Game";
-import { Store } from "./Store";
+import { User } from './User';
+import { Game } from './Game';
+import { Store } from './Store';
 
 export interface Review {
   _id: string;
