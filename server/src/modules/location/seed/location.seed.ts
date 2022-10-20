@@ -2,23 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Seeder, DataFactory } from 'nestjs-seeder-impsdc';
-import { Category } from '../../../schemas/category.schema';
+import { Location } from '../../../schemas/location.schema';
 
 @Injectable()
-export class CategorySeeder implements Seeder {
+export class LocationSeeder implements Seeder {
   constructor(
-    @InjectModel(Category.name) private readonly category: Model<Category>,
+    @InjectModel(Location.name) private readonly location: Model<Location>,
   ) {}
 
   async seed(): Promise<any> {
     // Generate 5 category .
-    const users = DataFactory.createForClass(Category).generate(5);
+    const locations = DataFactory.createForClass(Location).generate(5);
 
     // Insert into the database.
-    return this.category.insertMany(users);
+    return this.location.insertMany(locations);
   }
 
   async drop(): Promise<any> {
-    return this.category.deleteMany({});
+    return this.location.deleteMany({});
   }
 }
