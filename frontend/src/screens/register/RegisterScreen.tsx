@@ -11,16 +11,15 @@ import { TextInput } from "react-native-element-textinput";
 import appRoutes from "../../navigation/appRoutes/index";
 import { Button } from "../../components/Button";
 const { width: ScreenWidth } = Dimensions.get("screen");
-import { API_URL } from "@env";
 
 export default function Register({ navigation }: any) {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const register = () => {
-    navigation.navigate(appRoutes.SIGNUP_PHONE_SCREEN);
+
+  const register = async () => {
+    navigation.navigate(appRoutes.REGISTER_PHONE_SCREEN);
     try {
-      console.log(API_URL)
       console.log("user successfully signed up! ");
     } catch (err) {
       console.log("error signing up: ", err);
@@ -82,7 +81,7 @@ export default function Register({ navigation }: any) {
           <TouchableOpacity
             onPress={() => navigation.navigate(appRoutes.LOGIN_SCREEN)}
           >
-            <Text style={styles.registerTextStyle}>Create an account</Text>
+            <Text style={styles.registerTextStyle}>Already an account ?</Text>
           </TouchableOpacity>
         </Box>
       </Box>

@@ -1,6 +1,16 @@
 import { Spacer } from "native-base";
 import React, { useState } from "react";
+<<<<<<< HEAD
 import { View, Button, StyleSheet, Dimensions } from "react-native";
+=======
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+>>>>>>> 0b329ef (updating gitignore + setting up model)
 import { TextInput } from "react-native-element-textinput";
 
 const { width: ScreenWidth } = Dimensions.get("screen");
@@ -10,6 +20,11 @@ export default function Login()  {
   const [password, setPassword] = useState<string>("");
   const register = async () => {
     try {
+<<<<<<< HEAD
+=======
+      console.log(email);
+      console.log(password);
+>>>>>>> 0b329ef (updating gitignore + setting up model)
       // here place your signup logic
       console.log("user successfully signed up! ");
     } catch (err) {
@@ -48,7 +63,18 @@ export default function Login()  {
           setPassword(text);
         }}
       />
+<<<<<<< HEAD
       <Button title="Login" onPress={register} />
+=======
+      <Button onPress={login} text={"Login"} />
+      <Box my={4}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(appRoutes.REGISTER_SCREEN)}
+        >
+          <Text style={styles.registerTextStyle}>Create an account</Text>
+        </TouchableOpacity>
+      </Box>
+>>>>>>> 0b329ef (updating gitignore + setting up model)
     </View>
   );
 };

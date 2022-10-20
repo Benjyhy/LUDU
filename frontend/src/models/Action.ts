@@ -1,4 +1,4 @@
 export type Action<TPayload> = {
-    type: string;
-    payload: TPayload;
-}
+  type: string;
+  payload: TPayload;
+};
