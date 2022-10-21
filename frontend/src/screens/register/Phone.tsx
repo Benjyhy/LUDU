@@ -1,53 +1,82 @@
-import { Box, Flex, Spacer } from "native-base";
-import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import { TextInput } from "react-native-element-textinput";
-import appRoutes from "../../navigation/appRoutes/index";
-import { Button } from "../../components/Button";
-import { Icon } from "react-native-elements";
-const { width: ScreenWidth } = Dimensions.get("screen");
+import React, { useState, useContext, useEffect } from 'react';
+import { Box, Flex } from 'native-base';
+import { StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
+import { TextInput } from 'react-native-element-textinput';
+import appRoutes from '../../navigation/appRoutes/index';
+import { Button } from '../../components/Button';
+import { Icon } from 'react-native-elements';
+import { RegisterContext } from '../../utils/registerContext';
+import { isValidPhonenumber, isZipCodeValide } from '../../utils/regex';
+import { errorColor, primaryColor } from '../../utils/colors';
+const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Phone({ navigation }: any) {
-  const [phone, setPhone] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [city, setCity] = useState<string>("");
-  const [postcode, setPostcode] = useState<string>("");
-  // const goBack = () => navigation.goBack();
-  const Register = () => {
+  const [phone, setPhone] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [city, setCity] = useState<string>('');
+  const [postcode, setPostcode] = useState<string>('');
+  const [phoneError, setPhoneError] = useState<string>('');
+  const [zipError, setZipError] = useState<string>('');
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (isValidPhonenumber(phone) && phoneError.length !== 0) {
+        setPhoneError('Phone is invalid');
+      } else {
+        setPhoneError('');
+      }
+    }, 3000);
+  }, [phone]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (isZipCodeValide(postcode) && zipError.length !== 0) {
+        setZipError('Email is invalid');
+      } else {
+        setZipError('');
+      }
+    }, 3000);
+  }, [postcode]);
+
+  const isInputValid =
+    phone.length === 0 ||
+    address.length === 0 ||
+    city.length === 0 ||
+    postcode.length === 0 ||
+    phoneError.length !== 0 ||
+    zipError.length !== 0;
+
+  const { user, setUser } = useContext(RegisterContext);
+  const register = () => {
+    console.log(user);
+    const userProperties = {
+      phone: phone,
+      address: address,
+      city: city,
+      postcode: postcode,
+    };
+    setUser({ ...user, ...userProperties });
     navigation.navigate(appRoutes.REGISTER_AVATAR_SCREEN);
-    console.log("in")
-    try {
-      // here place your signup logic
-      console.log("user successfully signed up! ");
-    } catch (err) {
-      console.log("error signing up: ", err);
-    }
   };
 
   return (
     <Flex flex={1}>
-      <Flex height={"16"} pt={"10"} pl={"4"} direction={"row"}>
+      <Flex height={'16'} pt={'10'} pl={'4'} direction={'row'}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          style={{ backgroundColor: "transparent" }}
+          style={{ backgroundColor: 'transparent' }}
         >
-          <Icon size={24} name={"arrow-back"} />
+          <Icon size={24} name={'arrow-back'} />
         </TouchableOpacity>
       </Flex>
-      <Flex flex={4} justifyContent={"center"} alignItems={"center"}>
-        <Box mb={"4"}>
+      <Flex flex={4} justifyContent={'center'} alignItems={'center'}>
+        <Box mb={'4'}>
           <Text>Please register your phone and your postal address</Text>
         </Box>
         <Box>
           <TextInput
             value={phone}
-            style={styles.input}
+            style={[styles.input, phoneError.length !== 0 && styles.inputError]}
             inputStyle={styles.inputStyle}
             labelStyle={styles.labelStyle}
             placeholderStyle={styles.placeholderStyle}
@@ -67,7 +96,7 @@ export default function Phone({ navigation }: any) {
             placeholderStyle={styles.placeholderStyle}
             textErrorStyle={styles.textErrorStyle}
             label="Address"
-            placeholder="+33618273625"
+            placeholder=" 16 rue de Beaumont"
             placeholderTextColor="gray"
             onChangeText={(text) => {
               setAddress(text);
@@ -89,25 +118,37 @@ export default function Phone({ navigation }: any) {
           />
           <TextInput
             value={postcode}
-            style={styles.input}
+            style={[styles.input, zipError.length !== 0 && styles.inputError]}
             inputStyle={styles.inputStyle}
             labelStyle={styles.labelStyle}
             placeholderStyle={styles.placeholderStyle}
             textErrorStyle={styles.textErrorStyle}
             label="Postcode"
-            placeholder="78600"
+            placeholder="59000"
             placeholderTextColor="gray"
             onChangeText={(text) => {
               setPostcode(text);
             }}
           />
-          <Box justifyContent={"flex-end"} alignItems={"flex-end"}>
+          <Box
+            justifyContent={'flex-end'}
+            alignItems={'flex-end'}
+            style={{
+              opacity: isInputValid ? 0.6 : 1,
+            }}
+          >
             <Button
-              onPress={Register}
-              text={"Next"}
-              icon={"arrow-right-alt"}
+              onPress={register}
+              text={'Next'}
+              icon={'arrow-right-alt'}
               inversed={true}
+              // disable={isInputValid}
+              background={primaryColor}
             />
+          </Box>
+          <Box justifyContent={'center'} alignItems={'center'}>
+            <Text style={{ color: errorColor }}>{phoneError}</Text>
+            <Text style={{ color: errorColor }}>{zipError}</Text>
           </Box>
         </Box>
       </Flex>
@@ -122,8 +163,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 12,
     borderRadius: 8,
-    backgroundColor: "white",
-    shadowColor: "#000",
+    backgroundColor: 'white',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -131,12 +172,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 2,
+    borderWidth: 1,
+  },
+  inputError: {
+    borderColor: errorColor,
   },
   inputStyle: { fontSize: 16 },
-  labelStyle: { fontSize: 14 },
-  placeholderStyle: { fontSize: 16 },
-  textErrorStyle: { fontSize: 16 },
+  labelStyle: { fontSize: 14, color: 'gray' },
+  placeholderStyle: { fontSize: 16, color: 'gray' },
+  textErrorStyle: { fontSize: 16, color: errorColor },
   registerTextStyle: {
-    color: "#acabb0",
+    color: '#acabb0',
   },
 });

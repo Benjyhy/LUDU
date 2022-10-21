@@ -1,23 +1,19 @@
-import { Box, Flex, Spacer } from 'native-base';
-import React, { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useState, useContext } from 'react';
+import { Box, Flex } from 'native-base';
+import { StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-element-textinput';
 import appRoutes from '../../navigation/appRoutes/index';
 import { Button } from '../../components/Button';
 import { Icon } from 'react-native-elements';
+import { RegisterContext } from '../../utils/registerContext';
 const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Avatar({ navigation }: any) {
   const [avatar, setAvatar] = useState<string>('');
+  const { user, setUser } = useContext(RegisterContext);
+  console.log(user);
   const Register = () => {
     navigation.navigate(appRoutes.TAB_NAVIGATOR);
-    console.log('in');
     try {
       // here place your signup logic
       console.log('user successfully signed up! ');

@@ -1,5 +1,5 @@
-import { Box, Spacer } from 'native-base';
 import React, { useState } from 'react';
+import { Box } from 'native-base';
 import {
   View,
   StyleSheet,
@@ -10,6 +10,7 @@ import {
 import { TextInput } from 'react-native-element-textinput';
 import appRoutes from '../navigation/appRoutes/index';
 import { Button } from '../components/Button';
+import { errorColor, primaryColor } from '../utils/colors';
 
 const { width: ScreenWidth } = Dimensions.get('screen');
 
@@ -57,7 +58,7 @@ export default function Login({ navigation }: any) {
           setPassword(text);
         }}
       />
-      <Button onPress={login} text={'Login'} />
+      <Button onPress={login} text={'Login'} background={primaryColor} />
       <Box my={4}>
         <TouchableOpacity
           onPress={() => navigation.navigate(appRoutes.REGISTER_SCREEN)}

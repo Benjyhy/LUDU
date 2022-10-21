@@ -1,19 +1,17 @@
-import React, { useEffect, createContext, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import appRoutes from './appRoutes';
 import TabsStack from './TabsStack';
 import LoadingScreen from '../screens/LoadingScreen';
 import LoginScreen from '../screens/LoginScreen';
-
 import RegisterScreen from '../screens/register/RegisterScreen';
 import { useDispatch } from 'react-redux';
 import { setCurrentLocation } from '../store/actions/currentLocationAction';
 import * as Location from 'expo-location';
 import Phone from '../screens/register/Phone';
 import Avatar from '../screens/register/Avatar';
-import { User } from '../models/states/User';
-
-const RegisterContext = createContext<User | null>(null);
+import { RegisterContext } from '../utils/registerContext';
+import { UserCreate } from '../models/states/User';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,10 +28,13 @@ const StackNav = () => {
       }
     })();
   }, []);
+
+  const [user, setUser] = useState<UserCreate | null>(null);
+
   return (
-    <RegisterContext.Provider value={null}>
+    <RegisterContext.Provider value={{ user, setUser }}>
       <Stack.Navigator
-        initialRouteName={appRoutes.LOGIN_SCREEN}
+        initialRouteName={appRoutes.REGISTER_AVATAR_SCREEN}
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen

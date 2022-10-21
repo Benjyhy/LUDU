@@ -19,16 +19,38 @@ export type Credentials = {
   //   oauth: Oauth;
 };
 
-export interface User {
-  _id: string;
-  username: string;
-  credentials: Credentials;
-  role: ROLES;
-  phone: number;
-  avatar: string;
-  address: string;
-  city: string;
-  postCode: number;
-  store: string;
-  reviews: Review[];
+export interface UserCreate {
+  username?: string;
+  credentials?: Credentials;
+  role?: ROLES;
+  phone?: string | number;
+  avatar?: string;
+  address?: string;
+  city?: string;
+  postCode?: string | number;
 }
+
+export interface User extends UserCreate {
+  _id: string;
+  phone: number;
+  postalCode: number;
+  store: string | null;
+  reviews: Review[] | [];
+}
+
+export const InitalUser = {
+  username: '',
+  credentials: {
+    local: {
+      email: '',
+      password: '',
+      emailVerified: false,
+    },
+  },
+  role: ROLES.USER,
+  phone: '',
+  address: '',
+  city: '',
+  postCode: '',
+  avatar: '',
+};
