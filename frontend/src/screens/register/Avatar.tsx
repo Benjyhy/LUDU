@@ -1,25 +1,88 @@
 import React, { useState, useContext } from 'react';
 import { Box, Flex } from 'native-base';
-import { StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
-import { TextInput } from 'react-native-element-textinput';
+import {
+  StyleSheet,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import appRoutes from '../../navigation/appRoutes/index';
 import { Button } from '../../components/Button';
 import { Icon } from 'react-native-elements';
 import { RegisterContext } from '../../utils/registerContext';
+import * as ImagePicker from 'expo-image-picker';
+import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types';
+import axios from '../../utils/axios';
+import { primaryColor } from '../../utils/colors';
+import { useSelector } from 'react-redux';
+import { MainAppState } from '../../models/states';
 const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Avatar({ navigation }: any) {
-  const [avatar, setAvatar] = useState<string>('');
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+  // const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+
+  const userState = useSelector((state: MainAppState) => state.user);
+  const isInputInValid = false;
+
   const { user, setUser } = useContext(RegisterContext);
-  console.log(user);
-  const Register = () => {
-    navigation.navigate(appRoutes.TAB_NAVIGATOR);
+  const register = async () => {
+    const newUser = { ...user, ...{ role: 'USER', avatar: image } };
+    console.log(JSON.stringify(newUser));
     try {
-      // here place your signup logic
-      console.log('user successfully signed up! ');
-    } catch (err) {
-      console.log('error signing up: ', err);
-    }
+      const res = await axios.post('/local/register', newUser);
+      const token = res.data.token;
+      const user = res.data.user;
+      // navigation.navigate(appRoutes.TAB_NAVIGATOR);
+    } catch (err: any) {}
+  };
+
+  const HandleImageSelect = () => {
+    const pickImage = async () => {
+      setPreview(null);
+      // No permissions request is necessary for launching the image library
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 4],
+        quality: 1,
+        base64: true,
+      });
+
+      if (!result.cancelled) {
+        const { uri, base64 } = result as ImageInfo;
+        setImage(base64);
+        setPreview(uri);
+      }
+    };
+    return (
+      <Flex m={4} justifyContent={'center'} alignItems={'center'} height={250}>
+        {!preview && (
+          <Button
+            onPress={pickImage}
+            text={'Pick an image'}
+            background={'white'}
+            icon={'perm-media'}
+          />
+        )}
+        {preview && (
+          <>
+            <Image
+              source={{ uri: preview }}
+              style={{ width: 200, height: 200, marginBottom: 4 }}
+            />
+            <Button
+              onPress={pickImage}
+              text={'Select an other'}
+              background={'white'}
+              icon={'perm-media'}
+            />
+          </>
+        )}
+      </Flex>
+    );
   };
 
   return (
@@ -36,28 +99,32 @@ export default function Avatar({ navigation }: any) {
         <Box mb={'4'}>
           <Text>Add an avatar to your profile</Text>
         </Box>
-        <Box>
-          <TextInput
-            value={avatar}
-            style={styles.input}
-            inputStyle={styles.inputStyle}
-            labelStyle={styles.labelStyle}
-            placeholderStyle={styles.placeholderStyle}
-            textErrorStyle={styles.textErrorStyle}
-            label="Username"
-            placeholderTextColor="gray"
-            onChangeText={(text) => {
-              setAvatar(text);
-            }}
-          />
-          <Box justifyContent={'flex-end'} alignItems={'flex-end'}>
+        <HandleImageSelect />
+        <Box
+          justifyContent={preview ? 'center' : 'flex-end'}
+          alignItems={preview ? 'center' : 'flex-end'}
+          style={{
+            opacity: isInputInValid ? 0.6 : 1,
+            width: '100%',
+          }}
+        >
+          {preview && (
             <Button
-              onPress={Register}
-              text={'Next'}
+              onPress={register}
+              text={'Valider'}
+              inversed={true}
+              background={primaryColor}
+            />
+          )}
+          {!preview && (
+            <Button
+              onPress={register}
+              text={'Later'}
               icon={'arrow-right-alt'}
               inversed={true}
+              background={primaryColor}
             />
-          </Box>
+          )}
         </Box>
       </Flex>
     </Flex>

@@ -4,11 +4,6 @@ export declare enum ROLES {
   SELLER = 1,
   ADMIN = 2,
 }
-// export declare class Oauth {
-//   token: string;
-//   email: string;
-//   name: string;
-// }
 export type LocalAuth = {
   email: string;
   password: string;
@@ -16,7 +11,6 @@ export type LocalAuth = {
 };
 export type Credentials = {
   local: LocalAuth;
-  //   oauth: Oauth;
 };
 
 export interface UserCreate {
@@ -38,6 +32,11 @@ export interface User extends UserCreate {
   reviews: Review[] | [];
 }
 
+export interface UserState {
+  token: string;
+  user: User;
+}
+
 export const InitalUser = {
   username: '',
   credentials: {
@@ -47,7 +46,7 @@ export const InitalUser = {
       emailVerified: false,
     },
   },
-  role: ROLES.USER,
+  // role: ROLES.USER,
   phone: '',
   address: '',
   city: '',

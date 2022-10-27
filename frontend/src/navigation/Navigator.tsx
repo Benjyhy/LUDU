@@ -34,7 +34,7 @@ const StackNav = () => {
   return (
     <RegisterContext.Provider value={{ user, setUser }}>
       <Stack.Navigator
-        initialRouteName={appRoutes.REGISTER_AVATAR_SCREEN}
+        initialRouteName={appRoutes.LOGIN_SCREEN}
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen

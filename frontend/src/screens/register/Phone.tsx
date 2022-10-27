@@ -20,7 +20,7 @@ export default function Phone({ navigation }: any) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (isValidPhonenumber(phone) && phoneError.length !== 0) {
+      if (!isValidPhonenumber(phone) && phone.length !== 0) {
         setPhoneError('Phone is invalid');
       } else {
         setPhoneError('');
@@ -30,15 +30,15 @@ export default function Phone({ navigation }: any) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (isZipCodeValide(postcode) && zipError.length !== 0) {
-        setZipError('Email is invalid');
+      if (isZipCodeValide(postcode) && postcode.length !== 0) {
+        setZipError('PostCode is invalid');
       } else {
         setZipError('');
       }
     }, 3000);
   }, [postcode]);
 
-  const isInputValid =
+  const isInputInValid =
     phone.length === 0 ||
     address.length === 0 ||
     city.length === 0 ||
@@ -48,12 +48,11 @@ export default function Phone({ navigation }: any) {
 
   const { user, setUser } = useContext(RegisterContext);
   const register = () => {
-    console.log(user);
     const userProperties = {
       phone: phone,
       address: address,
       city: city,
-      postcode: postcode,
+      postCode: postcode,
     };
     setUser({ ...user, ...userProperties });
     navigation.navigate(appRoutes.REGISTER_AVATAR_SCREEN);
@@ -82,7 +81,7 @@ export default function Phone({ navigation }: any) {
             placeholderStyle={styles.placeholderStyle}
             textErrorStyle={styles.textErrorStyle}
             label="Phone"
-            placeholder="+33618273625"
+            placeholder="0618273625"
             placeholderTextColor="gray"
             onChangeText={(text) => {
               setPhone(text);
@@ -134,7 +133,7 @@ export default function Phone({ navigation }: any) {
             justifyContent={'flex-end'}
             alignItems={'flex-end'}
             style={{
-              opacity: isInputValid ? 0.6 : 1,
+              opacity: isInputInValid ? 0.6 : 1,
             }}
           >
             <Button
@@ -142,7 +141,7 @@ export default function Phone({ navigation }: any) {
               text={'Next'}
               icon={'arrow-right-alt'}
               inversed={true}
-              // disable={isInputValid}
+              disable={isInputInValid}
               background={primaryColor}
             />
           </Box>

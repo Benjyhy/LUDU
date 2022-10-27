@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '@env';
-console.log(API_URL);
+import { apiErrorResponse } from '../models/apiResponse';
 const api = axios.create({
   baseURL: API_URL,
 });
@@ -19,12 +19,12 @@ const api = axios.create({
 
 api.interceptors.response.use(
   (response: any) => {
-    // if (response.status === 401) {
-    // }
     return response;
   },
   (error: any) => {
-    return Promise.reject(error.message);
+    console.log('RESPONSE');
+    console.log(error.response.data.message);
+    return Promise.reject(error.response.data.message);
   },
 );
 

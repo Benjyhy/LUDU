@@ -9,19 +9,9 @@ interface IInlineTextIcon {
   icon?: string;
   background?: string;
 }
-export const InlineTextIcon = ({
-  text,
-  icon,
-  inversed,
-  background,
-}: IInlineTextIcon) => {
+export const InlineTextIcon = ({ text, icon, inversed }: IInlineTextIcon) => {
   return (
-    <Box
-      style={[
-        styles.inlineText,
-        { backgroundColor: background ? background : '' },
-      ]}
-    >
+    <Box style={[styles.inlineText]}>
       {inversed ? (
         <>
           <Text style={{ marginRight: 8 }}>{text}</Text>

@@ -23,6 +23,7 @@ const config = {
           'Allow Ludu to use your location',
         NSLocationWhenInUseUsageDescription: 'Allow Ludu to use your location',
         UIBackgroundModes: ['location', 'fetch'],
+        NSPhotoLibraryUsageDescription: 'Allow Ludu to use your photos',
       },
     },
     android: {
@@ -36,7 +37,7 @@ const config = {
           apiKey: '',
         },
       },
-      permissions: ['LOCATION'],
+      permissions: ['LOCATION', 'READ_EXTERNAL_STORAGE'],
     },
     web: {
       favicon: './assets/favicon.png',

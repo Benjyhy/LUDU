@@ -54,7 +54,7 @@ export default function Register({ navigation }: any) {
 
   const { user, setUser } = useContext(RegisterContext);
 
-  const isInputValid =
+  const isInputInValid =
     username.length === 0 ||
     email.length === 0 ||
     password.length === 0 ||
@@ -125,7 +125,7 @@ export default function Register({ navigation }: any) {
           justifyContent={'flex-end'}
           alignItems={'flex-end'}
           style={{
-            opacity: isInputValid ? 0.6 : 1,
+            opacity: isInputInValid ? 0.6 : 1,
           }}
         >
           <Button
@@ -133,7 +133,7 @@ export default function Register({ navigation }: any) {
             text={'Next'}
             icon={'arrow-right-alt'}
             inversed={true}
-            // disable={isInputValid}
+            disable={isInputInValid}
             background={primaryColor}
           />
         </Box>
