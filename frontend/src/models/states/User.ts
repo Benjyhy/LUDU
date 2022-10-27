@@ -32,11 +32,6 @@ export interface User extends UserCreate {
   reviews: Review[] | [];
 }
 
-export interface UserState {
-  token: string;
-  user: User;
-}
-
 export const InitalUser = {
   username: '',
   credentials: {

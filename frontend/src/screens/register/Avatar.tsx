@@ -7,7 +7,10 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import { Spinner } from 'native-base';
 import appRoutes from '../../navigation/appRoutes/index';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/actions/userAction';
 import { Button } from '../../components/Button';
 import { Icon } from 'react-native-elements';
 import { RegisterContext } from '../../utils/registerContext';
@@ -15,28 +18,31 @@ import * as ImagePicker from 'expo-image-picker';
 import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types';
 import axios from '../../utils/axios';
 import { primaryColor } from '../../utils/colors';
-import { useSelector } from 'react-redux';
-import { MainAppState } from '../../models/states';
 const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Avatar({ navigation }: any) {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { user } = useContext(RegisterContext);
+  const dispatch = useDispatch();
   // const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
-  const userState = useSelector((state: MainAppState) => state.user);
-  const isInputInValid = false;
-
-  const { user, setUser } = useContext(RegisterContext);
   const register = async () => {
+    setLoading(true);
     const newUser = { ...user, ...{ role: 'USER', avatar: image } };
-    console.log(JSON.stringify(newUser));
     try {
       const res = await axios.post('/local/register', newUser);
-      const token = res.data.token;
-      const user = res.data.user;
-      // navigation.navigate(appRoutes.TAB_NAVIGATOR);
+      const token = res.data.user.token;
+      const id = res.data.user._id;
+      const username = res.data.user.username;
+      const avatar = res.data.user.avatar;
+      const role = res.data.user.role;
+      const email = res.data.user.credentials.local.email;
+      dispatch(setUser({ token, id, username, avatar, role, email }));
     } catch (err: any) {}
+    setLoading(false);
+    navigation.navigate(appRoutes.TAB_NAVIGATOR);
   };
 
   const HandleImageSelect = () => {
@@ -96,36 +102,44 @@ export default function Avatar({ navigation }: any) {
         </TouchableOpacity>
       </Flex>
       <Flex flex={4} justifyContent={'center'} alignItems={'center'}>
-        <Box mb={'4'}>
-          <Text>Add an avatar to your profile</Text>
-        </Box>
-        <HandleImageSelect />
-        <Box
-          justifyContent={preview ? 'center' : 'flex-end'}
-          alignItems={preview ? 'center' : 'flex-end'}
-          style={{
-            opacity: isInputInValid ? 0.6 : 1,
-            width: '100%',
-          }}
-        >
-          {preview && (
-            <Button
-              onPress={register}
-              text={'Valider'}
-              inversed={true}
-              background={primaryColor}
-            />
-          )}
-          {!preview && (
-            <Button
-              onPress={register}
-              text={'Later'}
-              icon={'arrow-right-alt'}
-              inversed={true}
-              background={primaryColor}
-            />
-          )}
-        </Box>
+        {!loading && (
+          <>
+            <Box mb={'4'}>
+              <Text>Add an avatar to your profile</Text>
+            </Box>
+            <HandleImageSelect />
+            <Box
+              justifyContent={preview ? 'center' : 'flex-end'}
+              alignItems={preview ? 'center' : 'flex-end'}
+              style={{
+                width: '100%',
+              }}
+            >
+              {preview && (
+                <Button
+                  onPress={register}
+                  text={'Valider'}
+                  inversed={true}
+                  background={primaryColor}
+                />
+              )}
+              {!preview && (
+                <Button
+                  onPress={register}
+                  text={'Later'}
+                  icon={'arrow-right-alt'}
+                  inversed={true}
+                  background={primaryColor}
+                />
+              )}
+            </Box>
+          </>
+        )}
+        {loading && (
+          <>
+            <Spinner />
+          </>
+        )}
       </Flex>
     </Flex>
   );

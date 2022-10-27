@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Heading,
   ScrollView,
@@ -9,14 +9,14 @@ import {
   Image,
   Box,
   VStack,
-} from "native-base";
-import { Icon } from "react-native-elements";
-import gameData from "../../mocks/gameMockData";
-import GameReviewCard from "../../components/GameReviewCard";
-import GameCard from "../../components/GameCard";
-import { TouchableOpacity } from "react-native";
-import { InlineTextIcon } from "../../components/InlineTextIcon";
-import { Button } from "../../components/Button";
+} from 'native-base';
+import { Icon } from 'react-native-elements';
+import gameData from '../../mocks/gameMockData';
+import GameReviewCard from '../../components/GameReviewCard';
+import GameCard from '../../components/GameCard';
+import { TouchableOpacity } from 'react-native';
+import { InlineTextIcon } from '../../components/InlineTextIcon';
+import { Button } from '../../components/Button';
 
 const GameScreen = ({ route, navigation }: any) => {
   const game = gameData.find((game) => game.id === route.params.item.id);
@@ -32,26 +32,25 @@ const GameScreen = ({ route, navigation }: any) => {
   }
   return (
     <ScrollView mx={2}>
-
       {/* display title and button to like review and shares */}
-      <Flex direction="row" alignItems={"center"}>
+      <Flex direction="row" alignItems={'center'}>
         <Heading fontSize={26} size="md">
           {game.gameName}
         </Heading>
         <Spacer />
         <Flex direction="row">
           <Box>
-            <TouchableOpacity onPress={() => console.log("press like")}>
+            <TouchableOpacity onPress={() => console.log('press like')}>
               <Icon size={24} name="favorite-border" />
             </TouchableOpacity>
           </Box>
           <Box mx={2}>
-            <TouchableOpacity onPress={() => console.log("press comment")}>
+            <TouchableOpacity onPress={() => console.log('press comment')}>
               <Icon size={24} name="chat-bubble-outline" />
             </TouchableOpacity>
           </Box>
           <Box>
-            <TouchableOpacity onPress={() => console.log("press share")}>
+            <TouchableOpacity onPress={() => console.log('press share')}>
               <Icon size={24} name="share" />
             </TouchableOpacity>
           </Box>
@@ -61,13 +60,13 @@ const GameScreen = ({ route, navigation }: any) => {
       {/* Display likes reviews and share number*/}
       <Flex direction="row" mb="2">
         <Box>
-          <InlineTextIcon icon={"favorite"} text={"22 Likes"} />
+          <InlineTextIcon icon={'favorite'} text={'22 Likes'} />
         </Box>
         <Box mx={8}>
-          <InlineTextIcon icon={"chat-bubble"} text={"4 Reviews"} />
+          <InlineTextIcon icon={'chat-bubble'} text={'4 Reviews'} />
         </Box>
         <Box>
-          <InlineTextIcon icon={"share"} text={"12 Shares"} />
+          <InlineTextIcon icon={'share'} text={'12 Shares'} />
         </Box>
       </Flex>
 
@@ -85,14 +84,14 @@ const GameScreen = ({ route, navigation }: any) => {
         <View
           style={{
             flex: 1,
-            flexDirection: "row",
-            flexWrap: "wrap",
+            flexDirection: 'row',
+            flexWrap: 'wrap',
           }}
           mx={4}
         >
           {game.tags.map((tag: string, index) => (
             <Text
-              style={{ backgroundColor: "black", color: "white" }}
+              style={{ backgroundColor: 'black', color: 'white' }}
               paddingLeft="2"
               paddingRight="2"
               borderRadius={20}
@@ -107,21 +106,28 @@ const GameScreen = ({ route, navigation }: any) => {
               {tag}
             </Text>
           ))}
-          <Text ml="1" fontSize={12}>{game.description}</Text>
+          <Text ml="1" fontSize={12}>
+            {game.description}
+          </Text>
         </View>
       </Flex>
 
       {/* render 'play now' and 'book' button */}
-      <Flex direction="row" mb="4" width={"100%"} justifyContent={"space-around"}>
+      <Flex
+        direction="row"
+        mb="4"
+        width={'100%'}
+        justifyContent={'space-around'}
+      >
         <Button
-          icon={"event"}
-          onPress={(() => console.log("Play now"))}
-          text={"Play now"}
+          icon={'event'}
+          onPress={() => console.log('Play now')}
+          text={'Play now'}
         />
         <Button
-          icon={"event"}
-          onPress={(() => console.log("Book"))}
-          text={"Book"}
+          icon={'event'}
+          onPress={() => console.log('Book')}
+          text={'Book'}
         />
       </Flex>
 
@@ -131,7 +137,7 @@ const GameScreen = ({ route, navigation }: any) => {
       </Heading>
       <ScrollView horizontal>
         {game.reviews.map((review, index) => (
-          <GameReviewCard item={review} key={index} direction={"row"} />
+          <GameReviewCard item={review} key={index} direction={'row'} />
         ))}
       </ScrollView>
 
@@ -140,9 +146,15 @@ const GameScreen = ({ route, navigation }: any) => {
         Game alike
       </Heading>
       <ScrollView horizontal>
-        {gameData.map((game: any, index) => <GameCard item={game} navigation={navigation} direction="row" key={game.id} />)}
+        {gameData.map((game: any, index) => (
+          <GameCard
+            item={game}
+            navigation={navigation}
+            direction="row"
+            key={game.id}
+          />
+        ))}
       </ScrollView>
-
     </ScrollView>
   );
 };

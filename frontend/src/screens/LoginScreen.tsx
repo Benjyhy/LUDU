@@ -7,65 +7,98 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import { Spinner } from 'native-base';
 import { TextInput } from 'react-native-element-textinput';
 import appRoutes from '../navigation/appRoutes/index';
 import { Button } from '../components/Button';
 import { errorColor, primaryColor } from '../utils/colors';
+import axios from '../utils/axios';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/actions/userAction';
 
 const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Login({ navigation }: any) {
-  const [email, setEmail] = useState<string>('');
+  const [usernameInput, setUsernameInput] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const login = () => {
-    // navigation.navigate(appRoutes.TAB_NAVIGATOR);
+  const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const login = async () => {
+    setLoading(true);
     try {
-      console.log(email);
-      console.log(password);
-      // here place your signup logic
-      console.log('user successfully Login! ');
+      const res = await axios.post('/local/login', {
+        username: usernameInput,
+        password: password,
+      });
+      const token = res.data.user.token;
+      const id = res.data.user._id;
+      const username = res.data.user.username;
+      const avatar = res.data.user.avatar;
+      const role = res.data.user.role;
+      const email = res.data.user.credentials.local.email;
+      dispatch(setUser({ token, id, username, avatar, role, email }));
     } catch (err) {
-      console.log('error signing up: ', err);
+      console.log(err);
+      setError(true);
     }
+    setLoading(false);
+    navigation.navigate(appRoutes.TAB_NAVIGATOR);
   };
 
   return (
     <View style={styles.container}>
-      <TextInput
-        value={email}
-        style={styles.input}
-        inputStyle={styles.inputStyle}
-        labelStyle={styles.labelStyle}
-        placeholderStyle={styles.placeholderStyle}
-        textErrorStyle={styles.textErrorStyle}
-        label="Email"
-        placeholderTextColor="gray"
-        onChangeText={(text) => {
-          setEmail(text);
-        }}
-      />
-      <TextInput
-        value={password}
-        style={styles.input}
-        inputStyle={styles.inputStyle}
-        labelStyle={styles.labelStyle}
-        placeholderStyle={styles.placeholderStyle}
-        textErrorStyle={styles.textErrorStyle}
-        label="Password"
-        placeholderTextColor="gray"
-        secureTextEntry
-        onChangeText={(text) => {
-          setPassword(text);
-        }}
-      />
-      <Button onPress={login} text={'Login'} background={primaryColor} />
-      <Box my={4}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate(appRoutes.REGISTER_SCREEN)}
-        >
-          <Text style={styles.registerTextStyle}>Create an account</Text>
-        </TouchableOpacity>
-      </Box>
+      {!loading && (
+        <>
+          <TextInput
+            value={usernameInput}
+            style={styles.input}
+            inputStyle={styles.inputStyle}
+            labelStyle={styles.labelStyle}
+            placeholderStyle={styles.placeholderStyle}
+            textErrorStyle={styles.textErrorStyle}
+            label="Email"
+            placeholderTextColor="gray"
+            onChangeText={(text) => {
+              setUsernameInput(text);
+            }}
+          />
+          <TextInput
+            value={password}
+            style={styles.input}
+            inputStyle={styles.inputStyle}
+            labelStyle={styles.labelStyle}
+            placeholderStyle={styles.placeholderStyle}
+            textErrorStyle={styles.textErrorStyle}
+            label="Password"
+            placeholderTextColor="gray"
+            secureTextEntry
+            onChangeText={(text) => {
+              setPassword(text);
+            }}
+          />
+          <Button onPress={login} text={'Login'} background={primaryColor} />
+          <Box my={4}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate(appRoutes.REGISTER_SCREEN)}
+            >
+              <Text style={styles.registerTextStyle}>Create an account</Text>
+            </TouchableOpacity>
+          </Box>
+          <Box justifyContent={'center'} alignItems={'center'}>
+            {error && (
+              <>
+                <Text style={{ color: errorColor }}>Wrong credentials</Text>
+              </>
+            )}
+          </Box>
+        </>
+      )}
+      {loading && (
+        <>
+          <Spinner />
+        </>
+      )}
     </View>
   );
 }
