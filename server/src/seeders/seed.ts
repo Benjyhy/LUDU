@@ -12,6 +12,10 @@ import { Store, StoreSchema } from '../schemas/store.schema';
 import { StoreSeeder } from '../modules/store/seed/store.seed';
 import { User, UserSchema } from '../schemas/user.schema';
 import { UserSeeder } from '../modules/user/seed/user.seed';
+import { Copy, CopySchema } from '../schemas/copy.schema';
+import { CopySeeder } from '../modules/copy/seed/copy.seed';
+import { RentSeeder } from '../modules/rent/seed/rent.seed';
+import { Rent, RentSchema } from '../schemas/rent.schema';
 
 seeder({
   imports: [
@@ -29,6 +33,16 @@ seeder({
       { name: Location.name, schema: LocationSchema },
       { name: Store.name, schema: StoreSchema },
       { name: User.name, schema: UserSchema },
+      { name: Copy.name, schema: CopySchema },
+      { name: Rent.name, schema: RentSchema },
     ]),
   ],
-}).run([CategorySeeder, GameSeeder, LocationSeeder, StoreSeeder, UserSeeder]);
+}).run([
+  CategorySeeder,
+  GameSeeder,
+  LocationSeeder,
+  StoreSeeder,
+  UserSeeder,
+  CopySeeder,
+  RentSeeder,
+]);
