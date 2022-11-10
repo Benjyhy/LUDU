@@ -1,3 +1,7 @@
+import { hashPassword } from '../helpers/Bcrypt';
+
+const password = hashPassword('Default123');
+
 export const userName = ['William', 'Paul', 'Bastien', 'Lena', 'Corina'];
 
 export const userEmail = [
@@ -30,35 +34,35 @@ export const userCredentiel = [
   {
     local: {
       email: 'user1@gmail.com',
-      password: 'Default123',
+      password: password,
       emailVerified: false,
     },
   },
   {
     local: {
       email: 'user2@gmail.com',
-      password: 'Default123',
+      password: password,
       emailVerified: false,
     },
   },
   {
     local: {
       email: 'user3@gmail.com',
-      password: 'Default123',
+      password: password,
       emailVerified: false,
     },
   },
   {
     local: {
       email: 'user4@gmail.com',
-      password: 'Default123',
+      password: password,
       emailVerified: false,
     },
   },
   {
     local: {
       email: 'user5@gmail.com',
-      password: 'Default123',
+      password: password,
       emailVerified: false,
     },
   },

@@ -3,17 +3,20 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Seeder, DataFactory } from 'nestjs-seeder-impsdc';
 import { User } from '../../../schemas/user.schema';
+import { hashPassword } from '../../../helpers/Bcrypt';
 
 @Injectable()
 export class UserSeeder implements Seeder {
   constructor(@InjectModel(User.name) private readonly user: Model<User>) {}
 
   async seed(): Promise<any> {
+    const password = hashPassword('Default123');
+
     // Generate 5 users .
     const users = DataFactory.createForClass(User).generate(5, {
       credentials: {
         local: {
-          password: 'Default123',
+          password: password,
           emailVerified: false,
         },
       },

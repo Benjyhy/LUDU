@@ -35,11 +35,11 @@ export class Oauth {
 
 export class LocalAuth {
   @IsEmail()
-  @Factory(() => userEmail.shift())
+  /* @Factory(() => userEmail.shift())*/
   @Prop({ unique: true })
   email: string;
 
-  @Factory((faker, ctx) => ctx.password)
+  /*@Factory((faker, ctx) => ctx.password)*/
   @Prop({
     type: String,
     required: true,
@@ -50,7 +50,7 @@ export class LocalAuth {
   password: string;
 
   @Prop()
-  @Factory((faker, ctx) => ctx.emailVerified)
+  /*@Factory((faker, ctx) => ctx.emailVerified)*/
   emailVerified: boolean;
 }
 
