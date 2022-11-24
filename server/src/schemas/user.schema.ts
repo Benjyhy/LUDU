@@ -4,14 +4,7 @@ import { IsEmail } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { hashPassword } from '../helpers/Bcrypt';
 import { Review } from './review.schema';
-import {
-  userPhone,
-  userAddress,
-  userEmail,
-  userName,
-  userCity,
-  userCredentiel,
-} from '../seeders/user.data';
+import { cityData, phoneData, addressData } from '../seeders/principal.data';
 import { Factory } from 'nestjs-seeder-impsdc';
 
 export enum ROLES {
@@ -35,11 +28,10 @@ export class Oauth {
 
 export class LocalAuth {
   @IsEmail()
-  /* @Factory(() => userEmail.shift())*/
   @Prop({ unique: true })
   email: string;
 
-  /*@Factory((faker, ctx) => ctx.password)*/
+  @Factory((faker, ctx) => ctx.password)
   @Prop({
     type: String,
     required: true,
@@ -50,12 +42,13 @@ export class LocalAuth {
   password: string;
 
   @Prop()
-  /*@Factory((faker, ctx) => ctx.emailVerified)*/
+  @Factory((faker, ctx) => ctx.emailVerified)
   emailVerified: boolean;
 }
 
 export class Credentials {
   @Prop({ type: LocalAuth, select: false })
+  @Factory((faker, ctx) => ctx.local)
   local: LocalAuth;
 
   @Prop({ type: Oauth })
@@ -71,15 +64,15 @@ export class User {
   @Prop({ unique: true, required: true })
   username: string;
 
-  @Factory(() => userCredentiel.shift())
   @Prop({ type: Credentials })
+  @Factory((faker, ctx) => ctx.credentials)
   credentials: Credentials;
 
   @Factory((faker, ctx) => ctx.role)
   @Prop({ type: String, enum: ['USER', 'SELLER', 'ADMIN'], required: true })
   role: ROLES;
 
-  @Factory(() => userPhone.shift())
+  @Factory(() => phoneData.shift())
   @Prop({ required: true })
   phone: number;
 
@@ -87,11 +80,11 @@ export class User {
   @Prop()
   avatar: string;
 
-  @Factory(() => userAddress.shift())
+  @Factory(() => addressData[Math.floor(Math.random() * addressData.length)])
   @Prop({ required: true })
   address: string;
 
-  @Factory(() => userCity.shift())
+  @Factory(() => cityData[Math.floor(Math.random() * cityData.length)])
   @Prop({ required: true })
   city: string;
 

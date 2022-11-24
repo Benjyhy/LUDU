@@ -5,7 +5,8 @@ import { Copy } from './copy.schema';
 import { Location } from './location.schema';
 import { Review } from './review.schema';
 import { Factory } from 'nestjs-seeder-impsdc';
-import { storeAddress, storeName, storeOwner } from '../seeders/store.data';
+import { storeName } from '../seeders/store.data';
+import { addressData } from '../seeders/principal.data';
 
 export type StoreDocument = Store & Document;
 
@@ -22,11 +23,11 @@ export class Store {
   @Prop({ required: true })
   name: string;
 
-  @Factory(() => storeAddress.shift())
+  @Factory(() => addressData[Math.floor(Math.random() * addressData.length)])
   @Prop({ unique: true })
   address: string;
 
-  @Factory(() => storeOwner.shift())
+  @Factory((faker) => faker.name.firstName())
   @Prop({ required: true })
   owner: string;
 

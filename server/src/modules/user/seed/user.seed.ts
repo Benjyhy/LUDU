@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Seeder, DataFactory } from 'nestjs-seeder-impsdc';
 import { User } from '../../../schemas/user.schema';
 import { hashPassword } from '../../../helpers/Bcrypt';
+import { faker } from '@faker-js/faker';
 
 @Injectable()
 export class UserSeeder implements Seeder {
@@ -13,9 +14,10 @@ export class UserSeeder implements Seeder {
     const password = hashPassword('Default123');
 
     // Generate 5 users .
-    const users = DataFactory.createForClass(User).generate(5, {
+    const users = DataFactory.createForClass(User).generate(4, {
       credentials: {
         local: {
+          email: faker.internet.email(),
           password: password,
           emailVerified: false,
         },

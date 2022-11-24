@@ -40,9 +40,9 @@ seeder({
 }).run([
   CategorySeeder,
   GameSeeder,
+  UserSeeder,
   LocationSeeder,
   StoreSeeder,
-  UserSeeder,
   CopySeeder,
   RentSeeder,
 ]);
