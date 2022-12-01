@@ -23,7 +23,7 @@ export class Store {
   @Prop({ required: true })
   name: string;
 
-  @Factory(() => addressData[Math.floor(Math.random() * addressData.length)])
+  @Factory(() => addressData.shift())
   @Prop({ unique: true })
   address: string;
 
