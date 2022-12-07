@@ -1,0 +1,9 @@
+---
+
+- hosts: 
+    - luduFrontend
+  become: true
+
+  roles:
+    - luduServerSetup
+    - luduFrontend

@@ -1,0 +1,23 @@
+---
+# tasks file for luduFrontend
+- name: create folder frontend ludu
+  ansible.builtin.file:
+    path: /opt/luduFrontend
+    owner: debian
+    group: debian
+    mode: '0755'
+    state: directory
+
+
+- name: copy luduFrontend server into /opt/luduFrontend
+  copy:
+   src: ../files/frontend
+   dest: /opt/luduFrontend/
+    
+
+# use files parameter to use multiple docker-compose.yml files
+- name: deploy Docker Compose stack
+  community.docker.docker_compose:
+    project_src: /opt/luduFrontend/frontend
+    files:
+    - docker-compose.yml
