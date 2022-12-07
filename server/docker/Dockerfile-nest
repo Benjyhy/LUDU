@@ -1,0 +1,36 @@
+FROM node:16-alpine3.15
+
+ENV NODE_OPTIONS=--max_old_space_size=2048
+
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
+
+RUN mkdir api
+
+# files needed
+# COPY .env ./api
+# COPY ./package.json ./api
+# COPY ./nest-cli.json ./api
+# COPY ./pnpm-lock.yaml ./api
+# COPY ./tsconfig.build.json ./api
+# COPY ./tsconfig.json ./api
+# COPY ./.eslintrc.js ./api
+# COPY ./.prettierrc ./api
+
+# # folder needed
+# COPY ./src ./api/src
+# COPY ./test ./api/test
+# COPY ./static ./api/static
+# WORKDIR /api
+
+COPY . ./api/
+
+WORKDIR /api
+
+RUN npm install --legacy-peer-deps
+
+RUN npm run build
+
+
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["npm", "run", "start:prod"]

@@ -1,0 +1,25 @@
+services:
+  api:
+    container_name: ludu-api
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile-nest
+    ports:
+      - 3000:${API_PORT}
+    env_file: .env
+  nginx:
+    container_name: nginx
+    image: nginx:stable-alpine
+    volumes:
+      - ./docker/default.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api
+    ports:
+      - 8080:80
+    links:
+     - api:api
+    # environment:
+    #   - NGINX_SERVER_NAME=${NGINX_SERVER_NAME}
+    #   - NEST_HOST=${NEST_HOST}
+    #   - NEST_PORT=${NEST_PORT}
+    #   - NGINX_MAX_BODY=${NGINX_MAX_BODY}
