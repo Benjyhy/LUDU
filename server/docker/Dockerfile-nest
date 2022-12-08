@@ -9,25 +9,24 @@ RUN mkdir api
 
 # files needed
 # COPY .env ./api
-# COPY ./package.json ./api
-# COPY ./nest-cli.json ./api
-# COPY ./pnpm-lock.yaml ./api
-# COPY ./tsconfig.build.json ./api
-# COPY ./tsconfig.json ./api
-# COPY ./.eslintrc.js ./api
-# COPY ./.prettierrc ./api
+COPY ./package.json ./api
+COPY ./package-lock.json ./api
+COPY ./nest-cli.json ./api
+COPY ./pnpm-lock.yaml ./api
+COPY ./tsconfig.build.json ./api
+COPY ./tsconfig.json ./api
+COPY ./.eslintrc.js ./api
+COPY ./.prettierrc ./api
 
 # # folder needed
-# COPY ./src ./api/src
-# COPY ./test ./api/test
-# COPY ./static ./api/static
+COPY ./src ./api/src
+COPY ./test ./api/test
+COPY ./static ./api/static
 # WORKDIR /api
-
-COPY . ./api/
 
 WORKDIR /api
 
-RUN npm install --legacy-peer-deps
+RUN npm install 
 
 RUN npm run build
 

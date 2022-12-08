@@ -1,7 +1,6 @@
 .env
 jwt.private.key
 jwt.key.pub
-package-lock.json
 yarn.lock
 swagger-spec.json
 

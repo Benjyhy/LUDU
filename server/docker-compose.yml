@@ -5,21 +5,21 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile-nest
     ports:
-      - 3000:${API_PORT}
+      - ${API_PORT}:${API_PORT}
     env_file: .env
   nginx:
-    container_name: nginx
+    container_name: ludu-nginx
     image: nginx:stable-alpine
     volumes:
-      - ./docker/default.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx.conf:/nginx.conf
     depends_on:
       - api
     ports:
       - 8080:80
     links:
      - api:api
-    # environment:
-    #   - NGINX_SERVER_NAME=${NGINX_SERVER_NAME}
-    #   - NEST_HOST=${NEST_HOST}
-    #   - NEST_PORT=${NEST_PORT}
-    #   - NGINX_MAX_BODY=${NGINX_MAX_BODY}
+    environment:
+      - NGINX_SERVER_NAME=${NGINX_SERVER_NAME}
+      - API_PORT=${API_PORT}
+      - NGINX_MAX_BODY=${NGINX_MAX_BODY}
+    command: /bin/sh -c "envsubst < ./nginx.conf > /etc/nginx/default.conf && nginx -g 'daemon off;'"
