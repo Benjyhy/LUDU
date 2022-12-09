@@ -9,13 +9,10 @@ import { GameModule } from '../game/game.module';
 @Module({
   imports: [
     forwardRef(() => GameModule),
-    MongooseModule.forFeature(
-      [
-        { name: Category.name, schema: CategorySchema },
-        { name: Game.name, schema: GameSchema },
-      ],
-      'mongo',
-    ),
+    MongooseModule.forFeature([
+      { name: Category.name, schema: CategorySchema },
+      { name: Game.name, schema: GameSchema },
+    ]),
   ],
   controllers: [CategoryController],
   providers: [CategoryService],

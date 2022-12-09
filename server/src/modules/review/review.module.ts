@@ -19,27 +19,24 @@ import { ReviewSchema } from '../../schemas/review.schema';
     StoreModule,
     GameModule,
     UserModule,
-    MongooseModule.forFeature(
-      [
-        {
-          name: Review.name,
-          schema: ReviewSchema,
-        },
-        {
-          name: Store.name,
-          schema: StoreSchema,
-        },
-        {
-          name: User.name,
-          schema: UserSchema,
-        },
-        {
-          name: Game.name,
-          schema: GameSchema,
-        },
-      ],
-      'mongo',
-    ),
+    MongooseModule.forFeature([
+      {
+        name: Review.name,
+        schema: ReviewSchema,
+      },
+      {
+        name: Store.name,
+        schema: StoreSchema,
+      },
+      {
+        name: User.name,
+        schema: UserSchema,
+      },
+      {
+        name: Game.name,
+        schema: GameSchema,
+      },
+    ]),
   ],
   controllers: [ReviewController],
   providers: [ReviewService],

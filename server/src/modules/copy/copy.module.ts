@@ -12,14 +12,11 @@ import { GameModule } from '../game/game.module';
   imports: [
     StoreModule,
     GameModule,
-    MongooseModule.forFeature(
-      [
-        { name: Game.name, schema: GameSchema },
-        { name: Store.name, schema: StoreSchema },
-        { name: Copy.name, schema: CopySchema },
-      ],
-      'mongo',
-    ),
+    MongooseModule.forFeature([
+      { name: Game.name, schema: GameSchema },
+      { name: Store.name, schema: StoreSchema },
+      { name: Copy.name, schema: CopySchema },
+    ]),
   ],
   exports: [CopyService],
   controllers: [CopyController],

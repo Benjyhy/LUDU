@@ -8,7 +8,7 @@ ENV NODE_ENV=${NODE_ENV}
 RUN mkdir api
 
 # files needed
-# COPY .env ./api
+COPY .env ./api
 COPY ./package.json ./api
 COPY ./package-lock.json ./api
 COPY ./nest-cli.json ./api
@@ -24,9 +24,10 @@ COPY ./test ./api/test
 COPY ./static ./api/static
 # WORKDIR /api
 
+
 WORKDIR /api
 
-RUN npm install 
+RUN npm install
 
 RUN npm run build
 

@@ -7,13 +7,10 @@ import { LocationService } from './location.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature(
-      [
-        { name: Location.name, schema: LocationSchema },
-        { name: Store.name, schema: StoreSchema },
-      ],
-      'mongo',
-    ),
+    MongooseModule.forFeature([
+      { name: Location.name, schema: LocationSchema },
+      { name: Store.name, schema: StoreSchema },
+    ]),
   ],
   controllers: [LocationController],
   providers: [LocationService],
