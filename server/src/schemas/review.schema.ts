@@ -5,6 +5,7 @@ import { User } from './user.schema';
 import { Game } from './game.schema';
 import { Store } from './store.schema';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { Factory } from 'nestjs-seeder-impsdc';
 
 export type ReviewDocument = Review & Document;
 
@@ -13,21 +14,23 @@ export class Review {
   @Transform(({ value }) => value.toString())
   _id: ObjectId | string;
 
+  @Factory((faker) => faker.datatype.number({ max: 5, precision: 0.1 }))
   @Prop({ required: true })
   score: number;
 
+  @Factory((faker) => faker.lorem.text())
   @Prop({ required: true })
   review: string;
 
-  @Prop({ default: Date.now() })
-  date: Date;
-
+  @Factory((faker, ctx) => ctx.user)
   @Prop({ type: Types.ObjectId, ref: 'User', required: true, immutable: true })
   user: User;
 
+  @Factory((faker, ctx) => (ctx.game ? ctx.game : undefined))
   @Prop({ type: Types.ObjectId, ref: 'Game', default: null, immutable: true })
   game: Game;
 
+  @Factory((faker, ctx) => (ctx.store ? ctx.store : undefined))
   @Prop({ type: Types.ObjectId, ref: 'Store', default: null, immutable: true })
   store: Store;
 }
@@ -37,7 +40,11 @@ export const ReviewSchema = SchemaFactory.createForClass(Review);
 ReviewSchema.pre<ReviewDocument>('validate', function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const review = this;
-  if ((review.game && review.store) || (!review.game && !review.store))
+  if (
+    (review.game && review.store !== null) ||
+    (!review.game && !review.store) ||
+    (review.game !== null && review.store)
+  )
     throw new HttpException(
       {
         status: HttpStatus.BAD_REQUEST,

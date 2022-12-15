@@ -2,9 +2,10 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectId, Types } from 'mongoose';
 import { IsEmail } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { hashPassword } from 'src/helpers/Bcrypt';
-import { isPasswordInvalid } from 'src/helpers/Utils';
+import { hashPassword } from '../helpers/Bcrypt';
 import { Review } from './review.schema';
+import { cityData, phoneData, addressData } from '../seeders/principal.data';
+import { Factory } from 'nestjs-seeder-impsdc';
 
 export enum ROLES {
   USER,
@@ -30,6 +31,7 @@ export class LocalAuth {
   @Prop({ unique: true })
   email: string;
 
+  @Factory((faker, ctx) => ctx.password)
   @Prop({
     type: String,
     required: true,
@@ -40,11 +42,13 @@ export class LocalAuth {
   password: string;
 
   @Prop()
+  @Factory((faker, ctx) => ctx.emailVerified)
   emailVerified: boolean;
 }
 
 export class Credentials {
   @Prop({ type: LocalAuth, select: false })
+  @Factory((faker, ctx) => ctx.local)
   local: LocalAuth;
 
   @Prop({ type: Oauth })
@@ -56,27 +60,35 @@ export class User {
   @Transform(({ value }) => value.toString())
   _id: ObjectId;
 
+  @Factory((faker) => faker.name.firstName())
   @Prop({ unique: true, required: true })
   username: string;
 
   @Prop({ type: Credentials })
+  @Factory((faker, ctx) => ctx.credentials)
   credentials: Credentials;
 
+  @Factory((faker, ctx) => ctx.role)
   @Prop({ type: String, enum: ['USER', 'SELLER', 'ADMIN'], required: true })
   role: ROLES;
 
+  @Factory(() => phoneData.shift())
   @Prop({ required: true })
   phone: number;
 
+  @Factory((faker, ctx) => ctx.avatar)
   @Prop()
   avatar: string;
 
+  @Factory(() => addressData[Math.floor(Math.random() * addressData.length)])
   @Prop({ required: true })
   address: string;
 
+  @Factory(() => cityData[Math.floor(Math.random() * cityData.length)])
   @Prop({ required: true })
   city: string;
 
+  @Factory((faker) => faker.random.numeric(5))
   @Prop({ required: true })
   postCode: number;
 
