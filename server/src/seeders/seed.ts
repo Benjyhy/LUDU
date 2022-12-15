@@ -16,6 +16,8 @@ import { Copy, CopySchema } from '../schemas/copy.schema';
 import { CopySeeder } from '../modules/copy/seed/copy.seed';
 import { RentSeeder } from '../modules/rent/seed/rent.seed';
 import { Rent, RentSchema } from '../schemas/rent.schema';
+import { ReviewSeeder } from '../modules/review/seed/review.seed';
+import { Review, ReviewSchema } from '../schemas/review.schema';
 
 seeder({
   imports: [
@@ -35,6 +37,7 @@ seeder({
       { name: User.name, schema: UserSchema },
       { name: Copy.name, schema: CopySchema },
       { name: Rent.name, schema: RentSchema },
+      { name: Review.name, schema: ReviewSchema },
     ]),
   ],
 }).run([
@@ -45,4 +48,5 @@ seeder({
   StoreSeeder,
   CopySeeder,
   RentSeeder,
+  ReviewSeeder,
 ]);

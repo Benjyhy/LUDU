@@ -31,7 +31,7 @@ export class Store {
   @Prop({ required: true })
   owner: string;
 
-  @Factory((faker, ctx) => ctx.phone)
+  @Factory((faker) => faker.phone.number('+33 ## ## ## ##'))
   @Prop({ required: true })
   phone: string;
 

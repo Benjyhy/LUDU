@@ -16,8 +16,7 @@ export class StoreSeeder implements Seeder {
     const locations = await this.location.find();
     // Generate 10 users.
     const stores = DataFactory.createForClass(Store).generate(5, {
-      iban: ' FR7630003035409876543210925',
-      phone: '0651930450',
+      iban: 'FR7630003035409876543210925',
       locations:
         locations[
           Math.round(Math.floor(Math.random() * (await locations).length))

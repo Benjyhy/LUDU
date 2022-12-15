@@ -60,7 +60,7 @@ export class User {
   @Transform(({ value }) => value.toString())
   _id: ObjectId;
 
-  @Factory(() => userName.shift())
+  @Factory((faker) => faker.name.firstName())
   @Prop({ unique: true, required: true })
   username: string;
 
