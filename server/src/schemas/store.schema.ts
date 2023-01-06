@@ -5,8 +5,8 @@ import { Copy } from './copy.schema';
 import { Location } from './location.schema';
 import { Review } from './review.schema';
 import { Factory } from 'nestjs-seeder-impsdc';
-import { storeName } from '../seeders/store.data';
-import { addressData } from '../seeders/principal.data';
+import { storeName } from '../seeders/data.seed';
+import { addressData } from '../seeders/data.seed';
 
 export type StoreDocument = Store & Document;
 

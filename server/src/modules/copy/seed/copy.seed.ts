@@ -16,11 +16,16 @@ export class CopySeeder implements Seeder {
 
   async seed(): Promise<any> {
     const games = await this.game.find();
+    const stores = await this.store.find();
     // Generate 10 copy game.
     const copies = DataFactory.createForClass(Copy).generate(10, {
       game: games[
         Math.round(Math.floor(Math.random() * (await games).length))
       ]._id.toString(),
+      store:
+        stores[
+          Math.round(Math.floor(Math.random() * (await stores).length))
+        ]._id.toString(),
     });
 
     // Insert into the database.

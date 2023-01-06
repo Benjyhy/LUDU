@@ -4,7 +4,7 @@ import { IsEmail } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { hashPassword } from '../helpers/Bcrypt';
 import { Review } from './review.schema';
-import { cityData, phoneData, addressData } from '../seeders/principal.data';
+import { phoneData, addressData } from '../seeders/data.seed';
 import { Factory } from 'nestjs-seeder-impsdc';
 
 export enum ROLES {
@@ -83,10 +83,6 @@ export class User {
   @Factory(() => addressData[Math.floor(Math.random() * addressData.length)])
   @Prop({ required: true })
   address: string;
-
-  @Factory(() => cityData[Math.floor(Math.random() * cityData.length)])
-  @Prop({ required: true })
-  city: string;
 
   @Factory((faker) => faker.random.numeric(5))
   @Prop({ required: true })

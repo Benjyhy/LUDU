@@ -4,7 +4,7 @@ import { IsString } from 'class-validator';
 
 export class StoreDto {
   @Transform(({ value }) => value.toString())
-  _id: string;
+  _id: string | undefined;
 
   @ApiProperty({
     example: 'FR7612548029989876543210917',

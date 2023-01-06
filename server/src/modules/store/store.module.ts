@@ -4,6 +4,7 @@ import { StoreService } from './store.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Store, StoreSchema } from 'src/schemas/store.schema';
 import { Location, LocationSchema } from 'src/schemas/location.schema';
+import { CommandModule } from 'nestjs-command';
 // import { RoleAuth } from 'src/middlewares/decorators/RoleAuth';
 
 @Module({
@@ -12,6 +13,7 @@ import { Location, LocationSchema } from 'src/schemas/location.schema';
       { name: Store.name, schema: StoreSchema },
       { name: Location.name, schema: LocationSchema },
     ]),
+    CommandModule,
   ],
   controllers: [StoreController],
   providers: [StoreService],

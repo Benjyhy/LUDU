@@ -11,9 +11,8 @@ import {
   HttpStatus,
   NotFoundException,
   Logger,
-  Patch,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GameService } from './game.service';
 import { GameDto } from './dto/game.dto';
 import { GameUpdateDto } from './dto/game.update.dto';
@@ -24,6 +23,7 @@ import appConfig from 'src/config/app.config';
 import { CategoryService } from '../category/category.service';
 
 @Controller('game')
+@ApiTags('Game')
 export class GameController {
   constructor(
     private readonly gameService: GameService,

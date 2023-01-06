@@ -1,3 +1,4 @@
+import { StoreService } from './../store.service';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -9,22 +10,35 @@ import { Location } from '../../../schemas/location.schema';
 export class StoreSeeder implements Seeder {
   constructor(
     @InjectModel(Store.name) private readonly store: Model<Store>,
+    @InjectModel(Store.name) private readonly storeService: StoreService,
     @InjectModel(Location.name) private readonly location: Model<Location>,
   ) {}
 
   async seed(): Promise<any> {
     const locations = await this.location.find();
-    // Generate 10 users.
+    console.log(
+      locations[
+        Math.round(Math.floor(Math.random() * (await locations).length))
+      ]._id.toString(),
+    );
+
     const stores = DataFactory.createForClass(Store).generate(5, {
       iban: 'FR7630003035409876543210925',
-      locations:
+      location:
         locations[
           Math.round(Math.floor(Math.random() * (await locations).length))
         ]._id.toString(),
     });
 
-    // Insert into the database.
-    return this.store.insertMany(stores);
+    stores.map(async (item: any) => {
+      console.log(item);
+      const created = await this.store.create(item);
+      // const location = await this.location.findById(item.location);
+      // location.stores.push(created);
+      // await location.save();
+    });
+
+    return;
   }
 
   async drop(): Promise<any> {

@@ -26,14 +26,14 @@ export class StoreController {
   @Get('')
   @Roles(ROLES.ADMIN)
   @ApiOperation({ summary: 'Fetch all stores' })
-  @ApiOkResponse({ description: 'Success', type: Store })
+  @ApiOkResponse({ description: 'Success', type: StoreDto, isArray: true })
   findAll(): Promise<StoreDocument[]> {
     return this.storeService.findAll();
   }
 
   @Get('/:id')
   @ApiOperation({ summary: 'Find a store by ID' })
-  @ApiOkResponse({ description: 'Success', type: Store })
+  @ApiOkResponse({ description: 'Success', type: StoreDto })
   findById(
     @Param('id')
     id: string,
@@ -46,7 +46,7 @@ export class StoreController {
 
   @Post('')
   @ApiOperation({ summary: 'Create a store' })
-  @ApiOkResponse({ description: 'Success', type: Store })
+  @ApiOkResponse({ description: 'Success', type: StoreDto })
   create(
     @Body(new ValidationPipe({ transform: true }))
     storeDto: StoreDto,
@@ -56,7 +56,7 @@ export class StoreController {
 
   @Put('/:id')
   @ApiOperation({ summary: 'Update a store' })
-  @ApiOkResponse({ description: 'Success', type: Store })
+  @ApiOkResponse({ description: 'Success', type: StoreDto })
   update(
     @Param('id')
     id: string,
@@ -68,7 +68,7 @@ export class StoreController {
 
   @Delete('/:id')
   @ApiOperation({ summary: 'Delete a store' })
-  @ApiOkResponse({ description: 'Success', type: Store })
+  @ApiOkResponse({ description: 'Success', type: StoreDto })
   async remove(
     @Param('id')
     id: string,

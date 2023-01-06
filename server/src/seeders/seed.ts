@@ -26,7 +26,7 @@ seeder({
     }),
     MongooseModule.forRootAsync({
       useFactory: () => ({
-        uri: appConfig().database.dev,
+        uri: appConfig().database.prod,
       }),
     }),
     MongooseModule.forFeature([
@@ -41,12 +41,12 @@ seeder({
     ]),
   ],
 }).run([
-  CategorySeeder,
-  GameSeeder,
-  UserSeeder,
+  // CategorySeeder,
+  // GameSeeder,
+  // UserSeeder,
   LocationSeeder,
   StoreSeeder,
-  CopySeeder,
-  RentSeeder,
-  ReviewSeeder,
+  // CopySeeder,
+  // RentSeeder,
+  // ReviewSeeder,
 ]);

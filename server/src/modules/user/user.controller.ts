@@ -22,11 +22,15 @@ export class UserController {
 
   @Get('')
   @Roles(ROLES.ADMIN)
+  @ApiOperation({ summary: 'Get All user | need Admin' })
+  @ApiOkResponse({ description: 'Success', type: UserDto, isArray: true })
   findAll(): Promise<UserDocument[]> {
     return this.userService.findAll();
   }
 
   @Get('/:id')
+  @ApiOperation({ summary: 'Get user by Id' })
+  @ApiOkResponse({ description: 'Success', type: UserDto })
   findById(@Param('id') id: string): Promise<UserDocument> {
     return this.userService.findById(id).then((store) => {
       if (!store) throw new NotFoundException(`Store #${id} not found`);
@@ -36,7 +40,7 @@ export class UserController {
 
   @Put('/:id')
   @ApiOperation({ summary: 'Create a new user' })
-  @ApiOkResponse({ description: 'Success', type: User })
+  @ApiOkResponse({ description: 'Success', type: UserDto })
   update(
     @Param('id')
     id: string,
@@ -48,7 +52,7 @@ export class UserController {
 
   @Delete('/:id')
   @ApiOperation({ summary: 'Delete an user' })
-  @ApiOkResponse({ description: 'Success', type: User })
+  @ApiOkResponse({ description: 'Success', type: UserDto })
   async remove(
     @Param('id')
     id: string,
