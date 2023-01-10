@@ -1,65 +1,62 @@
 import React from "react";
-import { View, AspectRatio, Box, Flex, Heading, HStack, Image, Stack, Text } from "native-base";
-import findRoutes from "../navigation/appRoutes/findRoutes";
-import { Dimensions } from 'react-native';
+import { Dimensions, View, Image, StyleSheet } from 'react-native';
+import { Text } from 'react-native-paper';
 
-const GameReviewCard = ({item, navigation, direction}: any) => {
+const GameReviewCard = ({ item }: any) => {
     return (
-        <Flex
-            alignItems={direction === 'row' ? 'flex-start' : 'center'}
-            width={Dimensions.get('window').width - 30}
-            marginBottom={5}
-            marginRight={5}
-            onTouchEnd={() => navigation.navigate(findRoutes.GAME_SCREEN, { item })}
-            direction={direction}
-            rounded="lg"
-            overflow="hidden"
-            borderColor="coolGray.200"
-            borderWidth="1"
-            _dark={{
-                borderColor: "coolGray.600",
-                backgroundColor: "gray.700"
-            }}
-            _web={{
-                shadow: 2,
-                borderWidth: 0
-            }}
-            _light={{
-                backgroundColor: "gray.50"
-            }}
-        >
-            <Box>
-                <AspectRatio
-                    width={direction === 'row' ? 'auto' : '100%'}
-                    height={direction === 'row' ? '100%' : 'auto'}
-                    ratio={{
-                        base: direction === 'row' ? 9 / 16 : 16 / 9,
-                        md: 9 / 10
-                    }}
-                >
-                    <Image resizeMode="cover" source={{
-                        uri: item.avatar
-                    }} alt="image" />
-                </AspectRatio>
-            </Box>
-            <Stack p="4" space={3} flex={1}>
-                <Stack space={2}>
-                    <Heading size="sm" ml="-1">
+        <View>
+            <View
+                style={[
+                    styles.card
+                ]}
+
+            >
+                <View>
+                    <Image style={[styles.img]} resizeMode="cover" source={{
+                        uri: "https://via.placeholder.com/150"
+                    }} />
+                    <Text variant="bodyMedium" style={{ fontWeight: "bold", textAlign: "center", marginTop: 10 }}>
                         {item.name}
-                    </Heading>
-                    {/* <View style={{alignItems:'center'}}>
-                        <StarReview />
-                    </View> */}
-                </Stack>
-                <Box>
-                    <Text fontWeight="400">
-                        {item.description}
                     </Text>
-                </Box>
-            </Stack>
-        </Flex>
+                </View>
+                <View style={styles.content}>
+                    <View>
+                        <Text variant="bodySmall">
+                            {item.description}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+        </View>
     );
 
 };
 
 export default GameReviewCard;
+
+const styles = StyleSheet.create({
+    card: {
+        height: "auto",
+        width: Dimensions.get('window').width - 60,
+        marginBottom: 5,
+        marginRight: 15,
+        overflow: 'hidden',
+        borderWidth: 1,
+        padding: 10,
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        borderRadius: 5
+    },
+    colCard: {
+        alignItems: 'center',
+        flexDirection: 'column'
+    },
+    img: {
+        width: 75,
+        height: 75
+    },
+    content: {
+        flex: 1,
+        marginLeft: 15
+    }
+});

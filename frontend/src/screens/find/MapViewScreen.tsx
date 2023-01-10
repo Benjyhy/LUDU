@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Center } from "native-base";
 import MapView, { Marker } from "react-native-maps";
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import stores from "../../mocks/markerStoreMockData";
 import { MainAppState } from "../../models/states";
 import { useSelector } from "react-redux";
@@ -16,7 +15,7 @@ const MapViewScreen = () => {
     }, [currentLocation])
 
     return (
-        <Center>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
             <MapView
                 style={styles.map}
                 initialRegion={{
@@ -34,7 +33,7 @@ const MapViewScreen = () => {
                     />
                 ))}
             </MapView>
-        </Center>
+        </View>
     );
 };
 

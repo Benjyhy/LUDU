@@ -1,6 +1,7 @@
 import React from "react";
-import { Input, Switch, Flex, Text } from "native-base";
 import { useState } from "react";
+import { View } from "react-native"
+import { Text, TextInput, Switch } from "react-native-paper";
 import findRoutes from "../navigation/appRoutes/findRoutes";
 import * as RootNavigation from "../navigation/rootNavigation";
 
@@ -27,18 +28,16 @@ const Search = () => {
     }
 
     return (
-        <Flex my="5" mx="3">
-            <Text fontWeight="bold" mt="5">Select your address</Text>
-            <Flex direction="row" justify="space-between" alignItems="center">
-                <Input
+        <View style={{ marginHorizontal: 15, marginTop: 50, marginBottom: 15 }}>
+            <Text style={{ fontWeight: "bold", marginTop: 5 }}>Select your address</Text>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                <TextInput
                     placeholder="Search..."
-                    w="75%"
-                    maxWidth="300px"
-                    mt="3"
+                    style={{ width: "75%", marginTop: 3 }}
                 />
-                <Switch onToggle={handleToggle} isChecked={!isMap} colorScheme="orange" />
-            </Flex>
-        </Flex>
+                <Switch onValueChange={handleToggle} value={!isMap} />
+            </View>
+        </View>
     );
 };
 

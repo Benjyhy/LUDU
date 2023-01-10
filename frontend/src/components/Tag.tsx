@@ -1,18 +1,20 @@
 import React from 'react';
-import { Text } from 'native-base';
+import { Text } from "react-native-paper";
 
 const Tag = ({ tagName }: any) => {
     return (
         <Text
-            color="orange.500"
-            w="auto"
-            borderRadius={3}
-            borderColor="orange.500"
-            borderWidth={1}
-            fontSize={11}
-            fontWeight="bold"
-            px="1"
-            py="1"
+            style={{
+                borderRadius: 3,
+                borderWidth: 1,
+                fontSize: 11,
+                fontWeight: "bold",
+                paddingHorizontal: 1,
+                paddingVertical: 1,
+                width: "auto",
+                marginRight: 10,
+                marginBottom: 5
+            }}
         >
             {tagName}
         </Text>
