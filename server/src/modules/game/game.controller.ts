@@ -16,11 +16,11 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GameService } from './game.service';
 import { GameDto } from './dto/game.dto';
 import { GameUpdateDto } from './dto/game.update.dto';
-import { saveImage, deleteImage } from 'src/helpers/Utils';
-import { GameDocument, Game } from 'src/schemas/game.schema';
-import { ValidateMongoId } from 'src/middlewares/validateMongoId';
-import appConfig from 'src/config/app.config';
 import { CategoryService } from '../category/category.service';
+import { GameDocument } from '../../schemas/game.schema';
+import { ValidateMongoId } from '../../middlewares/validateMongoId';
+import { deleteImage, saveImage } from '../../helpers/Utils';
+import appConfig from '../../config/app.config';
 
 @Controller('game')
 @ApiTags('Game')

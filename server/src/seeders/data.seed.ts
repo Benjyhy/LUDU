@@ -1,4 +1,4 @@
-export const cities = ['Paris', 'Nancy', 'Lille', 'Marseille', 'Boedeux'];
+export const cities = ['Paris', 'Nancy', 'Lille', 'Marseille', 'Bordeaux'];
 export const zips = [75000, 54000, 59000, 13000, 30072];
 export const phoneData = [
   '0619349594',

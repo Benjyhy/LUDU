@@ -1,11 +1,9 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { StoreController } from './store.controller';
 import { StoreService } from './store.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Store, StoreSchema } from 'src/schemas/store.schema';
-import { Location, LocationSchema } from 'src/schemas/location.schema';
-import { CommandModule } from 'nestjs-command';
-// import { RoleAuth } from 'src/middlewares/decorators/RoleAuth';
+import { Store, StoreSchema } from '../../schemas/store.schema';
+import { Location, LocationSchema } from '../../schemas/location.schema';
 
 @Module({
   imports: [
@@ -13,7 +11,6 @@ import { CommandModule } from 'nestjs-command';
       { name: Store.name, schema: StoreSchema },
       { name: Location.name, schema: LocationSchema },
     ]),
-    CommandModule,
   ],
   controllers: [StoreController],
   providers: [StoreService],

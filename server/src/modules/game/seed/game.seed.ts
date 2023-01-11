@@ -15,7 +15,7 @@ export class GameSeeder implements Seeder {
   async seed(): Promise<any> {
     const categories = await this.category.find();
     // Generate 10 users.
-    const users = DataFactory.createForClass(Game).generate(10, {
+    const games = DataFactory.createForClass(Game).generate(10, {
       thumbnail: '3c3f8285-e8b8-4e79-87c3-96943be4e630',
       categories: [
         categories[
@@ -23,9 +23,10 @@ export class GameSeeder implements Seeder {
         ]._id.toString(),
       ],
     });
+    console.log(games);
 
     // Insert into the database.
-    return this.game.insertMany(users);
+    return this.game.insertMany(games);
   }
 
   async drop(): Promise<any> {

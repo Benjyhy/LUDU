@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import {
   Body,
   Controller,
@@ -10,10 +11,9 @@ import {
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { UserDocument, User, ROLES } from 'src/schemas/user.schema';
 import { UserDto } from './dto/user.dto';
-import { JWTAuth } from 'src/middlewares/decorators/JWTAuth';
-import { Roles } from 'src/middlewares/decorators/RoleAuth';
+import { ROLES, UserDocument } from '../../schemas/user.schema';
+import { Roles } from '../../middlewares/decorators/RoleAuth';
 
 @Controller('user')
 @ApiTags('User')

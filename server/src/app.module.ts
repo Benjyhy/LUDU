@@ -7,7 +7,6 @@ import appConfig from './config/app.config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { LocationModule } from './modules/location/location.module';
-import { UserController } from './modules/user/user.controller';
 import { StoreModule } from './modules/store/store.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';

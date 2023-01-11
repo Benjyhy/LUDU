@@ -9,9 +9,9 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { UserDto } from '../user/dto/user.dto';
-import { comparePassword } from 'src/helpers/Bcrypt';
-import { ROLES } from 'src/schemas/user.schema';
 import { ObjectId } from 'mongoose';
+import { ROLES } from '../../schemas/user.schema';
+import { comparePassword } from '../../helpers/Bcrypt';
 
 interface AuthToken {
   id: ObjectId;

@@ -27,6 +27,8 @@ export class UserSeeder implements Seeder {
       role: 'USER',
     });
 
+    console.log(users);
+
     // Insert into the database.
     return this.user.insertMany(users);
   }

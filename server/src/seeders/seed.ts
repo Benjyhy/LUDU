@@ -41,11 +41,11 @@ seeder({
     ]),
   ],
 }).run([
-  // CategorySeeder,
+  CategorySeeder,
   // GameSeeder,
   // UserSeeder,
   LocationSeeder,
-  StoreSeeder,
+  // StoreSeeder,
   // CopySeeder,
   // RentSeeder,
   // ReviewSeeder,

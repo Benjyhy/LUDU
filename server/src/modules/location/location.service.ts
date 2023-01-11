@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Location, LocationDocument } from 'src/schemas/location.schema';
+import { Location, LocationDocument } from '../../schemas/location.schema';
 import { LocationDto } from './dto/location.dto';
 import { ObjectId } from 'mongodb';
 

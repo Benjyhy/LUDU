@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CopyDto } from './dto/copy.dto';
-import { CopyDocument, Copy } from 'src/schemas/copy.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Copy, CopyDocument } from '../../schemas/copy.schema';
 
 @Injectable()
 export class CopyService {

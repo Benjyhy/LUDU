@@ -1,0 +1,42 @@
+export const stores = [
+  {
+    phone: '+33 30 07 26 92',
+    owner: 'Birdie',
+    address: '13 ure de saint jean',
+    name: 'puy de game',
+    iban: 'FR7630003035409876543210925',
+    _id: undefined,
+  },
+  {
+    phone: '+33 84 79 43 87',
+    owner: 'Roger',
+    address: '1 rue de georges baptiste',
+    name: 'meltdown',
+    iban: 'FR7630003035409876543210925',
+    _id: undefined,
+  },
+  {
+    phone: '+33 27 69 54 50',
+    owner: 'Joanny',
+    address: '13 rue edgar Degas',
+    name: 'xgames',
+    iban: 'FR7630003035409876543210925',
+    _id: undefined,
+  },
+  {
+    phone: '+33 08 67 09 92',
+    owner: 'Nayeli',
+    address: '1 rue du general Patin',
+    name: 'pullup station',
+    iban: 'FR7630003035409876543210925',
+    _id: undefined,
+  },
+  {
+    phone: '+33 61 47 49 30',
+    owner: 'Beatrice',
+    address: '8 rue de la castellane',
+    name: 'record arena',
+    iban: 'FR7630003035409876543210925',
+    _id: undefined,
+  },
+];

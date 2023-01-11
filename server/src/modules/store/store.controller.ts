@@ -11,11 +11,10 @@ import {
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { StoreService } from './store.service';
-import { StoreDocument, Store } from '../../schemas/store.schema';
+import { StoreDocument } from '../../schemas/store.schema';
 import { StoreDto } from './dto/store.dto';
-import { JWTAuth } from 'src/middlewares/decorators/JWTAuth';
-import { Roles } from 'src/middlewares/decorators/RoleAuth';
-import { ROLES } from 'src/schemas/user.schema';
+import { Roles } from '../../middlewares/decorators/RoleAuth';
+import { ROLES } from '../../schemas/user.schema';
 
 @Controller('store')
 @ApiTags('Store')

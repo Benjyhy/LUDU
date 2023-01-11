@@ -14,8 +14,8 @@ import {
 import { CategoryService } from './category.service';
 import { CategoryDto } from './dto/category.dto';
 import { GameService } from '../game/game.service';
-import { GameDocument } from 'src/schemas/game.schema';
 import { ApiTags } from '@nestjs/swagger';
+import { GameDocument } from '../../schemas/game.schema';
 
 @Controller('category')
 @ApiTags('Category')

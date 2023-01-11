@@ -6,11 +6,11 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types, ObjectId } from 'mongoose';
-import { UserDocument } from 'src/schemas/user.schema';
+import appConfig from '../../config/app.config';
+import { deleteImage, saveImage } from '../../helpers/Utils';
+import { Review } from '../../schemas/review.schema';
+import { UserDocument } from '../../schemas/user.schema';
 import { UserDto } from './dto/user.dto';
-import { saveImage, deleteImage } from 'src/helpers/Utils';
-import appConfig from 'src/config/app.config';
-import { Review } from 'src/schemas/review.schema';
 
 @Injectable()
 export class UserService {

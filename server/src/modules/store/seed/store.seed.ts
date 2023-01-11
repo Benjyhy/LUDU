@@ -10,18 +10,11 @@ import { Location } from '../../../schemas/location.schema';
 export class StoreSeeder implements Seeder {
   constructor(
     @InjectModel(Store.name) private readonly store: Model<Store>,
-    @InjectModel(Store.name) private readonly storeService: StoreService,
     @InjectModel(Location.name) private readonly location: Model<Location>,
   ) {}
 
   async seed(): Promise<any> {
     const locations = await this.location.find();
-    console.log(
-      locations[
-        Math.round(Math.floor(Math.random() * (await locations).length))
-      ]._id.toString(),
-    );
-
     const stores = DataFactory.createForClass(Store).generate(5, {
       iban: 'FR7630003035409876543210925',
       location:
@@ -29,16 +22,7 @@ export class StoreSeeder implements Seeder {
           Math.round(Math.floor(Math.random() * (await locations).length))
         ]._id.toString(),
     });
-
-    stores.map(async (item: any) => {
-      console.log(item);
-      const created = await this.store.create(item);
-      // const location = await this.location.findById(item.location);
-      // location.stores.push(created);
-      // await location.save();
-    });
-
-    return;
+    return this.store.insertMany(stores);
   }
 
   async drop(): Promise<any> {
