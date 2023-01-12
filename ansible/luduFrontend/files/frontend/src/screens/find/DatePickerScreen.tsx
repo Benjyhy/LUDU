@@ -1,9 +1,11 @@
-import React, {useCallback, useMemo, useState} from "react";
-import {Button, View, Text, Heading, ScrollView, Box} from "native-base";
+import React, { useCallback, useMemo, useState } from "react";
+import { View, StyleSheet } from "react-native";
+import { Text, Button } from "react-native-paper"
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
 import findRoutes from "../../navigation/appRoutes/findRoutes";
+import { primaryColor } from "../../utils/colors";
 
 function DatePickerScreen({ route, navigation }: any) {
     const format = moment(new Date()).format('YYYY-MM-DD');
@@ -25,17 +27,17 @@ function DatePickerScreen({ route, navigation }: any) {
     }, [selected]);
 
 
-    const gameName = route.params.gameName;
+    const game = route.params.game;
     return (
-        <ScrollView>
-            <View marginTop={70} >
-                <View paddingX={8} alignItems="center" paddingTop={5}>
-                    <Heading>Booking for: {gameName}</Heading>
-                    <Text>
-                        at <Text fontWeight="bold">Game store name</Text>
+        <View style={{ position: "relative", height: "100%" }}>
+            <View style={{ marginTop: 70 }}>
+                <View style={{ paddingHorizontal: 8, alignItems: "center", paddingTop: 5 }}>
+                    <Text variant="headlineMedium" style={{ fontWeight: "bold" }}>Booking for: {game.gameName}</Text>
+                    <Text variant="bodyLarge">
+                        at <Text style={{ fontWeight: "bold" }}>Game store name</Text>
                     </Text>
                 </View>
-                <View marginTop={20}>
+                <View style={{ marginTop: 40 }}>
                     <Calendar
                         current={format}
                         onDayPress={onDayPress}
@@ -48,32 +50,41 @@ function DatePickerScreen({ route, navigation }: any) {
                             textDayHeaderFontWeight: '300',
                         }}
                     />
-                    <View alignItems="center" paddingTop={5}>
-                        <Text fontSize={15}>Date chosen:</Text>
-                        <Text fontWeight="bold" fontSize={18}>
+                    <View style={{ alignItems: "center", marginTop: 30 }}>
+                        <Text variant="titleLarge">Chosen date :</Text>
+                        <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
                             {moment(selected).format("DD/MM/YYYY")}
                         </Text>
                     </View>
                 </View>
             </View>
-            <Box width="100%" paddingTop={10}>
-                <Button
-                    width={80}
-                    background="#545454"
-                    borderRadius={5}
-                    alignSelf="center"
-                    onPress={() =>
-                        navigation.navigate(findRoutes.PERIOD_FEED, {
-                            date: moment(selected).format("DD/MM/YYYY"),
-                            gameName: gameName
-                        })
-                    }
-                >
-                    Continue
-                </Button>
-            </Box>
-        </ScrollView>
+            <Button
+                buttonColor={primaryColor}
+                textColor="white"
+                style={[styles.btn]}
+                onPress={() =>
+                    navigation.navigate(findRoutes.PERIOD_FEED, {
+                        date: moment(selected).format("DD/MM/YYYY"),
+                        game: game
+                    })
+                }
+            >
+                Continue
+            </Button>
+        </View >
     );
 }
+
+const styles = StyleSheet.create({
+    btn: {
+        borderRadius: 5,
+        width: "auto",
+        position: "absolute",
+        bottom: 20,
+        alignSelf: "center",
+        paddingHorizontal: 20,
+        paddingVertical: 5
+    }
+})
 
 export default DatePickerScreen;

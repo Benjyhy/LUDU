@@ -26,15 +26,7 @@ It provides you with a very useful **react native** environment : [Subscribe her
 
 ## Libraries used in this project (non-exhaustive list)
 
-1. [NativeBase](https://docs.nativebase.io/?utm_source=HomePage&utm_medium=header&utm_campaign=NativeBase_3) for UI components
+1. [React Native Paper](https://callstack.github.io/react-native-paper/) for UI components
 2. [ReactNavigation](https://reactnavigation.org/docs/getting-started) to manage routing
 3. [Redux](https://redux.js.org/introduction/getting-started) to manage data flows
 4. [Typescript](https://www.typescriptlang.org/docs/) to help us writing consistent code
-
-## Team Work
-
-Prettier and ESLint are configured so we can get along together.
-You can check the config in the `./.eslintrc.json` file.
-
-Every time you commit, the linter runs and warns you about code formatting errors. 
-Please fix it before committing again.

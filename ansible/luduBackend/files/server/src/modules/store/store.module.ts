@@ -8,13 +8,10 @@ import { Location, LocationSchema } from 'src/schemas/location.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature(
-      [
-        { name: Store.name, schema: StoreSchema },
-        { name: Location.name, schema: LocationSchema },
-      ],
-      'mongo',
-    ),
+    MongooseModule.forFeature([
+      { name: Store.name, schema: StoreSchema },
+      { name: Location.name, schema: LocationSchema },
+    ]),
   ],
   controllers: [StoreController],
   providers: [StoreService],

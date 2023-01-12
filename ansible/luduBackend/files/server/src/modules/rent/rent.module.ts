@@ -11,23 +11,20 @@ import { UserModule } from '../user/user.module';
   imports: [
     CopyModule,
     UserModule,
-    MongooseModule.forFeature(
-      [
-        {
-          name: Rent.name,
-          schema: RentSchema,
-        },
-        {
-          name: User.name,
-          schema: UserSchema,
-        },
-        {
-          name: Copy.name,
-          schema: CopySchema,
-        },
-      ],
-      'mongo',
-    ),
+    MongooseModule.forFeature([
+      {
+        name: Rent.name,
+        schema: RentSchema,
+      },
+      {
+        name: User.name,
+        schema: UserSchema,
+      },
+      {
+        name: Copy.name,
+        schema: CopySchema,
+      },
+    ]),
   ],
   controllers: [RentController],
   providers: [RentService],

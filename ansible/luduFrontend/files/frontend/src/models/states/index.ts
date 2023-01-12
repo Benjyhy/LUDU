@@ -1,7 +1,7 @@
 import { Location } from './Location';
-import { UserState } from './User';
+import { User } from './User';
 
 export type MainAppState = {
-  currentLocation: Location;
-  user: UserState;
+    currentLocation: Location;
+    user: User;
 };

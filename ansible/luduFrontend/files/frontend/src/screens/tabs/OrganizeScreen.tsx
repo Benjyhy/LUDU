@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "native-base";
+import { Text } from "react-native-paper";
 
 const OrganizeScreen = () => {
     return <Text>OrganizeScreen</Text>;

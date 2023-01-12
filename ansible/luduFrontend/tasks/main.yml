@@ -1,10 +1,8 @@
 ---
 # tasks file for luduFrontend
-- name: create folder frontend ludu
+- name: check if folder frontend ludu is created
   ansible.builtin.file:
     path: /opt/luduFrontend
-    owner: debian
-    group: debian
     mode: '0755'
     state: directory
 

@@ -1,19 +1,14 @@
-import {Box, HStack, Spacer, Text, VStack} from "native-base";
 import React from "react";
+import { View } from "react-native";
+import { Divider, Text } from 'react-native-paper';
 
 const StoreListing = ({ item }: any) => {
-    return(
-        <Box
-            borderBottomWidth="1"
-            _dark={{
-                borderColor: "gray.600",
-            }}
-            borderColor="coolGray.200"
-            py="6"
+    return (
+        <View
+            style={{ paddingVertical: 6 }}
         >
-            <HStack
-                space={3}
-                justifyContent="space-between"
+            <View
+                style={{ margin: 3, justifyContent: "space-between" }}
             >
                 {/* <Avatar
                                     size="48px"
@@ -21,28 +16,19 @@ const StoreListing = ({ item }: any) => {
                                         uri: item.avatarUrl,
                                     }}
                                 /> */}
-                <VStack>
+                <View>
                     <Text
-                        _dark={{
-                            color: "warmGray.50",
-                        }}
-                        color="coolGray.800"
-                        bold
+                        style={{ fontWeight: "bold" }}
                     >
                         {item.storeName}
                     </Text>
-                    <Text
-                        color="coolGray.600"
-                        _dark={{
-                            color: "warmGray.200",
-                        }}
-                    >
+                    <Text>
                         {item.city}
                     </Text>
-                </VStack>
-                <Spacer />
-            </HStack>
-        </Box>
+                </View>
+                <Divider />
+            </View>
+        </View>
     )
 }
 

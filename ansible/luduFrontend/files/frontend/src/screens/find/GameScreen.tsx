@@ -1,162 +1,133 @@
 import React from 'react';
-import {
-  Heading,
-  ScrollView,
-  View,
-  Flex,
-  Spacer,
-  Text,
-  Image,
-  Box,
-  VStack,
-} from 'native-base';
-import { Icon } from 'react-native-elements';
 import gameData from '../../mocks/gameMockData';
 import GameReviewCard from '../../components/GameReviewCard';
 import GameCard from '../../components/GameCard';
-import { TouchableOpacity } from 'react-native';
+import { Dimensions, TouchableOpacity } from 'react-native';
 import { InlineTextIcon } from '../../components/InlineTextIcon';
-import { Button } from '../../components/Button';
+import { Button, Divider, Text } from 'react-native-paper';
+import { View, ScrollView, SafeAreaView, Image } from 'react-native';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Tag from '../../components/Tag';
+import findRoutes from '../../navigation/appRoutes/findRoutes';
+import { primaryColor } from '../../utils/colors';
 
 const GameScreen = ({ route, navigation }: any) => {
-  const game = gameData.find((game) => game.id === route.params.item.id);
+    const game = gameData.find((game) => game.id === route.params.item.id);
 
-  if (!game) {
+    if (!game) {
+        return (
+            <View style={{ flex: 1 }}>
+                <Text variant="bodyMedium">An error occured</Text>
+            </View>
+        );
+    }
     return (
-      <View style={{ flex: 1 }}>
-        <ScrollView>
-          <Heading size="md">An error occured</Heading>
-        </ScrollView>
-      </View>
+        <SafeAreaView>
+            <ScrollView style={{ paddingHorizontal: 15 }}>
+                {/* display title and button to like review and shares */}
+                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                    <Text variant="headlineMedium" style={{ marginTop: 3, marginBottom: 2, marginLeft: 1, fontWeight: "bold" }}>
+                        {game.gameName}
+                    </Text>
+                    <View style={{ flexDirection: "row" }}>
+                        <View>
+                            <TouchableOpacity onPress={() => console.log('press like')}>
+                                <Ionicons size={24} name="star" />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginHorizontal: 2 }}>
+                            <TouchableOpacity onPress={() => console.log('press comment')}>
+                                <Ionicons size={24} name="chatbubbles" />
+                            </TouchableOpacity>
+                        </View>
+                        <View>
+                            <TouchableOpacity onPress={() => console.log('press share')}>
+                                <Ionicons size={24} name="share" />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+
+                {/* Display likes reviews and share number*/}
+                <View style={{ flexDirection: "row", marginVertical: 15 }}>
+                    <View>
+                        <InlineTextIcon icon={'star'} text={'22 Likes'} />
+                    </View>
+                    <View style={{ marginHorizontal: 8 }}>
+                        <InlineTextIcon icon={'chatbubbles'} text={'4 Reviews'} />
+                    </View>
+                    <View>
+                        <InlineTextIcon icon={'share'} text={'12 Shares'} />
+                    </View>
+                </View>
+
+                {/* display image, tags, description */}
+                <View>
+                    <View>
+                        <Image resizeMode="cover" style={{ width: Dimensions.get("window").width, height: 150, marginLeft: -15 }} source={{
+                            uri: "https://via.placeholder.com/150"
+                        }} />
+                    </View>
+                    <View
+                        style={{
+                            flex: 1,
+                            flexDirection: 'row',
+                            flexWrap: 'wrap',
+                            marginVertical: 15
+                        }}
+                    >
+                        {game.tags.map((tag: string, index) => (
+                            <Tag tagName={tag} key={index} />
+                        ))}
+                        <Text style={{ marginLeft: 1, fontSize: 12 }}>
+                            {game.description}
+                        </Text>
+                    </View>
+                </View>
+
+                {/* render 'play now' and 'book' button */}
+                <View
+                    style={{ flexDirection: "row", marginBottom: 4, width: "100%", justifyContent: "space-around", }}
+                >
+                    <TouchableOpacity onPress={() => navigation.navigate(findRoutes.BOOKING_FEED, { game: game })}>
+                        <InlineTextIcon icon={'book'} text={'Book'} background={'lightGrey'} btnMode={true} outline={true} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => console.log('Play now')}>
+                        <InlineTextIcon icon={'happy'} text={'Play now'} background={primaryColor} btnMode={true} iconColor={"white"} />
+                    </TouchableOpacity>
+                </View>
+                <Divider style={{ marginVertical: 15 }} />
+                {/* render 'they loved playing it' */}
+                <View style={{ marginVertical: 20 }}>
+                    <Text variant="headlineMedium" style={{ marginTop: 3, marginBottom: 2, marginLeft: 1, fontWeight: "bold" }}>
+                        They loved playing it
+                    </Text>
+                    <ScrollView horizontal>
+                        {game.reviews.map((review, index) => (
+                            <GameReviewCard item={review} key={index} />
+                        ))}
+                    </ScrollView>
+                </View>
+
+                {/* render 'game alike' */}
+                <View>
+                    <Text variant="headlineMedium" style={{ marginTop: 3, marginBottom: 2, marginLeft: 1, fontWeight: "bold" }}>
+                        Game alike
+                    </Text >
+                    <ScrollView horizontal>
+                        {gameData.map((game: any, index) => (
+                            <GameCard
+                                item={game}
+                                navigation={navigation}
+                                size="small"
+                                key={game.id}
+                            />
+                        ))}
+                    </ScrollView>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
-  }
-  return (
-    <ScrollView mx={2}>
-      {/* display title and button to like review and shares */}
-      <Flex direction="row" alignItems={'center'}>
-        <Heading fontSize={26} size="md">
-          {game.gameName}
-        </Heading>
-        <Spacer />
-        <Flex direction="row">
-          <Box>
-            <TouchableOpacity onPress={() => console.log('press like')}>
-              <Icon size={24} name="favorite-border" />
-            </TouchableOpacity>
-          </Box>
-          <Box mx={2}>
-            <TouchableOpacity onPress={() => console.log('press comment')}>
-              <Icon size={24} name="chat-bubble-outline" />
-            </TouchableOpacity>
-          </Box>
-          <Box>
-            <TouchableOpacity onPress={() => console.log('press share')}>
-              <Icon size={24} name="share" />
-            </TouchableOpacity>
-          </Box>
-        </Flex>
-      </Flex>
-
-      {/* Display likes reviews and share number*/}
-      <Flex direction="row" mb="2">
-        <Box>
-          <InlineTextIcon icon={'favorite'} text={'22 Likes'} />
-        </Box>
-        <Box mx={8}>
-          <InlineTextIcon icon={'chat-bubble'} text={'4 Reviews'} />
-        </Box>
-        <Box>
-          <InlineTextIcon icon={'share'} text={'12 Shares'} />
-        </Box>
-      </Flex>
-
-      {/* display image, tags, description */}
-      <Flex direction="row" mb="2" ml="2.5" mr="1">
-        <Box>
-          <Image
-            size={150}
-            source={{
-              uri: game.gameImgUrl,
-            }}
-            alt={game.id}
-          ></Image>
-        </Box>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-          }}
-          mx={4}
-        >
-          {game.tags.map((tag: string, index) => (
-            <Text
-              style={{ backgroundColor: 'black', color: 'white' }}
-              paddingLeft="2"
-              paddingRight="2"
-              borderRadius={20}
-              borderWidth={1}
-              borderStyle="solid"
-              fontSize={14}
-              ml="1"
-              mr="1"
-              mb="1"
-              key={index}
-            >
-              {tag}
-            </Text>
-          ))}
-          <Text ml="1" fontSize={12}>
-            {game.description}
-          </Text>
-        </View>
-      </Flex>
-
-      {/* render 'play now' and 'book' button */}
-      <Flex
-        direction="row"
-        mb="4"
-        width={'100%'}
-        justifyContent={'space-around'}
-      >
-        <Button
-          icon={'event'}
-          onPress={() => console.log('Play now')}
-          text={'Play now'}
-        />
-        <Button
-          icon={'event'}
-          onPress={() => console.log('Book')}
-          text={'Book'}
-        />
-      </Flex>
-
-      {/* render 'they loved playing it' */}
-      <Heading mt="3" mb="2" ml="1">
-        They loved playing it
-      </Heading>
-      <ScrollView horizontal>
-        {game.reviews.map((review, index) => (
-          <GameReviewCard item={review} key={index} direction={'row'} />
-        ))}
-      </ScrollView>
-
-      {/* render 'game alike' */}
-      <Heading mt="3" mb="2" ml="1">
-        Game alike
-      </Heading>
-      <ScrollView horizontal>
-        {gameData.map((game: any, index) => (
-          <GameCard
-            item={game}
-            navigation={navigation}
-            direction="row"
-            key={game.id}
-          />
-        ))}
-      </ScrollView>
-    </ScrollView>
-  );
 };
 
 export default GameScreen;

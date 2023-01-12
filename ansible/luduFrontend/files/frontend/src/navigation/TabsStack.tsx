@@ -6,6 +6,7 @@ import OrganizeScreen from "../screens/tabs/OrganizeScreen";
 import PlayScreen from "../screens/tabs/PlayScreen";
 import MeScreen from "../screens/tabs/MeScreen";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { primaryColor } from "../utils/colors";
 
 type Props = {
     ionIconsName: keyof typeof Ionicons.glyphMap;
@@ -51,10 +52,10 @@ const TabsStack = () => {
 
                     }
 
-                    return <Ionicons name={iconName} size={size} color={color} />;
+                    return <Ionicons name={iconName} size={size} color={primaryColor} />;
                 },
                 headerShown: false,
-                tabBarActiveTintColor: 'tomato',
+                tabBarActiveTintColor: primaryColor,
                 tabBarInactiveTintColor: 'gray',
             })}
         >

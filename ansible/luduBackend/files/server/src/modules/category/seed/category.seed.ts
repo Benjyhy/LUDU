@@ -11,7 +11,7 @@ export class CategorySeeder implements Seeder {
   ) {}
 
   async seed(): Promise<any> {
-    // Generate 10 users.
+    // Generate 5 category .
     const users = DataFactory.createForClass(Category).generate(5);
 
     // Insert into the database.

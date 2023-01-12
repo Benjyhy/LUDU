@@ -8,19 +8,16 @@ import { Store, StoreSchema } from 'src/schemas/store.schema';
 @Module({
   providers: [UserService],
   imports: [
-    MongooseModule.forFeature(
-      [
-        {
-          name: User.name,
-          schema: UserSchema,
-        },
-        {
-          name: Store.name,
-          schema: StoreSchema,
-        },
-      ],
-      'mongo',
-    ),
+    MongooseModule.forFeature([
+      {
+        name: User.name,
+        schema: UserSchema,
+      },
+      {
+        name: Store.name,
+        schema: StoreSchema,
+      },
+    ]),
   ],
   controllers: [UserController],
   exports: [UserService],

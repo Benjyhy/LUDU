@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -23,8 +23,13 @@ import { ReviewModule } from './modules/review/review.module';
       isGlobal: true,
       load: [appConfig],
     }),
-    MongooseModule.forRoot(appConfig().database.dev, {
-      connectionName: 'mongo',
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('app.database.dev'),
+        useNewUrlParser: true,
+      }),
+      inject: [ConfigService],
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'static/images'),
@@ -39,7 +44,7 @@ import { ReviewModule } from './modules/review/review.module';
     RentModule,
     ReviewModule,
   ],
-  controllers: [AppController, UserController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

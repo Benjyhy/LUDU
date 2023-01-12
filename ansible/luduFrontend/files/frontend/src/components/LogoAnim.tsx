@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 const LogoAnim = () => {
@@ -17,7 +17,7 @@ const LogoAnim = () => {
                 style={{
                     width: 200,
                     height: 200,
-                    backgroundColor: '#eee',
+                    backgroundColor: 'transparent',
                 }}
                 // Find more Lottie files at https://lottiefiles.com/featured
                 source={require('../../assets/ludu_logo_anim.json')}
