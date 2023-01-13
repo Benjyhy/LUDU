@@ -9,7 +9,7 @@
 
 - name: copy luduFrontend server into /opt/luduFrontend
   copy:
-   src: ../files/frontend
+   src: ../../../frontend
    dest: /opt/luduFrontend/
     
 

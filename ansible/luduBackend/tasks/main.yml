@@ -11,7 +11,7 @@
 
 - name: copy luduBackend server into /opt/luduBackend
   copy:
-   src: ../files/server
+   src: ../../../server
    dest: /opt/luduBackend
    
 
