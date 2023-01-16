@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, Button } from "react-native-paper"
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
 import findRoutes from "../../navigation/appRoutes/findRoutes";
@@ -32,9 +31,9 @@ function DatePickerScreen({ route, navigation }: any) {
         <View style={{ position: "relative", height: "100%" }}>
             <View style={{ marginTop: 70 }}>
                 <View style={{ paddingHorizontal: 8, alignItems: "center", paddingTop: 5 }}>
-                    <Text variant="headlineMedium" style={{ fontWeight: "bold" }}>Booking for: {game.gameName}</Text>
+                    <Text variant="headlineMedium" style={{ fontWeight: "bold" }}>Booking for: {game.gameId.gameName}</Text>
                     <Text variant="bodyLarge">
-                        at <Text style={{ fontWeight: "bold" }}>Game store name</Text>
+                        at <Text style={{ fontWeight: "bold" }}>{game.storeName}</Text>
                     </Text>
                 </View>
                 <View style={{ marginTop: 40 }}>

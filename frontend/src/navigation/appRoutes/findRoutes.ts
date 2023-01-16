@@ -5,7 +5,9 @@ enum findRoutes {
     BOOKING_FEED = 'Book Game',
     DATEPICKER_FEED = 'Date choice',
     PERIOD_FEED = 'Journey period or hour for delivery',
-    BOOKING_CONFIRMATION = 'Booking confirmation'
+    DELIVERY_FEED = 'Pick store to be delivered today',
+    BOOKING_CONFIRMATION = 'Booking confirmation',
+    TIME_FEED = 'Time for delivery'
 }
 
 export default findRoutes;
