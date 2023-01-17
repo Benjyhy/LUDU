@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import {Button, View, Text, Heading, Flex, Box, Checkbox} from "native-base";
+import { View, StyleSheet } from "react-native";
+import {Button, Text, Checkbox} from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { findRoutes } from "../../navigation/appRoutes/findRoutes";
+import findRoutes from "../../navigation/appRoutes/findRoutes";
+import {primaryColor} from "../../utils/colors";
 
 function TimePickerScreen({ route, navigation }: any) {
 
@@ -15,63 +17,82 @@ function TimePickerScreen({ route, navigation }: any) {
         }
         setDate(selectedDate);
     };
-    const showTimePicker = () => {
-        setShow(true);
-    };
+   
+    const handleNavigation = () => {
+        navigation.navigate(findRoutes.BOOKING_CONFIRMATION, {
+            game: route.params.game
+        })
+    }
     return (
-        <Flex alignItems="center" paddingTop={100}>
-            <View paddingX={8} paddingTop={5}>
-                <Heading>Booking for: { route.params.gameName }</Heading>
-                <Text>
-                    at <Text fontWeight="bold">Game store name on{" "}</Text>
-                    <Text fontWeight="bold" fontSize={18}>
-                        {route.params.date}
-                    </Text>
-                </Text>
-                <Box width="100%" display="flex" flexDirection="row" marginTop={50}>
-                    <Checkbox value="time" defaultIsChecked>Bring me the game home</Checkbox>
-                </Box>
-                <Text marginTop={5}>When do you want us to bring you the game?</Text>
-            </View>
-            <View display="flex" flexDirection="column" alignItems="center" paddingTop={75}>
-                <Button
-                    width={80}
-                    background="#545454"
-                    onPress={() => {
-                        showTimePicker();
-                    }}
-                >
-                    Choose Time for delivery
-                </Button>
-                <View>
-                    <Text fontSize={15}>Time chosen:</Text>
-                    <Text fontWeight="bold" fontSize={18}>
-                        {`${`0${date.getHours()}`.slice(
-                            -2,
-                        )}:${`0${date.getMinutes()}`.slice(-2)}`}
+        <View style={{ height: "100%", alignItems: "center" }}>
+            <View style={{ marginTop: 70 }}>
+                <View style={{ paddingHorizontal: 8, alignItems: "center", paddingTop: 5 }}>
+                    <Text variant="headlineMedium" style={{ fontWeight: "bold" }}>Booking for: {route.params.game.gameId.gameName}</Text>
+                    <Text variant="bodyLarge">
+                        at{" "}
+                        <Text style={{ fontWeight: "bold" }}>
+                            {route.params.game.storeName} {" "}
+                            <Text style={{ fontWeight: "bold" }}>
+                                today
+                            </Text>
+                        </Text>
                     </Text>
                 </View>
-                {show && (
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        value={date}
-                        mode="time"
-                        display="default"
-                        onChange={onChange}
-                    />
-                )}
+                
+                <View style={{marginTop: 80}}><Text>When do you want us to bring you the game?</Text></View>
+            </View>
+            
+            <View style={{marginTop: 30}}>
+                <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    mode="time"
+                    display="default"
+                    onChange={onChange}
+                />
+            </View>
+            <View style={{marginTop: 50}}>
+                <Text style={{fontSize: 15}}>Time chosen:</Text>
+                <Text style={{fontWeight: "bold", fontSize: 18, marginLeft: 13}}>
+                    {`${`0${date.getHours()}`.slice(
+                        -2,
+                    )}:${`0${date.getMinutes()}`.slice(-2)}`}
+                </Text>
             </View>
             <Button
-                width={80}
-                background="#545454"
-                borderRadius={5}
-                position="absolute"
-                top="190%"
+                style={[styles.btn]}
+                buttonColor={primaryColor}
+                textColor="white"
+                onPress={() => handleNavigation()}
             >
                 Continue
             </Button>
-        </Flex>
+        </View>
     );
 }
+const styles = StyleSheet.create({
+    container: {
+        alignItems: "center",
+        justifyContent: "center",
+        paddingHorizontal: 15,
+        marginTop: 20
+    },
+    btn: {
+        borderRadius: 5,
+        width: "auto",
+        position: "absolute",
+        bottom: 20,
+        alignSelf: "center",
+        paddingHorizontal: 20,
+        paddingVertical: 5
+    },
+    buttonActive: {
+        backgroundColor: "#000000",
+    },
+    textActive: {
+        color: "white",
+    },
+});
+
 
 export default TimePickerScreen;

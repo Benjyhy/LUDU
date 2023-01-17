@@ -92,7 +92,7 @@ const GameScreen = ({ route, navigation }: any) => {
                     <TouchableOpacity onPress={() => navigation.navigate(findRoutes.BOOKING_FEED, { game: game })}>
                         <InlineTextIcon icon={'book'} text={'Book'} background={'lightGrey'} btnMode={true} outline={true} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => console.log('Play now')}>
+                    <TouchableOpacity onPress={() => navigation.navigate(findRoutes.DELIVERY_FEED, { game: game })}>
                         <InlineTextIcon icon={'happy'} text={'Play now'} background={primaryColor} btnMode={true} iconColor={"white"} />
                     </TouchableOpacity>
                 </View>
