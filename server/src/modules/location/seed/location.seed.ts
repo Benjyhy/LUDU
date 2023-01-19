@@ -10,21 +10,8 @@ export class LocationSeeder implements Seeder {
     @InjectModel(Location.name) private readonly location: Model<Location>,
   ) {}
 
-  async seed(): Promise<any> {
-    // Generate 5 category .
-    const lille = DataFactory.createForClass(Location).generate(1, {
-      postalCode: 59000,
-    });
-
-    const lyon = DataFactory.createForClass(Location).generate(1, {
-      postalCode: 69000,
-    });
-
-    // Insert into the database.
-    this.location.create(lille);
-    this.location.create(lyon);
-    return;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async seed(): Promise<any> {}
 
   async drop(): Promise<any> {
     return this.location.deleteMany({});

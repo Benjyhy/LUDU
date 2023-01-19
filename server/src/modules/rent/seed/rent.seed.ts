@@ -14,22 +14,8 @@ export class RentSeeder implements Seeder {
     @InjectModel(Rent.name) private readonly rent: Model<Rent>,
   ) {}
 
-  async seed(): Promise<any> {
-    const users = await this.user.find();
-    const copies = await this.copy.find();
-    // Generate 10 copy game.
-    const rents = DataFactory.createForClass(Rent).generate(10, {
-      user: users[
-        Math.round(Math.floor(Math.random() * users.length))
-      ]._id.toString(),
-      copy: copies[
-        Math.round(Math.floor(Math.random() * copies.length))
-      ]._id.toString(),
-    });
-
-    // Insert into the database.
-    return this.rent.insertMany(rents);
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async seed(): Promise<any> {}
 
   async drop(): Promise<any> {
     return this.rent.deleteMany({});
