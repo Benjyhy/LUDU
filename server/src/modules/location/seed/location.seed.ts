@@ -12,10 +12,18 @@ export class LocationSeeder implements Seeder {
 
   async seed(): Promise<any> {
     // Generate 5 category .
-    const locations = DataFactory.createForClass(Location).generate(5);
+    const lille = DataFactory.createForClass(Location).generate(1, {
+      postalCode: 59000,
+    });
+
+    const lyon = DataFactory.createForClass(Location).generate(1, {
+      postalCode: 69000,
+    });
 
     // Insert into the database.
-    return this.location.insertMany(locations);
+    this.location.create(lille);
+    this.location.create(lyon);
+    return;
   }
 
   async drop(): Promise<any> {

@@ -41,7 +41,7 @@ export class RentController {
 
     const rent = await this.rentService.create(RentDto);
     // Set the copy unavailable
-    this.CopyService.toggleAvailable(RentDto.game.toString());
+    const lol = await this.CopyService.toggleAvailable(RentDto.game.toString());
     return rent;
   }
 
@@ -51,8 +51,8 @@ export class RentController {
   })
   @ApiOkResponse({ description: 'Success', type: Rent })
   findAll(
-    @Query('done') done: string,
-    @Query('is_delivered') is_delivered: string,
+    @Query('done') done?: string,
+    @Query('is_delivered') is_delivered?: string,
   ) {
     return this.rentService.findAll(done, is_delivered);
   }

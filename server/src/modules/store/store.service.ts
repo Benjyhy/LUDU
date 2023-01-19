@@ -90,7 +90,6 @@ export class StoreService {
     );
 
     if (!updatedStore) throw new NotFoundException(`Store #${id} not found`);
-    console.log(updatedStore);
 
     return await this.storeModel.findById(id);
   }

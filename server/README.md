@@ -30,6 +30,19 @@ npm run test:e2e
 npm run test:cov
 ```
 
+## Seeder
+
+```bash
+# Drop all data
+npm run seed:drop
+
+# create seeder
+npm run test:e2e
+
+# refresh seeder
+npm run seed:drop && npm run test:e2e
+```
+
 ## Images path
 
 /user/avatar/{filename}.webp
@@ -39,7 +52,5 @@ npm run test:cov
 ## Swagger path
 
 /api
-
-## Support
 
 Ask impsdc for .env variables

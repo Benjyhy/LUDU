@@ -137,7 +137,7 @@ export const games = [
       'Error porro nam iste distinctio nisi nulla. Voluptas facere repudiandae modi quibusdam. Recusandae repellat numquam dolor culpa. Natus beatae officiis magnam repellat iste. Architecto sed nulla eos cum. Illum sint vitae est rem praesentium natus incidunt.',
     version: 'optical archaeology',
     name: 'Intrigue',
-    ean: '4506841239687',
+    ean: '4506841239681',
     _id: undefined,
   },
   {

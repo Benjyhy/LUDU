@@ -42,11 +42,11 @@ seeder({
   ],
 }).run([
   CategorySeeder,
-  // GameSeeder,
-  // UserSeeder,
   LocationSeeder,
-  // StoreSeeder,
-  // CopySeeder,
-  // RentSeeder,
-  // ReviewSeeder,
+  GameSeeder,
+  UserSeeder,
+  StoreSeeder,
+  CopySeeder,
+  RentSeeder,
+  ReviewSeeder,
 ]);

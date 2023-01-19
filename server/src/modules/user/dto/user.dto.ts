@@ -15,7 +15,7 @@ import { StoreDocument } from '../../../schemas/store.schema';
 
 interface ICredentials {
   local: LocalDto;
-  oauth: OauthDto;
+  oauth?: OauthDto;
 }
 
 class LocalProperty {
@@ -52,7 +52,7 @@ export class UserDto {
   })
   @IsNotEmpty()
   @IsString()
-  readonly role: [ROLES];
+  readonly role: ROLES;
 
   @ApiProperty({
     example: 'popolito',
@@ -84,7 +84,7 @@ export class UserDto {
 
   @ApiPropertyOptional({ description: 'avatar' })
   @IsOptional()
-  // @IsBase64()
+  @IsBase64()
   avatar: string;
 
   @ApiProperty({

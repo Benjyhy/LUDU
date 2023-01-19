@@ -1,9 +1,44 @@
-export const stores = [
+export const storesLille = [
+  {
+    phone: '+33 30 07 26 92',
+    owner: 'Laurie',
+    address: '271 Rue Léon Gambetta, 59000 Lille',
+    name: 'Gamecash',
+    iban: 'FR7630003035409876543210925',
+    _id: undefined,
+  },
+  {
+    phone: '+33 30 07 26 92',
+    owner: 'Margot',
+    address: "85 Bd de Valmy'",
+    name: 'xGames',
+    iban: 'FR7630003035409876543210925',
+    _id: undefined,
+  },
+  {
+    phone: '+33 30 07 26 92',
+    owner: 'Brandon',
+    address: '127 Rue du Molinel',
+    name: 'au bo jeu',
+    iban: 'FR7630003035409876543210925',
+    _id: undefined,
+  },
+  {
+    phone: '+33 30 07 26 92',
+    owner: 'Charlie',
+    address: 'bis, 1 Rue Princesse',
+    name: 'La Luck',
+    iban: 'FR7630003035409876543210925',
+    _id: undefined,
+  },
+];
+
+export const storesLyon = [
   {
     phone: '+33 30 07 26 92',
     owner: 'Birdie',
-    address: '13 ure de saint jean',
-    name: 'puy de game',
+    address: '23 Quai Jean Moulin',
+    name: 'GameSpirit',
     iban: 'FR7630003035409876543210925',
     _id: undefined,
   },
@@ -18,24 +53,8 @@ export const stores = [
   {
     phone: '+33 27 69 54 50',
     owner: 'Joanny',
-    address: '13 rue edgar Degas',
-    name: 'xgames',
-    iban: 'FR7630003035409876543210925',
-    _id: undefined,
-  },
-  {
-    phone: '+33 08 67 09 92',
-    owner: 'Nayeli',
-    address: '1 rue du general Patin',
-    name: 'pullup station',
-    iban: 'FR7630003035409876543210925',
-    _id: undefined,
-  },
-  {
-    phone: '+33 61 47 49 30',
-    owner: 'Beatrice',
-    address: '8 rue de la castellane',
-    name: 'record arena',
+    address: '23 Quai Saint-Vincent',
+    name: 'Catch up Games',
     iban: 'FR7630003035409876543210925',
     _id: undefined,
   },

@@ -34,7 +34,7 @@ export class ReviewService {
     } else {
       return await this.reviewModel.find({
         user: reviewDto.user,
-        store: reviewDto.store,
+        game: reviewDto.game,
       });
     }
   }

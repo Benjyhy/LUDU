@@ -20,14 +20,14 @@ export class LocationService {
     return await this.locationModel.findById(id).populate('stores');
   }
 
-  public async findByZib(zip: number): Promise<LocationDocument[]> {
+  public async findByZip(zip: number): Promise<LocationDocument[]> {
     const location = await this.locationModel
       .find({ postalCode: zip })
       .populate('stores')
       .exec();
 
     if (location.length === 0)
-      throw new NotFoundException(`Location with zipcode #${zip} not found`);
+      throw new NotFoundException(`Location with zipcode ${zip} not found`);
 
     return location;
   }

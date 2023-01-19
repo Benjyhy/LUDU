@@ -37,7 +37,7 @@ export class LocationController {
     @Param('zip')
     zip: number,
   ): Promise<LocationDocument[]> {
-    return this.locationService.findByZib(zip);
+    return this.locationService.findByZip(zip);
   }
 
   @Get('/id/:id')

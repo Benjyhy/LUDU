@@ -19,6 +19,12 @@ export class CopyService {
     return await this.CopyModel.findById(id);
   }
 
+  public async findByAvailability(): Promise<CopyDocument[] | []> {
+    return await this.CopyModel.find({
+      available: true,
+    });
+  }
+
   public async create(copyDto: CopyDto): Promise<CopyDocument> {
     return await this.CopyModel.create(copyDto);
   }
