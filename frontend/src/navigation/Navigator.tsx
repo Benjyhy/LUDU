@@ -42,6 +42,7 @@ const StackNav = () => {
                     component={LoadingScreen}
                 />
                 <Stack.Screen name={appRoutes.LOGIN_SCREEN} component={LoginScreen} />
+                <Stack.Screen name={appRoutes.TAB_NAVIGATOR} component={TabsStack} />
                 <Stack.Screen
                     name={appRoutes.REGISTER_SCREEN}
                     component={RegisterScreen}
@@ -54,7 +55,6 @@ const StackNav = () => {
                     name={appRoutes.REGISTER_AVATAR_SCREEN}
                     component={Avatar}
                 />
-                <Stack.Screen name={appRoutes.TAB_NAVIGATOR} component={TabsStack} />
             </Stack.Navigator>
         </RegisterContext.Provider>
     );
