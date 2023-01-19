@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { RentDto } from './dto/rent.dto';
-import { Rent, RentDocument } from 'src/schemas/rent.schema';
 import { Model } from 'mongoose';
+import { RentDocument } from '../../schemas/rent.schema';
 
 @Injectable()
 export class RentService {

@@ -10,13 +10,8 @@ export class CategorySeeder implements Seeder {
     @InjectModel(Category.name) private readonly category: Model<Category>,
   ) {}
 
-  async seed(): Promise<any> {
-    // Generate 5 category .
-    const users = DataFactory.createForClass(Category).generate(5);
-
-    // Insert into the database.
-    return this.category.insertMany(users);
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async seed(): Promise<any> {}
 
   async drop(): Promise<any> {
     return this.category.deleteMany({});

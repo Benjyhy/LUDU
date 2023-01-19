@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ReviewDocument } from 'src/schemas/review.schema';
 import { ReviewDto } from './dto/review.dto';
 import { Model } from 'mongoose';
 import { NotFoundException } from '@nestjs/common';
+import { ReviewDocument } from '../../schemas/review.schema';
 
 @Injectable()
 export class ReviewService {
@@ -34,7 +34,7 @@ export class ReviewService {
     } else {
       return await this.reviewModel.find({
         user: reviewDto.user,
-        store: reviewDto.store,
+        game: reviewDto.game,
       });
     }
   }

@@ -26,7 +26,7 @@ seeder({
     }),
     MongooseModule.forRootAsync({
       useFactory: () => ({
-        uri: appConfig().database.dev,
+        uri: appConfig().database.prod,
       }),
     }),
     MongooseModule.forFeature([
@@ -42,9 +42,9 @@ seeder({
   ],
 }).run([
   CategorySeeder,
+  LocationSeeder,
   GameSeeder,
   UserSeeder,
-  LocationSeeder,
   StoreSeeder,
   CopySeeder,
   RentSeeder,

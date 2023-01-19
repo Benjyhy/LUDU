@@ -1,16 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import {
-  IsString,
-  IsBase64,
-  IsNumber,
-  IsArray,
-  ValidateNested,
-  ArrayMaxSize,
-  ArrayMinSize,
-} from 'class-validator';
-import { Type } from 'class-transformer';
-import { GameDocument, Game } from 'src/schemas/game.schema';
+import { IsString } from 'class-validator';
 
 export class CategoryDto {
   @Transform(({ value }) => value.toString())

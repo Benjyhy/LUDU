@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsNotEmpty } from 'class-validator';
-import { StoreDocument } from 'src/schemas/store.schema';
+import { StoreDocument } from '../../../schemas/store.schema';
 
 export class LocationDto {
   @Transform(({ value }) => value.toString())

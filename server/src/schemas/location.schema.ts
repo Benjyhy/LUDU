@@ -3,7 +3,7 @@ import { ObjectId, Types, Document } from 'mongoose';
 import { Transform } from 'class-transformer';
 import { Store } from './store.schema';
 import { Factory } from 'nestjs-seeder-impsdc';
-import { cityData } from '../seeders/principal.data';
+import { cities, zips } from '../seeders/data.seed';
 
 export type LocationDocument = Location & Document;
 
@@ -12,11 +12,11 @@ export class Location {
   @Transform(({ value }) => value.toString())
   _id: ObjectId | string;
 
-  @Factory(() => cityData[Math.floor(Math.random() * cityData.length)])
+  @Factory(() => cities.shift())
   @Prop({ required: true })
   name: string;
 
-  @Factory((faker) => faker.random.numeric(5))
+  @Factory(() => zips.shift())
   @Prop({ required: true, unique: true })
   postalCode: number;
 

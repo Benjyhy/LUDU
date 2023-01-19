@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { RentService } from './rent.service';
 import { RentDto } from './dto/rent.dto';
-import { Rent } from 'src/schemas/rent.schema';
 import { ApiTags, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import {
   NotFoundException,
@@ -11,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { CopyService } from '../copy/copy.service';
 import { UserService } from '../user/user.service';
+import { Rent } from '../../schemas/rent.schema';
 
 @Controller('rent')
 @ApiTags('Rent')
@@ -41,7 +41,7 @@ export class RentController {
 
     const rent = await this.rentService.create(RentDto);
     // Set the copy unavailable
-    this.CopyService.toggleAvailable(RentDto.game.toString());
+    const lol = await this.CopyService.toggleAvailable(RentDto.game.toString());
     return rent;
   }
 
@@ -51,8 +51,8 @@ export class RentController {
   })
   @ApiOkResponse({ description: 'Success', type: Rent })
   findAll(
-    @Query('done') done: string,
-    @Query('is_delivered') is_delivered: string,
+    @Query('done') done?: string,
+    @Query('is_delivered') is_delivered?: string,
   ) {
     return this.rentService.findAll(done, is_delivered);
   }

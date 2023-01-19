@@ -2,7 +2,7 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectId } from 'mongoose';
 import { Transform } from 'class-transformer';
 import { Factory } from 'nestjs-seeder-impsdc';
-import { categoryName } from '../seeders/category.data';
+import { categoryName } from '../seeders/data.seed';
 
 export type CategoryDocument = Category & Document;
 

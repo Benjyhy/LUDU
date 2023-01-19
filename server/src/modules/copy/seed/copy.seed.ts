@@ -14,18 +14,8 @@ export class CopySeeder implements Seeder {
     @InjectModel(Store.name) private readonly store: Model<Store>,
   ) {}
 
-  async seed(): Promise<any> {
-    const games = await this.game.find();
-    // Generate 10 copy game.
-    const copies = DataFactory.createForClass(Copy).generate(10, {
-      game: games[
-        Math.round(Math.floor(Math.random() * (await games).length))
-      ]._id.toString(),
-    });
-
-    // Insert into the database.
-    return this.copy.insertMany(copies);
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async seed(): Promise<any> {}
 
   async drop(): Promise<any> {
     return this.copy.deleteMany({});

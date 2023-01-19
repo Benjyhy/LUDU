@@ -4,7 +4,7 @@ import { Transform } from 'class-transformer';
 import { Category } from './category.schema';
 import { Review } from './review.schema';
 import { Factory } from 'nestjs-seeder-impsdc';
-import { gameName } from '../seeders/game.data';
+import { gameName } from '../seeders/data.seed';
 
 export type GameDocument = Game & Document;
 

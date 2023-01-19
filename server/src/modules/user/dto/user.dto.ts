@@ -7,15 +7,15 @@ import {
   IsBase64,
   IsOptional,
 } from 'class-validator';
-import { ROLES } from 'src/schemas/user.schema';
-import { StoreDocument } from 'src/schemas/store.schema';
 
 import { OauthDto } from './oauth.dto';
 import { LocalDto } from './local.dto';
+import { ROLES } from '../../../schemas/user.schema';
+import { StoreDocument } from '../../../schemas/store.schema';
 
 interface ICredentials {
   local: LocalDto;
-  oauth: OauthDto;
+  oauth?: OauthDto;
 }
 
 class LocalProperty {
@@ -52,7 +52,7 @@ export class UserDto {
   })
   @IsNotEmpty()
   @IsString()
-  readonly role: [ROLES];
+  readonly role: ROLES;
 
   @ApiProperty({
     example: 'popolito',
