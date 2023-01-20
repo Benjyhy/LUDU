@@ -3,9 +3,12 @@ import { StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 const LogoAnim = () => {
-    const animation = useRef(null);
+    const animation = useRef<LottieView | null>();
+    
     useEffect(() => {
-        animation.current?.play()
+        setTimeout(() => {
+            animation.current?.play();
+        }, 0)
     }, []);
 
     return (
