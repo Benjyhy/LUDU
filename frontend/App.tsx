@@ -13,7 +13,7 @@ const App = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 100);
+    }, 4000);
   }, []);
 
   if (!loading)
