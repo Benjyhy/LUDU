@@ -5,6 +5,5 @@
   roles:
     - luduServerSetup
     - luduBackend
-    - luduFrontend
-
+    #- luduFrontend
 

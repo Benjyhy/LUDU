@@ -8,12 +8,19 @@
     mode: '0755'
     state: directory
 
-
-- name: copy luduBackend server into /opt/luduBackend
-  copy:
-   src: ../../../server
-   dest: /opt/luduBackend
-   
+# - name: copy luduBackend server into /opt/luduBackend
+#   copy:
+#    src: luduBackend/files/server.tgz
+#    dest: /opt/luduBackend
+#    directory_mode:
+#       tags:
+#         - parentdir
+        
+- name: Extract luduBackend
+  ansible.builtin.unarchive:
+    src: luduBackend/files/server.tgz
+    dest: /opt/luduBackend
+    
 
 # use files parameter to use multiple docker-compose.yml files
 - name: deploy Docker Compose stack

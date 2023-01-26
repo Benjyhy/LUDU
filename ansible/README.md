@@ -1,3 +1,6 @@
+Put your ssh public key in the .ssh/authorized_key file on the server
+---------------------------------------------------------------------
+
 Configure the hosts into the /etc/ansible/hosts
 -----------------------------------------------
 
@@ -9,11 +12,16 @@ your.ip.adress.
 [luduFrontend]
 your.ip.adress.
 
+Change the group, owner in luduBackend/tasks/main.yml
+-----------------------------------------------------
+
+Line 6,7, change it according to the user who's going to run the script
+
 CMD to run the ansible playbook
 -------------------------------
 
 Go to the ansible file and run this command:
 
-    ansible-playbook luduPlaybook.yml --ask-become-pass
+    ./startAnsible.sh
 
 /!\ set the root password of the user host after running the command
