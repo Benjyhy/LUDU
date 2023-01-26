@@ -8,7 +8,6 @@
     mode: '0755'
     state: directory
 
-<<<<<<< HEAD
 # - name: copy luduBackend server into /opt/luduBackend
 #   copy:
 #    src: luduBackend/files/server.tgz
@@ -22,14 +21,6 @@
     src: luduBackend/files/server.tgz
     dest: /opt/luduBackend
     
-=======
-
-- name: copy luduBackend server into /opt/luduBackend
-  copy:
-   src: ../../../server
-   dest: /opt/luduBackend
-   
->>>>>>> 665bb2f39f1de46a6a69a93eb7db377191d66ea9
 
 # use files parameter to use multiple docker-compose.yml files
 - name: deploy Docker Compose stack
