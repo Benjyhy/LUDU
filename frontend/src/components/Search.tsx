@@ -4,16 +4,19 @@ import { View } from "react-native"
 import { Text, TextInput, Switch } from "react-native-paper";
 import findRoutes from "../navigation/appRoutes/findRoutes";
 import * as RootNavigation from "../navigation/rootNavigation";
+import appRoutes from "../navigation/appRoutes";
 
 const Search = () => {
     const [isMap, setIsMap] = useState(true);
     const routesToDisplaySearchComponent = [findRoutes.HOME_FEED, findRoutes.MAP_VIEW];
     let currentRoute;
 
-    if (RootNavigation.navigationRef.isReady())
-        currentRoute = RootNavigation.navigationRef.getCurrentRoute()?.name as findRoutes
-    else
+    if (RootNavigation.navigationRef.getCurrentRoute()?.name === appRoutes.TAB_NAVIGATOR) {
         currentRoute = findRoutes.HOME_FEED;
+    }
+    else {
+        currentRoute = RootNavigation.navigationRef.getCurrentRoute()?.name as findRoutes;
+    }
 
     const handleToggle = () => {
         setIsMap(!isMap);

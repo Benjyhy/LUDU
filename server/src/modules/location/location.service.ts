@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Location, LocationDocument } from 'src/schemas/location.schema';
+import { Location, LocationDocument } from '../../schemas/location.schema';
 import { LocationDto } from './dto/location.dto';
 import { ObjectId } from 'mongodb';
 
@@ -20,14 +20,14 @@ export class LocationService {
     return await this.locationModel.findById(id).populate('stores');
   }
 
-  public async findByZib(zip: number): Promise<LocationDocument[]> {
+  public async findByZip(zip: number): Promise<LocationDocument[]> {
     const location = await this.locationModel
       .find({ postalCode: zip })
       .populate('stores')
       .exec();
 
     if (location.length === 0)
-      throw new NotFoundException(`Location with zipcode #${zip} not found`);
+      throw new NotFoundException(`Location with zipcode ${zip} not found`);
 
     return location;
   }

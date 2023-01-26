@@ -4,13 +4,13 @@ import { IsEmail } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { hashPassword } from '../helpers/Bcrypt';
 import { Review } from './review.schema';
-import { cityData, phoneData, addressData } from '../seeders/principal.data';
+import { phoneData, addressData } from '../seeders/data.seed';
 import { Factory } from 'nestjs-seeder-impsdc';
 
 export enum ROLES {
-  USER,
-  SELLER,
-  ADMIN,
+  USER = 'USER',
+  SELLER = 'SELLER',
+  ADMIN = 'ADMIN',
 }
 
 export type UserDocument = User & Document;
@@ -69,7 +69,11 @@ export class User {
   credentials: Credentials;
 
   @Factory((faker, ctx) => ctx.role)
-  @Prop({ type: String, enum: ['USER', 'SELLER', 'ADMIN'], required: true })
+  @Prop({
+    type: String,
+    enum: ROLES,
+    default: ROLES.USER,
+  })
   role: ROLES;
 
   @Factory(() => phoneData.shift())
@@ -83,14 +87,6 @@ export class User {
   @Factory(() => addressData[Math.floor(Math.random() * addressData.length)])
   @Prop({ required: true })
   address: string;
-
-  @Factory(() => cityData[Math.floor(Math.random() * cityData.length)])
-  @Prop({ required: true })
-  city: string;
-
-  @Factory((faker) => faker.random.numeric(5))
-  @Prop({ required: true })
-  postCode: number;
 
   @Prop({ type: Types.ObjectId, ref: 'Store' })
   store: string;

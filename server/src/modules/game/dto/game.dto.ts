@@ -13,7 +13,7 @@ import { Type } from 'class-transformer';
 
 export class GameDto {
   @Transform(({ value }) => value.toString())
-  _id: string;
+  _id: string | undefined;
 
   @ApiProperty({
     example: '8435407619432',

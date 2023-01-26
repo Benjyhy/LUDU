@@ -21,24 +21,28 @@ export class LocationController {
 
   @Get('')
   @ApiOperation({ summary: 'Get all locations' })
-  @ApiOkResponse({ description: 'Success', type: Location, isArray: true })
+  @ApiOkResponse({ description: 'Success', type: LocationDto, isArray: true })
   findAll(): Promise<LocationDocument[]> {
     return this.locationService.findAll();
   }
 
   @Get('/:zip')
   @ApiOperation({ summary: 'Get location by zip code' })
-  @ApiOkResponse({ description: 'Success', type: Location, isArray: true })
+  @ApiOkResponse({
+    description: 'Success',
+    type: LocationDto,
+    isArray: true,
+  })
   findByZip(
     @Param('zip')
     zip: number,
   ): Promise<LocationDocument[]> {
-    return this.locationService.findByZib(zip);
+    return this.locationService.findByZip(zip);
   }
 
   @Get('/id/:id')
   @ApiOperation({ summary: 'Get a location by id' })
-  @ApiOkResponse({ description: 'Success', type: Location })
+  @ApiOkResponse({ description: 'Success', type: LocationDto })
   findById(@Param('id') id: string): Promise<LocationDocument> {
     return this.locationService.findById(id).then((location) => {
       if (!location) throw new NotFoundException(`Location #${id} not found`);
@@ -48,7 +52,7 @@ export class LocationController {
 
   @Post('')
   @ApiOperation({ summary: 'Create a new location' })
-  @ApiOkResponse({ description: 'Success', type: Location })
+  @ApiOkResponse({ description: 'Success', type: LocationDto })
   create(
     @Body(new ValidationPipe({ transform: true }))
     locationDto: LocationDto,
@@ -58,7 +62,7 @@ export class LocationController {
 
   @Put('/:id')
   @ApiOperation({ summary: 'Create a new location' })
-  @ApiOkResponse({ description: 'Success', type: Location })
+  @ApiOkResponse({ description: 'Success', type: LocationDto })
   update(
     @Param('id')
     id: string,
@@ -70,7 +74,7 @@ export class LocationController {
 
   @Delete('/:id')
   @ApiOperation({ summary: 'Delete a location' })
-  @ApiOkResponse({ description: 'Success', type: Location })
+  @ApiOkResponse({ description: 'Success', type: LocationDto })
   async remove(
     @Param('id')
     id: string,

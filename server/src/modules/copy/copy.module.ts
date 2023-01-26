@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { CopyService } from './copy.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CopyController } from './copy.controller';
-import { StoreSchema, Store } from 'src/schemas/store.schema';
-import { GameSchema, Game } from 'src/schemas/game.schema';
-import { CopySchema, Copy } from 'src/schemas/copy.schema';
 import { StoreModule } from '../store/store.module';
 import { GameModule } from '../game/game.module';
+import { Game, GameSchema } from '../../schemas/game.schema';
+import { Store, StoreSchema } from '../../schemas/store.schema';
+import { Copy, CopySchema } from '../../schemas/copy.schema';
 
 @Module({
   imports: [

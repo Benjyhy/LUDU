@@ -1,3 +1,4 @@
+import { StoreService } from './../store.service';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -12,20 +13,8 @@ export class StoreSeeder implements Seeder {
     @InjectModel(Location.name) private readonly location: Model<Location>,
   ) {}
 
-  async seed(): Promise<any> {
-    const locations = await this.location.find();
-    // Generate 10 users.
-    const stores = DataFactory.createForClass(Store).generate(5, {
-      iban: 'FR7630003035409876543210925',
-      locations:
-        locations[
-          Math.round(Math.floor(Math.random() * (await locations).length))
-        ]._id.toString(),
-    });
-
-    // Insert into the database.
-    return this.store.insertMany(stores);
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async seed(): Promise<any> {}
 
   async drop(): Promise<any> {
     return this.store.deleteMany({});

@@ -1,32 +1,32 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsString, IsNumber, IsBoolean, IsOptional } from 'class-validator';
-import { Type } from 'class-transformer';
-
 export class RentDto {
   @Transform(({ value }) => value.toString())
   _id: string;
 
   @ApiProperty({
-    example: "1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC",
-    description: 'Time where the game is delivered',
+    example: 'unix date',
+    description: 'Timestamp in unix when the game is delivered',
   })
   @IsString()
   readonly startDate: string;
 
-  @ApiProperty({
-    example: "1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC",
-    description: 'Time where the game is return',
+  @ApiPropertyOptional({
+    example: 'unix date',
+    description: 'Timestamp in unix when the game is return',
   })
   @IsString()
-  readonly endDate: string;
+  @IsOptional()
+  readonly endDate?: string;
 
-  @ApiProperty({
-    example: '12',
-    description: 'Number of Hours of the location',
+  @ApiPropertyOptional({
+    example: '1200000',
+    description: 'Number of miliseconds of the location',
   })
   @IsNumber()
-  readonly duration: number;
+  @IsOptional()
+  readonly duration?: number;
 
   @ApiProperty({
     example: 'true',

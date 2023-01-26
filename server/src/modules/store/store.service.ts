@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { LocationDocument } from 'src/schemas/location.schema';
-import { StoreDocument, Store } from 'src/schemas/store.schema';
+import { Copy } from '../../schemas/copy.schema';
+import { LocationDocument } from '../../schemas/location.schema';
+import { Review } from '../../schemas/review.schema';
+import { Store, StoreDocument } from '../../schemas/store.schema';
 import { StoreDto } from './dto/store.dto';
-import { Copy } from 'src/schemas/copy.schema';
-import { Review } from 'src/schemas/review.schema';
 
 @Injectable()
 export class StoreService {
@@ -90,7 +90,6 @@ export class StoreService {
     );
 
     if (!updatedStore) throw new NotFoundException(`Store #${id} not found`);
-    console.log(updatedStore);
 
     return await this.storeModel.findById(id);
   }

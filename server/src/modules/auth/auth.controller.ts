@@ -1,11 +1,11 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { UserDocument } from 'src/schemas/user.schema';
 import { UserDto } from '../user/dto/user.dto';
+import { UserDocument } from '../../schemas/user.schema';
+import appConfig from '../../config/app.config';
 import { LoginDto } from './dto/login.dto';
-import { saveImage } from 'src/helpers/Utils';
-import appConfig from 'src/config/app.config';
+import { saveImage } from '../../helpers/Utils';
 
 @ApiTags('Auth')
 @Controller()

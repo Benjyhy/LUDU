@@ -64,7 +64,7 @@ describe('LocationController', () => {
         );
       });
       test('then it should called locationService.findByZib', () => {
-        expect(locationService.findByZib).toBeCalledWith(
+        expect(locationService.findByZip).toBeCalledWith(
           locationStub().postalCode,
         );
       });

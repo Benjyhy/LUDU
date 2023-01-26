@@ -16,34 +16,8 @@ export class ReviewSeeder implements Seeder {
     @InjectModel(User.name) private readonly user: Model<User>,
   ) {}
 
-  async seed(): Promise<any> {
-    const user = await this.user.find();
-    const game = await this.game.find();
-    const store = await this.store.find();
-
-    const reviewsAboutGames = DataFactory.createForClass(Review).generate(10, {
-      user: user[
-        Math.round(Math.floor(Math.random() * (await user).length))
-      ]._id.toString(),
-      game: game[
-        Math.round(Math.floor(Math.random() * (await game).length))
-      ]._id.toString(),
-    });
-
-    const reviewsAboutStores = DataFactory.createForClass(Review).generate(10, {
-      user: user[
-        Math.round(Math.floor(Math.random() * (await user).length))
-      ]._id.toString(),
-      store:
-        store[
-          Math.round(Math.floor(Math.random() * (await store).length))
-        ]._id.toString(),
-    });
-
-    // Insert into the database.
-    this.review.insertMany(reviewsAboutGames);
-    return this.review.insertMany(reviewsAboutStores);
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async seed(): Promise<any> {}
 
   async drop(): Promise<any> {
     return this.review.deleteMany({});

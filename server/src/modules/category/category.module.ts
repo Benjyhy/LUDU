@@ -1,10 +1,10 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
-import { Game, GameSchema } from 'src/schemas/game.schema';
-import { Category, CategorySchema } from 'src/schemas/category.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { GameModule } from '../game/game.module';
+import { Game, GameSchema } from '../../schemas/game.schema';
+import { Category, CategorySchema } from '../../schemas/category.schema';
 
 @Module({
   imports: [

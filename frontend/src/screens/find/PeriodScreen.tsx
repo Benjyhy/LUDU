@@ -9,8 +9,6 @@ function PeriodScreen({ route, navigation }: any) {
 
     const [buttonSelected, setButtonSelected] = useState('morning');
     const [isSelected, setSelection] = useState(false);
-    const [clickedId, setClickedId] = useState(0);
-    const [checked, setChecked] = React.useState(false);
     const [date, setDate] = useState(new Date());
     const onChange = (event, selectedDate) => {
         if (event?.type === "dismissed") {
@@ -20,10 +18,7 @@ function PeriodScreen({ route, navigation }: any) {
         setDate(selectedDate);
     };
     const game = route.params.game;
-    // const date = route.params.date;
-    const handleChange = (e) => {
-        setSelection(e)
-    }
+    
     const handleNavigation = () => {
         isSelected
             ? navigation.navigate(findRoutes.BOOKING_CONFIRMATION, {
@@ -35,11 +30,11 @@ function PeriodScreen({ route, navigation }: any) {
         <View style={{ position: "relative", height: "100%", alignItems: "center" }}>
             <View style={{ marginTop: 70 }}>
                 <View style={{ paddingHorizontal: 8, alignItems: "center", paddingTop: 5 }}>
-                    <Text variant="headlineMedium" style={{ fontWeight: "bold" }}>Booking for: {route.params.game.gameName}</Text>
+                    <Text variant="headlineMedium" style={{ fontWeight: "bold" }}>Booking for: {game.gameId.gameName}</Text>
                     <Text variant="bodyLarge">
                         at{" "}
                         <Text style={{ fontWeight: "bold" }}>
-                            Game store name <Text>on</Text>{" "}
+                            {game.storeName} <Text>on</Text>{" "}
                             <Text style={{ fontWeight: "bold" }}>
                                 {route.params.date}
                             </Text>
@@ -70,7 +65,7 @@ function PeriodScreen({ route, navigation }: any) {
                         },
                         {
                             value: 'afternon',
-                            label: 'Atfernoon',
+                            label: 'Afternoon',
                         },
                         { value: 'evening', label: 'Evening' },
                     ]} />

@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import * as Sharp from 'sharp';
 import { HttpException, HttpStatus, Logger } from '@nestjs/common';
-import { access, accessSync, unlink, unlinkSync } from 'fs';
+import { unlinkSync } from 'fs';
 
 export const isPasswordInvalid = (password: string) => {
   const match = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;

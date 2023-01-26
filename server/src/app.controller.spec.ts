@@ -15,8 +15,9 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('test if api is up', () => {
+      const expected = { IsApiUp: true };
+      expect(appController.home()).toMatchObject(expected);
     });
   });
 });

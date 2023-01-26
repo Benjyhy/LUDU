@@ -12,10 +12,13 @@ function BookingGameScreen({ route, navigation }: any) {
     const gamePlaces = storeMockData;
     console.log(item)
     const game = gamePlaces.find(game => game.gameId.id === item.id);
-    const items = gamePlaces.filter(game => game.gameId.id === item.id);
     const gameName = game.gameId.gameName;
-    const [value, setValue] = React.useState('first');
+    const items = gamePlaces.filter(game => game.gameId.id === item.id);
     const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+    const [selected, setSelected] = useState(null);
+    const selectedGame = (it) => {
+        setSelected(it);
+    }
 
     const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
     return (
@@ -32,7 +35,7 @@ function BookingGameScreen({ route, navigation }: any) {
                 </Text>
                 <SafeAreaView>
                     <ScrollView style={{ paddingVertical: 20, height: 300 }}>
-                        {items.map(item => <StoreListing item={item} key={item.id} />)}
+                        <StoreListing selectedGame={selectedGame} items={items} />
 
                     </ScrollView>
                 </SafeAreaView>
@@ -41,7 +44,7 @@ function BookingGameScreen({ route, navigation }: any) {
                 buttonColor={primaryColor}
                 textColor="white"
                 style={{ borderRadius: 5, width: "auto" }}
-                onTouchEnd={() => navigation.navigate(findRoutes.DATEPICKER_FEED, { game: game })}
+                onTouchEnd={() => navigation.navigate(findRoutes.DATEPICKER_FEED, { game: selected })}
             >
                 Continue
             </Button>
