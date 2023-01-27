@@ -2,11 +2,11 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import tabRoutes from "./appRoutes/tabRoutes";
 import FindScreen from "../screens/tabs/FindScreen";
-import OrganizeScreen from "../screens/tabs/OrganizeScreen";
 import PlayScreen from "../screens/tabs/PlayScreen";
 import MeScreen from "../screens/tabs/MeScreen";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { primaryColor } from "../utils/colors";
+import BookingTabsScreen from '../screens/tabs/BookingTabsScreen';
 
 type Props = {
     ionIconsName: keyof typeof Ionicons.glyphMap;
@@ -35,7 +35,7 @@ const TabsStack = () => {
                                 : 'ios-game-controller-outline';
                             break;
 
-                        case tabRoutes.ORGANIZE_SCREEN:
+                        case tabRoutes.BOOKING_TABS_SCREEN:
                             iconName = focused
                                 ? 'ios-today'
                                 : 'ios-today-outline';
@@ -61,8 +61,8 @@ const TabsStack = () => {
         >
             <Tab.Screen name={tabRoutes.FIND_SCREEN} component={FindScreen} />
             <Tab.Screen
-                name={tabRoutes.ORGANIZE_SCREEN}
-                component={OrganizeScreen}
+                name={tabRoutes.BOOKING_TABS_SCREEN}
+                component={BookingTabsScreen}
             />
             <Tab.Screen name={tabRoutes.PLAY_SCREEN} component={PlayScreen} />
             <Tab.Screen name={tabRoutes.ME_SCREEN} component={MeScreen} />
