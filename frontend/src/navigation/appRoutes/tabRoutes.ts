@@ -1,7 +1,7 @@
 enum tabRoutes {
     FIND_SCREEN = 'Find',
     PLAY_SCREEN = 'Play',
-    ORGANIZE_SCREEN = 'Organize',
+    BOOKING_TABS_SCREEN = "Booking's User",
     ME_SCREEN = 'Me',
 }
 

@@ -46,7 +46,7 @@ const data = [
     },
     {
         id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        gameName: 'Monopoly',
+        gameName: 'Catan',
         gameImgUrl: 'https://via.placeholder.com/300',
         store_id: '',
         quantity: 4,
