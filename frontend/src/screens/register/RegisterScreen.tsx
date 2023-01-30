@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, Dimensions, Text, TouchableOpacity, View, Image, StatusBar } from 'react-native';
+import { StyleSheet, Dimensions, Text, TouchableOpacity, View, Image } from 'react-native';
 import appRoutes from '../../navigation/appRoutes/index';
 import { Button, TextInput } from 'react-native-paper';
 import { RegisterContext } from '../../utils/registerContext';
