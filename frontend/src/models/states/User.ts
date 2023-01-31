@@ -1,8 +1,8 @@
 import { Review } from './Review';
 export declare enum ROLES {
-  USER = 0,
-  SELLER = 1,
-  ADMIN = 2,
+  USER = 'USER',
+  SELLER = 'SELLER',
+  ADMIN = 'ADMIN',
 }
 export type LocalAuth = {
   email: string;
