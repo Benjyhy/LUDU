@@ -9,4 +9,5 @@ if [ $? -eq 0 ]; then
 else
   echo "Error creating archive $file_name."
 fi
-ansible-playbook luduPlaybook.yml -v --ask-become-pass
+ansible-playbook luduPlaybook.yml -v 
+#--ask-become-pass
