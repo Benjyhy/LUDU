@@ -1,5 +1,26 @@
 ---
 # tasks file for luduServerSetup
+    - name: Make sure we have a 'ludu' group
+      group:
+        name: ludu
+        state: present
+
+    - name: Allow 'ludu' group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%ludu'
+        line: '%ludu ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Add sudoers users to ludu group
+      user:
+        name=ludu
+        groups=ludu
+        append=yes
+        state=present
+        createhome=yes
+
     - name: Install aptitude
       apt:
         name: aptitude
