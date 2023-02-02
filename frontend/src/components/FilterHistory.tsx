@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, Modal, View } from 'react-native';
 import { Button, Text, RadioButton } from 'react-native-paper';
-import { primaryColor } from '../utils/colors';
+import { primaryColor } from '../utils/const';
 
 const filters = ['All', 'inprogress', 'finished']
 

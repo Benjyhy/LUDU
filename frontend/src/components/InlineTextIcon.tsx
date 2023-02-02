@@ -36,7 +36,8 @@ export const InlineTextIcon = ({ text, icon, inversed, background, btnMode, outl
 
 const styles = StyleSheet.create({
     inlineText: {
-        flex: 1,
+        // flex: 1,
+        alignSelf: 'stretch',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
