@@ -127,6 +127,7 @@ export default function Register({ navigation }: any) {
                       onPress={register}
                       disabled={isInputInValid}
                       buttonColor={primaryColor}
+                      icon='arrow-right-bold-box-outline'
                     >Next</Button>
                 </View>
                 <View

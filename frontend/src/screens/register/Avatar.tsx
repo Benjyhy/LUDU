@@ -15,7 +15,8 @@ import { RegisterContext } from '../../utils/registerContext';
 import * as ImagePicker from 'expo-image-picker';
 import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types';
 import axios from '../../utils/axios';
-import { primaryColor } from '../../utils/colors';
+import { primaryColor, secondaryColor } from '../../utils/colors';
+import { LinearGradient } from 'expo-linear-gradient';
 const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Avatar({ navigation }: any) {
@@ -52,13 +53,11 @@ export default function Avatar({ navigation }: any) {
                 allowsEditing: true,
                 aspect: [4, 4],
                 quality: 1,
-                base64: true,
             });
 
-            if (!result.cancelled) {
-                const { uri, base64 } = result as ImageInfo;
-                setImage(base64);
-                setPreview(uri);
+            if (!result.canceled) {
+                setImage(result.assets[0].uri);
+                setPreview(result.assets[0].uri);
             }
         };
         return (
@@ -66,8 +65,10 @@ export default function Avatar({ navigation }: any) {
                 {!preview && (
                     <Button
                         onPress={pickImage}
-                        buttonColor={'white'}
-                        icon={'perm-media'}
+                        buttonColor={primaryColor}
+                        textColor={'white'}
+                        style={{ borderRadius: 5, paddingHorizontal: 55, paddingVertical: 5 }}
+                        icon='camera-plus-outline'
                     >Pick an image</Button>
                 )}
                 {preview && (
@@ -78,8 +79,10 @@ export default function Avatar({ navigation }: any) {
                         />
                         <Button
                             onPress={pickImage}
-                            buttonColor={'white'}
-                            icon={'perm-media'}
+                            buttonColor={primaryColor}
+                            textColor={'white'}
+                            style={{marginTop: 20}}
+                            icon='camera-plus-outline'
                         >Select an other</Button>
                     </>
                 )}
@@ -88,59 +91,64 @@ export default function Avatar({ navigation }: any) {
     };
 
     return (
-        <View style={{ flex: 1 }}>
-            <View style={{
-                height: 16,
-                paddingTop: 10,
-                paddingLeft: 4,
-                flexDirection: "row"
-            }}>
-                <TouchableOpacity
-                    onPress={() => navigation.goBack()}
-                    style={{ backgroundColor: 'transparent' }}
-                >
-                    <Ionicons size={24} name="arrow-back" />
-                </TouchableOpacity>
-            </View>
-            <View
-                style={{
-                    flex: 4,
-                    justifyContent: "center",
-                    alignItems: "center"
+        <View>
+            <LinearGradient colors={[primaryColor, secondaryColor]} style={{ height: '100%' }}>
+                <View style={{
+                    paddingTop: 30,
+                    paddingLeft: 10,
                 }}>
-                {!loading && (
-                    <>
-                        <View style={{ marginBottom: 4 }}>
-                            <Text>Add an avatar to your profile</Text>
-                        </View>
-                        <HandleImageSelect />
-                        <View
+                    <TouchableOpacity
+                      onPress={() => navigation.goBack()}
+                      style={{ backgroundColor: 'transparent' }}
+                    >
+                        <Ionicons size={34} name="arrow-back" color={"white"}/>
+                    </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                      flex: 4,
+                      justifyContent: "center",
+                      alignItems: "center"
+                  }}>
+                    {!loading && (
+                      <>
+                          <View style={{ marginBottom: 30 }}>
+                              <Text style={{color: "white", fontWeight: 'bold', fontSize: 15, textTransform: 'uppercase'}}>
+                                  Add an avatar to your profile
+                              </Text>
+                          </View>
+                          <HandleImageSelect />
+                          <View
                             style={[preview ? styles.previewed : styles.notPreviewed, {
                                 width: '100%',
                             }]}
-                        >
-                            {preview && (
+                          >
+                              {preview && (
                                 <Button
-                                    onPress={register}
-                                    buttonColor={primaryColor}
+                                  onPress={register}
+                                  buttonColor={primaryColor}
+                                  textColor={"white"}
+                                  style={{marginTop: 50, borderRadius: 5, paddingHorizontal: 15}}
                                 >Valider</Button>
-                            )}
-                            {!preview && (
+                              )}
+                              {!preview && (
                                 <Button
-                                    onPress={register}
-                                    icon={'arrow-forward'}
-                                    buttonColor={primaryColor}
+                                  onPress={register}
+                                  buttonColor={primaryColor}
+                                  textColor={"white"}
+                                  style={{ borderRadius: 5, paddingHorizontal: 15, marginRight: 15 }}
                                 >Later</Button>
-                            )}
-                        </View>
-                    </>
-                )}
-                {loading && (
-                    <>
-                        <Divider />
-                    </>
-                )}
-            </View>
+                              )}
+                          </View>
+                      </>
+                    )}
+                    {loading && (
+                      <>
+                          <Divider />
+                      </>
+                    )}
+                </View>
+            </LinearGradient>
         </View>
     );
 }
