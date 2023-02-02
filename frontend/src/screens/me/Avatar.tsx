@@ -22,6 +22,15 @@ const AvatarMe = ({
         <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
           {username}
         </Text>
+        <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+          p.santamara@lapost.net
+        </Text>
+        <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+          4 avenue Hoche, Lille, 59000
+        </Text>
+        <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+          0627389128
+        </Text>
       </>
     );
   };

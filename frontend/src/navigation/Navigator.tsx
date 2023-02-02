@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import appRoutes from './appRoutes';
-import tabRoutes from './appRoutes/tabRoutes';
 import TabsStack from './TabsStack';
 import LoadingScreen from '../screens/LoadingScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -13,7 +12,6 @@ import Phone from '../screens/register/Phone';
 import Avatar from '../screens/register/Avatar';
 import { RegisterContext } from '../utils/registerContext';
 import { UserCreate } from '../models/states/User';
-import MeScreen from '../screens/tabs/MeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,11 +34,9 @@ const StackNav = () => {
   return (
     <RegisterContext.Provider value={{ user, setUser }}>
       <Stack.Navigator
-        // initialRouteName={appRoutes.LOGIN_SCREEN}
-        initialRouteName={tabRoutes.ME_SCREEN}
+        initialRouteName={appRoutes.LOGIN_SCREEN}
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name={tabRoutes.ME_SCREEN} component={MeScreen} />
         <Stack.Screen
           name={appRoutes.LOADING_SCREEN}
           component={LoadingScreen}

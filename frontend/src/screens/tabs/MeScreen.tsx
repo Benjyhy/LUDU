@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { InlineTextIcon } from '../../components/InlineTextIcon';
 import {
@@ -19,58 +19,94 @@ const MeScreen = () => {
 
   return (
     <Layout title={'Profil'}>
-      <View style={styles.wrapperView}>
-        <AvatarMe avatarUri={avatarUri} username={username} />
-        <View style={styles.row}>
-          <InlineTextIcon text="About ludu" icon={'help'} />
-          <View style={styles.container}>
-            <Button>
-              <MaterialIcons
-                name={'keyboard-arrow-right'}
-                color={middleGray}
-                size={24}
-              />
-            </Button>
+      <ScrollView style={{ width: '100%' }}>
+        <View style={styles.wrapperView}>
+          <AvatarMe avatarUri={avatarUri} username={username} />
+          <TouchableOpacity style={styles.row}>
+            <InlineTextIcon text="Customization" icon={'help'} />
+            <View style={styles.container}>
+              <Button>
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
+              </Button>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.row}>
+            <InlineTextIcon text="Favorite games" icon={'heart-outline'} />
+            <View style={styles.container}>
+              <Button>
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
+              </Button>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.row}>
+            <InlineTextIcon text="My wallet" icon={'wallet-outline'} />
+            <View style={styles.container}>
+              <Text style={{ marginLeft: 4, color: strongGray }}>66.00€</Text>
+              <Button>
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
+              </Button>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.row}>
+            <InlineTextIcon text="Settings" icon={'settings-outline'} />
+            <View style={styles.container}>
+              <Button>
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
+              </Button>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.row}>
+            <InlineTextIcon
+              text="About Ludu"
+              icon={'information-circle-outline'}
+            />
+            <View style={styles.container}>
+              <Button>
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
+              </Button>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.row}>
+            <InlineTextIcon text="My reviews" icon={'happy-outline'} />
+            <View style={styles.container}>
+              <Button>
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
+              </Button>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.rowPrivacy}>
+            <Text variant="bodySmall">Privacy Policy</Text>
+            <Text variant="titleSmall" style={{ margin: 8 }}>
+              .
+            </Text>
+            <Text variant="bodySmall">Use of cookies</Text>
           </View>
         </View>
-        <View style={styles.row}>
-          <InlineTextIcon text="Favorite games" icon={'heart'} />
-          <View style={styles.container}>
-            <Button>
-              <MaterialIcons
-                name={'keyboard-arrow-right'}
-                color={middleGray}
-                size={24}
-              />
-            </Button>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <InlineTextIcon text="My wallet" icon={'wallet'} />
-          <View style={styles.container}>
-            <Text style={{ marginLeft: 4, color: strongGray }}>66.0€</Text>
-            <Button>
-              <MaterialIcons
-                name={'keyboard-arrow-right'}
-                color={middleGray}
-                size={24}
-              />
-            </Button>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <InlineTextIcon text="Settings" icon={'settings-outline'} />
-          <View style={styles.container}>
-            <Button>
-              <MaterialIcons
-                name={'keyboard-arrow-right'}
-                color={middleGray}
-                size={24}
-              />
-            </Button>
-          </View>
-        </View>
-      </View>
+      </ScrollView>
     </Layout>
   );
 };
@@ -81,9 +117,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: lowGray,
-    borderColor: lowGray,
-    borderTopWidth: 1,
-    borderWidth: 1,
   },
   row: {
     width: '100%',
@@ -103,6 +136,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  rowPrivacy: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
