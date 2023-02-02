@@ -1,4 +1,4 @@
 export declare class Category {
-    _id: string;
-    name: string;
+  _id: string;
+  name: string;
 }
