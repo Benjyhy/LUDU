@@ -3,7 +3,7 @@ import filters from "../mocks/filterMockData";
 import { View, Modal, Dimensions } from "react-native";
 import { Text } from "react-native-paper";
 import { Button, Checkbox } from 'react-native-paper';
-import { primaryColor } from "../utils/colors";
+import { primaryColor } from "../utils/const";
 
 interface FilterProps {
     active: boolean;

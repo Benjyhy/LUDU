@@ -1,4 +1,4 @@
-import { Game } from "./Game";
+import { Game } from './Game';
 
 export interface Copy {
   _id: string;

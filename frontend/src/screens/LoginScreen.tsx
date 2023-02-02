@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   MD2Colors,
 } from 'react-native-paper';
-import { errorColor, primaryColor, secondaryColor } from '../utils/colors';
+import { errorColor, primaryColor, secondaryColor } from '../utils/const';
 import axios from '../utils/axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/actions/userAction';

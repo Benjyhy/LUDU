@@ -1,36 +1,109 @@
-import React from "react";
-import { View } from "react-native";
-import { Button, Text } from "react-native-paper";
-import { InlineTextIcon } from "../../components/InlineTextIcon";
-import { bgColor } from "../../utils/colors";
-import Layout from "../Layout";
-import AvatarMe from "../me/Avatar";
-import LinkTab from "../me/LinkTab";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { MaterialIcons } from '@expo/vector-icons'; 
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+import { InlineTextIcon } from '../../components/InlineTextIcon';
+import {
+  lowGray,
+  middleGray,
+  strongGray,
+  verticalPadding,
+} from '../../utils/const';
+import Layout from '../Layout';
+import AvatarMe from '../me/Avatar';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const MeScreen = () => {
-    const username =  "Paul"
-    const avatarUri = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fplay-lh.googleusercontent.com%2FIeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3&imgrefurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dclub.pixelbox.instasquare%26hl%3Dfr&tbnid=UpFlDg0yKYcSKM&vet=12ahUKEwjl-feyle38AhWQWKQEHVZNAdAQMygAegUIARC8AQ..i&docid=vdqGgIPlepjDJM&w=512&h=512&q=square%20img&ved=2ahUKEwjl-feyle38AhWQWKQEHVZNAdAQMygAegUIARC8AQ";
+  const username = 'Paul';
+  const avatarUri =
+    'https://avatars.githubusercontent.com/u/55087969?s=400&u=a57cf70988be3cdefe55132d61bd532499b5dcd9&v=4';
 
-    return ( 
-        <Layout title={"Profil"}>
-            <View style={{ flexDirection: "column", justifyContent: "center", alignItems:"center", backgroundColor: bgColor}}>
-                <AvatarMe avatarUri={avatarUri} username={username} />
-                <Text variant="bodyMedium">Change your avatar</Text>
-                <LinkTab icon="lol" label="Ton guide Ludu"/>
-                <View style={{ width:"100%" ,marginVertical:8, flexDirection: "row", justifyContent: "space-between", alignItems:"center", backgroundColor: "#fff"}}>
-                <InlineTextIcon text="About ludu" icon="location"/>
-                <View style={{flexDirection: "row", justifyContent: "center", alignItems:"center", }}>
-                    <Text style={{marginLeft:4, color:bgColor}}>LOL</Text>
-                    <Button>
-                    <MaterialIcons name={"keyboard-arrow-right"} color={bgColor} size={24} />
-                    </Button>
-                </View>
-                </View>
+  return (
+    <Layout title={'Profil'}>
+      <View style={styles.wrapperView}>
+        <AvatarMe avatarUri={avatarUri} username={username} />
+        <View style={styles.row}>
+          <InlineTextIcon text="About ludu" icon={'help'} />
+          <View style={styles.container}>
+            <Button>
+              <MaterialIcons
+                name={'keyboard-arrow-right'}
+                color={middleGray}
+                size={24}
+              />
+            </Button>
+          </View>
         </View>
-        </Layout>
-    )
+        <View style={styles.row}>
+          <InlineTextIcon text="Favorite games" icon={'heart'} />
+          <View style={styles.container}>
+            <Button>
+              <MaterialIcons
+                name={'keyboard-arrow-right'}
+                color={middleGray}
+                size={24}
+              />
+            </Button>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <InlineTextIcon text="My wallet" icon={'wallet'} />
+          <View style={styles.container}>
+            <Text style={{ marginLeft: 4, color: strongGray }}>66.0€</Text>
+            <Button>
+              <MaterialIcons
+                name={'keyboard-arrow-right'}
+                color={middleGray}
+                size={24}
+              />
+            </Button>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <InlineTextIcon text="Settings" icon={'settings-outline'} />
+          <View style={styles.container}>
+            <Button>
+              <MaterialIcons
+                name={'keyboard-arrow-right'}
+                color={middleGray}
+                size={24}
+              />
+            </Button>
+          </View>
+        </View>
+      </View>
+    </Layout>
+  );
 };
+
+const styles = StyleSheet.create({
+  wrapperView: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: lowGray,
+    borderColor: lowGray,
+    borderTopWidth: 1,
+    borderWidth: 1,
+  },
+  row: {
+    width: '100%',
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingLeft: verticalPadding,
+    paddingRight: verticalPadding,
+    paddingTop: 8,
+    paddingBottom: 8,
+    borderColor: lowGray,
+    borderBottomWidth: 1,
+  },
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default MeScreen;
