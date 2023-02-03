@@ -13,6 +13,7 @@ import {
   verticalHeaderPadding,
 } from '../../utils/const';
 import filters from '../../mocks/filterMockData';
+import Layout from '../Layout';
 
 const HomeFeedScreen = ({ navigation }: any) => {
   const [isActiveFilter, setIsActiveFilter] = useState(false);
@@ -33,38 +34,44 @@ const HomeFeedScreen = ({ navigation }: any) => {
     <ScrollView
       style={{
         width: '100%',
-        paddingHorizontal: horizontalHeaderPadding,
-        paddingTop: verticalHeaderPadding,
         backgroundColor: '#fff',
       }}
     >
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Text
-          variant="headlineMedium"
-          style={{ fontWeight: 'bold', marginBottom: 15 }}
-        >
-          Games near you
-        </Text>
-        <TouchableOpacity onPress={() => setIsActiveFilter(!isActiveFilter)}>
-          <Ionicons name="funnel" size={24} color={primaryColor} />
-        </TouchableOpacity>
-      </View>
-      {homeFeedMockData.map((item) => (
-        <GameCard
-          item={item}
-          navigation={navigation}
-          size="large"
-          key={item.id}
-        />
-      ))}
+      <Layout>
+        <>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <Text
+              variant="headlineMedium"
+              style={{ fontWeight: 'bold', marginBottom: 15 }}
+            >
+              Games near you
+            </Text>
+            <TouchableOpacity
+              onPress={() => setIsActiveFilter(!isActiveFilter)}
+            >
+              <Ionicons name="funnel" size={24} color={primaryColor} />
+            </TouchableOpacity>
+          </View>
+          {homeFeedMockData.map((item) => (
+            <GameCard
+              item={item}
+              navigation={navigation}
+              size="large"
+              key={item.id}
+            />
+          ))}
 
-      <Filter
-        filters={filters}
-        active={isActiveFilter}
-        onFilterClick={(value) => setIsActiveFilter(value)}
-        checked={checked}
-        setChecked={setChecked}
-      />
+          <Filter
+            filters={filters}
+            active={isActiveFilter}
+            onFilterClick={(value) => setIsActiveFilter(value)}
+            checked={checked}
+            setChecked={setChecked}
+          />
+        </>
+      </Layout>
     </ScrollView>
   );
 };
