@@ -9,7 +9,7 @@ import { View, ScrollView, SafeAreaView, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Tag from '../../components/Tag';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
-import { primaryColor } from '../../utils/const';
+import { horizontalHeaderPadding, primaryColor } from '../../utils/const';
 
 const GameScreen = ({ route, navigation }: any) => {
   const game = gameData.find((game) => game.id === route.params.item.id);
@@ -23,21 +23,19 @@ const GameScreen = ({ route, navigation }: any) => {
   }
   return (
     <SafeAreaView>
-      <ScrollView style={{ paddingHorizontal: 15 }}>
+      <ScrollView style={{ paddingHorizontal: horizontalHeaderPadding }}>
         {/* display title and button to like review and shares */}
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            marginTop: horizontalHeaderPadding,
           }}
         >
           <Text
             variant="headlineMedium"
             style={{
-              marginTop: 3,
-              marginBottom: 2,
-              marginLeft: 1,
               fontWeight: 'bold',
             }}
           >
@@ -63,7 +61,7 @@ const GameScreen = ({ route, navigation }: any) => {
         </View>
 
         {/* Display likes reviews and share number*/}
-        <View style={{ flexDirection: 'row', marginVertical: 15 }}>
+        <View style={{ flexDirection: 'row', marginVertical: 16 }}>
           <View>
             <InlineTextIcon icon={'star'} text={'22 Likes'} />
           </View>

@@ -18,11 +18,8 @@ const BookingTabsScreen = () => {
   const [bookings, setBookings] = useState<any[]>(data);
   const [checked, setChecked] = useState<EFilter[]>([EFilter.ALL]);
   const filters = ['All', 'Inprogress', 'Finished'];
-  console.log(checked);
 
   useEffect(() => {
-    console.log(checked);
-
     if (checked.includes(EFilter.PROGRESS)) {
       setBookings(data.filter((booking) => booking.status === 'inprogress'));
     }

@@ -6,6 +6,12 @@ import findRoutes from '../navigation/appRoutes/findRoutes';
 import * as RootNavigation from '../navigation/rootNavigation';
 import appRoutes from '../navigation/appRoutes';
 import Layout from '../screens/Layout';
+import {
+  borderRadius,
+  horizontalHeaderPadding,
+  lowGray,
+  primaryColor,
+} from '../utils/const';
 
 const Search = () => {
   const [isMap, setIsMap] = useState(true);
@@ -38,9 +44,6 @@ const Search = () => {
   return (
     <Layout>
       <>
-        <Text style={{ fontWeight: 'bold', marginTop: 5 }}>
-          Select your address
-        </Text>
         <View
           style={{
             flexDirection: 'row',
@@ -49,10 +52,21 @@ const Search = () => {
           }}
         >
           <TextInput
-            placeholder="Search..."
-            style={{ width: '75%', marginTop: 3 }}
+            placeholder="Lille"
+            activeOutlineColor={primaryColor}
+            outlineColor={primaryColor}
+            style={{
+              width: '85%',
+              marginTop: 4,
+              backgroundColor: lowGray,
+              borderRadius: borderRadius,
+            }}
           />
-          <Switch onValueChange={handleToggle} value={!isMap} />
+          <Switch
+            onValueChange={handleToggle}
+            value={!isMap}
+            color={primaryColor}
+          />
         </View>
       </>
     </Layout>

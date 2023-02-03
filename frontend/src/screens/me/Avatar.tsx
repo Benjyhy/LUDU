@@ -1,8 +1,14 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import { lowGray, primaryColor } from '../../utils/const';
+import {
+  borderRadius,
+  lowGray,
+  middleGray,
+  primaryColor,
+} from '../../utils/const';
 import { Text } from 'react-native-paper';
+import Button from '../../components/Button';
 
 const AvatarMe = ({
   avatarUri,
@@ -19,18 +25,6 @@ const AvatarMe = ({
           source={{ uri: avatarUri }}
           style={{ marginBottom: 16 }}
         />
-        <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-          {username}
-        </Text>
-        <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-          p.santamara@lapost.net
-        </Text>
-        <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-          4 avenue Hoche, Lille, 59000
-        </Text>
-        <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-          0627389128
-        </Text>
       </>
     );
   };
@@ -44,9 +38,6 @@ const AvatarMe = ({
           color="white"
           style={{ backgroundColor: primaryColor, marginBottom: 16 }}
         />
-        <Text variant="titleSmall" style={{ marginBottom: 16 }}>
-          {username}
-        </Text>
       </>
     );
   };
@@ -54,6 +45,21 @@ const AvatarMe = ({
   return (
     <View style={styles.wrapper}>
       {avatarUri.length !== 0 ? <AvatarWithUri /> : <AvatarLess />}
+      <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+        {username}
+      </Text>
+      <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+        p.santamara@lapost.net
+      </Text>
+      <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+        4 avenue Hoche, Lille, 59000
+      </Text>
+      <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+        0627389128
+      </Text>
+      <Button>
+        <Text>Update</Text>
+      </Button>
     </View>
   );
 };

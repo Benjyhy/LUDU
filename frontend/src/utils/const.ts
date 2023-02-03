@@ -6,3 +6,4 @@ export const middleGray = '#c1c1c1';
 export const strongGray = '#919191';
 export const verticalHeaderPadding = 20;
 export const horizontalHeaderPadding = 20;
+export const borderRadius = 8;

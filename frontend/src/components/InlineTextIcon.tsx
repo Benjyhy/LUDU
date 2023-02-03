@@ -52,7 +52,6 @@ export const InlineTextIcon = ({
 
 const styles = StyleSheet.create({
   inlineText: {
-    // flex: 1,
     alignSelf: 'stretch',
     flexDirection: 'row',
     alignItems: 'center',

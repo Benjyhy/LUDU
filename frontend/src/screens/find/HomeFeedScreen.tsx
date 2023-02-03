@@ -7,7 +7,11 @@ import { Text } from 'react-native-paper';
 import Filter from '../../components/Filter';
 import { useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
-import { primaryColor } from '../../utils/const';
+import {
+  horizontalHeaderPadding,
+  primaryColor,
+  verticalHeaderPadding,
+} from '../../utils/const';
 import filters from '../../mocks/filterMockData';
 
 const HomeFeedScreen = ({ navigation }: any) => {
@@ -26,7 +30,14 @@ const HomeFeedScreen = ({ navigation }: any) => {
   }, [currentLocation]);
 
   return (
-    <ScrollView style={{ width: '100%', paddingHorizontal: 15 }}>
+    <ScrollView
+      style={{
+        width: '100%',
+        paddingHorizontal: horizontalHeaderPadding,
+        paddingTop: verticalHeaderPadding,
+        backgroundColor: '#fff',
+      }}
+    >
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <Text
           variant="headlineMedium"
