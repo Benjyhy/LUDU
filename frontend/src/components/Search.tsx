@@ -5,6 +5,7 @@ import { Text, TextInput, Switch } from 'react-native-paper';
 import findRoutes from '../navigation/appRoutes/findRoutes';
 import * as RootNavigation from '../navigation/rootNavigation';
 import appRoutes from '../navigation/appRoutes';
+import Layout from '../screens/Layout';
 
 const Search = () => {
   const [isMap, setIsMap] = useState(true);
@@ -35,24 +36,26 @@ const Search = () => {
   }
 
   return (
-    <View style={{ marginHorizontal: 15, marginTop: 50, marginBottom: 15 }}>
-      <Text style={{ fontWeight: 'bold', marginTop: 5 }}>
-        Select your address
-      </Text>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <TextInput
-          placeholder="Search..."
-          style={{ width: '75%', marginTop: 3 }}
-        />
-        <Switch onValueChange={handleToggle} value={!isMap} />
-      </View>
-    </View>
+    <Layout>
+      <>
+        <Text style={{ fontWeight: 'bold', marginTop: 5 }}>
+          Select your address
+        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <TextInput
+            placeholder="Search..."
+            style={{ width: '75%', marginTop: 3 }}
+          />
+          <Switch onValueChange={handleToggle} value={!isMap} />
+        </View>
+      </>
+    </Layout>
   );
 };
 

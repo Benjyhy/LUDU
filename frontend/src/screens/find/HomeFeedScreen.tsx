@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import homeFeedMockData from '../../mocks/homeFeedMockData';
 import GameCard from '../../components/GameCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { TouchableOpacity, SafeAreaView, ScrollView, View } from 'react-native';
+import { TouchableOpacity, ScrollView, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import Filter from '../../components/Filter';
 import { useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
 import { primaryColor } from '../../utils/const';
+import filters from '../../mocks/filterMockData';
 
 const HomeFeedScreen = ({ navigation }: any) => {
   const [isActiveFilter, setIsActiveFilter] = useState(false);
@@ -16,6 +17,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
   const currentLocation = useSelector(
     (state: MainAppState) => state.currentLocation,
   );
+  const [checked, setChecked] = useState<string[]>(['test']);
   const userState = useSelector((state: MainAppState) => state.user);
   console.log(userState);
 
@@ -24,34 +26,35 @@ const HomeFeedScreen = ({ navigation }: any) => {
   }, [currentLocation]);
 
   return (
-    <SafeAreaView>
-      <ScrollView style={{ width: '100%', paddingHorizontal: 15 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            variant="headlineMedium"
-            style={{ fontWeight: 'bold', marginBottom: 15 }}
-          >
-            Games near you
-          </Text>
-          <TouchableOpacity onPress={() => setIsActiveFilter(!isActiveFilter)}>
-            <Ionicons name="funnel" size={24} color={primaryColor} />
-          </TouchableOpacity>
-        </View>
-        {homeFeedMockData.map((item) => (
-          <GameCard
-            item={item}
-            navigation={navigation}
-            size="large"
-            key={item.id}
-          />
-        ))}
-
-        <Filter
-          active={isActiveFilter}
-          onFilterClick={(value) => setIsActiveFilter(value)}
+    <ScrollView style={{ width: '100%', paddingHorizontal: 15 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Text
+          variant="headlineMedium"
+          style={{ fontWeight: 'bold', marginBottom: 15 }}
+        >
+          Games near you
+        </Text>
+        <TouchableOpacity onPress={() => setIsActiveFilter(!isActiveFilter)}>
+          <Ionicons name="funnel" size={24} color={primaryColor} />
+        </TouchableOpacity>
+      </View>
+      {homeFeedMockData.map((item) => (
+        <GameCard
+          item={item}
+          navigation={navigation}
+          size="large"
+          key={item.id}
         />
-      </ScrollView>
-    </SafeAreaView>
+      ))}
+
+      <Filter
+        filters={filters}
+        active={isActiveFilter}
+        onFilterClick={(value) => setIsActiveFilter(value)}
+        checked={checked}
+        setChecked={setChecked}
+      />
+    </ScrollView>
   );
 };
 

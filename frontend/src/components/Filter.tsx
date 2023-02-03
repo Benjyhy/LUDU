@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
-import filters from '../mocks/filterMockData';
+import React from 'react';
 import { View, Modal, Dimensions } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Button, Checkbox } from 'react-native-paper';
 import { primaryColor } from '../utils/const';
 
 interface FilterProps {
-  active: boolean;
   onFilterClick: (value: boolean) => void;
+  active: boolean;
+  filters: string[];
+  checked?: string[];
+  setChecked?: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const Filter = (props: FilterProps) => {
-  const [checked, setChecked] = useState([]);
+const Filter = ({
+  onFilterClick,
+  active,
+  filters,
+  checked,
+  setChecked,
+}: FilterProps) => {
   const onButtonPress = () => {
-    props.onFilterClick(!props.active);
+    onFilterClick(!active);
   };
   const handleCheckChange = (filter: string, include: boolean) => {
     if (!include) {
@@ -24,7 +31,7 @@ const Filter = (props: FilterProps) => {
   };
 
   return (
-    <Modal animationType="slide" transparent={true} visible={props.active}>
+    <Modal animationType="slide" transparent={true} visible={active}>
       <View
         style={{
           justifyContent: 'space-between',

@@ -6,7 +6,7 @@ import PlayScreen from '../screens/tabs/PlayScreen';
 import MeScreen from '../screens/tabs/MeScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { primaryColor } from '../utils/const';
-import BookingTabsScreen from '../screens/tabs/BookingTabsScreen';
+import BookingTabsScreen from '../screens/tabs/BookingScreen';
 
 type Props = {
   ionIconsName: keyof typeof Ionicons.glyphMap;

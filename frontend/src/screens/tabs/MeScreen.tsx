@@ -6,7 +6,7 @@ import {
   lowGray,
   middleGray,
   strongGray,
-  verticalPadding,
+  verticalHeaderPadding,
 } from '../../utils/const';
 import Layout from '../Layout';
 import AvatarMe from '../me/Avatar';
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: lowGray,
+    backgroundColor: '#fff',
   },
   row: {
     width: '100%',
@@ -125,8 +125,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#fff',
-    paddingLeft: verticalPadding,
-    paddingRight: verticalPadding,
+    paddingLeft: verticalHeaderPadding,
+    paddingRight: verticalHeaderPadding,
     paddingTop: 8,
     paddingBottom: 8,
     borderColor: lowGray,
@@ -141,6 +141,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: lowGray,
+    alignSelf: 'stretch',
+    paddingTop: 8,
+    paddingBottom: 8,
   },
 });
 

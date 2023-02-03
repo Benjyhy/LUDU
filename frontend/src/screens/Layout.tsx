@@ -2,11 +2,19 @@ import * as React from 'react';
 import { SafeAreaView, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { StatusBar, StyleSheet } from 'react-native';
-import { lowGray, verticalPadding } from '../utils/const';
+import {
+  horizontalHeaderPadding,
+  lowGray,
+  verticalHeaderPadding,
+} from '../utils/const';
 
-const headerHeight = StatusBar.currentHeight;
+interface ILayout {
+  children: JSX.Element;
+  title?: string;
+  action?: JSX.Element;
+}
 
-const Layout = ({ children, title }) => {
+const Layout = ({ children, title, action }: ILayout) => {
   return (
     <SafeAreaView>
       <StatusBar
@@ -14,24 +22,44 @@ const Layout = ({ children, title }) => {
         backgroundColor={'#fff'}
         barStyle={'dark-content'}
       />
-      {title && (
-        <View style={styles.titleWrapper}>
-          <Text variant="titleMedium" style={{ marginLeft: verticalPadding }}>
-            {title}
-          </Text>
-        </View>
-      )}
-      {children}
+      <View style={styles.wrapper}>
+        {title && (
+          <>
+            <View style={styles.titleWrapper}>
+              <Text variant="titleMedium">{title}</Text>
+              <View style={{ padding: 0 }}>{action && action}</View>
+            </View>
+            {children}
+          </>
+        )}
+      </View>
+      {!title && <View style={styles.wrapperWithOutTitle}>{children}</View>}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  titleWrapper: {
+  wrapper: {
     backgroundColor: '#fff',
+  },
+  titleWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     borderColor: lowGray,
     borderTopWidth: 1,
-    paddingVertical: 8,
+    borderBottomWidth: 1,
+    backgroundColor: '#fff',
+    padding: verticalHeaderPadding,
+  },
+  wrapperWithOutTitle: {
+    paddingLeft: verticalHeaderPadding,
+    paddingRight: verticalHeaderPadding,
+    paddingBottom: horizontalHeaderPadding,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: lowGray,
   },
 });
 

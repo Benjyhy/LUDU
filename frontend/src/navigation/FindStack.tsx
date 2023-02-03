@@ -10,7 +10,6 @@ import PeriodScreen from '../screens/find/PeriodScreen';
 import BookingConfirmationScreen from '../screens/find/BookingConfirmationScreen';
 import StorePickScreen from '../screens/find/StorePickScreen';
 import TimePickerScreen from '../screens/find/TimePickerScreen';
-
 const Stack = createNativeStackNavigator();
 
 const FindStack = () => {
