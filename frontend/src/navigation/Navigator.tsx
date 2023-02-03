@@ -16,48 +16,48 @@ import { UserCreate } from '../models/states/User';
 const Stack = createNativeStackNavigator();
 
 const StackNav = () => {
-    //Before any navigation, get current position of the user and set it in redux
-    const dispatch = useDispatch();
-    useEffect(() => {
-        (async () => {
-            const { status } = await Location.requestForegroundPermissionsAsync();
-            if (status === 'granted') {
-                const location = await Location.getCurrentPositionAsync();
-                const { latitude, longitude } = location.coords;
-                dispatch(setCurrentLocation({ latitude, longitude }));
-            }
-        })();
-    }, []);
+  //Before any navigation, get current position of the user and set it in redux
+  const dispatch = useDispatch();
+  useEffect(() => {
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === 'granted') {
+        const location = await Location.getCurrentPositionAsync();
+        const { latitude, longitude } = location.coords;
+        dispatch(setCurrentLocation({ latitude, longitude }));
+      }
+    })();
+  }, []);
 
-    const [user, setUser] = useState<UserCreate | null>(null);
+  const [user, setUser] = useState<UserCreate | null>(null);
 
-    return (
-        <RegisterContext.Provider value={{ user, setUser }}>
-            <Stack.Navigator
-                initialRouteName={appRoutes.LOGIN_SCREEN}
-                screenOptions={{ headerShown: false }}
-            >
-                <Stack.Screen
-                    name={appRoutes.LOADING_SCREEN}
-                    component={LoadingScreen}
-                />
-                <Stack.Screen name={appRoutes.LOGIN_SCREEN} component={LoginScreen} />
-                <Stack.Screen
-                    name={appRoutes.REGISTER_SCREEN}
-                    component={RegisterScreen}
-                />
-                <Stack.Screen
-                    name={appRoutes.REGISTER_PHONE_SCREEN}
-                    component={Phone}
-                />
-                <Stack.Screen
-                    name={appRoutes.REGISTER_AVATAR_SCREEN}
-                    component={Avatar}
-                />
-                <Stack.Screen name={appRoutes.TAB_NAVIGATOR} component={TabsStack} />
-            </Stack.Navigator>
-        </RegisterContext.Provider>
-    );
+  return (
+    <RegisterContext.Provider value={{ user, setUser }}>
+      <Stack.Navigator
+        initialRouteName={appRoutes.LOGIN_SCREEN}
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen
+          name={appRoutes.LOADING_SCREEN}
+          component={LoadingScreen}
+        />
+        <Stack.Screen name={appRoutes.LOGIN_SCREEN} component={LoginScreen} />
+        <Stack.Screen
+          name={appRoutes.REGISTER_SCREEN}
+          component={RegisterScreen}
+        />
+        <Stack.Screen
+          name={appRoutes.REGISTER_PHONE_SCREEN}
+          component={Phone}
+        />
+        <Stack.Screen
+          name={appRoutes.REGISTER_AVATAR_SCREEN}
+          component={Avatar}
+        />
+        <Stack.Screen name={appRoutes.TAB_NAVIGATOR} component={TabsStack} />
+      </Stack.Navigator>
+    </RegisterContext.Provider>
+  );
 };
 
 export default StackNav;

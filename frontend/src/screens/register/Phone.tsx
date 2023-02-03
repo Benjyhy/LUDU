@@ -1,35 +1,35 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from 'react';
 import {
   StyleSheet,
   Dimensions,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import appRoutes from "../../navigation/appRoutes/index";
-import { Button, TextInput } from "react-native-paper";
-import { RegisterContext } from "../../utils/registerContext";
-import { isValidPhonenumber, isZipCodeValide } from "../../utils/regex";
-import { errorColor, primaryColor, secondaryColor } from "../../utils/colors";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { LinearGradient } from "expo-linear-gradient";
-
-const { width: ScreenWidth } = Dimensions.get("screen");
+  Image,
+} from 'react-native';
+import appRoutes from '../../navigation/appRoutes/index';
+import { Button, TextInput } from 'react-native-paper';
+import { RegisterContext } from '../../utils/registerContext';
+import { isValidPhonenumber, isZipCodeValide } from '../../utils/regex';
+import { errorColor, primaryColor, secondaryColor } from '../../utils/const';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { LinearGradient } from 'expo-linear-gradient';
+const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Phone({ navigation }: any) {
-  const [phone, setPhone] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [city, setCity] = useState<string>("");
-  const [postcode, setPostcode] = useState<string>("");
-  const [phoneError, setPhoneError] = useState<string>("");
-  const [zipError, setZipError] = useState<string>("");
+  const [phone, setPhone] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [city, setCity] = useState<string>('');
+  const [postcode, setPostcode] = useState<string>('');
+  const [phoneError, setPhoneError] = useState<string>('');
+  const [zipError, setZipError] = useState<string>('');
 
   useEffect(() => {
     setTimeout(() => {
       if (!isValidPhonenumber(phone) && phone.length !== 0) {
-        setPhoneError("Phone is invalid");
+        setPhoneError('Phone is invalid');
       } else {
-        setPhoneError("");
+        setPhoneError('');
       }
     }, 3000);
   }, [phone]);
@@ -37,9 +37,9 @@ export default function Phone({ navigation }: any) {
   useEffect(() => {
     setTimeout(() => {
       if (!isZipCodeValide(postcode)) {
-        setZipError("PostCode is invalid");
+        setZipError('PostCode is invalid');
       } else {
-        setZipError("");
+        setZipError('');
       }
     }, 1000);
   }, [postcode]);
@@ -65,31 +65,37 @@ export default function Phone({ navigation }: any) {
   };
 
   return (
-    <View >
-      <LinearGradient colors={[primaryColor, secondaryColor]} style={{ height: '100%' }}>
+    <View>
+      <LinearGradient
+        colors={[primaryColor, secondaryColor]}
+        style={{ height: '100%' }}
+      >
         <View
           style={{
             paddingTop: 30,
             paddingLeft: 10,
-            flexDirection: "row",
+            flexDirection: 'row',
           }}
         >
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            style={{ backgroundColor: "transparent" }}
+            style={{ backgroundColor: 'transparent' }}
           >
-            <Ionicons size={34} color={"white"} name="arrow-back" />
+            <Ionicons size={34} color={'white'} name="arrow-back" />
           </TouchableOpacity>
         </View>
+
         <View
           style={{
             flex: 4,
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <View style={{ marginBottom: 64 }}>
-            <Text style={{color: 'white'}}>Please register your phone and your postal address</Text>
+            <Text style={{ color: 'white' }}>
+              Please register your phone and your postal address
+            </Text>
           </View>
           <View>
             <TextInput
@@ -138,8 +144,8 @@ export default function Phone({ navigation }: any) {
             <View
               style={{
                 opacity: isInputInValid ? 0.6 : 1,
-                justifyContent: "flex-end",
-                alignItems: "flex-end",
+                justifyContent: 'flex-end',
+                alignItems: 'flex-end',
               }}
             >
               <Button
@@ -148,15 +154,15 @@ export default function Phone({ navigation }: any) {
                 buttonColor={primaryColor}
                 textColor="white"
                 style={{ borderRadius: 5, paddingHorizontal: 15 }}
-                icon='arrow-right-bold-box-outline'
+                icon="arrow-right-bold-box-outline"
               >
                 Next
               </Button>
             </View>
             <View
               style={{
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               <Text style={{ color: errorColor }}>{phoneError}</Text>
@@ -176,8 +182,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 12,
     borderRadius: 8,
-    backgroundColor: "white",
-    shadowColor: "#000",
+    backgroundColor: 'white',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -191,10 +197,22 @@ const styles = StyleSheet.create({
     borderColor: errorColor,
   },
   inputStyle: { fontSize: 16 },
-  labelStyle: { fontSize: 14, color: "gray" },
-  placeholderStyle: { fontSize: 16, color: "gray" },
+  labelStyle: { fontSize: 14, color: 'gray' },
+  placeholderStyle: { fontSize: 16, color: 'gray' },
   textErrorStyle: { fontSize: 16, color: errorColor },
   registerTextStyle: {
-    color: "#acabb0",
+    color: '#acabb0',
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    shadowColor: '#383838',
+    shadowOffset: {
+      width: 2,
+      height: 3,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 1.7,
+    // paddingBottom: 80,
   },
 });

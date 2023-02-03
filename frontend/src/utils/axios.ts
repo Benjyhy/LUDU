@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_URL } from '@env';
 import { apiErrorResponse } from '../models/apiResponse';
 const api = axios.create({
-    baseURL: 'API_URL',
+  baseURL: 'API_URL',
 });
 
 // api.interceptors.request.use(
@@ -18,14 +18,14 @@ const api = axios.create({
 // )
 
 api.interceptors.response.use(
-    (response: any) => {
-        return response;
-    },
-    (error: any) => {
-        console.log('RESPONSE');
-        console.log(error.response.data.message);
-        return Promise.reject(error.response.data.message);
-    },
+  (response: any) => {
+    return response;
+  },
+  (error: any) => {
+    console.log('RESPONSE');
+    console.log(error.response.data.message);
+    return Promise.reject(error.response.data.message);
+  },
 );
 
 export default api;
