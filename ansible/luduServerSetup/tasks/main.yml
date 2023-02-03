@@ -13,7 +13,7 @@
         line: '%ludu ALL=(ALL) NOPASSWD: ALL'
         validate: 'visudo -cf %s'
 
-    - name: Add sudoers users to ludu group
+    - name: Add ludu user to ludu group
       user:
         name=ludu
         groups=ludu
@@ -66,3 +66,19 @@
       apt:
        name: docker-compose-plugin
        state: present
+
+    - name: Allow 'docker' group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%docker'
+        line: '%docker ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+    
+    - name: Add docker user to docker group
+      user:
+        name=docker
+        groups=docker
+        append=yes
+        state=present
+        createhome=yes
