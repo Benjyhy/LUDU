@@ -53,19 +53,25 @@ const Search = () => {
         >
           <TextInput
             placeholder="Lille"
-            activeOutlineColor={primaryColor}
-            outlineColor={primaryColor}
+            mode={'outlined'}
+            activeOutlineColor={`${primaryColor}`}
+            outlineColor={`${lowGray}`}
+            selectionColor={`${primaryColor}`}
             style={{
               width: '85%',
               marginTop: 4,
               backgroundColor: lowGray,
               borderRadius: borderRadius,
+              height: 40,
             }}
           />
           <Switch
             onValueChange={handleToggle}
             value={!isMap}
             color={primaryColor}
+            style={{
+              height: 20,
+            }}
           />
         </View>
       </>
