@@ -8,9 +8,9 @@ import Filter from '../../components/Filter';
 import { useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
 import {
-  horizontalHeaderPadding,
+  horizontalPadding,
   primaryColor,
-  verticalHeaderPadding,
+  verticalPadding,
 } from '../../utils/const';
 import filters from '../../mocks/filterMockData';
 import Layout from '../Layout';
@@ -40,7 +40,11 @@ const HomeFeedScreen = ({ navigation }: any) => {
       <Layout>
         <>
           <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
           >
             <Text
               variant="headlineMedium"

@@ -1,14 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
 import { View } from 'react-native';
-import { Text, TextInput, Switch } from 'react-native-paper';
+import { TextInput, Switch } from 'react-native-paper';
 import findRoutes from '../navigation/appRoutes/findRoutes';
 import * as RootNavigation from '../navigation/rootNavigation';
 import appRoutes from '../navigation/appRoutes';
 import Layout from '../screens/Layout';
 import {
   borderRadius,
-  horizontalHeaderPadding,
+  horizontalPadding,
   lowGray,
   primaryColor,
 } from '../utils/const';
@@ -49,29 +49,36 @@ const Search = () => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            paddingBottom: horizontalPadding / 2,
+            paddingTop: horizontalPadding / 2,
           }}
         >
           <TextInput
             placeholder="Lille"
-            mode={'outlined'}
+            mode={'flat'}
             activeOutlineColor={`${primaryColor}`}
             outlineColor={`${lowGray}`}
             selectionColor={`${primaryColor}`}
+            underlineColor="transparent"
             style={{
               width: '85%',
-              marginTop: 4,
+              height: 20,
+              paddingBottom: horizontalPadding / 2,
+              paddingTop: horizontalPadding / 2,
               backgroundColor: lowGray,
               borderRadius: borderRadius,
-              height: 40,
+            }}
+            theme={{
+              colors: {
+                primary: `transparent`,
+              },
             }}
           />
           <Switch
             onValueChange={handleToggle}
             value={!isMap}
             color={primaryColor}
-            style={{
-              height: 20,
-            }}
+            style={{ height: 20 }}
           />
         </View>
       </>

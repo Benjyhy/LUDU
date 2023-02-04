@@ -60,13 +60,6 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 20,
   },
-  cardStyle: {
-    marginTop: 20,
-    marginHorizontal: 10,
-    borderRadius: 10,
-    height: 170,
-    backgroundColor: lowGray,
-  },
   text: {
     marginTop: 10,
   },

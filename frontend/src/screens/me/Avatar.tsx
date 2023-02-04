@@ -1,12 +1,7 @@
 import * as React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import {
-  borderRadius,
-  lowGray,
-  middleGray,
-  primaryColor,
-} from '../../utils/const';
+import { lowGray, primaryColor } from '../../utils/const';
 import { Text } from 'react-native-paper';
 import Button from '../../components/Button';
 

@@ -2,11 +2,7 @@ import * as React from 'react';
 import { SafeAreaView, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { StatusBar, StyleSheet } from 'react-native';
-import {
-  horizontalHeaderPadding,
-  lowGray,
-  verticalHeaderPadding,
-} from '../utils/const';
+import { lowGray, verticalPadding } from '../utils/const';
 
 interface ILayout {
   children: JSX.Element;
@@ -50,13 +46,11 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     backgroundColor: '#fff',
-    padding: verticalHeaderPadding,
+    padding: verticalPadding,
   },
   wrapperWithOutTitle: {
-    paddingLeft: verticalHeaderPadding,
-    paddingRight: verticalHeaderPadding,
-    paddingBottom: horizontalHeaderPadding,
-    paddingTop: horizontalHeaderPadding,
+    paddingLeft: verticalPadding,
+    paddingRight: verticalPadding,
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderBottomWidth: 1,

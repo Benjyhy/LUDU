@@ -6,7 +6,7 @@ import {
   lowGray,
   middleGray,
   strongGray,
-  verticalHeaderPadding,
+  verticalPadding,
 } from '../../utils/const';
 import Layout from '../Layout';
 import AvatarMe from '../me/Avatar';
@@ -125,8 +125,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#fff',
-    paddingLeft: verticalHeaderPadding,
-    paddingRight: verticalHeaderPadding,
+    paddingLeft: verticalPadding,
+    paddingRight: verticalPadding,
     paddingTop: 8,
     paddingBottom: 8,
     borderColor: lowGray,

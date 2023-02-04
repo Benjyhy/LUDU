@@ -9,7 +9,7 @@ import { View, ScrollView, SafeAreaView, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Tag from '../../components/Tag';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
-import { horizontalHeaderPadding, primaryColor } from '../../utils/const';
+import { horizontalPadding, primaryColor } from '../../utils/const';
 import Layout from '../Layout';
 
 const GameScreen = ({ route, navigation }: any) => {
@@ -33,7 +33,7 @@ const GameScreen = ({ route, navigation }: any) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginTop: horizontalHeaderPadding,
+                marginTop: horizontalPadding,
               }}
             >
               <Text
@@ -86,7 +86,7 @@ const GameScreen = ({ route, navigation }: any) => {
                   style={{
                     width: Dimensions.get('window').width,
                     height: 150,
-                    marginLeft: -horizontalHeaderPadding,
+                    marginLeft: -horizontalPadding,
                   }}
                   source={{
                     uri: 'https://via.placeholder.com/150',
@@ -162,10 +162,10 @@ const GameScreen = ({ route, navigation }: any) => {
               </Text>
               <ScrollView
                 contentContainerStyle={{
-                  paddingRight: horizontalHeaderPadding,
+                  paddingRight: horizontalPadding,
                 }}
                 horizontal
-                contentOffset={{ x: -horizontalHeaderPadding, y: 0 }}
+                contentOffset={{ x: -horizontalPadding, y: 0 }}
                 style={{
                   overflow: 'visible',
                   width: Dimensions.get('window').width,
@@ -192,10 +192,10 @@ const GameScreen = ({ route, navigation }: any) => {
               </Text>
               <ScrollView
                 contentContainerStyle={{
-                  paddingRight: horizontalHeaderPadding,
+                  paddingRight: horizontalPadding,
                 }}
                 horizontal
-                contentOffset={{ x: -horizontalHeaderPadding, y: 0 }}
+                contentOffset={{ x: -horizontalPadding, y: 0 }}
                 style={{
                   overflow: 'visible',
                   width: Dimensions.get('window').width,
