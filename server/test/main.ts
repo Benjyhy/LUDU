@@ -10,7 +10,6 @@ import { RentSeed } from './seed/rent.seed';
 describe('Test', () => {
   CategorySeed();
   LocationSeed();
-
   StoreSeeder();
   GameSeed();
   CopySeed();

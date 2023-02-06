@@ -1,3 +1,4 @@
+.idea
 .env
 jwt.private.key
 jwt.key.pub
