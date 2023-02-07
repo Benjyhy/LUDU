@@ -4,9 +4,17 @@ export declare class Category {
 }
 
 export enum Categories {
-  cardGames = 'jeux de cartes',
-  roleplayGames = 'jeux de roles',
+  cardGames = 'Jeux de cartes',
+  roleplayGames = 'Jeux de roles',
   strategyGames = 'Jeux de stratégie',
   escapeGames = "Jeux d'évasion",
   partyGames = 'Jeux à boire',
 }
+
+export type CategoriesToDisplay = (
+  | 'Jeux de cartes'
+  | 'Jeux de roles'
+  | 'Jeux de stratégie'
+  | "Jeux d'évasion"
+  | 'Jeux à boire'
+)[];

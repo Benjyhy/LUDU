@@ -1,8 +1,7 @@
 import {
   SET_CATEGORY_FILTER,
   RESET_CATEGORY_FILTER,
-  ACTIVATE_CATEGORY_FILTER,
-  DEACTIVATE_CATEGORY_FILTER,
+  TOGGLE_CATEGORY_FILTER,
 } from '../types/filterGamesByCategoriesTypes';
 import { Categories } from '../../models/states/Category';
 import { Action } from '../../models/Action';
@@ -26,10 +25,8 @@ const filterGamesByCategoriesReducer = (
       else return state;
     case RESET_CATEGORY_FILTER:
       return initialState;
-    case ACTIVATE_CATEGORY_FILTER:
-      return { ...state, active: true };
-    case DEACTIVATE_CATEGORY_FILTER:
-      return { ...state, active: false };
+    case TOGGLE_CATEGORY_FILTER:
+      return { ...state, active: !state.active };
     default:
       return state;
   }

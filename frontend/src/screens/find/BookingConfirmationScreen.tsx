@@ -24,7 +24,10 @@ function BookingConfirmationScreen({ route, navigation }: any) {
           height: '100%',
         }}
       >
-        <Text variant="headlineMedium" style={{ fontWeight: 'bold' }}>
+        <Text
+          variant="headlineMedium"
+          style={{ fontWeight: 'bold', textAlign: 'center' }}
+        >
           Booking confirmation !
         </Text>
         <View>

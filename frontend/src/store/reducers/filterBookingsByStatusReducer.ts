@@ -1,8 +1,7 @@
 import {
   SET_STATUS_FILTER,
   RESET_STATUS_FILTER,
-  ACTIVATE_STATUS_FILTER,
-  DEACTIVATE_STATUS_FILTER,
+  TOGGLE_STATUS_FILTER,
 } from '../types/filterBookingsByStatusTypes';
 import { RentStatus } from '../../models/states/Rent';
 import { Action } from '../../models/Action';
@@ -22,10 +21,8 @@ const filterGamesByCategoriesReducer = (
       else return state;
     case RESET_STATUS_FILTER:
       return initialState;
-    case ACTIVATE_STATUS_FILTER:
-      return { ...state, active: true };
-    case DEACTIVATE_STATUS_FILTER:
-      return { ...state, active: false };
+    case TOGGLE_STATUS_FILTER:
+      return { ...state, active: !state.active };
     default:
       return state;
   }

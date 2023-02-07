@@ -18,7 +18,7 @@ import Layout from '../Layout';
 
 const GameScreen = ({ route, navigation }: any) => {
   const game = gameData.find((game) => game.id === route.params.item.id);
-
+  console.log(route.params.item);
   if (!game) {
     return (
       <View style={{ flex: 1 }}>
@@ -86,7 +86,6 @@ const GameScreen = ({ route, navigation }: any) => {
               style={{
                 width: Dimensions.get('window').width,
                 height: 150,
-                paddingLeft: -horizontalPadding,
               }}
               source={{
                 uri: 'https://via.placeholder.com/150',

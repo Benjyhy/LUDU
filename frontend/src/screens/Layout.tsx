@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SafeAreaView, View, StatusBar, StyleSheet } from 'react-native';
-import { lowGray, verticalPadding } from '../utils/const';
+import { horizontalPadding, lowGray, verticalPadding } from '../utils/const';
 
 interface ILayout {
   children: JSX.Element;
@@ -23,8 +23,7 @@ const Layout = ({ children }: ILayout) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingLeft: verticalPadding,
-    paddingRight: verticalPadding,
+    paddingHorizontal: horizontalPadding,
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderBottomWidth: 1,

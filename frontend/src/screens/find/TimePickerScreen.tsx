@@ -51,7 +51,10 @@ function TimePickerScreen({ route, navigation }: any) {
           </View>
         </View>
 
-        <View style={{ marginTop: 30 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ marginRight: 5 }}>
+            <Text variant="bodyLarge">Chosen time:</Text>
+          </View>
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
@@ -59,14 +62,6 @@ function TimePickerScreen({ route, navigation }: any) {
             display="default"
             onChange={onChange}
           />
-        </View>
-        <View style={{ marginTop: 50 }}>
-          <Text style={{ fontSize: 15 }}>Time chosen:</Text>
-          <Text style={{ fontWeight: 'bold', fontSize: 18, marginLeft: 13 }}>
-            {`${`0${date.getHours()}`.slice(
-              -2,
-            )}:${`0${date.getMinutes()}`.slice(-2)}`}
-          </Text>
         </View>
         <Button
           style={[styles.btn]}

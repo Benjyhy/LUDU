@@ -12,6 +12,8 @@ export interface Rent {
 }
 
 export enum RentStatus {
-  DELIVERED = 'DELIVERED',
-  INPROGRESS = 'INPROGRESS',
+  DELIVERED = 'Delivered',
+  INPROGRESS = 'In Progress',
 }
+
+export type RentStatusToDisplay = ('Delivered' | 'In Progress')[];

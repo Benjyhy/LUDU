@@ -11,7 +11,6 @@ import BookingConfirmationScreen from '../screens/find/BookingConfirmationScreen
 import StorePickScreen from '../screens/find/StorePickScreen';
 import TimePickerScreen from '../screens/find/TimePickerScreen';
 import Search from '../components/Search';
-import { View, Text } from 'react-native';
 const Stack = createNativeStackNavigator();
 
 const FindStack = () => {
@@ -24,10 +23,18 @@ const FindStack = () => {
         name={findRoutes.HOME_FEED}
         component={HomeFeedScreen}
         options={{
-          headerTitle: () => <Search />,
+          headerTitle: () => <Search active={false} />,
         }}
       />
-      <Stack.Screen name={findRoutes.MAP_VIEW} component={MapViewScreen} />
+      <Stack.Screen
+        name={findRoutes.MAP_VIEW}
+        component={MapViewScreen}
+        options={{
+          headerTitle: () => <Search active={true} />,
+          headerLeft: () => <></>,
+          gestureEnabled: false,
+        }}
+      />
       <Stack.Screen name={findRoutes.GAME_SCREEN} component={GameScreen} />
       <Stack.Screen
         name={findRoutes.BOOKING_FEED}

@@ -7,8 +7,7 @@ import * as RootNavigation from '../navigation/rootNavigation';
 import appRoutes from '../navigation/appRoutes';
 import { lowGray, primaryColor } from '../utils/const';
 
-const Search = () => {
-  const [isMap, setIsMap] = useState(true);
+const Search = ({ active }) => {
   const routesToDisplaySearchComponent = [
     findRoutes.HOME_FEED,
     findRoutes.MAP_VIEW,
@@ -26,8 +25,8 @@ const Search = () => {
   }
 
   const handleToggle = () => {
-    setIsMap(!isMap);
-    const targetedRoute = isMap ? findRoutes.MAP_VIEW : findRoutes.HOME_FEED;
+    active = !active;
+    const targetedRoute = active ? findRoutes.MAP_VIEW : findRoutes.HOME_FEED;
     RootNavigation.navigate(targetedRoute, {});
   };
 
@@ -63,7 +62,7 @@ const Search = () => {
       />
       <Switch
         onValueChange={handleToggle}
-        value={!isMap}
+        value={active}
         color={primaryColor}
         style={{ height: 30, width: '20%' }}
       />

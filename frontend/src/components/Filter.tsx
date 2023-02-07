@@ -5,51 +5,40 @@ import { Button, Checkbox } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { primaryColor } from '../utils/const';
 import {
-  activateStatusFilter,
-  deactivateStatusFilter,
   setStatusFilter,
-  resetStatusFilter,
+  toggleStatusFilter,
 } from '../store/actions/filterBookingsByStatusAction';
 import {
-  activateCategoryFilter,
-  deactivateCategoryFilter,
   setCategoryFilter,
-  resetCategoryFilter,
+  toggleCategoryFilter,
 } from '../store/actions/filterGamesByCategoriesAction';
 import { MainAppState } from '../models/states';
+import { FilterOptions } from '../models/Filter';
 
 interface FilterProps {
-  filters: string[];
-  key: string;
+  filters: FilterOptions;
+  filterType: string;
+  title: string;
 }
 
-const Filter = ({ filters, key }: FilterProps) => {
+const Filter = ({ filters, filterType, title }: FilterProps) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState<string[]>([]);
   const filterIsActive = useSelector((state: MainAppState) =>
-    key === 'status'
+    filterType === 'status'
       ? state.filterBookingsByStatus.active
       : state.filterGamesByCategories.active,
   );
+
   const onButtonPress = () => {
-    if (key === 'status') {
-      dispatch(
-        filterIsActive ? deactivateStatusFilter() : activateStatusFilter(),
-      );
-      dispatch(setStatusFilter({ checked }));
+    if (filterType === 'status') {
+      dispatch(toggleStatusFilter());
+      dispatch(setStatusFilter(checked));
     } else {
-      dispatch(
-        filterIsActive ? activateCategoryFilter() : deactivateCategoryFilter(),
-      );
-      dispatch(setCategoryFilter({ checked }));
+      dispatch(toggleCategoryFilter());
+      dispatch(setCategoryFilter(checked));
     }
   };
-
-  // const activeCheckboxes = useSelector((state: MainAppState) =>
-  //   key === 'status'
-  //     ? state.filterBookingsByStatus.filters
-  //     : state.filterGamesByCategories.filters,
-  // );
   const handleCheckChange = (filter: string, include: boolean) => {
     if (!include) {
       setChecked([...checked, filter]);
@@ -85,7 +74,7 @@ const Filter = ({ filters, key }: FilterProps) => {
             variant="headlineSmall"
             style={{ fontWeight: 'bold', textAlign: 'center' }}
           >
-            Filter games according to your preferences
+            {title}
           </Text>
           <View>
             {filters.map((filter, index) => (
