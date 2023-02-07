@@ -10,3 +10,10 @@ export interface Rent {
   duration: number;
   is_delivered: boolean;
 }
+
+export enum RentStatus {
+  DELIVERED = 'Delivered',
+  INPROGRESS = 'In Progress',
+}
+
+export type RentStatusToDisplay = ('Delivered' | 'In Progress')[];

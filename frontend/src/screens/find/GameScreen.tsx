@@ -5,15 +5,20 @@ import GameCard from '../../components/GameCard';
 import { Dimensions, TouchableOpacity } from 'react-native';
 import { InlineTextIcon } from '../../components/InlineTextIcon';
 import { Button, Divider, Text } from 'react-native-paper';
-import { View, ScrollView, SafeAreaView, Image } from 'react-native';
+import { View, ScrollView, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Tag from '../../components/Tag';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
-import { primaryColor } from '../../utils/const';
+import {
+  horizontalPadding,
+  primaryColor,
+  secondaryColor,
+} from '../../utils/const';
+import Layout from '../Layout';
 
 const GameScreen = ({ route, navigation }: any) => {
   const game = gameData.find((game) => game.id === route.params.item.id);
-
+  console.log(route.params.item);
   if (!game) {
     return (
       <View style={{ flex: 1 }}>
@@ -22,22 +27,20 @@ const GameScreen = ({ route, navigation }: any) => {
     );
   }
   return (
-    <SafeAreaView>
-      <ScrollView style={{ paddingHorizontal: 15 }}>
+    <Layout>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* display title and button to like review and shares */}
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            marginTop: horizontalPadding,
           }}
         >
           <Text
             variant="headlineMedium"
             style={{
-              marginTop: 3,
-              marginBottom: 2,
-              marginLeft: 1,
               fontWeight: 'bold',
             }}
           >
@@ -63,7 +66,7 @@ const GameScreen = ({ route, navigation }: any) => {
         </View>
 
         {/* Display likes reviews and share number*/}
-        <View style={{ flexDirection: 'row', marginVertical: 15 }}>
+        <View style={{ flexDirection: 'row', marginVertical: 16 }}>
           <View>
             <InlineTextIcon icon={'star'} text={'22 Likes'} />
           </View>
@@ -83,7 +86,6 @@ const GameScreen = ({ route, navigation }: any) => {
               style={{
                 width: Dimensions.get('window').width,
                 height: 150,
-                marginLeft: -15,
               }}
               source={{
                 uri: 'https://via.placeholder.com/150',
@@ -116,32 +118,28 @@ const GameScreen = ({ route, navigation }: any) => {
             justifyContent: 'space-around',
           }}
         >
-          <TouchableOpacity
+          <Button
             onPress={() =>
               navigation.navigate(findRoutes.BOOKING_FEED, { game: game })
             }
+            textColor={'white'}
+            buttonColor={secondaryColor}
+            mode="contained"
+            icon="book"
           >
-            <InlineTextIcon
-              icon={'book'}
-              text={'Book'}
-              background={'lightGrey'}
-              btnMode={true}
-              outline={true}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
+            Book
+          </Button>
+          <Button
             onPress={() =>
               navigation.navigate(findRoutes.DELIVERY_FEED, { game: game })
             }
+            textColor={'white'}
+            buttonColor={primaryColor}
+            icon="dice-6"
+            mode="contained"
           >
-            <InlineTextIcon
-              icon={'happy'}
-              text={'Play now'}
-              background={primaryColor}
-              btnMode={true}
-              iconColor={'white'}
-            />
-          </TouchableOpacity>
+            Play now
+          </Button>
         </View>
         <Divider style={{ marginVertical: 15 }} />
         {/* render 'they loved playing it' */}
@@ -157,7 +155,18 @@ const GameScreen = ({ route, navigation }: any) => {
           >
             They loved playing it
           </Text>
-          <ScrollView horizontal>
+          <ScrollView
+            contentContainerStyle={{
+              paddingRight: horizontalPadding,
+            }}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentOffset={{ x: -horizontalPadding, y: 0 }}
+            style={{
+              overflow: 'visible',
+              width: Dimensions.get('window').width,
+            }}
+          >
             {game.reviews.map((review, index) => (
               <GameReviewCard item={review} key={index} />
             ))}
@@ -177,7 +186,18 @@ const GameScreen = ({ route, navigation }: any) => {
           >
             Game alike
           </Text>
-          <ScrollView horizontal>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingRight: horizontalPadding,
+            }}
+            horizontal
+            contentOffset={{ x: -horizontalPadding, y: 0 }}
+            style={{
+              overflow: 'visible',
+              width: Dimensions.get('window').width,
+            }}
+          >
             {gameData.map((game: any, index) => (
               <GameCard
                 item={game}
@@ -189,7 +209,7 @@ const GameScreen = ({ route, navigation }: any) => {
           </ScrollView>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </Layout>
   );
 };
 

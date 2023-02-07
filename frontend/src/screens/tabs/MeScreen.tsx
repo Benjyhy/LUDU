@@ -18,8 +18,8 @@ const MeScreen = () => {
     'https://avatars.githubusercontent.com/u/55087969?s=400&u=a57cf70988be3cdefe55132d61bd532499b5dcd9&v=4';
 
   return (
-    <Layout title={'Profil'}>
-      <ScrollView style={{ width: '100%' }}>
+    <Layout>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.wrapperView}>
           <AvatarMe avatarUri={avatarUri} username={username} />
           <TouchableOpacity style={styles.row}>
@@ -99,11 +99,15 @@ const MeScreen = () => {
             </View>
           </TouchableOpacity>
           <View style={styles.rowPrivacy}>
-            <Text variant="bodySmall">Privacy Policy</Text>
+            <Text variant="bodySmall" style={{ fontWeight: '100' }}>
+              Privacy Policy
+            </Text>
             <Text variant="titleSmall" style={{ margin: 8 }}>
               .
             </Text>
-            <Text variant="bodySmall">Use of cookies</Text>
+            <Text variant="bodySmall" style={{ fontWeight: '100' }}>
+              Use of cookies
+            </Text>
           </View>
         </View>
       </ScrollView>
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: lowGray,
+    backgroundColor: '#fff',
   },
   row: {
     width: '100%',
@@ -141,6 +145,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'stretch',
+    paddingTop: 8,
+    paddingBottom: 8,
   },
 });
 

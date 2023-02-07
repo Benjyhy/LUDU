@@ -1,19 +1,43 @@
 import React, { useState } from 'react';
-import filters from '../mocks/filterMockData';
 import { View, Modal, Dimensions } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Button, Checkbox } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
 import { primaryColor } from '../utils/const';
+import {
+  setStatusFilter,
+  toggleStatusFilter,
+} from '../store/actions/filterBookingsByStatusAction';
+import {
+  setCategoryFilter,
+  toggleCategoryFilter,
+} from '../store/actions/filterGamesByCategoriesAction';
+import { MainAppState } from '../models/states';
+import { FilterOptions } from '../models/Filter';
 
 interface FilterProps {
-  active: boolean;
-  onFilterClick: (value: boolean) => void;
+  filters: FilterOptions;
+  filterType: string;
+  title: string;
 }
 
-const Filter = (props: FilterProps) => {
-  const [checked, setChecked] = useState([]);
+const Filter = ({ filters, filterType, title }: FilterProps) => {
+  const dispatch = useDispatch();
+  const [checked, setChecked] = useState<string[]>([]);
+  const filterIsActive = useSelector((state: MainAppState) =>
+    filterType === 'status'
+      ? state.filterBookingsByStatus.active
+      : state.filterGamesByCategories.active,
+  );
+
   const onButtonPress = () => {
-    props.onFilterClick(!props.active);
+    if (filterType === 'status') {
+      dispatch(toggleStatusFilter());
+      dispatch(setStatusFilter(checked));
+    } else {
+      dispatch(toggleCategoryFilter());
+      dispatch(setCategoryFilter(checked));
+    }
   };
   const handleCheckChange = (filter: string, include: boolean) => {
     if (!include) {
@@ -24,7 +48,7 @@ const Filter = (props: FilterProps) => {
   };
 
   return (
-    <Modal animationType="slide" transparent={true} visible={props.active}>
+    <Modal animationType="slide" transparent={true} visible={filterIsActive}>
       <View
         style={{
           justifyContent: 'space-between',
@@ -50,7 +74,7 @@ const Filter = (props: FilterProps) => {
             variant="headlineSmall"
             style={{ fontWeight: 'bold', textAlign: 'center' }}
           >
-            Filter games according to your preferences
+            {title}
           </Text>
           <View>
             {filters.map((filter, index) => (

@@ -8,7 +8,12 @@ import {
   ActivityIndicator,
   MD2Colors,
 } from 'react-native-paper';
-import { errorColor, primaryColor, secondaryColor } from '../utils/const';
+import {
+  borderRadius,
+  errorColor,
+  primaryColor,
+  secondaryColor,
+} from '../utils/const';
 import axios from '../utils/axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/actions/userAction';
@@ -78,19 +83,29 @@ export default function Login({ navigation }: any) {
                 }}
               />
             </View>
-            <View style={{ position: 'absolute', bottom: 100 }}>
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 100,
+              }}
+            >
               <Button
                 onPress={login}
                 buttonColor={primaryColor}
                 textColor="white"
-                style={{ borderRadius: 5, paddingHorizontal: 15 }}
+                style={{
+                  borderRadius: borderRadius,
+                  paddingHorizontal: 16,
+                  marginBottom: 12,
+                }}
               >
                 Login
               </Button>
               <Button
                 onPress={() => navigation.navigate(appRoutes.REGISTER_SCREEN)}
                 mode="text"
-                textColor="black"
+                textColor="#fff"
+                style={{ padding: 0, margin: 0 }}
               >
                 Create an account
               </Button>
@@ -125,7 +140,7 @@ const styles = StyleSheet.create({
     height: 55,
     marginBottom: 20,
     paddingHorizontal: 12,
-    borderRadius: 8,
+    borderRadius: borderRadius,
     backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: {
