@@ -1,49 +1,49 @@
-import { emptySplitApi } from './api'
+import { emptySplitApi } from './api';
 
 const extendedApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     createRent: builder.mutation({
-        query: rentToCreate => ({
-            url: '/rent',
-            method: 'POST',
-            body: rentToCreate
-        })
+      query: (rentToCreate) => ({
+        url: '/rent',
+        method: 'POST',
+        body: rentToCreate,
+      }),
     }),
     getAllRents: builder.query({
-        query: () => ({
-            url: '/rent',
-        })
+      query: () => ({
+        url: '/rent',
+      }),
     }),
     getRentById: builder.query({
-        query: rentId => ({
-            url: `/rent/${rentId}`,
-        })
+      query: (rentId) => ({
+        url: `/rent/${rentId}`,
+      }),
     }),
     setRentToDone: builder.query({
-        query: rentId => ({
-            url: `/rent/done/${rentId}`,
-        })
+      query: (rentId) => ({
+        url: `/rent/done/${rentId}`,
+      }),
     }),
     setRentToDelivered: builder.query({
-        query: rentId => ({
-            url: `/rent/delivered/${rentId}`,
-        })
+      query: (rentId) => ({
+        url: `/rent/delivered/${rentId}`,
+      }),
     }),
     deleteRent: builder.mutation({
-        query: rentToDeleteId => ({
-            url: `/rent/${rentToDeleteId}`,
-            method: 'DELETE'
-        })
+      query: (rentToDeleteId) => ({
+        url: `/rent/${rentToDeleteId}`,
+        method: 'DELETE',
+      }),
     }),
   }),
   overrideExisting: false,
-})
+});
 
-export const { 
-    useCreateRentMutation, 
-    useDeleteRentMutation, 
-    useGetAllRentsQuery, 
-    useGetRentByIdQuery,
-    useSetRentToDoneQuery,
-    useSetRentToDeliveredQuery 
-} = extendedApi
+export const {
+  useCreateRentMutation,
+  useDeleteRentMutation,
+  useGetAllRentsQuery,
+  useGetRentByIdQuery,
+  useSetRentToDoneQuery,
+  useSetRentToDeliveredQuery,
+} = extendedApi;

@@ -3,7 +3,7 @@ import currentLocationReducer from './currentLocationReducer';
 import filterGamesByCategoriesReducer from './filterGamesByCategoriesReducer';
 import filterBookingsByStatusReducer from './filterBookingsByStatusReducer';
 import userReducer from './userReducer';
-import { api } from '../../services/api';
+import { emptySplitApi as api } from '../../services/LUDU_API/api';
 
 export default combineReducers({
   currentLocation: currentLocationReducer,
@@ -11,6 +11,4 @@ export default combineReducers({
   filterGamesByCategories: filterGamesByCategoriesReducer,
   filterBookingsByStatus: filterBookingsByStatusReducer,
   [api.reducerPath]: api.reducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
 });

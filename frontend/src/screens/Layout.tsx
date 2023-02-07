@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SafeAreaView, View, StatusBar, StyleSheet } from 'react-native';
-import { horizontalPadding, lowGray, verticalPadding } from '../utils/const';
+import { horizontalPadding, lowGray } from '../utils/const';
 
 interface ILayout {
   children: JSX.Element;
