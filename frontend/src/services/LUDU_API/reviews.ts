@@ -21,7 +21,7 @@ const extendedApi = emptySplitApi.injectEndpoints({
     }),
     updateReview: builder.mutation({
         query: reviewToUpdate => ({
-            url: `/game/${reviewToUpdate.id}`,
+            url: `/review/${reviewToUpdate.id}`,
             method: 'PUT',
             body: reviewToUpdate
         })

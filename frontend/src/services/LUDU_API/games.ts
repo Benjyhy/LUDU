@@ -28,7 +28,7 @@ const extendedApi = emptySplitApi.injectEndpoints({
     }),
     deleteGame: builder.mutation({
         query: gameToDeleteId => ({
-            url: `/copy/${gameToDeleteId}`,
+            url: `/game/${gameToDeleteId}`,
             method: 'DELETE'
         })
     }),
