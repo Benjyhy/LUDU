@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import { lowGray, primaryColor } from '../../utils/const';
-import { Text } from 'react-native-paper';
-import Button from '../../components/Button';
+import { lowGray, primaryColor, strongGray } from '../../utils/const';
+import { Text, Button } from 'react-native-paper';
 
 const AvatarMe = ({
   avatarUri,
@@ -52,8 +51,8 @@ const AvatarMe = ({
       <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
         0627389128
       </Text>
-      <Button>
-        <Text>Update</Text>
+      <Button textColor={strongGray} mode="outlined">
+        Update
       </Button>
     </View>
   );

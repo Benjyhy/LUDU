@@ -10,3 +10,8 @@ export interface Rent {
   duration: number;
   is_delivered: boolean;
 }
+
+export enum RentStatus {
+  DELIVERED = 'DELIVERED',
+  INPROGRESS = 'INPROGRESS',
+}

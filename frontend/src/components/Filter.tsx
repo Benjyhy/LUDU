@@ -1,27 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Modal, Dimensions } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Button, Checkbox } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
 import { primaryColor } from '../utils/const';
+import {
+  activateStatusFilter,
+  deactivateStatusFilter,
+  setStatusFilter,
+  resetStatusFilter,
+} from '../store/actions/filterBookingsByStatusAction';
+import {
+  activateCategoryFilter,
+  deactivateCategoryFilter,
+  setCategoryFilter,
+  resetCategoryFilter,
+} from '../store/actions/filterGamesByCategoriesAction';
+import { MainAppState } from '../models/states';
 
 interface FilterProps {
-  onFilterClick: (value: boolean) => void;
-  active: boolean;
   filters: string[];
-  checked?: string[];
-  setChecked?: React.Dispatch<React.SetStateAction<string[]>>;
+  key: string;
 }
 
-const Filter = ({
-  onFilterClick,
-  active,
-  filters,
-  checked,
-  setChecked,
-}: FilterProps) => {
+const Filter = ({ filters, key }: FilterProps) => {
+  const dispatch = useDispatch();
+  const [checked, setChecked] = useState<string[]>([]);
+  const filterIsActive = useSelector((state: MainAppState) =>
+    key === 'status'
+      ? state.filterBookingsByStatus.active
+      : state.filterGamesByCategories.active,
+  );
   const onButtonPress = () => {
-    onFilterClick(!active);
+    if (key === 'status') {
+      dispatch(
+        filterIsActive ? deactivateStatusFilter() : activateStatusFilter(),
+      );
+      dispatch(setStatusFilter({ checked }));
+    } else {
+      dispatch(
+        filterIsActive ? activateCategoryFilter() : deactivateCategoryFilter(),
+      );
+      dispatch(setCategoryFilter({ checked }));
+    }
   };
+
+  // const activeCheckboxes = useSelector((state: MainAppState) =>
+  //   key === 'status'
+  //     ? state.filterBookingsByStatus.filters
+  //     : state.filterGamesByCategories.filters,
+  // );
   const handleCheckChange = (filter: string, include: boolean) => {
     if (!include) {
       setChecked([...checked, filter]);
@@ -31,7 +59,7 @@ const Filter = ({
   };
 
   return (
-    <Modal animationType="slide" transparent={true} visible={active}>
+    <Modal animationType="slide" transparent={true} visible={filterIsActive}>
       <View
         style={{
           justifyContent: 'space-between',

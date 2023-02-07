@@ -37,14 +37,7 @@ const BookingTabsScreen = () => {
   }, [checked]);
 
   return (
-    <Layout
-      title="Booking"
-      action={
-        <TouchableOpacity onPress={() => setIsActiveFilter(!isActiveFilter)}>
-          <MaterialIcons name="tune" size={24} color={primaryColor} />
-        </TouchableOpacity>
-      }
-    >
+    <Layout>
       <View style={{ backgroundColor: '#fff' }}>
         <FlatList
           data={bookings}

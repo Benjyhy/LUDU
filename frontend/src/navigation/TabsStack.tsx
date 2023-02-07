@@ -7,6 +7,7 @@ import MeScreen from '../screens/tabs/MeScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { primaryColor } from '../utils/const';
 import BookingTabsScreen from '../screens/tabs/BookingScreen';
+import Filter from '../components/Filter';
 
 type Props = {
   ionIconsName: keyof typeof Ionicons.glyphMap;
@@ -46,7 +47,7 @@ const TabsStack = () => {
 
           return <Ionicons name={iconName} size={size} color={primaryColor} />;
         },
-        headerShown: false,
+        headerShown: true,
         tabBarActiveTintColor: primaryColor,
         tabBarInactiveTintColor: 'gray',
       })}
@@ -55,6 +56,11 @@ const TabsStack = () => {
       <Tab.Screen
         name={tabRoutes.BOOKING_TABS_SCREEN}
         component={BookingTabsScreen}
+        options={{
+          headerRight: () => (
+            <Filter filters={['DELIVERED', 'INPROGRESS']} key={'status'} />
+          ),
+        }}
       />
       <Tab.Screen name={tabRoutes.PLAY_SCREEN} component={PlayScreen} />
       <Tab.Screen name={tabRoutes.ME_SCREEN} component={MeScreen} />

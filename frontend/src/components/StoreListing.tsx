@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
+import { secondaryColor } from '../utils/const';
 
 const StoreListing = ({ items, selectedGame }: any) => {
   const [itemSelected, updateItemSelected] = useState([]);
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   listPress: {
-    backgroundColor: '#f04040',
+    backgroundColor: secondaryColor,
     borderRadius: 6,
     padding: 12,
   },
