@@ -9,7 +9,7 @@ const extendedApi = emptySplitApi.injectEndpoints({
             body: categoryToCreate
         })
     }),
-    updateCategory: builder.mutation({
+    updateCategoryById: builder.mutation({
         query: categoryToUpdate => ({
             url: `/category/${categoryToUpdate.id}`,
             method: 'PUT',
@@ -36,4 +36,10 @@ const extendedApi = emptySplitApi.injectEndpoints({
   overrideExisting: false,
 })
 
-export const { useCreateCategoryMutation, useUpdateCategoryMuation, useDeleteCategoryMutation, useGetAllCategoriesQuery, useGetCategoryByIdQuery } = extendedApi
+export const { 
+    useCreateCategoryMutation, 
+    useUpdateCategoryMutation, 
+    useDeleteCategoryMutation, 
+    useGetAllCategoriesQuery, 
+    useGetCategoryByIdQuery 
+} = extendedApi
