@@ -16,7 +16,7 @@ export class CopyService {
   }
 
   public async findById(id: string): Promise<CopyDocument> {
-    return await this.CopyModel.findById(id);
+    return await this.CopyModel.findById(id).populate('game');
   }
 
   public async findByAvailability(): Promise<CopyDocument[] | []> {
