@@ -3,21 +3,19 @@ name: CI
 on:
   push:
     paths:
-    - 'server/**'
+      - "server/**"
   pull_request:
-    paths: 
-    - 'server/**'
+    paths:
+      - "server/**"
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
-     steps:
-      - uses: actions/checkout@v2
-      - name: Unit test for server
-        uses: actions/setup-node@v2
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 19.1
-      - run: cd ./
-      - run: npm ci
-      - run: npm run test
+          node-version: 18
+          cache: "npm"
+          cache-dependency-path: server/package-lock.json
+      - run: cd ./server && npm ci && npm run test
