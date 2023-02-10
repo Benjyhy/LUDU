@@ -7,6 +7,7 @@ import {
   Delete,
   NotFoundException,
   Put,
+  Logger,
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import { ReviewDto } from './dto/review.dto';
@@ -30,15 +31,14 @@ export class ReviewController {
     const existingUser = await this.userService.findById(reviewDto.user);
     if (!existingUser)
       throw new NotFoundException(`User #${reviewDto.user} not found`);
+    const isStoreReview = reviewDto.store ? true : false;
 
-    // Either it's a Game or Store review
-    if (reviewDto.store) {
-      // For Store
+    if (isStoreReview) {
+      //  Store review
       const existingStore = await this.storeService.findById(reviewDto.store);
       if (!existingStore)
         throw new NotFoundException(`Store #${reviewDto.store} not found`);
 
-      // Check if user has already an review for this Store
       const reviewAlreadyExist = await this.reviewService.findIfAlreadyExist(
         reviewDto,
       );
@@ -47,20 +47,27 @@ export class ReviewController {
           `A review already exist with this store from this user #${reviewDto.user}`,
         );
 
-      // Create Review for retrieve its Id
+      // Create Review to retrieve its Id
       const newReview = await this.reviewService.create(reviewDto);
-
-      // Merge old reviews with the new one
-      const mergedReview = [...existingStore.reviews, newReview._id.toString()];
-      await this.storeService.updateReviews(reviewDto.store, mergedReview);
+      // UpdateReview in relational documents
+      try {
+        await this.storeService.updateReviews(reviewDto.store, [
+          ...existingStore.reviews,
+          newReview._id.toString(),
+        ]);
+        await this.userService.updateReviews(reviewDto.user, [
+          ...existingUser.reviews,
+          newReview._id.toString(),
+        ]);
+      } catch (e) {
+        Logger.log(e);
+      }
       return newReview;
     } else {
-      // For Game
       const existingGame = await this.gameService.findById(reviewDto.game);
       if (!existingGame)
         throw new NotFoundException(`Game #${reviewDto.game} not found`);
 
-      // Check if user has already an review for this Game
       const reviewAlreadyExist = await this.reviewService.findIfAlreadyExist(
         reviewDto,
       );
@@ -69,11 +76,22 @@ export class ReviewController {
           `A review already exist with this game from this user #${reviewDto.user}`,
         );
 
+      // Create Review to retrieve its Id
       const newReview = await this.reviewService.create(reviewDto);
 
-      const mergedReview = [...existingUser.reviews, newReview._id.toString()];
-
-      await this.userService.updateReviews(reviewDto.user, mergedReview);
+      // UpdateReview in relational documents
+      try {
+        await this.gameService.updateReviews(reviewDto.game, [
+          ...existingGame.reviews,
+          newReview._id.toString(),
+        ]);
+        await this.userService.updateReviews(reviewDto.user, [
+          ...existingUser.reviews,
+          newReview._id.toString(),
+        ]);
+      } catch (e) {
+        Logger.log(e);
+      }
       return newReview;
     }
   }
@@ -99,30 +117,58 @@ export class ReviewController {
   async remove(@Param('id') id: string) {
     const existingReview = await this.reviewService.findOne(id);
 
-    if (!existingReview) throw new NotFoundException(`Store #${id} not found`);
+    if (!existingReview) throw new NotFoundException(`Review ${id} not found`);
 
     if (existingReview.store) {
       const store = await this.storeService.findById(existingReview.store);
 
-      const newReviews = store.reviews.filter((item) => {
-        return item.toString() !== id;
-      });
-      await this.storeService.updateReviews(
-        existingReview.store.toString(),
-        newReviews,
+      const user = await this.userService.findById(
+        existingReview.user.toString(),
       );
+
+      try {
+        await this.storeService.updateReviews(
+          existingReview.store.toString(),
+          store.reviews.filter((item) => {
+            return item.toString() !== id;
+          }),
+        );
+
+        await this.userService.updateReviews(
+          existingReview.user.toString(),
+          user.reviews.filter((item) => {
+            return item.toString() !== id;
+          }),
+        );
+      } catch (e) {
+        Logger.log(e);
+      }
+
       return this.reviewService.remove(id);
     } else {
       const game = await this.gameService.findById(
         existingReview.game.toString(),
       );
-      const newReviews = game.reviews.filter((item) => {
-        return item.toString() !== id;
-      });
-      await this.storeService.updateReviews(
-        existingReview.game.toString(),
-        newReviews,
+      const user = await this.userService.findById(
+        existingReview.user.toString(),
       );
+
+      try {
+        await this.gameService.updateReviews(
+          existingReview.game.toString(),
+          game.reviews.filter((item) => {
+            return item.toString() !== id;
+          }),
+        );
+        await this.userService.updateReviews(
+          existingReview.user.toString(),
+          user.reviews.filter((item) => {
+            return item.toString() !== id;
+          }),
+        );
+      } catch (e) {
+        Logger.log(e);
+      }
       return this.reviewService.remove(id);
     }
   }
