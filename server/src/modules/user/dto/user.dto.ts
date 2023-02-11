@@ -55,7 +55,7 @@ export class UserDto {
   readonly role: ROLES;
 
   @ApiProperty({
-    example: 'popolito',
+    example: 'impsdc',
     description: 'Your nickname',
   })
   @IsNotEmpty()
@@ -63,7 +63,6 @@ export class UserDto {
   readonly username: string;
 
   @ApiProperty({ type: CredentialsProperty })
-  @ApiProperty()
   credentials: ICredentials;
 
   @ApiProperty({

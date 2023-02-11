@@ -4,7 +4,6 @@ import { IsEmail } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { hashPassword } from '../helpers/Bcrypt';
 import { Review } from './review.schema';
-import { Factory } from 'nestjs-seeder-impsdc';
 
 export enum ROLES {
   USER = 'USER',
@@ -40,7 +39,6 @@ export class LocalAuth {
   password: string;
 
   @Prop()
-  @Factory((faker, ctx) => ctx.emailVerified)
   emailVerified: boolean;
 }
 

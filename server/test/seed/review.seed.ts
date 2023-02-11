@@ -70,7 +70,7 @@ export const ReviewSeed = () => {
     });
 
     describe('seed', () => {
-      it('machin', async () => {
+      it('', async () => {
         const users = await userService.findAll();
         const games = await gameService.findAll();
         const stores = await storeService.findAll();

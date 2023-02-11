@@ -96,7 +96,7 @@ export class UserService {
   public async updateReviews(
     id: string,
     reviewId: (string | Review)[],
-  ): Promise<any> {
+  ): Promise<UserDocument> {
     const updatedUser = await this.userModel.updateOne(
       { _id: id },
       { $set: { reviews: reviewId } },
