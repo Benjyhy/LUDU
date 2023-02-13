@@ -26,9 +26,7 @@ export class GameService {
     return await this.gameModel.findById(id).populate('categories', 'name');
   }
 
-  public async findByCategory(
-    categoryId: string,
-  ): Promise<GameDocument[] | []> {
+  public async findByCategory(categoryId: string): Promise<GameDocument[] | []> {
     const gamesByCategory = await this.gameModel.find({
       categories: categoryId,
     });
@@ -44,10 +42,7 @@ export class GameService {
     });
   }
 
-  public async update(
-    id: string,
-    updateGameDto: GameUpdateDto,
-  ): Promise<GameDocument> {
+  public async update(id: string, updateGameDto: GameUpdateDto): Promise<GameDocument> {
     const createdGame = await this.gameModel
       .findByIdAndUpdate({ _id: id }, updateGameDto)
       .populate('categories');
@@ -71,16 +66,9 @@ export class GameService {
     return await this.gameModel.findById(id);
   }
 
-  public async updateReviews(
-    id: string,
-    reviewIds: (string | Review)[],
-  ): Promise<GameDocument> {
+  public async updateReviews(id: string, reviewIds: (string | Review)[]): Promise<GameDocument> {
     const updatedGame = await this.gameModel
-      .findOneAndUpdate(
-        { _id: id },
-        { $set: { reviews: reviewIds } },
-        { returnOriginal: false },
-      )
+      .findOneAndUpdate({ _id: id }, { $set: { reviews: reviewIds } }, { returnOriginal: false })
       .populate('reviews', 'score');
 
     const average = (arr) => arr.reduce((p, c) => p + c, 0) / arr.length;

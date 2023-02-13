@@ -99,9 +99,7 @@ UserSchema.pre<UserDocument>('save', function (next) {
     //     HttpStatus.BAD_REQUEST,
     //   );
 
-    this.credentials.local.password = hashPassword(
-      this.credentials.local.password,
-    );
+    this.credentials.local.password = hashPassword(this.credentials.local.password);
   }
   next();
 });

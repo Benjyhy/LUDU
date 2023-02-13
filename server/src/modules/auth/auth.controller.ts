@@ -19,10 +19,7 @@ export class AuthController {
   ): Promise<UserDocument> {
     await this.authService.checkUniqueField(userDto);
     if (userDto.avatar) {
-      userDto.avatar = await saveImage(
-        userDto.avatar,
-        `${appConfig().user.staticFolder}/avatar/`,
-      );
+      userDto.avatar = await saveImage(userDto.avatar, `${appConfig().user.staticFolder}/avatar/`);
     }
     return this.authService.register(userDto);
   }

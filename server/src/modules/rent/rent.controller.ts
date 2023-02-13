@@ -2,12 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { RentService } from './rent.service';
 import { RentDto } from './dto/rent.dto';
 import { ApiTags, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
-import {
-  NotFoundException,
-  HttpException,
-  HttpStatus,
-  Query,
-} from '@nestjs/common';
+import { NotFoundException, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { CopyService } from '../copy/copy.service';
 import { UserService } from '../user/user.service';
 import { Rent } from '../../schemas/rent.schema';
@@ -24,11 +19,9 @@ export class RentController {
   @Post()
   async create(@Body() RentDto: RentDto) {
     const availableCopy = await this.CopyService.findById(RentDto.game);
-    if (!availableCopy)
-      throw new NotFoundException(`Copy #${RentDto.game} not found`);
+    if (!availableCopy) throw new NotFoundException(`Copy #${RentDto.game} not found`);
     const userExist = await this.UserService.findById(RentDto.user);
-    if (!userExist)
-      throw new NotFoundException(`User #${RentDto.user} not found`);
+    if (!userExist) throw new NotFoundException(`User #${RentDto.user} not found`);
 
     if (!availableCopy.available)
       throw new HttpException(
@@ -50,10 +43,7 @@ export class RentController {
     summary: 'Filter all Rent by "done" and "is_delivered" params',
   })
   @ApiOkResponse({ description: 'Success', type: Rent })
-  findAll(
-    @Query('done') done?: string,
-    @Query('is_delivered') is_delivered?: string,
-  ) {
+  findAll(@Query('done') done?: string, @Query('is_delivered') is_delivered?: string) {
     return this.rentService.findAll(done, is_delivered);
   }
 

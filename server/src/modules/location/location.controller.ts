@@ -1,8 +1,18 @@
-import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, ValidationPipe,} from '@nestjs/common';
-import {ApiOkResponse, ApiOperation, ApiTags} from '@nestjs/swagger';
-import {Location, LocationDocument} from '../../schemas/location.schema';
-import {LocationService} from './location.service';
-import {LocationDto} from './dto/location.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  ValidationPipe,
+} from '@nestjs/common';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Location, LocationDocument } from '../../schemas/location.schema';
+import { LocationService } from './location.service';
+import { LocationDto } from './dto/location.dto';
 
 @Controller('location')
 @ApiTags('Location')

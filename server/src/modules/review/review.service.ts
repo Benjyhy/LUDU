@@ -23,9 +23,7 @@ export class ReviewService {
     return await this.reviewModel.findById(id);
   }
 
-  public async findIfAlreadyExist(
-    reviewDto: ReviewDto,
-  ): Promise<ReviewDocument | any> {
+  public async findIfAlreadyExist(reviewDto: ReviewDto): Promise<ReviewDocument | any> {
     if (reviewDto.store) {
       return await this.reviewModel.find({
         user: reviewDto.user,
@@ -39,14 +37,8 @@ export class ReviewService {
     }
   }
 
-  public async update(
-    id: string,
-    reviewDto: ReviewDto,
-  ): Promise<ReviewDocument> {
-    const existingStore = await this.reviewModel.findByIdAndUpdate(
-      { _id: id },
-      reviewDto,
-    );
+  public async update(id: string, reviewDto: ReviewDto): Promise<ReviewDocument> {
+    const existingStore = await this.reviewModel.findByIdAndUpdate({ _id: id }, reviewDto);
 
     if (!existingStore) throw new NotFoundException(`Review #${id} not found`);
 

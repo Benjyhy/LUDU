@@ -27,9 +27,7 @@ export class CategoryController {
 
   @Post()
   async create(@Body() CategoryDto: CategoryDto) {
-    const categoryExist = await this.categoryService.categoryAlreadyExist(
-      CategoryDto.name,
-    );
+    const categoryExist = await this.categoryService.categoryAlreadyExist(CategoryDto.name);
     if (categoryExist)
       throw new HttpException(
         {
@@ -56,10 +54,7 @@ export class CategoryController {
   }
 
   @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateCategoryDto: CategoryDto,
-  ) {
+  async update(@Param('id') id: string, @Body() updateCategoryDto: CategoryDto) {
     const categoryExist = await this.categoryService.findById(id);
     if (!categoryExist)
       throw new HttpException(
@@ -84,17 +79,12 @@ export class CategoryController {
         HttpStatus.FORBIDDEN,
       );
 
-    const games = await this.gameService.findByCategory(
-      categoryExist._id.toString(),
-    );
+    const games = await this.gameService.findByCategory(categoryExist._id.toString());
     games.map(async (item: GameDocument) => {
       const newCategories = item.categories.filter(
         (e) => e._id.toString() !== categoryExist._id.toString(),
       );
-      return await this.gameService.updateCategories(
-        item._id.toString(),
-        newCategories,
-      );
+      return await this.gameService.updateCategories(item._id.toString(), newCategories);
     });
     return this.categoryService.remove(id);
   }

@@ -29,19 +29,15 @@ export class ReviewController {
   @Post()
   async create(@Body() reviewDto: ReviewDto) {
     const existingUser = await this.userService.findById(reviewDto.user);
-    if (!existingUser)
-      throw new NotFoundException(`User #${reviewDto.user} not found`);
+    if (!existingUser) throw new NotFoundException(`User #${reviewDto.user} not found`);
     const isStoreReview = reviewDto.store ? true : false;
 
     if (isStoreReview) {
       //  Store review
       const existingStore = await this.storeService.findById(reviewDto.store);
-      if (!existingStore)
-        throw new NotFoundException(`Store #${reviewDto.store} not found`);
+      if (!existingStore) throw new NotFoundException(`Store #${reviewDto.store} not found`);
 
-      const reviewAlreadyExist = await this.reviewService.findIfAlreadyExist(
-        reviewDto,
-      );
+      const reviewAlreadyExist = await this.reviewService.findIfAlreadyExist(reviewDto);
       if (reviewAlreadyExist.length !== 0)
         throw new NotFoundException(
           `A review already exist with this store from this user #${reviewDto.user}`,
@@ -65,12 +61,9 @@ export class ReviewController {
       return newReview;
     } else {
       const existingGame = await this.gameService.findById(reviewDto.game);
-      if (!existingGame)
-        throw new NotFoundException(`Game #${reviewDto.game} not found`);
+      if (!existingGame) throw new NotFoundException(`Game #${reviewDto.game} not found`);
 
-      const reviewAlreadyExist = await this.reviewService.findIfAlreadyExist(
-        reviewDto,
-      );
+      const reviewAlreadyExist = await this.reviewService.findIfAlreadyExist(reviewDto);
       if (reviewAlreadyExist.length !== 0)
         throw new NotFoundException(
           `A review already exist with this game from this user #${reviewDto.user}`,
@@ -122,9 +115,7 @@ export class ReviewController {
     if (existingReview.store) {
       const store = await this.storeService.findById(existingReview.store);
 
-      const user = await this.userService.findById(
-        existingReview.user.toString(),
-      );
+      const user = await this.userService.findById(existingReview.user.toString());
 
       try {
         await this.storeService.updateReviews(
@@ -146,12 +137,8 @@ export class ReviewController {
 
       return this.reviewService.remove(id);
     } else {
-      const game = await this.gameService.findById(
-        existingReview.game.toString(),
-      );
-      const user = await this.userService.findById(
-        existingReview.user.toString(),
-      );
+      const game = await this.gameService.findById(existingReview.game.toString());
+      const user = await this.userService.findById(existingReview.user.toString());
 
       try {
         await this.gameService.updateReviews(

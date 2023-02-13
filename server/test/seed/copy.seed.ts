@@ -48,11 +48,7 @@ export const CopySeed = () => {
       gameService = module.get<GameService>(GameService);
       copyService = module.get<CopyService>(CopyService);
       storeService = module.get<StoreService>(StoreService);
-      copyController = new CopyController(
-        copyService,
-        storeService,
-        gameService,
-      );
+      copyController = new CopyController(copyService, storeService, gameService);
     });
 
     test('seed', async () => {
@@ -61,14 +57,9 @@ export const CopySeed = () => {
       const copies = [];
       for (let i = 0; i < 20; i++) {
         const storesId =
-          stores[
-            Math.round(Math.floor(Math.random() * stores.length))
-          ]._id.toString();
+          stores[Math.round(Math.floor(Math.random() * stores.length))]._id.toString();
 
-        const gamesId =
-          games[
-            Math.round(Math.floor(Math.random() * games.length))
-          ]._id.toString();
+        const gamesId = games[Math.round(Math.floor(Math.random() * games.length))]._id.toString();
 
         copies.push({
           game: gamesId,

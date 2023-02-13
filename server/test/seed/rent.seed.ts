@@ -46,11 +46,7 @@ export const RentSeed = () => {
       userService = module.get<UserService>(UserService);
       copyService = module.get<CopyService>(CopyService);
       rentService = module.get<RentService>(RentService);
-      rentController = new RentController(
-        rentService,
-        copyService,
-        userService,
-      );
+      rentController = new RentController(rentService, copyService, userService);
     });
 
     describe('seed', () => {

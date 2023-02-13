@@ -47,13 +47,7 @@ export const ReviewSeed = () => {
             { name: Copy.name, schema: CopySchema },
           ]),
         ],
-        providers: [
-          UserService,
-          StoreService,
-          GameService,
-          GameService,
-          ReviewService,
-        ],
+        providers: [UserService, StoreService, GameService, GameService, ReviewService],
       }).compile();
 
       connection = await module.get(getConnectionToken());
@@ -77,10 +71,7 @@ export const ReviewSeed = () => {
 
         const gameReview = gameReviews.map((gameReview, index) => {
           const gameId = games.shift()._id.toString();
-          const userId =
-            users[
-              Math.round(Math.floor(Math.random() * users.length))
-            ]._id.toString();
+          const userId = users[Math.round(Math.floor(Math.random() * users.length))]._id.toString();
 
           return Object.assign({}, gameReview, {
             game: gameId,
@@ -91,9 +82,7 @@ export const ReviewSeed = () => {
         });
         const storeReview = users.map((user, index) => {
           const storeId =
-            stores[
-              Math.round(Math.floor(Math.random() * stores.length))
-            ]._id.toString();
+            stores[Math.round(Math.floor(Math.random() * stores.length))]._id.toString();
 
           const userId = user._id.toString();
 

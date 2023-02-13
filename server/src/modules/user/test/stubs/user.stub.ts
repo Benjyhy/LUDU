@@ -22,8 +22,7 @@ export const userStub = (): {
     credentials: {
       local: {
         email: 'paul@gmail.com',
-        password:
-          '$2a$10$iM7GgdjUp6ZXwtI2tCIP5.2pE9HJHwPQSao.bUFTn0HYKJUaJyiu2',
+        password: '$2a$10$iM7GgdjUp6ZXwtI2tCIP5.2pE9HJHwPQSao.bUFTn0HYKJUaJyiu2',
         emailVerified: 'false',
       },
     },
