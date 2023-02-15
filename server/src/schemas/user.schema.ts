@@ -5,14 +5,13 @@ import { Transform } from 'class-transformer';
 import { hashPassword } from '../helpers/Bcrypt';
 import { Review } from './review.schema';
 
+export type UserDocument = User & Document;
+
 export enum ROLES {
   USER = 'USER',
   SELLER = 'SELLER',
   ADMIN = 'ADMIN',
 }
-
-export type UserDocument = User & Document;
-
 export class Oauth {
   @Prop()
   token: string;

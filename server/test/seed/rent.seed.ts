@@ -92,7 +92,7 @@ export const RentSeed = () => {
 
         const allrents = [...rentsForUser1, ...rentsForUser2, ...rentsForUser3];
 
-        const result = await rentController.findAll();
+        const result = await rentController.findAllWithParams();
         expect(result).toHaveLength(allrents.length);
       });
     });
