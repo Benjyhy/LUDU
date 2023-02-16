@@ -55,7 +55,7 @@ export const CopySeed = () => {
       const stores = await storeService.findAll();
       const games = await gameService.findAll();
       const copies = [];
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 60; i++) {
         const storesId =
           stores[Math.round(Math.floor(Math.random() * stores.length))]._id.toString();
 
@@ -75,7 +75,7 @@ export const CopySeed = () => {
         }),
       );
       const result = await copyService.findAll();
-      expect(result).toHaveLength(20);
+      expect(result).toHaveLength(60);
     });
 
     afterAll(async () => {

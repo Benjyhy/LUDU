@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed:drop": "npx ts-node src/seeders/seed.ts --drop"
+    "seed:drop": "npx ts-node src/seeders/seed.ts --drop",
+    "seed:refresh": "npm run seed:drop && npm run test:e2e"
   },
   "dependencies": {
     "@faker-js/faker": "^7.5.0",

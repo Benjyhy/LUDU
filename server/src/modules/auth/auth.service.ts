@@ -83,7 +83,7 @@ export class AuthService {
       throw new HttpException(
         {
           status: HttpStatus.FORBIDDEN,
-          error: 'Email already exist',
+          error: 'Username already exist',
         },
         HttpStatus.FORBIDDEN,
       );
