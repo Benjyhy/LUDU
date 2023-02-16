@@ -5,14 +5,15 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import appRoutes from '../../navigation/appRoutes/index';
 import { Button, TextInput } from 'react-native-paper';
 import { RegisterContext } from '../../utils/registerContext';
 import { isValidPhonenumber, isZipCodeValide } from '../../utils/regex';
-import { errorColor, primaryColor } from '../../utils/const';
+import { errorColor, primaryColor, secondaryColor } from '../../utils/const';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
+import { LinearGradient } from 'expo-linear-gradient';
 const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Phone({ navigation }: any) {
@@ -35,12 +36,12 @@ export default function Phone({ navigation }: any) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (isZipCodeValide(postcode) && postcode.length !== 0) {
+      if (!isZipCodeValide(postcode)) {
         setZipError('PostCode is invalid');
       } else {
         setZipError('');
       }
-    }, 3000);
+    }, 1000);
   }, [postcode]);
 
   const isInputInValid =
@@ -64,100 +65,112 @@ export default function Phone({ navigation }: any) {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <View
-        style={{
-          height: 16,
-          paddingTop: 10,
-          paddingLeft: 4,
-          flexDirection: 'row',
-        }}
+    <View>
+      <LinearGradient
+        colors={[primaryColor, secondaryColor]}
+        style={{ height: '100%' }}
       >
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{ backgroundColor: 'transparent' }}
+        <View
+          style={{
+            paddingTop: 30,
+            paddingLeft: 10,
+            flexDirection: 'row',
+          }}
         >
-          <Ionicons size={24} name="arrow-back" />
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          flex: 4,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <View style={{ marginBottom: 4 }}>
-          <Text>Please register your phone and your postal address</Text>
-        </View>
-        <View>
-          <TextInput
-            value={phone}
-            style={[styles.input, phoneError.length !== 0 && styles.inputError]}
-            label="Phone"
-            placeholder="0618273625"
-            placeholderTextColor="gray"
-            onChangeText={(text) => {
-              setPhone(text);
-            }}
-          />
-          <TextInput
-            value={address}
-            style={styles.input}
-            label="Address"
-            placeholder=" 16 rue de Beaumont"
-            placeholderTextColor="gray"
-            onChangeText={(text) => {
-              setAddress(text);
-            }}
-          />
-          <TextInput
-            value={city}
-            style={styles.input}
-            label="City Address"
-            placeholder="Paris"
-            placeholderTextColor="gray"
-            onChangeText={(text) => {
-              setCity(text);
-            }}
-          />
-          <TextInput
-            value={postcode}
-            style={[styles.input, zipError.length !== 0 && styles.inputError]}
-            label="Postcode"
-            placeholder="59000"
-            placeholderTextColor="gray"
-            onChangeText={(text) => {
-              setPostcode(text);
-            }}
-          />
-          <View
-            style={{
-              opacity: isInputInValid ? 0.6 : 1,
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
-            }}
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{ backgroundColor: 'transparent' }}
           >
-            <Button
-              onPress={register}
-              icon={'arrow-forward'}
-              disabled={isInputInValid}
-              buttonColor={primaryColor}
+            <Ionicons size={34} color={'white'} name="arrow-back" />
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            flex: 4,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <View style={{ marginBottom: 64 }}>
+            <Text style={{ color: 'white' }}>
+              Please register your phone and your postal address
+            </Text>
+          </View>
+          <View>
+            <TextInput
+              value={phone}
+              style={[
+                styles.input,
+                phoneError.length !== 0 && styles.inputError,
+              ]}
+              label="Phone"
+              placeholder="0618273625"
+              placeholderTextColor="gray"
+              onChangeText={(text) => {
+                setPhone(text);
+              }}
+            />
+            <TextInput
+              value={address}
+              style={styles.input}
+              label="Address"
+              placeholder=" 16 rue de Beaumont"
+              placeholderTextColor="gray"
+              onChangeText={(text) => {
+                setAddress(text);
+              }}
+            />
+            <TextInput
+              value={city}
+              style={styles.input}
+              label="City Address"
+              placeholder="Paris"
+              placeholderTextColor="gray"
+              onChangeText={(text) => {
+                setCity(text);
+              }}
+            />
+            <TextInput
+              value={postcode}
+              style={[styles.input, zipError.length !== 0 && styles.inputError]}
+              label="Postcode"
+              placeholder="59000"
+              placeholderTextColor="gray"
+              onChangeText={(text) => {
+                setPostcode(text);
+              }}
+            />
+            <View
+              style={{
+                opacity: isInputInValid ? 0.6 : 1,
+                justifyContent: 'flex-end',
+                alignItems: 'flex-end',
+              }}
             >
-              Next
-            </Button>
-          </View>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Text style={{ color: errorColor }}>{phoneError}</Text>
-            <Text style={{ color: errorColor }}>{zipError}</Text>
+              <Button
+                onPress={register}
+                disabled={isInputInValid}
+                buttonColor={primaryColor}
+                textColor="white"
+                style={{ borderRadius: 5, paddingHorizontal: 15 }}
+                icon="arrow-right-bold-box-outline"
+              >
+                Next
+              </Button>
+            </View>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Text style={{ color: errorColor }}>{phoneError}</Text>
+              <Text style={{ color: errorColor }}>{zipError}</Text>
+            </View>
           </View>
         </View>
-      </View>
+      </LinearGradient>
     </View>
   );
 }
@@ -189,5 +202,17 @@ const styles = StyleSheet.create({
   textErrorStyle: { fontSize: 16, color: errorColor },
   registerTextStyle: {
     color: '#acabb0',
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    shadowColor: '#383838',
+    shadowOffset: {
+      width: 2,
+      height: 3,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 1.7,
+    // paddingBottom: 80,
   },
 });

@@ -29,12 +29,10 @@ export class CopyController {
     // checking if ID exist
     const existingGame = await this.gameService.findById(copyDto.game);
 
-    if (!existingGame)
-      throw new NotFoundException(`Game #${copyDto.game} not found`);
+    if (!existingGame) throw new NotFoundException(`Game #${copyDto.game} not found`);
 
     const existingStore = await this.storeService.findById(copyDto.store);
-    if (!existingStore)
-      throw new NotFoundException(`Store #${copyDto.store} not found`);
+    if (!existingStore) throw new NotFoundException(`Store #${copyDto.store} not found`);
 
     // Create the copy
     const copyCreated = await this.copyService.create(copyDto);

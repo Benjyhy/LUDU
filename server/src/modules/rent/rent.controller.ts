@@ -2,12 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { RentService } from './rent.service';
 import { RentDto } from './dto/rent.dto';
 import { ApiTags, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
-import {
-  NotFoundException,
-  HttpException,
-  HttpStatus,
-  Query,
-} from '@nestjs/common';
+import { NotFoundException, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { CopyService } from '../copy/copy.service';
 import { UserService } from '../user/user.service';
 import { Rent } from '../../schemas/rent.schema';
@@ -21,14 +16,21 @@ export class RentController {
     private readonly UserService: UserService,
   ) {}
 
+  @Get()
+  @ApiOperation({
+    summary: 'Filter all Rent by "done" and "is_delivered" params',
+  })
+  @ApiOkResponse({ description: 'Success', type: Rent })
+  findAll() {
+    return this.rentService.findAll();
+  }
+
   @Post()
   async create(@Body() RentDto: RentDto) {
     const availableCopy = await this.CopyService.findById(RentDto.game);
-    if (!availableCopy)
-      throw new NotFoundException(`Copy #${RentDto.game} not found`);
+    if (!availableCopy) throw new NotFoundException(`Copy #${RentDto.game} not found`);
     const userExist = await this.UserService.findById(RentDto.user);
-    if (!userExist)
-      throw new NotFoundException(`User #${RentDto.user} not found`);
+    if (!userExist) throw new NotFoundException(`User #${RentDto.user} not found`);
 
     if (!availableCopy.available)
       throw new HttpException(
@@ -38,11 +40,21 @@ export class RentController {
         },
         HttpStatus.FORBIDDEN,
       );
-
-    const rent = await this.rentService.create(RentDto);
-    // Set the copy unavailable
-    const lol = await this.CopyService.toggleAvailable(RentDto.game.toString());
-    return rent;
+    try {
+      const rent = await this.rentService.create(RentDto);
+      // Set the copy unavailable
+      await this.CopyService.toggleAvailable(RentDto.game.toString());
+      return rent;
+    } catch (e) {
+      console.log(e);
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'StartDate need to be a string created as "new Date(Date.now()).toISOString()"',
+        },
+        HttpStatus.FORBIDDEN,
+      );
+    }
   }
 
   @Get()
@@ -50,11 +62,21 @@ export class RentController {
     summary: 'Filter all Rent by "done" and "is_delivered" params',
   })
   @ApiOkResponse({ description: 'Success', type: Rent })
-  findAll(
+  findAllWithParams(@Query('done') done?: string, @Query('is_delivered') is_delivered?: string) {
+    return this.rentService.findAll(done, is_delivered);
+  }
+
+  @Get('user/:id')
+  @ApiOperation({
+    summary: 'Filter all Rent of a specific user by "done" and "is_delivered" params',
+  })
+  @ApiOkResponse({ description: 'Success', type: Rent })
+  findAllByUserWithParams(
+    @Param('id') userId: string,
     @Query('done') done?: string,
     @Query('is_delivered') is_delivered?: string,
   ) {
-    return this.rentService.findAll(done, is_delivered);
+    return this.rentService.findByUserId(userId, done, is_delivered);
   }
 
   @Get(':id')
@@ -74,8 +96,7 @@ export class RentController {
     const rent = await this.rentService.findById(id);
     if (!rent) throw new NotFoundException(`Rent #${id} not found`);
 
-    rent.is_delivered = true;
-    return this.rentService.updateDelivered(id);
+    return this.rentService.updateDeliveryDate(id);
   }
 
   @Get('/done/:id')

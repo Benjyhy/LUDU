@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { GameDocument } from '../../schemas/game.schema';
 import { Category } from '../../schemas/category.schema';
+import { Review } from '../../schemas/review.schema';
 
 @Injectable()
 export class GameService {
@@ -22,12 +23,10 @@ export class GameService {
   }
 
   public async findById(id: string): Promise<GameDocument> {
-    return await this.gameModel.findById(id).populate('categories');
+    return await this.gameModel.findById(id).populate('categories', 'name');
   }
 
-  public async findByCategory(
-    categoryId: string,
-  ): Promise<GameDocument[] | []> {
+  public async findByCategory(categoryId: string): Promise<GameDocument[] | []> {
     const gamesByCategory = await this.gameModel.find({
       categories: categoryId,
     });
@@ -43,10 +42,7 @@ export class GameService {
     });
   }
 
-  public async update(
-    id: string,
-    updateGameDto: GameUpdateDto,
-  ): Promise<GameDocument> {
+  public async update(id: string, updateGameDto: GameUpdateDto): Promise<GameDocument> {
     const createdGame = await this.gameModel
       .findByIdAndUpdate({ _id: id }, updateGameDto)
       .populate('categories');
@@ -66,6 +62,22 @@ export class GameService {
     );
 
     if (!updatedGame) throw new NotFoundException(`Game #${id} not found`);
+
+    return await this.gameModel.findById(id);
+  }
+
+  public async updateReviews(id: string, reviewIds: (string | Review)[]): Promise<GameDocument> {
+    const updatedGame = await this.gameModel
+      .findOneAndUpdate({ _id: id }, { $set: { reviews: reviewIds } }, { returnOriginal: false })
+      .populate('reviews', 'score');
+
+    const average = (arr) => arr.reduce((p, c) => p + c, 0) / arr.length;
+    const arrayOfReviewStart = updatedGame.reviews.map((a) => a.score);
+
+    await this.gameModel.updateOne(
+      { _id: id },
+      { $set: { tags: { meanReviews: average(arrayOfReviewStart) } } },
+    );
 
     return await this.gameModel.findById(id);
   }

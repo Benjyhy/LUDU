@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import { lowGray, primaryColor } from '../../utils/const';
-import { Text } from 'react-native-paper';
+import { lowGray, primaryColor, strongGray } from '../../utils/const';
+import { Text, Button } from 'react-native-paper';
 
 const AvatarMe = ({
   avatarUri,
@@ -19,18 +19,6 @@ const AvatarMe = ({
           source={{ uri: avatarUri }}
           style={{ marginBottom: 16 }}
         />
-        <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-          {username}
-        </Text>
-        <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-          p.santamara@lapost.net
-        </Text>
-        <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-          4 avenue Hoche, Lille, 59000
-        </Text>
-        <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-          0627389128
-        </Text>
       </>
     );
   };
@@ -44,9 +32,6 @@ const AvatarMe = ({
           color="white"
           style={{ backgroundColor: primaryColor, marginBottom: 16 }}
         />
-        <Text variant="titleSmall" style={{ marginBottom: 16 }}>
-          {username}
-        </Text>
       </>
     );
   };
@@ -54,6 +39,21 @@ const AvatarMe = ({
   return (
     <View style={styles.wrapper}>
       {avatarUri.length !== 0 ? <AvatarWithUri /> : <AvatarLess />}
+      <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+        {username}
+      </Text>
+      <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+        p.santamara@lapost.net
+      </Text>
+      <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+        4 avenue Hoche, Lille, 59000
+      </Text>
+      <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+        0627389128
+      </Text>
+      <Button textColor={strongGray} mode="outlined">
+        Update
+      </Button>
     </View>
   );
 };
@@ -68,8 +68,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     borderColor: lowGray,
-    borderTopWidth: 1,
-    borderWidth: 1,
+    borderBottomWidth: 1,
   },
 });
 

@@ -6,7 +6,10 @@ import PlayScreen from '../screens/tabs/PlayScreen';
 import MeScreen from '../screens/tabs/MeScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { primaryColor } from '../utils/const';
-import BookingTabsScreen from '../screens/tabs/BookingTabsScreen';
+import BookingTabsScreen from '../screens/tabs/BookingScreen';
+import { TouchableOpacity } from 'react-native';
+import { toggleStatusFilter } from '../store/actions/filterBookingsByStatusAction';
+import { useDispatch } from 'react-redux';
 
 type Props = {
   ionIconsName: keyof typeof Ionicons.glyphMap;
@@ -15,6 +18,7 @@ type Props = {
 const Tab = createBottomTabNavigator();
 
 const TabsStack = () => {
+  const dispatch = useDispatch();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -46,7 +50,7 @@ const TabsStack = () => {
 
           return <Ionicons name={iconName} size={size} color={primaryColor} />;
         },
-        headerShown: false,
+        headerShown: true,
         tabBarActiveTintColor: primaryColor,
         tabBarInactiveTintColor: 'gray',
       })}
@@ -55,6 +59,13 @@ const TabsStack = () => {
       <Tab.Screen
         name={tabRoutes.BOOKING_TABS_SCREEN}
         component={BookingTabsScreen}
+        options={{
+          headerRight: () => (
+            <TouchableOpacity onPress={() => dispatch(toggleStatusFilter())}>
+              <Ionicons name="funnel" size={24} color={primaryColor} />
+            </TouchableOpacity>
+          ),
+        }}
       />
       <Tab.Screen name={tabRoutes.PLAY_SCREEN} component={PlayScreen} />
       <Tab.Screen name={tabRoutes.ME_SCREEN} component={MeScreen} />

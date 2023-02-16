@@ -29,10 +29,7 @@ export class CategoryService {
     return await this.categoryModel.create(CategoryDto);
   }
 
-  public async update(
-    id: string,
-    updateCategoryDto: CategoryDto,
-  ): Promise<CategoryDocument> {
+  public async update(id: string, updateCategoryDto: CategoryDto): Promise<CategoryDocument> {
     const existingCategory = await this.categoryModel.findByIdAndUpdate(
       { _id: id },
       updateCategoryDto,

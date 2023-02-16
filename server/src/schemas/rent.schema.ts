@@ -5,6 +5,11 @@ import { Copy } from './copy.schema';
 import { User } from './user.schema';
 export type RentDocument = Rent & Document;
 
+export enum RENT {
+  HOME = 'HOME',
+  STORE = 'STORE',
+}
+
 @Schema({ timestamps: true })
 export class Rent {
   @Transform(({ value }) => value.toString())
@@ -19,21 +24,14 @@ export class Rent {
   @Prop({ type: Date, required: true })
   startDate: Date;
 
-  @Prop()
+  @Prop({ type: Date, default: null })
   endDate: Date | null;
 
-  @Prop()
-  duration: number | null;
+  @Prop({ type: Date, default: null })
+  deliveredDate: Date | null;
 
-  @Prop({ default: false })
-  is_delivered: boolean;
+  @Prop({ type: String, enum: RENT, required: true })
+  type: RENT;
 }
 
 export const RentSchema = SchemaFactory.createForClass(Rent);
-
-RentSchema.pre<RentDocument>('save', function (next) {
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const rent = this;
-  rent.is_delivered = false;
-  next();
-});

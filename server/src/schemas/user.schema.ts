@@ -4,16 +4,14 @@ import { IsEmail } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { hashPassword } from '../helpers/Bcrypt';
 import { Review } from './review.schema';
-import { Factory } from 'nestjs-seeder-impsdc';
+
+export type UserDocument = User & Document;
 
 export enum ROLES {
   USER = 'USER',
   SELLER = 'SELLER',
   ADMIN = 'ADMIN',
 }
-
-export type UserDocument = User & Document;
-
 export class Oauth {
   @Prop()
   token: string;
@@ -40,7 +38,6 @@ export class LocalAuth {
   password: string;
 
   @Prop()
-  @Factory((faker, ctx) => ctx.emailVerified)
   emailVerified: boolean;
 }
 
@@ -101,9 +98,7 @@ UserSchema.pre<UserDocument>('save', function (next) {
     //     HttpStatus.BAD_REQUEST,
     //   );
 
-    this.credentials.local.password = hashPassword(
-      this.credentials.local.password,
-    );
+    this.credentials.local.password = hashPassword(this.credentials.local.password);
   }
   next();
 });

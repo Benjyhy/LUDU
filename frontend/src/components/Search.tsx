@@ -1,13 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 import { View } from 'react-native';
-import { Text, TextInput, Switch } from 'react-native-paper';
+import { TextInput, Switch } from 'react-native-paper';
 import findRoutes from '../navigation/appRoutes/findRoutes';
 import * as RootNavigation from '../navigation/rootNavigation';
 import appRoutes from '../navigation/appRoutes';
+import { lowGray, primaryColor } from '../utils/const';
 
-const Search = () => {
-  const [isMap, setIsMap] = useState(true);
+const Search = ({ active }) => {
   const routesToDisplaySearchComponent = [
     findRoutes.HOME_FEED,
     findRoutes.MAP_VIEW,
@@ -25,8 +25,8 @@ const Search = () => {
   }
 
   const handleToggle = () => {
-    setIsMap(!isMap);
-    const targetedRoute = isMap ? findRoutes.MAP_VIEW : findRoutes.HOME_FEED;
+    active = !active;
+    const targetedRoute = active ? findRoutes.MAP_VIEW : findRoutes.HOME_FEED;
     RootNavigation.navigate(targetedRoute, {});
   };
 
@@ -35,23 +35,37 @@ const Search = () => {
   }
 
   return (
-    <View style={{ marginHorizontal: 15, marginTop: 50, marginBottom: 15 }}>
-      <Text style={{ fontWeight: 'bold', marginTop: 5 }}>
-        Select your address
-      </Text>
-      <View
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        width: '100%',
+      }}
+    >
+      <TextInput
+        placeholder="Lille"
+        mode={'flat'}
+        activeOutlineColor={`${primaryColor}`}
+        outlineColor={`${lowGray}`}
+        selectionColor={`${primaryColor}`}
+        underlineColor="transparent"
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          width: '80%',
+          height: 30,
         }}
-      >
-        <TextInput
-          placeholder="Search..."
-          style={{ width: '75%', marginTop: 3 }}
-        />
-        <Switch onValueChange={handleToggle} value={!isMap} />
-      </View>
+        theme={{
+          colors: {
+            primary: `transparent`,
+          },
+        }}
+      />
+      <Switch
+        onValueChange={handleToggle}
+        value={active}
+        color={primaryColor}
+        style={{ height: 30, width: '20%' }}
+      />
     </View>
   );
 };

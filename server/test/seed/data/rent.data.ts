@@ -1,62 +1,100 @@
+import { RENT } from '../../../src/schemas/rent.schema';
+
 export const rentsForUser1 = [
   {
-    is_delivered: false,
-    startDate: '1677873600',
+    startDate: '2023-02-12T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.STORE,
   },
   {
-    is_delivered: false,
-    startDate: '1678219200',
+    startDate: '2023-02-14T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.STORE,
   },
   {
-    is_delivered: true,
-    startDate: '1673121600',
+    startDate: '2023-02-14T19:07:06.514Z',
+    endDate: '2023-02-17T19:07:06.514Z',
+    deliveredDate: '2023-02-14T20:07:06.514Z',
+    type: RENT.HOME,
   },
   {
-    is_delivered: true,
-    startDate: '1673121600',
-    endDate: '1673380800',
-    duration: 259200,
+    startDate: '2023-03-12T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.HOME,
+  },
+  {
+    startDate: '2023-03-20T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.HOME,
   },
 ];
 
 export const rentsForUser2 = [
   {
-    is_delivered: false,
-    startDate: '1677873600',
+    startDate: '2023-02-12T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.STORE,
   },
   {
-    is_delivered: false,
-    startDate: '1678219200',
+    startDate: '2023-02-14T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.STORE,
   },
   {
-    is_delivered: true,
-    startDate: '1673121600',
+    startDate: '2023-02-14T19:07:06.514Z',
+    endDate: '2023-02-17T19:07:06.514Z',
+    deliveredDate: '2023-02-14T20:07:06.514Z',
+    type: RENT.HOME,
   },
   {
-    is_delivered: true,
-    startDate: '1673121600',
-    endDate: '1673380800',
-    duration: 259200,
+    startDate: '2023-03-12T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.HOME,
+  },
+  {
+    startDate: '2023-03-20T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.HOME,
   },
 ];
 
 export const rentsForUser3 = [
   {
-    is_delivered: false,
-    startDate: '1677873600',
+    startDate: '2023-02-12T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.STORE,
   },
   {
-    is_delivered: false,
-    startDate: '1678219200',
+    startDate: '2023-02-14T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.STORE,
   },
   {
-    is_delivered: true,
-    startDate: '1673121600',
+    startDate: '2023-02-14T19:07:06.514Z',
+    endDate: '2023-02-17T19:07:06.514Z',
+    deliveredDate: '2023-02-14T20:07:06.514Z',
+    type: RENT.HOME,
   },
   {
-    is_delivered: true,
-    startDate: '1673121600',
-    endDate: '1673380800',
-    duration: 259200,
+    startDate: '2023-03-12T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.HOME,
+  },
+  {
+    startDate: '2023-03-20T19:07:06.514Z',
+    endDate: null,
+    deliveredDate: null,
+    type: RENT.HOME,
   },
 ];

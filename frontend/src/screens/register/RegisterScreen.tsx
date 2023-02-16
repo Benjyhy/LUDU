@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import appRoutes from '../../navigation/appRoutes/index';
 import { Button, TextInput } from 'react-native-paper';
@@ -14,7 +15,8 @@ import {
   isPasswordInvalid,
   isEmailInvalid,
 } from '../../utils/regex';
-import { errorColor, primaryColor } from '../../utils/const';
+import { errorColor, primaryColor, secondaryColor } from '../../utils/const';
+import { LinearGradient } from 'expo-linear-gradient';
 const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Register({ navigation }: any) {
@@ -75,70 +77,76 @@ export default function Register({ navigation }: any) {
     });
     navigation.navigate(appRoutes.REGISTER_PHONE_SCREEN);
   };
-
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <View>
-        <TextInput
-          value={username}
-          style={[
-            styles.input,
-            usernameError.length !== 0 && styles.inputError,
-          ]}
-          label="Username"
-          placeholderTextColor="gray"
-          onChangeText={(text) => {
-            setUsername(text);
-          }}
+    <View style={{ justifyContent: 'center' }}>
+      <LinearGradient
+        colors={[primaryColor, secondaryColor]}
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+        }}
+      >
+        <Image
+          style={styles.logo}
+          source={require('../../../assets/ludu_logo.png')}
         />
-        <TextInput
-          value={email}
-          style={[styles.input, emailError.length !== 0 && styles.inputError]}
-          label="Email"
-          placeholderTextColor="gray"
-          onChangeText={(text) => {
-            setEmail(text);
-          }}
-        />
-        <TextInput
-          value={password}
-          style={[
-            styles.input,
-            passwordError.length !== 0 && styles.inputError,
-          ]}
-          label="Password"
-          placeholderTextColor="gray"
-          secureTextEntry
-          onChangeText={(text) => {
-            setPassword(text);
-          }}
-        />
+        <View style={{ marginTop: 60 }}>
+          <TextInput
+            value={username}
+            style={[
+              styles.input,
+              usernameError.length !== 0 && styles.inputError,
+            ]}
+            label="Username"
+            placeholderTextColor="gray"
+            onChangeText={(text) => {
+              setUsername(text);
+            }}
+          />
+          <TextInput
+            value={email}
+            style={[styles.input, emailError.length !== 0 && styles.inputError]}
+            label="Email"
+            placeholderTextColor="gray"
+            onChangeText={(text) => {
+              setEmail(text);
+            }}
+          />
+          <TextInput
+            value={password}
+            style={[
+              styles.input,
+              passwordError.length !== 0 && styles.inputError,
+            ]}
+            label="Password"
+            placeholderTextColor="gray"
+            secureTextEntry
+            onChangeText={(text) => {
+              setPassword(text);
+            }}
+          />
+        </View>
         <View
           style={{
             opacity: isInputInValid ? 0.6 : 1,
-            justifyContent: 'flex-end',
-            alignItems: 'flex-end',
+            marginTop: 20,
           }}
         >
           <Button
+            textColor="white"
+            style={{ borderRadius: 5, paddingHorizontal: 15 }}
             onPress={register}
-            icon={'arrow-forward'}
             disabled={isInputInValid}
             buttonColor={primaryColor}
+            icon="arrow-right-bold-box-outline"
           >
             Next
           </Button>
         </View>
         <View
           style={{
-            marginVertical: 4,
-            alignItems: 'center',
+            marginTop: 30,
           }}
         >
           <TouchableOpacity
@@ -158,7 +166,7 @@ export default function Register({ navigation }: any) {
           <Text style={{ color: errorColor }}>{passwordError}</Text>
           <Text style={{ color: errorColor }}>{error}</Text>
         </View>
-      </View>
+      </LinearGradient>
     </View>
   );
 }
@@ -167,7 +175,7 @@ const styles = StyleSheet.create({
   input: {
     width: ScreenWidth * 0.8,
     height: 55,
-    marginBottom: 20,
+    marginTop: 30,
     paddingHorizontal: 12,
     borderRadius: 8,
     backgroundColor: 'white',
@@ -179,7 +187,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 2,
-    borderWidth: 1,
   },
   inputError: {
     borderColor: errorColor,
@@ -190,5 +197,17 @@ const styles = StyleSheet.create({
   textErrorStyle: { fontSize: 16, color: errorColor },
   registerTextStyle: {
     color: '#acabb0',
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    shadowColor: '#383838',
+    shadowOffset: {
+      width: 2,
+      height: 3,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 1.7,
+    // marginTop: 80,
   },
 });

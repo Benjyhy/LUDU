@@ -1,5 +1,5 @@
+import { ROLES } from '../../models/states/User';
 import { SET_USER, REMOVE_USER, UPDATE_USER } from '../types/userTypes';
-import { ROLES } from 'src/models/states/User';
 
 export interface UserState {
   token: string;

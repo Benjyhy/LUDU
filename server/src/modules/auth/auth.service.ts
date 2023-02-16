@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  Logger,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, Logger, HttpException, HttpStatus } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
@@ -28,10 +22,7 @@ interface UserToken {
 }
 @Injectable()
 export class AuthService {
-  constructor(
-    private userService: UserService,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private userService: UserService, private readonly jwtService: JwtService) {}
 
   async validateUser(userToken: UserToken): Promise<boolean> {
     const user = await this.userService.findById(userToken.id);
@@ -49,12 +40,9 @@ export class AuthService {
 
   async login(userLogin: LoginDto): Promise<any> {
     // find an user mathcing the username
-    const userExist = await this.userService.findOnePassword(
-      userLogin.username,
-    );
+    const userExist = await this.userService.findOnePassword(userLogin.username);
 
-    if (!userExist)
-      throw new NotFoundException(`User #${userLogin.username} not found`);
+    if (!userExist) throw new NotFoundException(`User #${userLogin.username} not found`);
 
     // checking password
     const isCorrectPassword = comparePassword(
@@ -100,9 +88,7 @@ export class AuthService {
         HttpStatus.FORBIDDEN,
       );
 
-    userExist = await this.userService.findOneLocalEmail(
-      userDto.credentials.local.email,
-    );
+    userExist = await this.userService.findOneLocalEmail(userDto.credentials.local.email);
     // if email is already taken
     if (userExist)
       throw new HttpException(

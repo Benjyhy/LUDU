@@ -33,14 +33,25 @@ export class StoreController {
   @Get('/:id')
   @ApiOperation({ summary: 'Find a store by ID' })
   @ApiOkResponse({ description: 'Success', type: StoreDto })
-  findById(
+  async findById(
     @Param('id')
     id: string,
   ): Promise<StoreDocument> {
-    return this.storeService.findById(id).then((store) => {
-      if (!store) throw new NotFoundException(`Store #${id} not found`);
+    try {
+      const store = await this.storeService.findById(id);
+
+      if (!store) {
+        throw new NotFoundException(`Store #${id} not found`);
+      }
       return store;
-    });
+    } catch (e) {
+      console.log(e);
+    }
+
+    /*.then((store) => {
+      if (!store) 
+      return store;
+    });*/
   }
 
   @Post('')
