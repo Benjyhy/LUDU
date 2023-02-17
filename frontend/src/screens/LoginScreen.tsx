@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Dimensions, Text, Image } from 'react-native';
 import appRoutes from '../navigation/appRoutes/index';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -17,7 +17,7 @@ import {
 } from '../utils/const';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/actions/userAction';
-import { useLoginQuery } from '../services/LUDU_API/auth';
+import { useLoginMutation } from '../services/LUDU_API/auth';
 
 const { width: ScreenWidth } = Dimensions.get('screen');
 
@@ -27,30 +27,33 @@ export default function Login({ navigation }: any) {
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const loginQuery = useLoginQuery();
-
-  const login = async () => {
-    setLoading(true);
-    try {
-      const res = await loginQuery({
-        username: usernameInput,
-        password: password,
-      });
-      console.log(res);
-      const token = res.data.user.token;
-      const id = res.data.user._id;
-      const username = res.data.user.username;
-      const avatar = res.data.user.avatar;
-      const role = res.data.user.role;
-      const email = res.data.user.credentials.local.email;
-      dispatch(setUser({ token, id, username, avatar, role, email }));
-    } catch (err) {
-      console.log(err);
-      setError(true);
+  const [login, { data, isLoading, isSuccess }] = useLoginMutation();
+  
+  const handleLogin = async () => {
+    setLoading(isLoading);
+    if(!isLoading){
+      try {
+        await login({ username: usernameInput, password });
+      } catch (err) {
+        console.log(err);
+        setError(true);
+      }
     }
     navigation.navigate(appRoutes.TAB_NAVIGATOR);
     setLoading(false);
   };
+
+  useEffect( () => {
+    if(isSuccess){
+      const token = data.token;
+      const id = data.user._id;
+      const username = data.user.username;
+      const avatar = data.user.avatar;
+      const role = data.user.role;
+      const email = data.user.credentials.local.email;
+      dispatch(setUser({ token, id, username, avatar, role, email }));
+    }
+  }, [] );
 
   return (
     <View>
@@ -67,7 +70,7 @@ export default function Login({ navigation }: any) {
             <TextInput
               value={usernameInput}
               style={styles.input}
-              label="Email"
+              label="Username"
               placeholderTextColor="gray"
               activeOutlineColor={`${primaryColor}`}
               outlineColor={`${lowGray}`}
@@ -108,7 +111,7 @@ export default function Login({ navigation }: any) {
               }}
             >
               <Button
-                onPress={login}
+                onPress={handleLogin}
                 buttonColor={primaryColor}
                 textColor="white"
                 style={{

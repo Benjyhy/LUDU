@@ -17,6 +17,8 @@ import {
 } from '../../utils/regex';
 import { errorColor, primaryColor, secondaryColor } from '../../utils/const';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRegisterMutation } from '../../services/LUDU_API/auth';
+
 const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Register({ navigation }: any) {
@@ -27,6 +29,7 @@ export default function Register({ navigation }: any) {
   const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [error, setError] = useState<string[]>([]);
+  const [register, {data}] = useRegisterMutation();
 
   useEffect(() => {
     setTimeout(() => {
@@ -68,7 +71,26 @@ export default function Register({ navigation }: any) {
     emailError.length !== 0 ||
     passwordError.length !== 0;
 
-  const register = async () => {
+  const handleRegister = async () => {
+    try {
+      await register({ 
+          username: username, 
+          credentials: {
+            local: { 
+              email: email, 
+              password: password, 
+              emailVerified: false 
+            },
+          }, 
+          phone: "0606060606",
+          address:"50 rue tasoer",
+          city:"duper",
+          postCode:"55555",
+          role: null
+      });
+    } catch (err) {
+      console.log(err);
+    }
     setUser({
       username: username,
       credentials: {
@@ -136,7 +158,7 @@ export default function Register({ navigation }: any) {
           <Button
             textColor="white"
             style={{ borderRadius: 5, paddingHorizontal: 15 }}
-            onPress={register}
+            onPress={handleRegister}
             disabled={isInputInValid}
             buttonColor={primaryColor}
             icon="arrow-right-bold-box-outline"

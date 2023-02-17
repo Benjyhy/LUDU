@@ -9,6 +9,14 @@ export type LocalAuth = {
   password: string;
   emailVerified: boolean;
 };
+export type LoginPayload = {
+  username: string;
+  password: string;
+};
+export type UserDto = { 
+  token: string;
+  user: User;
+};
 export type Credentials = {
   local: LocalAuth;
 };
