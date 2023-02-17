@@ -67,6 +67,11 @@
        name: docker-compose-plugin
        state: present
 
+    - name: Make sure we have a 'docker' group
+      group:
+        name: docker
+        state: present
+
     - name: Allow 'docker' group to have passwordless sudo
       lineinfile:
         dest: /etc/sudoers
