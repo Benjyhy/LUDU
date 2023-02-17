@@ -19,7 +19,7 @@ services:
     links:
       - api:api
     ports:
-      - 8080:80
+      - 80:80
     environment:
       - NGINX_SERVER_NAME=${NGINX_SERVER_NAME}
       - API_PORT=${API_PORT}

@@ -1,5 +1,26 @@
 ---
 # tasks file for luduServerSetup
+    - name: Make sure we have a 'ludu' group
+      group:
+        name: ludu
+        state: present
+
+    - name: Allow 'ludu' group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%ludu'
+        line: '%ludu ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Add ludu user to ludu group
+      user:
+        name=ludu
+        groups=ludu
+        append=yes
+        state=present
+        createhome=yes
+
     - name: Install aptitude
       apt:
         name: aptitude
@@ -45,3 +66,67 @@
       apt:
        name: docker-compose-plugin
        state: present
+
+    - name: Make sure we have a 'docker' group
+      group:
+        name: docker
+        state: present
+
+    - name: Allow 'docker' group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%docker'
+        line: '%docker ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+            
+    - name: Add ubuntu user to docker group
+      user:
+        name=ubuntu
+        groups=docker
+        append=yes
+        state=present
+        createhome=yes
+
+    - name: Add ludu user to docker group
+      user:
+        name=ludu
+        groups=docker
+        append=yes
+        state=present
+        createhome=yes
+
+    # - name: Prune everything
+    #   community.docker.docker_prune:
+    #     containers: true
+    #     images: true
+    #     networks: true
+    #     volumes: true
+    #     builder_cache: true
+
+    - name: Get running containers
+      docker_host_info:
+        containers: yes
+      register: docker_info
+
+    - name: Stop running containers
+      docker_container:
+        name: "{{ item }}"
+        state: stopped
+      loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
+    - name: Remove Stoped docker containers
+      shell: |
+        docker rm $(docker ps -a -q);
+      when: docker_info.containers != 0
+
+    - name: Get details of all images
+      docker_host_info:
+        images: yes
+        verbose_output: yes
+      register: image_info
+    - name: Remove all images
+      docker_image:
+        name: "{{ item }}"
+        state: absent
+      loop: "{{ image_info.images | map(attribute='Id') | list }}"
+        
