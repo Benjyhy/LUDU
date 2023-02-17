@@ -1,26 +1,4 @@
 ---
-# tasks file for luduBackend
-- name: check if the folder Backend ludu is created
-  ansible.builtin.file:
-    path: /opt/luduBackend
-    owner: ludu
-    group: ludu
-    mode: '0755'
-    state: directory
-
-# - name: copy luduBackend server into /opt/luduBackend
-#   copy:
-#    src: luduBackend/files/server.tgz
-#    dest: /opt/luduBackend
-#    directory_mode:
-#       tags:
-#         - parentdir
-        
-- name: Extract luduBackend
-  ansible.builtin.unarchive:
-    src: luduBackend/files/server.tgz
-    dest: /opt/luduBackend
-    
 - name: Prune everything
   community.docker.docker_prune:
     containers: true
@@ -29,9 +7,28 @@
     volumes: true
     builder_cache: true
 
+# tasks file for luduBackend
+- name: check if the folder Backend ludu is created
+  ansible.builtin.file:
+    path: /opt/luduBackend
+    owner: ludu
+    group: ludu
+    mode: '0755'
+    state: directory
+        
+- name: Extract luduBackend
+  ansible.builtin.unarchive:
+    src: luduBackend/files/server.tgz
+    dest: /opt/luduBackend
+
 # use files parameter to use multiple docker-compose.yml files
-- name: deploy Docker Compose stack
+- name: deploy docker-compose stack
   community.docker.docker_compose:
     project_src: /opt/luduBackend/server
     files:
     - docker-compose.yml
+
+- name: docker-compose up
+  command: docker-compose up -d --build 
+  args:
+    chdir: /opt/luduBackend/server
