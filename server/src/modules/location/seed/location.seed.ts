@@ -6,9 +6,7 @@ import { Location } from '../../../schemas/location.schema';
 
 @Injectable()
 export class LocationSeeder implements Seeder {
-  constructor(
-    @InjectModel(Location.name) private readonly location: Model<Location>,
-  ) {}
+  constructor(@InjectModel(Location.name) private readonly location: Model<Location>) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   async seed(): Promise<any> {}

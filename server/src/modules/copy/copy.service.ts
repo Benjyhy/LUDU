@@ -16,7 +16,7 @@ export class CopyService {
   }
 
   public async findById(id: string): Promise<CopyDocument> {
-    return await this.CopyModel.findById(id);
+    return await this.CopyModel.findById(id).populate('game');
   }
 
   public async findByAvailability(): Promise<CopyDocument[] | []> {
@@ -29,14 +29,8 @@ export class CopyService {
     return await this.CopyModel.create(copyDto);
   }
 
-  public async update(
-    id: string,
-    updateCopyDto: CopyDto,
-  ): Promise<CopyDocument> {
-    const existingCopy = await this.CopyModel.findByIdAndUpdate(
-      { _id: id },
-      updateCopyDto,
-    );
+  public async update(id: string, updateCopyDto: CopyDto): Promise<CopyDocument> {
+    const existingCopy = await this.CopyModel.findByIdAndUpdate({ _id: id }, updateCopyDto);
 
     if (existingCopy == null) {
       throw new NotFoundException(`Copy #${id} not found`);
@@ -52,10 +46,7 @@ export class CopyService {
       throw new NotFoundException(`Copy #${id} not found`);
     }
 
-    await this.CopyModel.updateOne(
-      { _id: id },
-      { $set: { available: !existingCopy.available } },
-    );
+    await this.CopyModel.updateOne({ _id: id }, { $set: { available: !existingCopy.available } });
 
     return await this.CopyModel.findById(id).populate('game');
   }

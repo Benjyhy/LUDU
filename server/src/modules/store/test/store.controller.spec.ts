@@ -1,17 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { StoreController } from '../store.controller';
 import { StoreService } from '../store.service';
-import { Store } from '../../../schemas/store.schema';
+import { Store, StoreDocument } from '../../../schemas/store.schema';
 import { StoreStub } from './stubs/store.stub';
 import { StoreDto } from '../dto/store.dto';
+import { LocationDocument } from '../../../schemas/location.schema';
+import { getModelToken } from '@nestjs/mongoose';
 
 jest.mock('../store.service');
 
 describe('StoreController', () => {
   let storeController: StoreController;
   let storeService: StoreService;
+  let storeModel: StoreDocument;
+  let locationModel: LocationDocument;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [StoreController],
       providers: [StoreService],
@@ -26,7 +30,7 @@ describe('StoreController', () => {
     //TEST FINDBYID
     describe('when get findById is called', () => {
       let store: Store;
-      beforeEach(async () => {
+      beforeAll(async () => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         store = await storeController.findById(StoreStub()._id);
@@ -43,7 +47,7 @@ describe('StoreController', () => {
     //TEST FINDALL
     describe('when get findAll is called', () => {
       let store: Store;
-      beforeEach(async () => {
+      beforeAll(async () => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         store = await storeController.findAll();
@@ -62,7 +66,7 @@ describe('StoreController', () => {
     describe('when create Store is called', () => {
       let store: Store;
       let createStore: StoreDto;
-      beforeEach(async () => {
+      beforeAll(async () => {
         createStore = {
           _id: undefined,
           address: '43 rue de toto, Lille 59000',

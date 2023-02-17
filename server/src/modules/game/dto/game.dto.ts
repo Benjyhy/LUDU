@@ -8,8 +8,30 @@ import {
   ArrayMaxSize,
   ArrayMinSize,
   IsOptional,
+  ValidateNested,
+  IsNotEmpty,
+  IsObject,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+
+class TagsProperty {
+  @ApiProperty({
+    example: '[2,10]',
+    description: 'range of players',
+  })
+  @IsArray()
+  @IsNumber({}, { each: true })
+  @ArrayMinSize(2)
+  @ArrayMaxSize(2)
+  readonly players: number[];
+
+  @ApiProperty({
+    example: '30',
+    description: 'Gametime in minute',
+  })
+  @Type(() => Number)
+  readonly playTime: number;
+}
 
 export class GameDto {
   @Transform(({ value }) => value.toString())
@@ -45,13 +67,6 @@ export class GameDto {
   readonly description: string;
 
   @ApiProperty({
-    example: '75',
-    description: 'Number of this game in all stores',
-  })
-  @IsNumber()
-  readonly quantity: number;
-
-  @ApiProperty({
     example: '38',
     description: "number of users' likes for this game",
   })
@@ -65,23 +80,12 @@ export class GameDto {
   @IsBase64()
   thumbnail: string;
 
-  @ApiProperty({
-    example: '[3,9]',
-    description: 'fourchette du nombre de joueurs pour jouer au jeu',
-  })
-  @Type(() => Number)
-  @IsArray()
-  @IsNumber({}, { each: true })
-  @ArrayMinSize(2)
-  @ArrayMaxSize(2)
-  readonly players: number[];
-
-  @ApiProperty({
-    example: '30',
-    description: 'Temps de jeu en minute du jeu',
-  })
-  @IsNumber()
-  readonly playTime: number;
+  @ApiProperty({ type: TagsProperty })
+  @ValidateNested()
+  @Type(() => TagsProperty)
+  @IsObject()
+  @IsNotEmpty()
+  tags: TagsProperty;
 
   @ApiProperty({
     example: '[62e16c1b3f6a897c767bec7d, 62dafb6aabb3d527725fb11a]',

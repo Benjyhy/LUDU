@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "rimraf dist && nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write **/*.ts{,x}",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed:drop": "npx ts-node src/seeders/seed.ts --drop"
+    "seed:drop": "npx ts-node src/seeders/seed.ts --drop",
+    "seed:refresh": "npm run seed:drop && npm run test:e2e"
   },
   "dependencies": {
     "@faker-js/faker": "^7.5.0",
@@ -46,7 +47,9 @@
     "rxjs": "^7.2.0",
     "sharp": "^0.30.6",
     "swagger-ui-express": "^4.3.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.8.2",
+    "nest-winston": "^1.8.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

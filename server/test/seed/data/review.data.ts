@@ -73,8 +73,7 @@ export const storeReviews = [
     score: 4.1,
   },
   {
-    review:
-      'Dolor illo doloribus dolore veritatis ut quos provident nesciunt hic.',
+    review: 'Dolor illo doloribus dolore veritatis ut quos provident nesciunt hic.',
     score: 1.9,
   },
   {

@@ -15,10 +15,7 @@ export class RolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     // get Role required from decorator
-    const requiredRoles = this._reflector.get<ROLES[]>(
-      ROLES_KEY,
-      context.getHandler(),
-    );
+    const requiredRoles = this._reflector.get<ROLES[]>(ROLES_KEY, context.getHandler());
 
     // if requiredRoles is empty, route is not under roles restrictions
     if (!requiredRoles) {
