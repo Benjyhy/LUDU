@@ -11,12 +11,13 @@ import {
 import {
   borderRadius,
   errorColor,
+  lowGray,
   primaryColor,
   secondaryColor,
 } from '../utils/const';
-import axios from '../utils/axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/actions/userAction';
+import { useLoginQuery } from '../services/LUDU_API/auth';
 
 const { width: ScreenWidth } = Dimensions.get('screen');
 
@@ -26,13 +27,16 @@ export default function Login({ navigation }: any) {
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const loginQuery = useLoginQuery();
+
   const login = async () => {
     setLoading(true);
     try {
-      const res = await axios.post('/local/login', {
+      const res = await loginQuery({
         username: usernameInput,
         password: password,
       });
+      console.log(res);
       const token = res.data.user.token;
       const id = res.data.user._id;
       const username = res.data.user.username;
@@ -44,8 +48,8 @@ export default function Login({ navigation }: any) {
       console.log(err);
       setError(true);
     }
-    setLoading(false);
     navigation.navigate(appRoutes.TAB_NAVIGATOR);
+    setLoading(false);
   };
 
   return (
@@ -60,29 +64,43 @@ export default function Login({ navigation }: any) {
               style={styles.logo}
               source={require('../../assets/ludu_logo.png')}
             />
-            <View>
-              <TextInput
-                value={usernameInput}
-                style={styles.input}
-                label="Email"
-                placeholderTextColor="gray"
-                underlineColor="transparent"
-                onChangeText={(text) => {
-                  setUsernameInput(text);
-                }}
-              />
-              <TextInput
-                value={password}
-                style={styles.input}
-                label="Password"
-                placeholderTextColor="gray"
-                underlineColor="transparent"
-                secureTextEntry
-                onChangeText={(text) => {
-                  setPassword(text);
-                }}
-              />
-            </View>
+            <TextInput
+              value={usernameInput}
+              style={styles.input}
+              label="Email"
+              placeholderTextColor="gray"
+              activeOutlineColor={`${primaryColor}`}
+              outlineColor={`${lowGray}`}
+              selectionColor={`${primaryColor}`}
+              underlineColor="transparent"
+              theme={{
+                colors: {
+                  primary: primaryColor,
+                },
+              }}
+              onChangeText={(text) => {
+                setUsernameInput(text);
+              }}
+            />
+            <TextInput
+              value={password}
+              style={styles.input}
+              label="Password"
+              placeholderTextColor="gray"
+              activeOutlineColor={`${primaryColor}`}
+              outlineColor={`${lowGray}`}
+              selectionColor={`${primaryColor}`}
+              underlineColor="transparent"
+              theme={{
+                colors: {
+                  primary: primaryColor,
+                },
+              }}
+              secureTextEntry
+              onChangeText={(text) => {
+                setPassword(text);
+              }}
+            />
             <View
               style={{
                 position: 'absolute',
