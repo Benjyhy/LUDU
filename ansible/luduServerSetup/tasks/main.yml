@@ -85,7 +85,7 @@
 
     - name: Add ludu user to docker group
       user:
-        name=ubuntu
+        name=ludu
         groups=docker
         append=yes
         state=present
