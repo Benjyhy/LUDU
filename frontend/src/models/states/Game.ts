@@ -15,3 +15,18 @@ export declare class Game {
   categories: Category[];
   reviews: Review[];
 }
+
+export interface Tags {
+  playtime: number;
+  players: number[];
+}
+export interface CreateGamePayload {
+  ean: string;
+  name: string;
+  version: string;
+  description: string;
+  likes: number;
+  tags: Tags;
+  categories: string[];
+  thumbnail: string;
+}

@@ -1,34 +1,35 @@
+import { CreateGamePayload, Game } from '../../models/states/Game';
 import { emptySplitApi } from './api';
 
 const extendedApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    createGame: builder.mutation({
+    createGame: builder.mutation<Game, CreateGamePayload>({
       query: (gameToCreate) => ({
         url: '/game',
         method: 'POST',
         body: gameToCreate,
       }),
     }),
-    getAllGames: builder.query({
+    getAllGames: builder.query<Game[], void>({
       query: () => ({
         url: '/game',
       }),
     }),
-    getGameById: builder.query({
-      query: (gameId) => ({
-        url: `/game/${gameId}`,
+    getGameById: builder.query<Game, { _id: string }>({
+      query: (game) => ({
+        url: `/game/${game._id}`,
       }),
     }),
-    updateGame: builder.mutation({
+    updateGame: builder.mutation<Game, Game>({
       query: (gameToUpdate) => ({
-        url: `/game/${gameToUpdate.id}`,
+        url: `/game/${gameToUpdate._id}`,
         method: 'PUT',
         body: gameToUpdate,
       }),
     }),
-    deleteGame: builder.mutation({
-      query: (gameToDeleteId) => ({
-        url: `/game/${gameToDeleteId}`,
+    deleteGame: builder.mutation<Game, { _id: string }>({
+      query: (gameToDelete) => ({
+        url: `/game/${gameToDelete._id}`,
         method: 'DELETE',
       }),
     }),
