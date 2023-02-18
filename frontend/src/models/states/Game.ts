@@ -10,8 +10,7 @@ export declare class Game {
   quantity: number;
   likes: number;
   thumbnail: string;
-  players: number[];
-  playTime: number;
+  tags: Tags;
   categories: Category[];
   reviews: Review[];
 }
