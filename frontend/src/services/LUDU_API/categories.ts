@@ -1,35 +1,36 @@
+import { Category } from '../../models/states/Category';
 import { emptySplitApi } from './api';
 
 const extendedApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    createCategory: builder.mutation({
+    createCategory: builder.mutation<Category, { name: string }>({
       query: (categoryToCreate) => ({
         url: '/category',
         method: 'POST',
         body: categoryToCreate,
       }),
     }),
-    updateCategory: builder.mutation({
+    updateCategory: builder.mutation<Category, Category>({
       query: (categoryToUpdate) => ({
-        url: `/category/${categoryToUpdate.id}`,
+        url: `/category/${categoryToUpdate._id}`,
         method: 'PUT',
         body: categoryToUpdate,
       }),
     }),
-    deleteCategory: builder.mutation({
-      query: (categoryToDeleteId) => ({
-        url: `/category/${categoryToDeleteId}`,
+    deleteCategory: builder.mutation<Category, { _id: string }>({
+      query: (categoryToDelete) => ({
+        url: `/category/${categoryToDelete._id}`,
         method: 'DELETE',
       }),
     }),
-    getAllCategories: builder.query({
+    getAllCategories: builder.query<Category[], void>({
       query: () => ({
         url: '/category',
       }),
     }),
-    getCategoryById: builder.query({
-      query: (cateogryId) => ({
-        url: `/category/${cateogryId}`,
+    getCategoryById: builder.query<Category, { _id: string }>({
+      query: (category) => ({
+        url: `/category/${category._id}`,
       }),
     }),
   }),
