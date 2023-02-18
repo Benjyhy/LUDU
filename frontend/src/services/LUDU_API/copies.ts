@@ -1,34 +1,35 @@
+import { Copy } from '../../models/states/Copy';
 import { emptySplitApi } from './api';
 
 const extendedApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    createCopy: builder.mutation({
+    createCopy: builder.mutation<Copy, { game: string; store: string }>({
       query: (copyToCreate) => ({
         url: '/copy',
         method: 'POST',
         body: copyToCreate,
       }),
     }),
-    getAllCopies: builder.query({
+    getAllCopies: builder.query<Copy[], void>({
       query: () => ({
         url: '/copy',
       }),
     }),
-    getCopyById: builder.query({
-      query: (copyId) => ({
-        url: `/copy/${copyId}`,
+    getCopyById: builder.query<Copy, { _id: string }>({
+      query: (copy) => ({
+        url: `/copy/${copy._id}`,
       }),
     }),
-    updateCopy: builder.mutation({
+    updateCopy: builder.mutation<Copy, Copy>({
       query: (copyToUpdate) => ({
-        url: `/copy/${copyToUpdate.id}`,
+        url: `/copy/${copyToUpdate._id}`,
         method: 'PUT',
         body: copyToUpdate,
       }),
     }),
-    deleteCopy: builder.mutation({
-      query: (copyToDeleteId) => ({
-        url: `/copy/${copyToDeleteId}`,
+    deleteCopy: builder.mutation<Copy, { _id: string }>({
+      query: (copyToDelete) => ({
+        url: `/copy/${copyToDelete._id}`,
         method: 'DELETE',
       }),
     }),
