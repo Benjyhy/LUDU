@@ -21,4 +21,4 @@ const extendedApi = emptySplitApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useRegisterMutation, useLoginMutation} = extendedApi;
+export const { useRegisterMutation, useLoginMutation } = extendedApi;

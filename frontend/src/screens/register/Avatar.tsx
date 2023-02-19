@@ -1,11 +1,5 @@
 import React, { useState, useContext } from 'react';
-import {
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  Image,
-  View,
-} from 'react-native';
+import { StyleSheet, Dimensions, TouchableOpacity, Image, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import appRoutes from '../../navigation/appRoutes/index';
 import { useDispatch } from 'react-redux';
@@ -86,10 +80,7 @@ export default function Avatar({ navigation }: any) {
         )}
         {preview && (
           <>
-            <Image
-              source={{ uri: preview }}
-              style={{ width: 200, height: 200, marginBottom: 4 }}
-            />
+            <Image source={{ uri: preview }} style={{ width: 200, height: 200, marginBottom: 4 }} />
             <Button
               onPress={pickImage}
               buttonColor={primaryColor}
@@ -106,10 +97,7 @@ export default function Avatar({ navigation }: any) {
   };
   return (
     <View>
-      <LinearGradient
-        colors={[primaryColor, secondaryColor]}
-        style={{ height: '100%' }}
-      >
+      <LinearGradient colors={[primaryColor, secondaryColor]} style={{ height: '100%' }}>
         <View
           style={{
             paddingTop: 30,

@@ -2,12 +2,7 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { InlineTextIcon } from '../../components/InlineTextIcon';
-import {
-  lowGray,
-  middleGray,
-  strongGray,
-  verticalPadding,
-} from '../../utils/const';
+import { lowGray, middleGray, strongGray, verticalPadding } from '../../utils/const';
 import Layout from '../Layout';
 import AvatarMe from '../me/Avatar';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -26,11 +21,7 @@ const MeScreen = () => {
             <InlineTextIcon text="Customization" icon={'help'} />
             <View style={styles.container}>
               <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
+                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
               </Button>
             </View>
           </TouchableOpacity>
@@ -38,11 +29,7 @@ const MeScreen = () => {
             <InlineTextIcon text="Favorite games" icon={'heart-outline'} />
             <View style={styles.container}>
               <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
+                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
               </Button>
             </View>
           </TouchableOpacity>
@@ -51,11 +38,7 @@ const MeScreen = () => {
             <View style={styles.container}>
               <Text style={{ marginLeft: 4, color: strongGray }}>66.00€</Text>
               <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
+                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
               </Button>
             </View>
           </TouchableOpacity>
@@ -63,26 +46,15 @@ const MeScreen = () => {
             <InlineTextIcon text="Settings" icon={'settings-outline'} />
             <View style={styles.container}>
               <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
+                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
               </Button>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.row}>
-            <InlineTextIcon
-              text="About Ludu"
-              icon={'information-circle-outline'}
-            />
+            <InlineTextIcon text="About Ludu" icon={'information-circle-outline'} />
             <View style={styles.container}>
               <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
+                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
               </Button>
             </View>
           </TouchableOpacity>
@@ -90,11 +62,7 @@ const MeScreen = () => {
             <InlineTextIcon text="My reviews" icon={'happy-outline'} />
             <View style={styles.container}>
               <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
+                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
               </Button>
             </View>
           </TouchableOpacity>

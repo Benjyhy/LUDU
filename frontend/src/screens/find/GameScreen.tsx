@@ -9,11 +9,7 @@ import { View, ScrollView, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Tag from '../../components/Tag';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
-import {
-  horizontalPadding,
-  primaryColor,
-  secondaryColor,
-} from '../../utils/const';
+import { horizontalPadding, primaryColor, secondaryColor } from '../../utils/const';
 import Layout from '../Layout';
 
 const GameScreen = ({ route, navigation }: any) => {
@@ -103,9 +99,7 @@ const GameScreen = ({ route, navigation }: any) => {
             {game.tags.map((tag: string, index) => (
               <Tag tagName={tag} key={index} />
             ))}
-            <Text style={{ marginLeft: 1, fontSize: 12 }}>
-              {game.description}
-            </Text>
+            <Text style={{ marginLeft: 1, fontSize: 12 }}>{game.description}</Text>
           </View>
         </View>
 
@@ -119,9 +113,7 @@ const GameScreen = ({ route, navigation }: any) => {
           }}
         >
           <Button
-            onPress={() =>
-              navigation.navigate(findRoutes.BOOKING_FEED, { game: game })
-            }
+            onPress={() => navigation.navigate(findRoutes.BOOKING_FEED, { game: game })}
             textColor={'white'}
             buttonColor={secondaryColor}
             mode="contained"
@@ -130,9 +122,7 @@ const GameScreen = ({ route, navigation }: any) => {
             Book
           </Button>
           <Button
-            onPress={() =>
-              navigation.navigate(findRoutes.DELIVERY_FEED, { game: game })
-            }
+            onPress={() => navigation.navigate(findRoutes.DELIVERY_FEED, { game: game })}
             textColor={'white'}
             buttonColor={primaryColor}
             icon="dice-6"
@@ -199,12 +189,7 @@ const GameScreen = ({ route, navigation }: any) => {
             }}
           >
             {gameData.map((game: any, index) => (
-              <GameCard
-                item={game}
-                navigation={navigation}
-                size="small"
-                key={game.id}
-              />
+              <GameCard item={game} navigation={navigation} size="small" key={game.id} />
             ))}
           </ScrollView>
         </View>

@@ -40,8 +40,7 @@ function TimePickerScreen({ route, navigation }: any) {
             <Text variant="bodyLarge">
               at{' '}
               <Text style={{ fontWeight: 'bold' }}>
-                {route.params.game.storeName}{' '}
-                <Text style={{ fontWeight: 'bold' }}>today</Text>
+                {route.params.game.storeName} <Text style={{ fontWeight: 'bold' }}>today</Text>
               </Text>
             </Text>
           </View>

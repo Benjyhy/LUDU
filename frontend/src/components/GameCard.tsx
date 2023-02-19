@@ -1,26 +1,13 @@
 import React from 'react';
 import findRoutes from '../navigation/appRoutes/findRoutes';
 import Tag from './Tag';
-import {
-  Dimensions,
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { Dimensions, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-paper';
 
 const GameCard = ({ item, navigation, size }: any) => {
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate(findRoutes.GAME_SCREEN, { item })}
-    >
-      <View
-        style={[
-          styles.card,
-          size === 'small' ? styles.smallCard : styles.largeCard,
-        ]}
-      >
+    <TouchableOpacity onPress={() => navigation.navigate(findRoutes.GAME_SCREEN, { item })}>
+      <View style={[styles.card, size === 'small' ? styles.smallCard : styles.largeCard]}>
         <Image
           style={[size === 'small' ? styles.smallImg : styles.largeImg]}
           resizeMode="cover"
@@ -34,11 +21,9 @@ const GameCard = ({ item, navigation, size }: any) => {
               {item.gameName}
             </Text>
             <View style={{ margin: 3, flexDirection: 'row', flexWrap: 'wrap' }}>
-              {item.tags.map(
-                (tag: string, index: React.Key | null | undefined) => (
-                  <Tag tagName={tag} key={index} />
-                ),
-              )}
+              {item.tags.map((tag: string, index: React.Key | null | undefined) => (
+                <Tag tagName={tag} key={index} />
+              ))}
             </View>
           </View>
           <View style={{ marginBottom: 8 }}>

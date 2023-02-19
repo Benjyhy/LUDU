@@ -28,9 +28,7 @@ function PeriodScreen({ route, navigation }: any) {
   };
   return (
     <Layout>
-      <View
-        style={{ position: 'relative', height: '100%', alignItems: 'center' }}
-      >
+      <View style={{ position: 'relative', height: '100%', alignItems: 'center' }}>
         <View style={{ marginTop: 70 }}>
           <View
             style={{

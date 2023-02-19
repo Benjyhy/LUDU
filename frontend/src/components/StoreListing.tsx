@@ -24,32 +24,15 @@ const StoreListing = ({ items, selectedGame }: any) => {
                                     }}
                                 /> */}
         {items.map((item, index) => (
-          <View
-            key={index.toString()}
-            style={{ margin: 4, paddingVertical: 8 }}
-          >
+          <View key={index.toString()} style={{ margin: 4, paddingVertical: 8 }}>
             <TouchableOpacity
               onPress={() => handleItemSelected(item, item.id)}
-              style={
-                itemSelected[0]?.id === item.id ? styles.listPress : styles.list
-              }
+              style={itemSelected[0]?.id === item.id ? styles.listPress : styles.list}
             >
-              <Text
-                style={
-                  itemSelected[0]?.id === item.id
-                    ? styles.textPress
-                    : styles.text
-                }
-              >
+              <Text style={itemSelected[0]?.id === item.id ? styles.textPress : styles.text}>
                 {item.storeName}
               </Text>
-              <Text
-                style={
-                  itemSelected[0]?.id === item.id
-                    ? styles.cityPress
-                    : styles.city
-                }
-              >
+              <Text style={itemSelected[0]?.id === item.id ? styles.cityPress : styles.city}>
                 {item.city.toUpperCase()}
               </Text>
             </TouchableOpacity>

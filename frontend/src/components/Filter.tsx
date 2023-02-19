@@ -4,10 +4,7 @@ import { Text } from 'react-native-paper';
 import { Button, Checkbox } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { primaryColor } from '../utils/const';
-import {
-  setStatusFilter,
-  toggleStatusFilter,
-} from '../store/actions/filterBookingsByStatusAction';
+import { setStatusFilter, toggleStatusFilter } from '../store/actions/filterBookingsByStatusAction';
 import {
   setCategoryFilter,
   toggleCategoryFilter,
@@ -70,25 +67,17 @@ const Filter = ({ filters, filterType, title }: FilterProps) => {
         }}
       >
         <View style={{ justifyContent: 'space-around', height: '100%' }}>
-          <Text
-            variant="headlineSmall"
-            style={{ fontWeight: 'bold', textAlign: 'center' }}
-          >
+          <Text variant="headlineSmall" style={{ fontWeight: 'bold', textAlign: 'center' }}>
             {title}
           </Text>
           <View>
             {filters.map((filter, index) => (
-              <View
-                key={index.toString()}
-                style={{ flexDirection: 'row', alignItems: 'center' }}
-              >
+              <View key={index.toString()} style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Checkbox.Android
                   color={primaryColor}
                   uncheckedColor={primaryColor}
                   status={checked.includes(filter) ? 'checked' : 'unchecked'}
-                  onPress={() =>
-                    handleCheckChange(filter, checked.includes(filter))
-                  }
+                  onPress={() => handleCheckChange(filter, checked.includes(filter))}
                   key={index}
                 />
                 <Text>{filter}</Text>
@@ -101,12 +90,7 @@ const Filter = ({ filters, filterType, title }: FilterProps) => {
               justifyContent: 'center',
             }}
           >
-            <Button
-              mode={'text'}
-              onPress={onButtonPress}
-              textColor="black"
-              style={{ width: 80 }}
-            >
+            <Button mode={'text'} onPress={onButtonPress} textColor="black" style={{ width: 80 }}>
               Cancel
             </Button>
             <Button

@@ -14,10 +14,7 @@ const initialState: {
   filters: [],
 };
 
-const filterGamesByCategoriesReducer = (
-  state = initialState,
-  action: Action<any>,
-) => {
+const filterGamesByCategoriesReducer = (state = initialState, action: Action<any>) => {
   switch (action.type) {
     case SET_CATEGORY_FILTER:
       if (!state.filters.includes(action.payload))

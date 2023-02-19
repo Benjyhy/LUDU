@@ -15,9 +15,7 @@ import { Categories } from '../../models/states/Category';
 const HomeFeedScreen = ({ navigation }: any) => {
   const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
   const dispatch = useDispatch();
-  const currentLocation = useSelector(
-    (state: MainAppState) => state.currentLocation,
-  );
+  const currentLocation = useSelector((state: MainAppState) => state.currentLocation);
   const userState = useSelector((state: MainAppState) => state.user);
   console.log(userState);
 
@@ -35,10 +33,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
               alignItems: 'center',
             }}
           >
-            <Text
-              variant="headlineMedium"
-              style={{ fontWeight: 'bold', marginBottom: 15 }}
-            >
+            <Text variant="headlineMedium" style={{ fontWeight: 'bold', marginBottom: 15 }}>
               Games near you
             </Text>
             <TouchableOpacity onPress={() => dispatch(toggleCategoryFilter())}>
@@ -46,12 +41,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
             </TouchableOpacity>
           </View>
           {homeFeedMockData.map((item) => (
-            <GameCard
-              item={item}
-              navigation={navigation}
-              size="large"
-              key={item.id}
-            />
+            <GameCard item={item} navigation={navigation} size="large" key={item.id} />
           ))}
         </ScrollView>
       </Layout>

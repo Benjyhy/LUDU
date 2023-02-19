@@ -24,10 +24,7 @@ function BookingConfirmationScreen({ route, navigation }: any) {
           height: '100%',
         }}
       >
-        <Text
-          variant="headlineMedium"
-          style={{ fontWeight: 'bold', textAlign: 'center' }}
-        >
+        <Text variant="headlineMedium" style={{ fontWeight: 'bold', textAlign: 'center' }}>
           Booking confirmation !
         </Text>
         <View>
@@ -36,8 +33,8 @@ function BookingConfirmationScreen({ route, navigation }: any) {
             <Text style={{ fontStyle: 'italic' }}>{game.gameId.gameName}</Text>!
           </Text>
           <Text style={{ textAlign: 'center' }}>
-            You can see your bookings in the{' '}
-            <Text style={{ fontWeight: 'bold' }}>booking</Text> tab.
+            You can see your bookings in the <Text style={{ fontWeight: 'bold' }}>booking</Text>{' '}
+            tab.
           </Text>
         </View>
         <LottieView

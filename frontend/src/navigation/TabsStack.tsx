@@ -31,9 +31,7 @@ const TabsStack = () => {
               break;
 
             case tabRoutes.PLAY_SCREEN:
-              iconName = focused
-                ? 'ios-game-controller'
-                : 'ios-game-controller-outline';
+              iconName = focused ? 'ios-game-controller' : 'ios-game-controller-outline';
               break;
 
             case tabRoutes.BOOKING_TABS_SCREEN:

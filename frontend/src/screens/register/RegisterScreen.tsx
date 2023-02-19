@@ -1,20 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {
-  StyleSheet,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-} from 'react-native';
+import { StyleSheet, Dimensions, Text, TouchableOpacity, View, Image } from 'react-native';
 import appRoutes from '../../navigation/appRoutes/index';
 import { Button, TextInput } from 'react-native-paper';
 import { RegisterContext } from '../../utils/registerContext';
-import {
-  isUsernameInvalid,
-  isPasswordInvalid,
-  isEmailInvalid,
-} from '../../utils/regex';
+import { isUsernameInvalid, isPasswordInvalid, isEmailInvalid } from '../../utils/regex';
 import { errorColor, primaryColor, secondaryColor } from '../../utils/const';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRegisterMutation } from '../../services/LUDU_API/auth';
@@ -29,7 +18,7 @@ export default function Register({ navigation }: any) {
   const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [error, setError] = useState<string[]>([]);
-  const [register, {data}] = useRegisterMutation();
+  const [register, { data }] = useRegisterMutation();
 
   useEffect(() => {
     setTimeout(() => {
@@ -73,20 +62,20 @@ export default function Register({ navigation }: any) {
 
   const handleRegister = async () => {
     try {
-      await register({ 
-          username: username, 
-          credentials: {
-            local: { 
-              email: email, 
-              password: password, 
-              emailVerified: false 
-            },
-          }, 
-          phone: "0606060606",
-          address:"50 rue tasoer",
-          city:"duper",
-          postCode:"55555",
-          role: null
+      await register({
+        username: username,
+        credentials: {
+          local: {
+            email: email,
+            password: password,
+            emailVerified: false,
+          },
+        },
+        phone: '0606060606',
+        address: '50 rue tasoer',
+        city: 'duper',
+        postCode: '55555',
+        role: null,
       });
     } catch (err) {
       console.log(err);
@@ -109,17 +98,11 @@ export default function Register({ navigation }: any) {
           height: '100%',
         }}
       >
-        <Image
-          style={styles.logo}
-          source={require('../../../assets/ludu_logo.png')}
-        />
+        <Image style={styles.logo} source={require('../../../assets/ludu_logo.png')} />
         <View style={{ marginTop: 60 }}>
           <TextInput
             value={username}
-            style={[
-              styles.input,
-              usernameError.length !== 0 && styles.inputError,
-            ]}
+            style={[styles.input, usernameError.length !== 0 && styles.inputError]}
             label="Username"
             placeholderTextColor="gray"
             onChangeText={(text) => {
@@ -137,10 +120,7 @@ export default function Register({ navigation }: any) {
           />
           <TextInput
             value={password}
-            style={[
-              styles.input,
-              passwordError.length !== 0 && styles.inputError,
-            ]}
+            style={[styles.input, passwordError.length !== 0 && styles.inputError]}
             label="Password"
             placeholderTextColor="gray"
             secureTextEntry
@@ -171,9 +151,7 @@ export default function Register({ navigation }: any) {
             marginTop: 30,
           }}
         >
-          <TouchableOpacity
-            onPress={() => navigation.navigate(appRoutes.LOGIN_SCREEN)}
-          >
+          <TouchableOpacity onPress={() => navigation.navigate(appRoutes.LOGIN_SCREEN)}>
             <Text style={styles.registerTextStyle}>Already an account ?</Text>
           </TouchableOpacity>
         </View>

@@ -13,7 +13,7 @@ export type LoginPayload = {
   username: string;
   password: string;
 };
-export type UserDto = { 
+export type UserDto = {
   token: string;
   user: User;
 };

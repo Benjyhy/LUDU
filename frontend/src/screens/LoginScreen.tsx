@@ -2,19 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Dimensions, Text, Image } from 'react-native';
 import appRoutes from '../navigation/appRoutes/index';
 import { LinearGradient } from 'expo-linear-gradient';
-import {
-  TextInput,
-  Button,
-  ActivityIndicator,
-  MD2Colors,
-} from 'react-native-paper';
-import {
-  borderRadius,
-  errorColor,
-  lowGray,
-  primaryColor,
-  secondaryColor,
-} from '../utils/const';
+import { TextInput, Button, ActivityIndicator, MD2Colors } from 'react-native-paper';
+import { borderRadius, errorColor, lowGray, primaryColor, secondaryColor } from '../utils/const';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/actions/userAction';
 import { useLoginMutation } from '../services/LUDU_API/auth';
@@ -28,10 +17,10 @@ export default function Login({ navigation }: any) {
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
   const [login, { data, isLoading, isSuccess }] = useLoginMutation();
-  
+
   const handleLogin = async () => {
     setLoading(isLoading);
-    if(!isLoading){
+    if (!isLoading) {
       try {
         await login({ username: usernameInput, password });
       } catch (err) {
@@ -43,8 +32,8 @@ export default function Login({ navigation }: any) {
     setLoading(false);
   };
 
-  useEffect( () => {
-    if(isSuccess){
+  useEffect(() => {
+    if (isSuccess) {
       const token = data.token;
       const id = data.user._id;
       const username = data.user.username;
@@ -53,20 +42,14 @@ export default function Login({ navigation }: any) {
       const email = data.user.credentials.local.email;
       dispatch(setUser({ token, id, username, avatar, role, email }));
     }
-  }, [] );
+  }, []);
 
   return (
     <View>
-      <LinearGradient
-        colors={[primaryColor, secondaryColor]}
-        style={styles.container}
-      >
+      <LinearGradient colors={[primaryColor, secondaryColor]} style={styles.container}>
         {!loading && (
           <>
-            <Image
-              style={styles.logo}
-              source={require('../../assets/ludu_logo.png')}
-            />
+            <Image style={styles.logo} source={require('../../assets/ludu_logo.png')} />
             <TextInput
               value={usernameInput}
               style={styles.input}

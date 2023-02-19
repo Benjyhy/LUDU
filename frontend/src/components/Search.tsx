@@ -8,20 +8,13 @@ import appRoutes from '../navigation/appRoutes';
 import { lowGray, primaryColor } from '../utils/const';
 
 const Search = ({ active }) => {
-  const routesToDisplaySearchComponent = [
-    findRoutes.HOME_FEED,
-    findRoutes.MAP_VIEW,
-  ];
+  const routesToDisplaySearchComponent = [findRoutes.HOME_FEED, findRoutes.MAP_VIEW];
   let currentRoute;
 
-  if (
-    RootNavigation.navigationRef.getCurrentRoute()?.name ===
-    appRoutes.TAB_NAVIGATOR
-  ) {
+  if (RootNavigation.navigationRef.getCurrentRoute()?.name === appRoutes.TAB_NAVIGATOR) {
     currentRoute = findRoutes.HOME_FEED;
   } else {
-    currentRoute = RootNavigation.navigationRef.getCurrentRoute()
-      ?.name as findRoutes;
+    currentRoute = RootNavigation.navigationRef.getCurrentRoute()?.name as findRoutes;
   }
 
   const handleToggle = () => {

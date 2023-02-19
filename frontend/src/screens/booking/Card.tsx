@@ -6,17 +6,12 @@ import { lowGray, primaryColor } from '../../utils/const';
 const LeftContent = (image) => <Avatar.Image size={60} source={image} />;
 
 const rightContent = (status) => (
-  <Text style={status === 'inprogress' ? styles.inprogress : styles.finished}>
-    {status}
-  </Text>
+  <Text style={status === 'inprogress' ? styles.inprogress : styles.finished}>{status}</Text>
 );
 
 const CardItem = ({ item }) => {
   return (
-    <Card
-      style={styles.cardStyle}
-      mode={item.status === 'inprogress' ? 'elevated' : 'contained'}
-    >
+    <Card style={styles.cardStyle} mode={item.status === 'inprogress' ? 'elevated' : 'contained'}>
       <Card.Title
         title={item.gameName}
         titleStyle={styles.title}
@@ -27,14 +22,10 @@ const CardItem = ({ item }) => {
       />
       <Card.Content style={styles.content}>
         <Title>
-          <Text style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>
-            Delivery:
-          </Text>{' '}
+          <Text style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>Delivery:</Text>{' '}
           {item.bookingType}
         </Title>
-        <Text style={styles.text}>
-          Booked at {moment(item.startDate).format('LLLL')}
-        </Text>
+        <Text style={styles.text}>Booked at {moment(item.startDate).format('LLLL')}</Text>
       </Card.Content>
     </Card>
   );

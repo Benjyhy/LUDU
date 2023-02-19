@@ -1,12 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {
-  StyleSheet,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-} from 'react-native';
+import { StyleSheet, Dimensions, Text, TouchableOpacity, View, Image } from 'react-native';
 import appRoutes from '../../navigation/appRoutes/index';
 import { Button, TextInput } from 'react-native-paper';
 import { RegisterContext } from '../../utils/registerContext';
@@ -66,10 +59,7 @@ export default function Phone({ navigation }: any) {
 
   return (
     <View>
-      <LinearGradient
-        colors={[primaryColor, secondaryColor]}
-        style={{ height: '100%' }}
-      >
+      <LinearGradient colors={[primaryColor, secondaryColor]} style={{ height: '100%' }}>
         <View
           style={{
             paddingTop: 30,
@@ -100,10 +90,7 @@ export default function Phone({ navigation }: any) {
           <View>
             <TextInput
               value={phone}
-              style={[
-                styles.input,
-                phoneError.length !== 0 && styles.inputError,
-              ]}
+              style={[styles.input, phoneError.length !== 0 && styles.inputError]}
               label="Phone"
               placeholder="0618273625"
               placeholderTextColor="gray"
