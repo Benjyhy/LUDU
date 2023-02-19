@@ -14,22 +14,17 @@ export default function Login({ navigation }: any) {
   const [usernameInput, setUsernameInput] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
   const [login, { data, isLoading, isSuccess }] = useLoginMutation();
 
   const handleLogin = async () => {
-    setLoading(isLoading);
+    // setLoading(isLoading);
     if (!isLoading) {
-      try {
-        await login({ username: usernameInput, password });
-      } catch (err) {
-        console.log(err);
-        setError(true);
-      }
+      await login({ username: usernameInput, password });
+      console.log({ isSuccess: isSuccess });
+      isSuccess ? navigation.navigate(appRoutes.TAB_NAVIGATOR) : setError(true);
     }
-    navigation.navigate(appRoutes.TAB_NAVIGATOR);
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -47,7 +42,7 @@ export default function Login({ navigation }: any) {
   return (
     <View>
       <LinearGradient colors={[primaryColor, secondaryColor]} style={styles.container}>
-        {!loading && (
+        {!isLoading && (
           <>
             <Image style={styles.logo} source={require('../../assets/ludu_logo.png')} />
             <TextInput
@@ -123,7 +118,7 @@ export default function Login({ navigation }: any) {
             </View>
           </>
         )}
-        {loading && (
+        {isLoading && (
           <>
             <ActivityIndicator animating={true} color={MD2Colors.amber400} />
           </>

@@ -93,13 +93,13 @@
     state=present
     createhome=yes
 
-# - name: Prune everything
-#   community.docker.docker_prune:
-#     containers: true
-#     images: true
-#     networks: true
-#     volumes: true
-#     builder_cache: true
+- name: Prune everything
+  community.docker.docker_prune:
+    containers: true
+    images: true
+    networks: true
+    volumes: true
+    builder_cache: true
 
 - name: Get running containers
   docker_host_info:

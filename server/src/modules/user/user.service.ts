@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types, ObjectId } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import appConfig from '../../config/app.config';
 import { deleteImage, saveImage } from '../../helpers/Utils';
 import { Review } from '../../schemas/review.schema';

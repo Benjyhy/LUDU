@@ -1,4 +1,4 @@
-import { UserDto, LoginPayload, User, UserCreate } from '../../models/states/User';
+import { UserDto, LoginPayload, UserCreate } from '../../models/states/User';
 import { emptySplitApi } from './api';
 
 const extendedApi = emptySplitApi.injectEndpoints({

@@ -79,11 +79,4 @@ export class UserDto {
   @IsOptional()
   @IsBase64()
   avatar: string;
-
-  @ApiProperty({
-    example: 'Store ID',
-    description: 'Mongoose ID related to a existing store',
-  })
-  @ApiPropertyOptional({ description: 'Stores' })
-  readonly stores: StoreDocument[];
 }
