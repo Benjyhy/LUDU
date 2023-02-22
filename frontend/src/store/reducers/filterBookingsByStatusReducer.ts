@@ -10,10 +10,7 @@ const initialState: {
   active: false;
   filters: Array<keyof typeof RentStatus | ''>;
 } = { active: false, filters: [] };
-const filterGamesByCategoriesReducer = (
-  state = initialState,
-  action: Action<any>,
-) => {
+const filterGamesByCategoriesReducer = (state = initialState, action: Action<any>) => {
   switch (action.type) {
     case SET_STATUS_FILTER:
       if (!state.filters.includes(action.payload))

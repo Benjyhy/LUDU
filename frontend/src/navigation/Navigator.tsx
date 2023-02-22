@@ -37,23 +37,11 @@ const StackNav = () => {
         initialRouteName={appRoutes.LOGIN_SCREEN}
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen
-          name={appRoutes.LOADING_SCREEN}
-          component={LoadingScreen}
-        />
+        <Stack.Screen name={appRoutes.LOADING_SCREEN} component={LoadingScreen} />
         <Stack.Screen name={appRoutes.LOGIN_SCREEN} component={LoginScreen} />
-        <Stack.Screen
-          name={appRoutes.REGISTER_SCREEN}
-          component={RegisterScreen}
-        />
-        <Stack.Screen
-          name={appRoutes.REGISTER_PHONE_SCREEN}
-          component={Phone}
-        />
-        <Stack.Screen
-          name={appRoutes.REGISTER_AVATAR_SCREEN}
-          component={Avatar}
-        />
+        <Stack.Screen name={appRoutes.REGISTER_SCREEN} component={RegisterScreen} />
+        <Stack.Screen name={appRoutes.REGISTER_PHONE_SCREEN} component={Phone} />
+        <Stack.Screen name={appRoutes.REGISTER_AVATAR_SCREEN} component={Avatar} />
         <Stack.Screen name={appRoutes.TAB_NAVIGATOR} component={TabsStack} />
       </Stack.Navigator>
     </RegisterContext.Provider>

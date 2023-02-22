@@ -9,6 +9,11 @@ export type LocalAuth = {
   password: string;
   emailVerified: boolean;
 };
+export type LoginPayload = {
+  username: string;
+  password: string;
+};
+
 export type Credentials = {
   local: LocalAuth;
 };
@@ -16,7 +21,7 @@ export type Credentials = {
 export interface UserCreate {
   username?: string;
   credentials?: Credentials;
-  role?: ROLES;
+  role?: string;
   phone?: string | number;
   avatar?: string;
   address?: string;
@@ -26,25 +31,10 @@ export interface UserCreate {
 
 export interface User extends UserCreate {
   _id: string;
-  phone: number;
-  postalCode: number;
-  store: string | null;
+  createdAt: string;
   reviews: Review[] | [];
 }
-
-export const InitalUser = {
-  username: '',
-  credentials: {
-    local: {
-      email: '',
-      password: '',
-      emailVerified: false,
-    },
-  },
-  // role: ROLES.USER,
-  phone: '',
-  address: '',
-  city: '',
-  postCode: '',
-  avatar: '',
-};
+export interface UserLoged {
+  token: string;
+  user: User;
+}

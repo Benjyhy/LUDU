@@ -32,10 +32,7 @@ function BookingGameScreen({ route, navigation }: any) {
         }}
       >
         <View>
-          <Text
-            variant="headlineMedium"
-            style={{ fontWeight: 'bold', textAlign: 'center' }}
-          >
+          <Text variant="headlineMedium" style={{ fontWeight: 'bold', textAlign: 'center' }}>
             Booking for {gameName}
           </Text>
           <Text variant="titleSmall" style={{ textAlign: 'center' }}>
@@ -43,10 +40,7 @@ function BookingGameScreen({ route, navigation }: any) {
           </Text>
         </View>
         <View>
-          <Text
-            variant="headlineSmall"
-            style={{ fontWeight: 'bold', textAlign: 'center' }}
-          >
+          <Text variant="headlineSmall" style={{ fontWeight: 'bold', textAlign: 'center' }}>
             Choose your game store :
           </Text>
           <ScrollView style={{ paddingVertical: 20, height: 300 }}>
@@ -57,9 +51,7 @@ function BookingGameScreen({ route, navigation }: any) {
           buttonColor={primaryColor}
           textColor="white"
           style={{ borderRadius: 5, width: 'auto' }}
-          onTouchEnd={() =>
-            navigation.navigate(findRoutes.DATEPICKER_FEED, { game: selected })
-          }
+          onTouchEnd={() => navigation.navigate(findRoutes.DATEPICKER_FEED, { game: selected })}
         >
           Continue
         </Button>

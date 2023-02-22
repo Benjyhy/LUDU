@@ -1,96 +1,100 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions, Text, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Dimensions, Text, Image, StatusBar } from 'react-native';
 import appRoutes from '../navigation/appRoutes/index';
 import { LinearGradient } from 'expo-linear-gradient';
-import {
-  TextInput,
-  Button,
-  ActivityIndicator,
-  MD2Colors,
-} from 'react-native-paper';
-import {
-  borderRadius,
-  errorColor,
-  primaryColor,
-  secondaryColor,
-} from '../utils/const';
-import axios from '../utils/axios';
+import { TextInput, Button, ActivityIndicator, MD2Colors } from 'react-native-paper';
+import { borderRadius, errorColor, lowGray, primaryColor, secondaryColor } from '../utils/const';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/actions/userAction';
+import { useLoginMutation } from '../services/LUDU_API/auth';
 
 const { width: ScreenWidth } = Dimensions.get('screen');
+const headerHeight = StatusBar.currentHeight;
 
 export default function Login({ navigation }: any) {
   const [usernameInput, setUsernameInput] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const login = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.post('/local/login', {
-        username: usernameInput,
-        password: password,
-      });
-      const token = res.data.user.token;
-      const id = res.data.user._id;
-      const username = res.data.user.username;
-      const avatar = res.data.user.avatar;
-      const role = res.data.user.role;
-      const email = res.data.user.credentials.local.email;
-      dispatch(setUser({ token, id, username, avatar, role, email }));
-    } catch (err) {
-      console.log(err);
+  const [login, { data, isLoading, isSuccess, isError }] = useLoginMutation();
+
+  const handleLogin = async () => {
+    await login({ username: usernameInput, password });
+  };
+  useEffect(() => {
+    console.log(isError);
+    if (isSuccess) {
+      const user = {
+        token: data.token,
+        id: data.user._id,
+        username: data.user.username,
+        role: data.user.role,
+      };
+      dispatch(setUser(user));
+      navigation.navigate(appRoutes.TAB_NAVIGATOR);
+    }
+    if (isError) {
       setError(true);
     }
-    setLoading(false);
-    navigation.navigate(appRoutes.TAB_NAVIGATOR);
-  };
+    // navigation.navigate(appRoutes.TAB_NAVIGATOR);
+  }, [isSuccess, isError]);
 
   return (
     <View>
-      <LinearGradient
-        colors={[primaryColor, secondaryColor]}
-        style={styles.container}
-      >
-        {!loading && (
+      <LinearGradient colors={[primaryColor, secondaryColor]} style={styles.container}>
+        <Image style={styles.logo} source={require('../../assets/ludu_logo.png')} />
+        {!isLoading && (
           <>
-            <Image
-              style={styles.logo}
-              source={require('../../assets/ludu_logo.png')}
+            <TextInput
+              value={usernameInput}
+              style={styles.input}
+              label="Username"
+              placeholderTextColor="gray"
+              activeOutlineColor={`${primaryColor}`}
+              outlineColor={`${lowGray}`}
+              selectionColor={`${primaryColor}`}
+              underlineColor="transparent"
+              theme={{
+                colors: {
+                  primary: primaryColor,
+                },
+              }}
+              onChangeText={(text) => {
+                setUsernameInput(text);
+              }}
             />
-            <View>
-              <TextInput
-                value={usernameInput}
-                style={styles.input}
-                label="Email"
-                placeholderTextColor="gray"
-                underlineColor="transparent"
-                onChangeText={(text) => {
-                  setUsernameInput(text);
-                }}
-              />
-              <TextInput
-                value={password}
-                style={styles.input}
-                label="Password"
-                placeholderTextColor="gray"
-                underlineColor="transparent"
-                secureTextEntry
-                onChangeText={(text) => {
-                  setPassword(text);
-                }}
-              />
-            </View>
+            <TextInput
+              value={password}
+              style={styles.input}
+              label="Password"
+              placeholderTextColor="gray"
+              activeOutlineColor={`${primaryColor}`}
+              outlineColor={`${lowGray}`}
+              selectionColor={`${primaryColor}`}
+              underlineColor="transparent"
+              theme={{
+                colors: {
+                  primary: primaryColor,
+                },
+              }}
+              secureTextEntry
+              onChangeText={(text) => {
+                setPassword(text);
+              }}
+            />
+            {error && (
+              <View style={styles.error}>
+                <Text style={{ color: '#fff', fontSize: 14 }}>Wrong credentials</Text>
+              </View>
+            )}
             <View
               style={{
                 position: 'absolute',
-                bottom: 100,
+                bottom: 60,
               }}
             >
               <Button
-                onPress={login}
+                onPress={handleLogin}
                 buttonColor={primaryColor}
                 textColor="white"
                 style={{
@@ -110,16 +114,9 @@ export default function Login({ navigation }: any) {
                 Create an account
               </Button>
             </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              {error && (
-                <>
-                  <Text style={{ color: errorColor }}>Wrong credentials</Text>
-                </>
-              )}
-            </View>
           </>
         )}
-        {loading && (
+        {isLoading && (
           <>
             <ActivityIndicator animating={true} color={MD2Colors.amber400} />
           </>
@@ -131,7 +128,7 @@ export default function Login({ navigation }: any) {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    paddingTop: headerHeight + 50,
     alignItems: 'center',
     height: '100%',
   },
@@ -161,8 +158,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 150,
     height: 150,
-    position: 'absolute',
-    top: 100,
     shadowColor: '#383838',
     shadowOffset: {
       width: 2,
@@ -170,5 +165,18 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.4,
     shadowRadius: 1.7,
+    marginBottom: 60,
+  },
+  error: {
+    marginTop: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: errorColor,
+    color: '#fff',
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: borderRadius,
   },
 });

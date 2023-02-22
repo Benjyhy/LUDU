@@ -1,132 +1,128 @@
 ---
 # tasks file for luduServerSetup
-    - name: Make sure we have a 'ludu' group
-      group:
-        name: ludu
-        state: present
+- name: Make sure we have a 'ludu' group
+  group:
+    name: ludu
+    state: present
 
-    - name: Allow 'ludu' group to have passwordless sudo
-      lineinfile:
-        dest: /etc/sudoers
-        state: present
-        regexp: '^%ludu'
-        line: '%ludu ALL=(ALL) NOPASSWD: ALL'
-        validate: 'visudo -cf %s'
+- name: Allow 'ludu' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^%ludu"
+    line: "%ludu ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"
 
-    - name: Add ludu user to ludu group
-      user:
-        name=ludu
-        groups=ludu
-        append=yes
-        state=present
-        createhome=yes
+- name: Add ludu user to ludu group
+  user: name=ludu
+    groups=ludu
+    append=yes
+    state=present
+    createhome=yes
 
-    - name: Install aptitude
-      apt:
-        name: aptitude
-        state: latest
-        update_cache: true
+- name: Install aptitude
+  apt:
+    name: aptitude
+    state: latest
+    update_cache: true
 
-    - name: Install required system packages
-      apt:
-        pkg:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - software-properties-common
-          - python3-pip
-          - virtualenv
-          - python3-setuptools
-        state: latest
-        update_cache: true
-   
-    - name: Add Docker GPG apt Key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
+- name: Install required system packages
+  apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python3-pip
+      - virtualenv
+      - python3-setuptools
+    state: latest
+    update_cache: true
 
-    - name: Add Docker Repository
-      apt_repository:
-        repo: deb https://download.docker.com/linux/ubuntu focal stable
-        state: present
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
 
-    - name: Update apt and install docker-ce
-      apt:
-        name: docker-ce
-        state: latest
-        update_cache: true
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
 
-    - name: Install Docker Module for Python
-      pip:
-        name: 
-           - docker
-           - docker-compose
+- name: Update apt and install docker-ce
+  apt:
+    name: docker-ce
+    state: latest
+    update_cache: true
 
-    - name: Install docker-compose
-      apt:
-       name: docker-compose-plugin
-       state: present
+- name: Install Docker Module for Python
+  pip:
+    name:
+      - docker
+      - docker-compose
 
-    - name: Make sure we have a 'docker' group
-      group:
-        name: docker
-        state: present
+- name: Install docker-compose
+  apt:
+    name: docker-compose-plugin
+    state: present
 
-    - name: Allow 'docker' group to have passwordless sudo
-      lineinfile:
-        dest: /etc/sudoers
-        state: present
-        regexp: '^%docker'
-        line: '%docker ALL=(ALL) NOPASSWD: ALL'
-        validate: 'visudo -cf %s'
-            
-    - name: Add ubuntu user to docker group
-      user:
-        name=ubuntu
-        groups=docker
-        append=yes
-        state=present
-        createhome=yes
+- name: Make sure we have a 'docker' group
+  group:
+    name: docker
+    state: present
 
-    - name: Add ludu user to docker group
-      user:
-        name=ludu
-        groups=docker
-        append=yes
-        state=present
-        createhome=yes
+- name: Allow 'docker' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^%docker"
+    line: "%docker ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"
 
-    # - name: Prune everything
-    #   community.docker.docker_prune:
-    #     containers: true
-    #     images: true
-    #     networks: true
-    #     volumes: true
-    #     builder_cache: true
+- name: Add ubuntu user to docker group
+  user: name=ubuntu
+    groups=docker
+    append=yes
+    state=present
+    createhome=yes
 
-    - name: Get running containers
-      docker_host_info:
-        containers: yes
-      register: docker_info
+- name: Add ludu user to docker group
+  user: name=ludu
+    groups=docker
+    append=yes
+    state=present
+    createhome=yes
 
-    - name: Stop running containers
-      docker_container:
-        name: "{{ item }}"
-        state: stopped
-      loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
-    - name: Remove Stoped docker containers
-      shell: |
-        docker rm $(docker ps -a -q);
-      when: docker_info.containers != 0
+- name: Prune everything
+  community.docker.docker_prune:
+    containers: true
+    images: true
+    networks: true
+    volumes: true
+    builder_cache: true
 
-    - name: Get details of all images
-      docker_host_info:
-        images: yes
-        verbose_output: yes
-      register: image_info
-    - name: Remove all images
-      docker_image:
-        name: "{{ item }}"
-        state: absent
-      loop: "{{ image_info.images | map(attribute='Id') | list }}"
-        
+- name: Get running containers
+  docker_host_info:
+    containers: yes
+  register: docker_info
+
+- name: Stop running containers
+  docker_container:
+    name: "{{ item }}"
+    state: stopped
+  loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
+- name: Remove Stoped docker containers
+  shell: |
+    docker rm $(docker ps -a -q);
+  when: docker_info.containers != 0
+
+- name: Get details of all images
+  docker_host_info:
+    images: yes
+    verbose_output: yes
+  register: image_info
+- name: Remove all images
+  docker_image:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ image_info.images | map(attribute='Id') | list }}"

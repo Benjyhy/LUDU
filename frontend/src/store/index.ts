@@ -5,8 +5,7 @@ import { emptySplitApi as api } from '../services/LUDU_API/api';
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
   devTools: true,
 });
 setupListeners(store.dispatch);

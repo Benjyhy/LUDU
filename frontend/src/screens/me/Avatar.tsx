@@ -4,21 +4,11 @@ import { Avatar } from 'react-native-paper';
 import { lowGray, primaryColor, strongGray } from '../../utils/const';
 import { Text, Button } from 'react-native-paper';
 
-const AvatarMe = ({
-  avatarUri,
-  username,
-}: {
-  avatarUri: string;
-  username: string;
-}) => {
+const AvatarMe = ({ avatarUri, username }: { avatarUri: string; username: string }) => {
   const AvatarWithUri = () => {
     return (
       <>
-        <Avatar.Image
-          size={84}
-          source={{ uri: avatarUri }}
-          style={{ marginBottom: 16 }}
-        />
+        <Avatar.Image size={84} source={{ uri: avatarUri }} style={{ marginBottom: 16 }} />
       </>
     );
   };

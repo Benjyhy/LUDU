@@ -29,10 +29,7 @@ function StorePickScreen({ route, navigation }: any) {
         }}
       >
         <View>
-          <Text
-            variant="headlineMedium"
-            style={{ fontWeight: 'bold', textAlign: 'center' }}
-          >
+          <Text variant="headlineMedium" style={{ fontWeight: 'bold', textAlign: 'center' }}>
             Play {gameName} today
           </Text>
           <Text variant="titleSmall" style={{ textAlign: 'center' }}>
@@ -40,10 +37,7 @@ function StorePickScreen({ route, navigation }: any) {
           </Text>
         </View>
         <View>
-          <Text
-            variant="headlineSmall"
-            style={{ fontWeight: 'bold', textAlign: 'center' }}
-          >
+          <Text variant="headlineSmall" style={{ fontWeight: 'bold', textAlign: 'center' }}>
             Game availability in your area:
           </Text>
           <ScrollView style={{ paddingVertical: 20, height: 300 }}>
@@ -54,9 +48,7 @@ function StorePickScreen({ route, navigation }: any) {
           buttonColor={primaryColor}
           textColor="white"
           style={{ borderRadius: 5, width: 'auto' }}
-          onTouchEnd={() =>
-            navigation.navigate(findRoutes.TIME_FEED, { game: selected })
-          }
+          onTouchEnd={() => navigation.navigate(findRoutes.TIME_FEED, { game: selected })}
         >
           Continue
         </Button>

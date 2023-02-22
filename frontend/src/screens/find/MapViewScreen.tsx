@@ -7,9 +7,7 @@ import { useSelector } from 'react-redux';
 
 const MapViewScreen = () => {
   const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
-  const currentLocation = useSelector(
-    (state: MainAppState) => state.currentLocation,
-  );
+  const currentLocation = useSelector((state: MainAppState) => state.currentLocation);
 
   useEffect(() => {
     setLocation(currentLocation);

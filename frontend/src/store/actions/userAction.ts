@@ -1,13 +1,10 @@
-import { ROLES } from '../../models/states/User';
 import { SET_USER, REMOVE_USER, UPDATE_USER } from '../types/userTypes';
 
 export interface UserState {
   token: string;
   id: string;
   username: string;
-  avatar: string;
-  role: ROLES | null;
-  email: string;
+  role: string;
 }
 
 export const setUser = (userState: UserState) => ({

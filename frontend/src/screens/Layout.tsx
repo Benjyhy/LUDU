@@ -11,11 +11,7 @@ interface ILayout {
 const Layout = ({ children }: ILayout) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar
-        animated={true}
-        backgroundColor={'#fff'}
-        barStyle={'dark-content'}
-      />
+      <StatusBar animated={true} backgroundColor={'#fff'} barStyle={'dark-content'} />
       <View style={styles.wrapper}>{children}</View>
     </SafeAreaView>
   );

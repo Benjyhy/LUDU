@@ -1,27 +1,21 @@
-Put your ssh public key in the .ssh/authorized_key file on the server
----------------------------------------------------------------------
+# LUDU BACKEND deployement
 
-Configure the hosts into the /etc/ansible/hosts
------------------------------------------------
+## NEEDED
 
-into this file set the ip address of the host like this:
+- Put your ssh public key in the .ssh/authorized_key file on the server
 
-[luduBackend]
-your.ip.adress.
+- Configure your local ansible hosts by adding at the end of your etc/ansible/hosts : \
+  [luduBackend]\
+  your.ip.adress.
 
-[luduFrontend]
-your.ip.adress.
+- Ensure that you have the correct server/static/images/ from the seeders
 
-Change the group, owner in luduBackend/tasks/main.yml
------------------------------------------------------
+- Ensure that your have the correct DB production mongo URL in your ./server/.env
 
-Line 6,7, change it according to the user who's going to run the script
+## COMMAND to deploy
 
-CMD to run the ansible playbook
--------------------------------
-
-Go to the ansible file and run this command:
-
-    ./startAnsible.sh
-
-/!\ set the root password of the user host after running the command
+```bash
+cd ./server && npm run build
+cd ../ansible
+./startAnsible.sh
+```

@@ -19,10 +19,7 @@ const LinkTab = ({ icon, label, value }: IlinkTab) => {
         }}
       >
         <Text variant="bodyMedium">Username</Text>
-        <Text
-          variant="bodyLarge"
-          style={{ fontWeight: 'bold', textAlign: 'center' }}
-        >
+        <Text variant="bodyLarge" style={{ fontWeight: 'bold', textAlign: 'center' }}>
           Paul
         </Text>
       </View>
