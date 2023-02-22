@@ -7,3 +7,6 @@ export const strongGray = '#919191';
 export const verticalPadding = 20;
 export const horizontalPadding = 20;
 export const borderRadius = 8;
+export const getUserImg = (filename: string) => `http://13.39.77.202/user/avatar/${filename}.webp`;
+export const getGameImg = (filename: string) =>
+  `http://13.39.77.202/game/thumbnail/${filename}.webp`;

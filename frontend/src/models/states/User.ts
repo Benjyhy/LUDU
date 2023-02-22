@@ -30,11 +30,16 @@ export interface UserCreate {
 }
 
 export interface User extends UserCreate {
-  _id: string;
+  id: string;
   createdAt: string;
   reviews: Review[] | [];
 }
+
+export interface UserFromQuery extends User {
+  _id: string;
+}
+
 export interface UserLoged {
   token: string;
-  user: User;
+  user: UserFromQuery;
 }

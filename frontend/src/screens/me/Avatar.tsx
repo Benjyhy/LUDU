@@ -1,10 +1,17 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import { lowGray, primaryColor, strongGray } from '../../utils/const';
+import { borderRadius, lowGray, primaryColor, strongGray } from '../../utils/const';
 import { Text, Button } from 'react-native-paper';
 
-const AvatarMe = ({ avatarUri, username }: { avatarUri: string; username: string }) => {
+interface IAvatarMe {
+  avatarUri: string;
+  username: string;
+  email: string;
+  address: string;
+  phone: string;
+}
+const AvatarMe = ({ avatarUri, username, email, address, phone }: IAvatarMe) => {
   const AvatarWithUri = () => {
     return (
       <>
@@ -33,15 +40,25 @@ const AvatarMe = ({ avatarUri, username }: { avatarUri: string; username: string
         {username}
       </Text>
       <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-        p.santamara@lapost.net
+        {email}
       </Text>
       <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-        4 avenue Hoche, Lille, 59000
+        {address}
       </Text>
       <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-        0627389128
+        {phone}
       </Text>
-      <Button textColor={strongGray} mode="outlined">
+      <Button
+        textColor={strongGray}
+        mode="outlined"
+        style={{
+          width: 160,
+          alignSelf: 'center',
+          marginBottom: 8,
+          borderRadius: borderRadius,
+          paddingHorizontal: 16,
+        }}
+      >
         Update
       </Button>
     </View>

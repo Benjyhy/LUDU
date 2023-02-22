@@ -1,12 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { InlineTextIcon } from '../../components/InlineTextIcon';
 import {
   borderRadius,
   errorColor,
+  getUserImg,
   lowGray,
   middleGray,
+  primaryColor,
   strongGray,
 } from '../../utils/const';
 import Layout from '../Layout';
@@ -14,29 +16,20 @@ import AvatarMe from '../me/Avatar';
 import { MaterialIcons } from '@expo/vector-icons';
 import { setUser } from '../../store/actions/userAction';
 import appRoutes from '../../navigation/appRoutes';
-import { User } from '../../models/states/User';
 import { useGetUserByIdQuery } from '../../services/LUDU_API/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
 
 const MeScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
-  const [userMe, setUserMe] = useState<User>(
-    useSelector((state: MainAppState) => state.user),
-  );
-  console.log({ userMe });
-  const { data, isFetching, isSuccess } = useGetUserByIdQuery({
-    _id: userMe.id,
+  const userFromStore = useSelector((state: MainAppState) => state.user);
+  const {
+    data: user,
+    isFetching,
+    isSuccess,
+  } = useGetUserByIdQuery({
+    _id: userFromStore.id,
   });
-
-  if (isSuccess) {
-    console.log('FROM ME SCREEN', data);
-  }
-  // const [getUserById] = useGetUserByIdQuery();
-
-  const username = 'Paul';
-  const avatarUri =
-    'https://avatars.githubusercontent.com/u/55087969?s=400&u=a57cf70988be3cdefe55132d61bd532499b5dcd9&v=4';
 
   const handleLogOut = () => {
     dispatch(
@@ -53,112 +46,106 @@ const MeScreen = ({ navigation }: any) => {
   return (
     <Layout>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.wrapperView}>
-          <AvatarMe avatarUri={avatarUri} username={username} />
-          <TouchableOpacity style={styles.row}>
-            <InlineTextIcon text="Customization" icon={'help'} />
-            <View style={styles.container}>
-              <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
-              </Button>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.row}>
-            <InlineTextIcon text="Favorite games" icon={'heart-outline'} />
-            <View style={styles.container}>
-              <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
-              </Button>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.row}>
-            <InlineTextIcon text="My wallet" icon={'wallet-outline'} />
-            <View style={styles.container}>
-              <Text style={{ marginLeft: 4, color: strongGray }}>66.00€</Text>
-              <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
-              </Button>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.row}>
-            <InlineTextIcon text="Settings" icon={'settings-outline'} />
-            <View style={styles.container}>
-              <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
-              </Button>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.row}>
-            <InlineTextIcon
-              text="About Ludu"
-              icon={'information-circle-outline'}
-            />
-            <View style={styles.container}>
-              <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
-              </Button>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.row}>
-            <InlineTextIcon text="My reviews" icon={'happy-outline'} />
-            <View style={styles.container}>
-              <Button>
-                <MaterialIcons
-                  name={'keyboard-arrow-right'}
-                  color={middleGray}
-                  size={24}
-                />
-              </Button>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.rowPrivacy}>
-            <Text variant="bodySmall" style={{ fontWeight: '100' }}>
-              Privacy Policy
-            </Text>
-            <Text variant="titleSmall" style={{ margin: 8 }}>
-              .
-            </Text>
-            <Text variant="bodySmall" style={{ fontWeight: '100' }}>
-              Use of cookies
-            </Text>
-          </View>
-        </View>
-        <View>
-          <Button
-            onPress={handleLogOut}
-            buttonColor={errorColor}
-            textColor={'white'}
+        {isFetching && (
+          <View
             style={{
-              width: 200,
-              alignSelf: 'center',
-              marginBottom: 8,
-              borderRadius: borderRadius,
-              paddingHorizontal: 15,
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            LogOut
-          </Button>
-        </View>
+            <ActivityIndicator animating={true} color={primaryColor} />
+          </View>
+        )}
+        {!isFetching && isSuccess && (
+          <>
+            <View style={styles.wrapperView}>
+              <AvatarMe
+                avatarUri={getUserImg(user.avatar)}
+                username={user.username}
+                email={user.credentials.local.email}
+                address={`${user.address}, ${user.postCode}`}
+                phone={`+33${user.phone}`}
+              />
+              <TouchableOpacity style={styles.row}>
+                <InlineTextIcon text="Customization" icon={'help'} />
+                <View style={styles.container}>
+                  <Button>
+                    <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                  </Button>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.row}>
+                <InlineTextIcon text="Favorite games" icon={'heart-outline'} />
+                <View style={styles.container}>
+                  <Button>
+                    <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                  </Button>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.row}>
+                <InlineTextIcon text="My wallet" icon={'wallet-outline'} />
+                <View style={styles.container}>
+                  <Text style={{ marginLeft: 4, color: strongGray }}>66.00€</Text>
+                  <Button>
+                    <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                  </Button>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.row}>
+                <InlineTextIcon text="Settings" icon={'settings-outline'} />
+                <View style={styles.container}>
+                  <Button>
+                    <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                  </Button>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.row}>
+                <InlineTextIcon text="About Ludu" icon={'information-circle-outline'} />
+                <View style={styles.container}>
+                  <Button>
+                    <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                  </Button>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.row}>
+                <InlineTextIcon text="My reviews" icon={'happy-outline'} />
+                <View style={styles.container}>
+                  <Button>
+                    <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                  </Button>
+                </View>
+              </TouchableOpacity>
+              <View style={styles.rowPrivacy}>
+                <Text variant="bodySmall" style={{ fontWeight: '100' }}>
+                  Privacy Policy
+                </Text>
+                <Text variant="titleSmall" style={{ margin: 8 }}>
+                  .
+                </Text>
+                <Text variant="bodySmall" style={{ fontWeight: '100' }}>
+                  Use of cookies
+                </Text>
+              </View>
+            </View>
+            <View>
+              <Button
+                onPress={handleLogOut}
+                buttonColor={errorColor}
+                textColor={'white'}
+                style={{
+                  width: 200,
+                  alignSelf: 'center',
+                  marginBottom: 8,
+                  borderRadius: borderRadius,
+                  paddingHorizontal: 16,
+                }}
+              >
+                LogOut
+              </Button>
+            </View>
+          </>
+        )}
       </ScrollView>
     </Layout>
   );
