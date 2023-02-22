@@ -1,14 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, Dimensions, Text, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, Dimensions, TouchableOpacity, View, StatusBar } from 'react-native';
 import appRoutes from '../../navigation/appRoutes/index';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, TextInput, Text } from 'react-native-paper';
 import { RegisterContext } from '../../utils/registerContext';
 import { isValidPhonenumber, isZipCodeValide } from '../../utils/regex';
-import { errorColor, primaryColor, secondaryColor } from '../../utils/const';
+import { borderRadius, errorColor, lowGray, primaryColor, secondaryColor } from '../../utils/const';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
-const { width: ScreenWidth } = Dimensions.get('screen');
 
+const { width: ScreenWidth } = Dimensions.get('screen');
+const headerHeight = StatusBar.currentHeight;
 export default function Phone({ navigation }: any) {
   const [phone, setPhone] = useState<string>('');
   const [address, setAddress] = useState<string>('');
@@ -16,6 +17,7 @@ export default function Phone({ navigation }: any) {
   const [postcode, setPostcode] = useState<string>('');
   const [phoneError, setPhoneError] = useState<string>('');
   const [zipError, setZipError] = useState<string>('');
+  const { user, setUser } = useContext(RegisterContext);
 
   useEffect(() => {
     setTimeout(() => {
@@ -24,28 +26,24 @@ export default function Phone({ navigation }: any) {
       } else {
         setPhoneError('');
       }
-    }, 3000);
+    }, 5000);
   }, [phone]);
 
   useEffect(() => {
     setTimeout(() => {
-      if (!isZipCodeValide(postcode)) {
+      if (!isZipCodeValide(postcode) && postcode.length !== 0) {
         setZipError('PostCode is invalid');
       } else {
         setZipError('');
       }
-    }, 1000);
+    }, 5000);
   }, [postcode]);
 
-  const isInputInValid =
-    phone.length === 0 ||
-    address.length === 0 ||
-    city.length === 0 ||
-    postcode.length === 0 ||
-    phoneError.length !== 0 ||
-    zipError.length !== 0;
+  const isInputInValid = phoneError.length !== 0 || zipError.length !== 0;
 
-  const { user, setUser } = useContext(RegisterContext);
+  const isInputEmpty =
+    phone.length === 0 || address.length === 0 || city.length === 0 || postcode.length === 0;
+
   const register = () => {
     const userProperties = {
       phone: phone,
@@ -77,85 +75,126 @@ export default function Phone({ navigation }: any) {
 
         <View
           style={{
-            flex: 4,
             justifyContent: 'center',
             alignItems: 'center',
+            paddingTop: headerHeight + 50,
           }}
         >
-          <View style={{ marginBottom: 64 }}>
-            <Text style={{ color: 'white' }}>
-              Please register your phone and your postal address
-            </Text>
-          </View>
-          <View>
-            <TextInput
-              value={phone}
-              style={[styles.input, phoneError.length !== 0 && styles.inputError]}
-              label="Phone"
-              placeholder="0618273625"
-              placeholderTextColor="gray"
-              onChangeText={(text) => {
-                setPhone(text);
-              }}
-            />
-            <TextInput
-              value={address}
-              style={styles.input}
-              label="Address"
-              placeholder=" 16 rue de Beaumont"
-              placeholderTextColor="gray"
-              onChangeText={(text) => {
-                setAddress(text);
-              }}
-            />
-            <TextInput
-              value={city}
-              style={styles.input}
-              label="City Address"
-              placeholder="Paris"
-              placeholderTextColor="gray"
-              onChangeText={(text) => {
-                setCity(text);
-              }}
-            />
-            <TextInput
-              value={postcode}
-              style={[styles.input, zipError.length !== 0 && styles.inputError]}
-              label="Postcode"
-              placeholder="59000"
-              placeholderTextColor="gray"
-              onChangeText={(text) => {
-                setPostcode(text);
-              }}
-            />
-            <View
-              style={{
-                opacity: isInputInValid ? 0.6 : 1,
-                justifyContent: 'flex-end',
-                alignItems: 'flex-end',
-              }}
-            >
-              <Button
-                onPress={register}
-                disabled={isInputInValid}
-                buttonColor={primaryColor}
-                textColor="white"
-                style={{ borderRadius: 5, paddingHorizontal: 15 }}
-                icon="arrow-right-bold-box-outline"
-              >
-                Next
-              </Button>
+          <Text
+            variant="titleMedium"
+            style={{ color: 'white', marginBottom: 20, width: 200, textAlign: 'center' }}
+          >
+            Please register your phone and your postal address
+          </Text>
+          <TextInput
+            value={phone}
+            style={[styles.input, phoneError.length !== 0 && styles.inputError]}
+            label="Phone"
+            placeholder="0618273625"
+            placeholderTextColor="gray"
+            activeOutlineColor={`${primaryColor}`}
+            outlineColor={`${lowGray}`}
+            selectionColor={`${primaryColor}`}
+            underlineColor="transparent"
+            theme={{
+              colors: {
+                primary: primaryColor,
+              },
+            }}
+            onChangeText={(text) => {
+              setPhone(text);
+            }}
+          />
+          <TextInput
+            value={address}
+            style={styles.input}
+            label="Address"
+            placeholder=" 16 rue de Beaumont"
+            placeholderTextColor="gray"
+            activeOutlineColor={`${primaryColor}`}
+            outlineColor={`${lowGray}`}
+            selectionColor={`${primaryColor}`}
+            underlineColor="transparent"
+            theme={{
+              colors: {
+                primary: primaryColor,
+              },
+            }}
+            onChangeText={(text) => {
+              setAddress(text);
+            }}
+          />
+          <TextInput
+            value={city}
+            style={styles.input}
+            label="City Address"
+            placeholder="Paris"
+            placeholderTextColor="gray"
+            activeOutlineColor={`${primaryColor}`}
+            outlineColor={`${lowGray}`}
+            selectionColor={`${primaryColor}`}
+            underlineColor="transparent"
+            theme={{
+              colors: {
+                primary: primaryColor,
+              },
+            }}
+            onChangeText={(text) => {
+              setCity(text);
+            }}
+          />
+          <TextInput
+            value={postcode}
+            style={[styles.input, zipError.length !== 0 && styles.inputError]}
+            label="Postcode"
+            placeholder="59000"
+            placeholderTextColor="gray"
+            activeOutlineColor={`${primaryColor}`}
+            outlineColor={`${lowGray}`}
+            selectionColor={`${primaryColor}`}
+            underlineColor="transparent"
+            theme={{
+              colors: {
+                primary: primaryColor,
+              },
+            }}
+            onChangeText={(text) => {
+              setPostcode(text);
+            }}
+          />
+          <View
+            style={{
+              opacity: isInputInValid ? 0.6 : 1,
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+            }}
+          ></View>
+        </View>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 100,
+            alignSelf: 'center',
+          }}
+        >
+          {isInputInValid && (
+            <View style={styles.error}>
+              {phoneError && <Text style={styles.errorMessage}>{phoneError}</Text>}
+              {zipError && <Text style={styles.errorMessage}>{zipError}</Text>}
             </View>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
+          )}
+          {!isInputInValid && !isInputEmpty && (
+            <Button
+              onPress={register}
+              disabled={isInputInValid}
+              buttonColor={primaryColor}
+              textColor="white"
+              style={{ borderRadius: 5, paddingHorizontal: 15 }}
+              icon="arrow-right-bold-box-outline"
             >
-              <Text style={{ color: errorColor }}>{phoneError}</Text>
-              <Text style={{ color: errorColor }}>{zipError}</Text>
-            </View>
-          </View>
+              Next
+            </Button>
+          )}
         </View>
       </LinearGradient>
     </View>
@@ -168,7 +207,7 @@ const styles = StyleSheet.create({
     height: 55,
     marginBottom: 20,
     paddingHorizontal: 12,
-    borderRadius: 8,
+    borderRadius: borderRadius,
     backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: {
@@ -200,6 +239,19 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.4,
     shadowRadius: 1.7,
-    // paddingBottom: 80,
+  },
+  error: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: errorColor,
+    color: '#fff',
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: borderRadius,
+  },
+  errorMessage: {
+    color: '#fff',
   },
 });

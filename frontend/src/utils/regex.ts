@@ -7,11 +7,6 @@ export const isZipCodeValide = (value: string) => {
   return match.test(value);
 };
 
-export const isUsernameInvalid = (username: string) => {
-  const match = /^([a-z]|_|[0-9])+$/g;
-  return !match.test(username);
-};
-
 export const isEmailInvalid = (email: string) => {
   const match =
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;

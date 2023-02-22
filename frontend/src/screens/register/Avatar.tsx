@@ -1,4 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 import { StyleSheet, Dimensions, TouchableOpacity, Image, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import appRoutes from '../../navigation/appRoutes/index';
@@ -6,37 +8,39 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/actions/userAction';
 import { Button, Text, Divider } from 'react-native-paper';
 import { RegisterContext } from '../../utils/registerContext';
-import * as ImagePicker from 'expo-image-picker';
-import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types';
-import axios from '../../utils/axios';
-import { primaryColor, secondaryColor } from '../../utils/const';
+import { borderRadius, primaryColor, secondaryColor } from '../../utils/const';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRegisterMutation } from '../../services/LUDU_API/auth';
 const { width: ScreenWidth } = Dimensions.get('screen');
 
 export default function Avatar({ navigation }: any) {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const { user } = useContext(RegisterContext);
+  const [register, { data, isLoading, isSuccess }] = useRegisterMutation();
   const dispatch = useDispatch();
-  // const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+  const { user } = useContext(RegisterContext);
 
-  const register = async () => {
-    setLoading(true);
-    const newUser = { ...user, ...{ role: 'USER', avatar: image } };
+  const handleRegister = async () => {
+    const newUser = { ...user, ...{ avatar: image } };
     try {
-      const res = await axios.post('/local/register', newUser);
-      const token = res.data.user.token;
-      const id = res.data.user._id;
-      const username = res.data.user.username;
-      const avatar = res.data.user.avatar;
-      const role = res.data.user.role;
-      const email = res.data.user.credentials.local.email;
-      dispatch(setUser({ token, id, username, avatar, role, email }));
-    } catch (err: any) {}
-    setLoading(false);
-    navigation.navigate(appRoutes.TAB_NAVIGATOR);
+      await register(newUser);
+    } catch (e) {
+      console.log(e.response.data);
+    }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      const user = {
+        token: data.token,
+        id: data.user._id,
+        username: data.user.username,
+        role: data.user.role,
+      };
+      dispatch(setUser(user));
+      navigation.navigate(appRoutes.TAB_NAVIGATOR);
+    }
+  }, [isSuccess]);
 
   const HandleImageSelect = () => {
     const pickImage = async () => {
@@ -50,7 +54,10 @@ export default function Avatar({ navigation }: any) {
       });
 
       if (!result.canceled) {
-        setImage(result.assets[0].uri);
+        const base64 = await FileSystem.readAsStringAsync(result.assets[0].uri, {
+          encoding: 'base64',
+        });
+        setImage(base64);
         setPreview(result.assets[0].uri);
       }
     };
@@ -118,15 +125,14 @@ export default function Avatar({ navigation }: any) {
             alignItems: 'center',
           }}
         >
-          {!loading && (
+          {!isLoading && (
             <>
               <View style={{ marginBottom: 30 }}>
                 <Text
                   style={{
                     color: 'white',
                     fontWeight: 'bold',
-                    fontSize: 15,
-                    textTransform: 'uppercase',
+                    fontSize: 16,
                   }}
                 >
                   Add an avatar to your profile
@@ -143,12 +149,12 @@ export default function Avatar({ navigation }: any) {
               >
                 {preview && (
                   <Button
-                    onPress={register}
+                    onPress={handleRegister}
                     buttonColor={primaryColor}
                     textColor={'white'}
                     style={{
                       marginTop: 50,
-                      borderRadius: 5,
+                      borderRadius: borderRadius,
                       paddingHorizontal: 15,
                     }}
                   >
@@ -157,7 +163,7 @@ export default function Avatar({ navigation }: any) {
                 )}
                 {!preview && (
                   <Button
-                    onPress={register}
+                    onPress={handleRegister}
                     buttonColor={primaryColor}
                     textColor={'white'}
                     style={{
@@ -172,7 +178,7 @@ export default function Avatar({ navigation }: any) {
               </View>
             </>
           )}
-          {loading && (
+          {isLoading && (
             <>
               <Divider />
             </>

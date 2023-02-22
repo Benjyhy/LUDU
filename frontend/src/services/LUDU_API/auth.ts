@@ -1,16 +1,16 @@
-import { UserDto, LoginPayload, UserCreate } from '../../models/states/User';
+import { UserLoged, LoginPayload, UserCreate } from '../../models/states/User';
 import { emptySplitApi } from './api';
 
 const extendedApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    register: builder.mutation<UserDto, UserCreate>({
+    register: builder.mutation<UserLoged, UserCreate>({
       query: (userToSubscribe) => ({
         url: '/local/register',
         method: 'POST',
         body: userToSubscribe,
       }),
     }),
-    login: builder.mutation<UserDto, LoginPayload>({
+    login: builder.mutation<UserLoged, LoginPayload>({
       query: (userToLogin) => ({
         url: '/local/login',
         method: 'POST',

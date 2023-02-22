@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Dimensions, Text, Image } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, Image, StatusBar } from 'react-native';
 import appRoutes from '../navigation/appRoutes/index';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput, Button, ActivityIndicator, MD2Colors } from 'react-native-paper';
@@ -9,42 +9,42 @@ import { setUser } from '../store/actions/userAction';
 import { useLoginMutation } from '../services/LUDU_API/auth';
 
 const { width: ScreenWidth } = Dimensions.get('screen');
+const headerHeight = StatusBar.currentHeight;
 
 export default function Login({ navigation }: any) {
   const [usernameInput, setUsernameInput] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
-  // const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const [login, { data, isLoading, isSuccess }] = useLoginMutation();
+  const [login, { data, isLoading, isSuccess, isError }] = useLoginMutation();
 
   const handleLogin = async () => {
-    // setLoading(isLoading);
-    if (!isLoading) {
-      await login({ username: usernameInput, password });
-      console.log({ isSuccess: isSuccess });
-      isSuccess ? navigation.navigate(appRoutes.TAB_NAVIGATOR) : setError(true);
-    }
+    await login({ username: usernameInput, password });
   };
-
   useEffect(() => {
+    console.log(isError);
     if (isSuccess) {
-      const token = data.token;
-      const id = data.user._id;
-      const username = data.user.username;
-      const avatar = data.user.avatar;
-      const role = data.user.role;
-      const email = data.user.credentials.local.email;
-      dispatch(setUser({ token, id, username, avatar, role, email }));
+      const user = {
+        token: data.token,
+        id: data.user._id,
+        username: data.user.username,
+        role: data.user.role,
+      };
+      dispatch(setUser(user));
+      navigation.navigate(appRoutes.TAB_NAVIGATOR);
     }
-  }, []);
+    if (isError) {
+      setError(true);
+    }
+    // navigation.navigate(appRoutes.TAB_NAVIGATOR);
+  }, [isSuccess, isError]);
 
   return (
     <View>
       <LinearGradient colors={[primaryColor, secondaryColor]} style={styles.container}>
+        <Image style={styles.logo} source={require('../../assets/ludu_logo.png')} />
         {!isLoading && (
           <>
-            <Image style={styles.logo} source={require('../../assets/ludu_logo.png')} />
             <TextInput
               value={usernameInput}
               style={styles.input}
@@ -82,10 +82,15 @@ export default function Login({ navigation }: any) {
                 setPassword(text);
               }}
             />
+            {error && (
+              <View style={styles.error}>
+                <Text style={{ color: '#fff', fontSize: 14 }}>Wrong credentials</Text>
+              </View>
+            )}
             <View
               style={{
                 position: 'absolute',
-                bottom: 100,
+                bottom: 60,
               }}
             >
               <Button
@@ -109,13 +114,6 @@ export default function Login({ navigation }: any) {
                 Create an account
               </Button>
             </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              {error && (
-                <>
-                  <Text style={{ color: errorColor }}>Wrong credentials</Text>
-                </>
-              )}
-            </View>
           </>
         )}
         {isLoading && (
@@ -130,7 +128,7 @@ export default function Login({ navigation }: any) {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    paddingTop: headerHeight + 50,
     alignItems: 'center',
     height: '100%',
   },
@@ -160,8 +158,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 150,
     height: 150,
-    position: 'absolute',
-    top: 100,
     shadowColor: '#383838',
     shadowOffset: {
       width: 2,
@@ -169,5 +165,18 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.4,
     shadowRadius: 1.7,
+    marginBottom: 60,
+  },
+  error: {
+    marginTop: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: errorColor,
+    color: '#fff',
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: borderRadius,
   },
 });
