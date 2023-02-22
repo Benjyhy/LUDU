@@ -18,6 +18,7 @@ export declare class Game {
 export interface Tags {
   playtime: number;
   players: number[];
+  meanReviews: number;
 }
 export interface CreateGamePayload {
   ean: string;
