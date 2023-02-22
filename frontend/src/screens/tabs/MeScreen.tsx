@@ -2,7 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { InlineTextIcon } from '../../components/InlineTextIcon';
-import { borderRadius, errorColor, lowGray, middleGray, strongGray } from '../../utils/const';
+import {
+  borderRadius,
+  errorColor,
+  lowGray,
+  middleGray,
+  strongGray,
+} from '../../utils/const';
 import Layout from '../Layout';
 import AvatarMe from '../me/Avatar';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -15,17 +21,19 @@ import { MainAppState } from '../../models/states';
 
 const MeScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
-  const userState = useSelector((state: MainAppState) => state.user);
-  console.log(userState);
-  const [userMe, setUserMe] = useState<User>(null);
-  // const [getUserById] = useGetUserByIdQuery();
-  const { data: data, isFetching, isSuccess } = useGetUserByIdQuery(userState._id);
+  const [userMe, setUserMe] = useState<User>(
+    useSelector((state: MainAppState) => state.user),
+  );
+  console.log({ userMe });
+  const { data, isFetching, isSuccess } = useGetUserByIdQuery({
+    _id: userMe.id,
+  });
 
-  useEffect(() => {
-    if (isSuccess) {
-      console.log(data);
-    }
-  }, [isSuccess]);
+  if (isSuccess) {
+    console.log('FROM ME SCREEN', data);
+  }
+  // const [getUserById] = useGetUserByIdQuery();
+
   const username = 'Paul';
   const avatarUri =
     'https://avatars.githubusercontent.com/u/55087969?s=400&u=a57cf70988be3cdefe55132d61bd532499b5dcd9&v=4';
@@ -51,7 +59,11 @@ const MeScreen = ({ navigation }: any) => {
             <InlineTextIcon text="Customization" icon={'help'} />
             <View style={styles.container}>
               <Button>
-                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
               </Button>
             </View>
           </TouchableOpacity>
@@ -59,7 +71,11 @@ const MeScreen = ({ navigation }: any) => {
             <InlineTextIcon text="Favorite games" icon={'heart-outline'} />
             <View style={styles.container}>
               <Button>
-                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
               </Button>
             </View>
           </TouchableOpacity>
@@ -68,7 +84,11 @@ const MeScreen = ({ navigation }: any) => {
             <View style={styles.container}>
               <Text style={{ marginLeft: 4, color: strongGray }}>66.00€</Text>
               <Button>
-                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
               </Button>
             </View>
           </TouchableOpacity>
@@ -76,15 +96,26 @@ const MeScreen = ({ navigation }: any) => {
             <InlineTextIcon text="Settings" icon={'settings-outline'} />
             <View style={styles.container}>
               <Button>
-                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
               </Button>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.row}>
-            <InlineTextIcon text="About Ludu" icon={'information-circle-outline'} />
+            <InlineTextIcon
+              text="About Ludu"
+              icon={'information-circle-outline'}
+            />
             <View style={styles.container}>
               <Button>
-                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
               </Button>
             </View>
           </TouchableOpacity>
@@ -92,7 +123,11 @@ const MeScreen = ({ navigation }: any) => {
             <InlineTextIcon text="My reviews" icon={'happy-outline'} />
             <View style={styles.container}>
               <Button>
-                <MaterialIcons name={'keyboard-arrow-right'} color={middleGray} size={24} />
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  color={middleGray}
+                  size={24}
+                />
               </Button>
             </View>
           </TouchableOpacity>
