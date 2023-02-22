@@ -12,3 +12,12 @@ export interface Store {
   copies: Copy[];
   reviews: Review[];
 }
+
+export interface CreateStorePayload {
+  location: string;
+  phone: string;
+  owner: string;
+  address: string;
+  name: string;
+  iban: string;
+}

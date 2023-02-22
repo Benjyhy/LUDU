@@ -1,39 +1,43 @@
+import { LocationAPI } from '../../models/states/Location';
 import { emptySplitApi } from './api';
 
 const extendedApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    createLocation: builder.mutation({
+    createLocation: builder.mutation<
+      LocationAPI,
+      { name: string; postalCode: number }
+    >({
       query: (locationToCreate) => ({
         url: '/location',
         method: 'POST',
         body: locationToCreate,
       }),
     }),
-    getAllLocations: builder.query({
+    getAllLocations: builder.query<LocationAPI[], void>({
       query: () => ({
         url: '/location',
       }),
     }),
-    getLocationByZipCode: builder.query({
-      query: (zipCode) => ({
-        url: `/location/${zipCode}`,
+    getLocationByZipCode: builder.query<LocationAPI, { postalCode: number }>({
+      query: (location) => ({
+        url: `/location/${location.postalCode}`,
       }),
     }),
-    getLocationById: builder.query({
-      query: (locationId) => ({
-        url: `/location/${locationId}`,
+    getLocationById: builder.query<LocationAPI, { _id: string }>({
+      query: (location) => ({
+        url: `/location/${location._id}`,
       }),
     }),
-    updateLocation: builder.mutation({
+    updateLocation: builder.mutation<LocationAPI, LocationAPI>({
       query: (locationToUpdate) => ({
-        url: `/location/${locationToUpdate.id}`,
+        url: `/location/${locationToUpdate._id}`,
         method: 'PUT',
         body: locationToUpdate,
       }),
     }),
-    deleteLocation: builder.mutation({
-      query: (locationToDeleteId) => ({
-        url: `/location/${locationToDeleteId}`,
+    deleteLocation: builder.mutation<LocationAPI, { _id: string }>({
+      query: (locationToDelete) => ({
+        url: `/location/${locationToDelete._id}`,
         method: 'DELETE',
       }),
     }),

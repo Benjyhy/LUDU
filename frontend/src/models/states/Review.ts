@@ -11,3 +11,10 @@ export interface Review {
   game: Game;
   store: Store;
 }
+
+export interface CreateReviewPayload {
+  score: number;
+  review: string;
+  user: string;
+  game: string;
+}
