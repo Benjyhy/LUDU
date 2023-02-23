@@ -53,7 +53,11 @@ const TabsStack = () => {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name={tabRoutes.FIND_SCREEN} component={FindScreen} />
+      <Tab.Screen
+        name={tabRoutes.FIND_SCREEN}
+        component={FindScreen}
+        options={{ headerShown: false }}
+      />
       <Tab.Screen
         name={tabRoutes.BOOKING_TABS_SCREEN}
         component={BookingTabsScreen}

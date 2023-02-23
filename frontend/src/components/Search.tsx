@@ -1,11 +1,10 @@
 import React from 'react';
-import { useState } from 'react';
 import { View } from 'react-native';
 import { TextInput, Switch } from 'react-native-paper';
 import findRoutes from '../navigation/appRoutes/findRoutes';
 import * as RootNavigation from '../navigation/rootNavigation';
 import appRoutes from '../navigation/appRoutes';
-import { lowGray, primaryColor } from '../utils/const';
+import { borderRadius, horizontalPadding, lowGray, primaryColor } from '../utils/const';
 
 const Search = ({ active }) => {
   const routesToDisplaySearchComponent = [findRoutes.HOME_FEED, findRoutes.MAP_VIEW];
@@ -32,8 +31,12 @@ const Search = ({ active }) => {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-around',
         width: '100%',
+        paddingLeft: horizontalPadding / 2,
+        paddingRight: horizontalPadding / 2,
+        paddingBottom: horizontalPadding / 2,
+        paddingTop: horizontalPadding / 2,
+        backgroundColor: '#fff',
       }}
     >
       <TextInput
@@ -46,6 +49,7 @@ const Search = ({ active }) => {
         style={{
           width: '80%',
           height: 30,
+          borderRadius: 4,
         }}
         theme={{
           colors: {

@@ -12,8 +12,8 @@ const { width: ScreenWidth } = Dimensions.get('screen');
 const headerHeight = StatusBar.currentHeight;
 
 export default function Login({ navigation }: any) {
-  const [usernameInput, setUsernameInput] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [usernameInput, setUsernameInput] = useState<string>('User');
+  const [password, setPassword] = useState<string>('password');
   const [error, setError] = useState<boolean>(false);
   const dispatch = useDispatch();
   const [login, { data, isLoading, isSuccess, isError }] = useLoginMutation();
@@ -22,7 +22,6 @@ export default function Login({ navigation }: any) {
     await login({ username: usernameInput, password });
   };
   useEffect(() => {
-    console.log(isError);
     if (isSuccess) {
       const user = {
         token: data.token,

@@ -15,12 +15,12 @@ const Stack = createNativeStackNavigator();
 
 const FindStack = () => {
   return (
-    <Stack.Navigator initialRouteName={findRoutes.HOME_FEED} screenOptions={{ headerShown: true }}>
+    <Stack.Navigator initialRouteName={findRoutes.HOME_FEED}>
       <Stack.Screen
         name={findRoutes.HOME_FEED}
         component={HomeFeedScreen}
         options={{
-          headerTitle: () => <Search active={false} />,
+          header: () => <Search active={false} />,
         }}
       />
       <Stack.Screen
