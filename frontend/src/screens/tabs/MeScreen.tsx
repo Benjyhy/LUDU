@@ -6,12 +6,12 @@ import {
   borderRadius,
   errorColor,
   getUserImg,
+  horizontalPadding,
   lowGray,
   middleGray,
   primaryColor,
   strongGray,
 } from '../../utils/const';
-import Layout from '../Layout';
 import AvatarMe from '../me/Avatar';
 import { MaterialIcons } from '@expo/vector-icons';
 import { setUser } from '../../store/actions/userAction';
@@ -44,20 +44,21 @@ const MeScreen = ({ navigation }: any) => {
   };
 
   return (
-    <Layout>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {isFetching && (
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <ActivityIndicator animating={true} color={primaryColor} />
-          </View>
-        )}
-        {!isFetching && isSuccess && (
+    <>
+      {isFetching && (
+        <View
+          style={{
+            flex: 1,
+            height: 100,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <ActivityIndicator animating={true} color={primaryColor} />
+        </View>
+      )}
+      {!isFetching && isSuccess && (
+        <ScrollView showsVerticalScrollIndicator={false}>
           <>
             <View style={styles.wrapperView}>
               <AvatarMe
@@ -128,26 +129,19 @@ const MeScreen = ({ navigation }: any) => {
                 </Text>
               </View>
             </View>
-            <View>
-              <Button
-                onPress={handleLogOut}
-                buttonColor={errorColor}
-                textColor={'white'}
-                style={{
-                  width: 200,
-                  alignSelf: 'center',
-                  marginBottom: 8,
-                  borderRadius: borderRadius,
-                  paddingHorizontal: 16,
-                }}
-              >
+            <View
+              style={{
+                backgroundColor: '#fff',
+              }}
+            >
+              <Button onPress={handleLogOut} buttonColor={errorColor} style={styles.logout}>
                 LogOut
               </Button>
             </View>
           </>
-        )}
-      </ScrollView>
-    </Layout>
+        </ScrollView>
+      )}
+    </>
   );
 };
 
@@ -167,6 +161,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 8,
     paddingBottom: 8,
+    paddingRight: horizontalPadding,
+    paddingLeft: horizontalPadding,
     borderColor: lowGray,
     borderBottomWidth: 1,
   },
@@ -182,6 +178,13 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     paddingTop: 8,
     paddingBottom: 8,
+  },
+  logout: {
+    width: 200,
+    alignSelf: 'center',
+    marginBottom: 8,
+    borderRadius: borderRadius,
+    paddingHorizontal: 16,
   },
 });
 
