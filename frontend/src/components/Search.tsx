@@ -1,10 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform, StyleSheet } from 'react-native';
 import { TextInput, Switch } from 'react-native-paper';
 import findRoutes from '../navigation/appRoutes/findRoutes';
 import * as RootNavigation from '../navigation/rootNavigation';
 import appRoutes from '../navigation/appRoutes';
-import { borderRadius, horizontalPadding, lowGray, primaryColor } from '../utils/const';
+import { horizontalPadding, lowGray, primaryColor } from '../utils/const';
 
 const Search = ({ active }) => {
   const routesToDisplaySearchComponent = [findRoutes.HOME_FEED, findRoutes.MAP_VIEW];
@@ -27,18 +27,7 @@ const Search = ({ active }) => {
   }
 
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-        paddingLeft: horizontalPadding / 2,
-        paddingRight: horizontalPadding / 2,
-        paddingBottom: horizontalPadding / 2,
-        paddingTop: horizontalPadding / 2,
-        backgroundColor: '#fff',
-      }}
-    >
+    <View style={Platform.OS === 'ios' ? styles.wrapperIos : styles.wrapperAndroid}>
       <TextInput
         placeholder="Lille"
         mode={'flat'}
@@ -66,5 +55,23 @@ const Search = ({ active }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  wrapperIos: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+  },
+  wrapperAndroid: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    paddingLeft: horizontalPadding / 2,
+    paddingRight: horizontalPadding / 2,
+    paddingBottom: horizontalPadding / 2,
+    paddingTop: horizontalPadding / 2,
+    backgroundColor: '#fff',
+  },
+});
 
 export default Search;
