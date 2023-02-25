@@ -16,9 +16,11 @@ interface FilterProps {
   filters: FilterOptions;
   filterType: string;
   title: string;
+  setDone: any;
+  setDelivered: any;
 }
 
-const Filter = ({ filters, filterType, title }: FilterProps) => {
+const Filter = ({ filters, filterType, title, setDone, setDelivered }: FilterProps) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState<string[]>([]);
   const filterIsActive = useSelector((state: MainAppState) =>

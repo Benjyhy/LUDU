@@ -1,8 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import { StyleSheet } from 'react-native';
-import { Text, Avatar, Card, Title } from 'react-native-paper';
+import { Avatar, Card, Text, Title } from 'react-native-paper';
 import { lowGray, primaryColor } from '../../utils/const';
+
 const LeftContent = (image) => <Avatar.Image size={60} source={image} />;
 
 const rightContent = (status) => (
@@ -11,7 +12,10 @@ const rightContent = (status) => (
 
 const CardItem = ({ item }) => {
   return (
-    <Card style={styles.cardStyle} mode={item.status === 'inprogress' ? 'elevated' : 'contained'}>
+    <Card
+      style={styles.cardStyle}
+      mode={item.deliveredDate === 'inprogress' ? 'elevated' : 'contained'}
+    >
       <Card.Title
         title={item.gameName}
         titleStyle={styles.title}

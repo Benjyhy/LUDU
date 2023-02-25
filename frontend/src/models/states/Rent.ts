@@ -4,11 +4,13 @@ import { User } from './User';
 export interface Rent {
   _id: string;
   game: Copy;
+  copy: any;
   user: User;
   startDate: Date | string;
   endDate?: string | null;
   deliveredDate?: string | null;
-  duration: number;
+  createdAt: Date | string;
+  updatedAt: string | null;
   type: RentType;
 }
 
