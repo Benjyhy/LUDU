@@ -13,9 +13,10 @@ const initialState: {
 const filterGamesByCategoriesReducer = (state = initialState, action: Action<any>) => {
   switch (action.type) {
     case SET_STATUS_FILTER:
-      if (!state.filters.includes(action.payload))
-        return { ...state, filters: [...state.filters, action.payload] };
-      else return state;
+      return {
+        ...state,
+        filters: [...state.filters, ...action.payload].filter((e) => action.payload.includes(e)),
+      };
     case RESET_STATUS_FILTER:
       return initialState;
     case TOGGLE_STATUS_FILTER:

@@ -2,40 +2,28 @@ import React, { useState } from 'react';
 import { View, Modal, Dimensions } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Button, Checkbox } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { primaryColor } from '../utils/const';
-import { setStatusFilter, toggleStatusFilter } from '../store/actions/filterBookingsByStatusAction';
-import {
-  setCategoryFilter,
-  toggleCategoryFilter,
-} from '../store/actions/filterGamesByCategoriesAction';
-import { MainAppState } from '../models/states';
-import { FilterOptions } from '../models/Filter';
+import { FilterTypes } from '../models/Filter';
+import FilterService from '../services/filterService';
 
 interface FilterProps {
-  filters: FilterOptions;
-  filterType: string;
-  title: string;
+  filterType: FilterTypes;
 }
 
-const Filter = ({ filters, filterType, title }: FilterProps) => {
+const Filter = ({ filterType }: FilterProps) => {
   const dispatch = useDispatch();
-  const [checked, setChecked] = useState<string[]>([]);
-  const filterIsActive = useSelector((state: MainAppState) =>
-    filterType === 'status'
-      ? state.filterBookingsByStatus.active
-      : state.filterGamesByCategories.active,
-  );
+
+  const filterService = new FilterService(filterType);
+  const { toggleFilter, setFilter, filteredElements, filters, title } = filterService.reduxAssets;
+
+  const [checked, setChecked] = useState<string[]>(filteredElements);
 
   const onButtonPress = () => {
-    if (filterType === 'status') {
-      dispatch(toggleStatusFilter());
-      dispatch(setStatusFilter(checked));
-    } else {
-      dispatch(toggleCategoryFilter());
-      dispatch(setCategoryFilter(checked));
-    }
+    dispatch(toggleFilter());
+    dispatch(setFilter(checked));
   };
+
   const handleCheckChange = (filter: string, include: boolean) => {
     if (!include) {
       setChecked([...checked, filter]);
@@ -45,7 +33,7 @@ const Filter = ({ filters, filterType, title }: FilterProps) => {
   };
 
   return (
-    <Modal animationType="slide" transparent={true} visible={filterIsActive}>
+    <Modal animationType="slide" transparent={true}>
       <View
         style={{
           justifyContent: 'space-between',
