@@ -47,9 +47,7 @@ export default function Phone({ navigation }: any) {
   const register = () => {
     const userProperties = {
       phone: phone,
-      address: address,
-      city: city,
-      postCode: postcode,
+      address: `${address}, ${city}, ${postcode}`,
     };
     setUser({ ...user, ...userProperties });
     navigation.navigate(appRoutes.REGISTER_AVATAR_SCREEN);
@@ -189,7 +187,7 @@ export default function Phone({ navigation }: any) {
               disabled={isInputInValid}
               buttonColor={primaryColor}
               textColor="white"
-              style={{ borderRadius: 5, paddingHorizontal: 15 }}
+              style={{ borderRadius: 5, marginHorizontal: 16 }}
               icon="arrow-right-bold-box-outline"
             >
               Next

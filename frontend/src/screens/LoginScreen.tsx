@@ -98,8 +98,8 @@ export default function Login({ navigation }: any) {
                 textColor="white"
                 style={{
                   borderRadius: borderRadius,
-                  paddingHorizontal: 16,
-                  marginBottom: 12,
+                  marginHorizontal: 16,
+                  marginVertical: 12,
                 }}
               >
                 Login

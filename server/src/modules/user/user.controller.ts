@@ -1,3 +1,4 @@
+import { UserUpdateDto } from './dto/update.dto';
 import { v4 } from 'uuid';
 import {
   Body,
@@ -41,13 +42,21 @@ export class UserController {
   @Put('/:id')
   @ApiOperation({ summary: 'Create a new user' })
   @ApiOkResponse({ description: 'Success', type: UserDto })
-  update(
+  async update(
     @Param('id')
     id: string,
     @Body(new ValidationPipe({ transform: true }))
-    locationDto: UserDto,
+    userDto: UserUpdateDto,
   ): Promise<UserDocument> {
-    return this.userService.update(id, locationDto);
+    const existingUser = await this.userService.findById(id);
+
+    if (!existingUser) throw new NotFoundException(`User #${id} not found`);
+
+    if (userDto.username !== undefined) {
+      const existingUser = await this.userService.findOneUsername(userDto.username);
+      if (existingUser) throw new NotFoundException(`User with same Username already exist`);
+    }
+    return this.userService.update(id, userDto);
   }
 
   @Delete('/:id')

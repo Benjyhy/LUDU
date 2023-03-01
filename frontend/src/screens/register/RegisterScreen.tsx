@@ -137,7 +137,7 @@ export default function Register({ navigation }: any) {
               textColor="white"
               style={{
                 borderRadius: borderRadius,
-                paddingHorizontal: 16,
+                marginHorizontal: 16,
                 marginTop: 20,
                 marginBottom: 12,
               }}

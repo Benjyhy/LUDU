@@ -1,4 +1,4 @@
-import { User } from '../../models/states/User';
+import { UserLoged, UserUpdate, User } from './../../models/states/User';
 import { emptySplitApi } from './api';
 
 const extendedApi = emptySplitApi.injectEndpoints({
@@ -8,21 +8,21 @@ const extendedApi = emptySplitApi.injectEndpoints({
         url: '/user',
       }),
     }),
-    getUserById: builder.query<User, { _id: string }>({
+    getUserById: builder.query<User, { id: string }>({
       query: (user) => ({
-        url: `/user/${user._id}`,
+        url: `/user/${user.id}`,
       }),
     }),
-    updateUser: builder.mutation<User, User>({
+    updateUser: builder.mutation<UserLoged, UserUpdate>({
       query: (userToUpdate) => ({
-        url: `/user/${userToUpdate._id}`,
+        url: `/user/${userToUpdate.id}`,
         method: 'PUT',
         body: userToUpdate,
       }),
     }),
-    deleteUser: builder.mutation<User, { _id: string }>({
+    deleteUser: builder.mutation<User, { id: string }>({
       query: (userToDelete) => ({
-        url: `/user/${userToDelete._id}`,
+        url: `/user/${userToDelete.id}`,
         method: 'DELETE',
       }),
     }),
