@@ -28,6 +28,10 @@ export default function Login({ navigation }: any) {
         id: data.user._id,
         username: data.user.username,
         role: data.user.role,
+        email: data.user.credentials.local.email,
+        phone: data.user.phone,
+        address: data.user.address,
+        avatar: data.user.avatar,
       };
       dispatch(setUser(user));
       navigation.navigate(appRoutes.TAB_NAVIGATOR);
@@ -98,8 +102,8 @@ export default function Login({ navigation }: any) {
                 textColor="white"
                 style={{
                   borderRadius: borderRadius,
-                  paddingHorizontal: 16,
-                  marginBottom: 12,
+                  marginHorizontal: 16,
+                  marginVertical: 12,
                 }}
               >
                 Login

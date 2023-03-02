@@ -70,7 +70,11 @@ const TabsStack = () => {
         }}
       />
       <Tab.Screen name={tabRoutes.PLAY_SCREEN} component={PlayScreen} />
-      <Tab.Screen name={tabRoutes.ME_SCREEN} component={MeScreen} />
+      <Tab.Screen
+        name={tabRoutes.ME_SCREEN}
+        component={MeScreen}
+        options={{ headerShown: false }}
+      />
     </Tab.Navigator>
   );
 };

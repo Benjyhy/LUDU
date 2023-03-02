@@ -16,42 +16,24 @@ class LocalProperty {
     example: 'email@gmail.com',
     description: 'an email',
   })
+  @IsOptional()
   email: string;
-
-  @ApiProperty({
-    example: '###',
-    description: 'password',
-  })
-  password: string;
-
-  @ApiProperty({
-    example: 'true/false',
-    description: 'if the email is verified',
-  })
-  emailVerified: boolean;
 }
 class CredentialsProperty {
   @ApiProperty({ type: LocalProperty })
+  @IsOptional()
   local: LocalProperty;
 }
 
-export class UserDto {
+export class UserUpdateDto {
   @Transform(({ value }) => value.toString())
   _id: string;
-
-  @ApiProperty({
-    example: 'USER | SELLER | ADMIN',
-    description: "User's role",
-  })
-  @IsNotEmpty()
-  @IsString()
-  readonly role: ROLES;
 
   @ApiProperty({
     example: 'impsdc',
     description: 'Your nickname',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   readonly username: string;
 
@@ -62,7 +44,7 @@ export class UserDto {
     example: '+33620202020',
     description: "User's phone number",
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsPhoneNumber('FR')
   phone: string;
 
@@ -70,7 +52,7 @@ export class UserDto {
     example: "User's address",
     description: '16 rue de beaumont, Montesson 78360',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   address: string;
 

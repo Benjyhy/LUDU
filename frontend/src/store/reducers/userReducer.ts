@@ -1,14 +1,15 @@
 import { SET_USER, REMOVE_USER, UPDATE_USER } from '../types/userTypes';
-import { ROLES } from '../../models/states/User';
 import { Action } from '../../models/Action';
 
 const InitalUserState = {
   token: '',
   id: '',
   username: '',
-  avatar: '',
   role: null,
   email: '',
+  phone: '',
+  address: '',
+  avatar: '',
 };
 
 const userReducer = (state = InitalUserState, action: Action<any>) => {
@@ -19,9 +20,11 @@ const userReducer = (state = InitalUserState, action: Action<any>) => {
         token: action.payload.token,
         id: action.payload.id,
         username: action.payload.username,
-        avatar: action.payload.avatar,
         role: action.payload.role,
         email: action.payload.email,
+        phone: action.payload.phone,
+        address: action.payload.address,
+        avatar: action.payload.avatar,
       };
     case REMOVE_USER:
       return {
@@ -29,9 +32,11 @@ const userReducer = (state = InitalUserState, action: Action<any>) => {
         token: '',
         id: '',
         username: '',
-        avatar: '',
-        role: ROLES.USER,
+        role: null,
         email: '',
+        phone: '',
+        address: '',
+        avatar: '',
       };
     case UPDATE_USER:
       return {
@@ -39,9 +44,11 @@ const userReducer = (state = InitalUserState, action: Action<any>) => {
         token: action.payload.token,
         id: action.payload.id,
         username: action.payload.username,
-        avatar: action.payload.avatar,
         role: action.payload.role,
         email: action.payload.email,
+        phone: action.payload.phone,
+        address: action.payload.address,
+        avatar: action.payload.avatar,
       };
     default:
       return state;
