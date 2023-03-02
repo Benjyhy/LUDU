@@ -96,14 +96,6 @@
         state=present
         createhome=yes
 
-    # - name: Prune everything
-    #   community.docker.docker_prune:
-    #     containers: true
-    #     images: true
-    #     networks: true
-    #     volumes: true
-    #     builder_cache: true
-
     - name: Get running containers
       docker_host_info:
         containers: yes
@@ -114,6 +106,7 @@
         name: "{{ item }}"
         state: stopped
       loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
+
     - name: Remove Stoped docker containers
       shell: |
         docker rm $(docker ps -a -q);
@@ -124,9 +117,22 @@
         images: yes
         verbose_output: yes
       register: image_info
+
     - name: Remove all images
       docker_image:
         name: "{{ item }}"
         state: absent
       loop: "{{ image_info.images | map(attribute='Id') | list }}"
         
+    - name: Remove backup files
+      find:
+        paths: /
+        patterns: "*.bak"
+        recurse: yes
+      register: backup_files
+
+    - name: Delete backup files
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ backup_files.files }}"
