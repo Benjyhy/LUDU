@@ -1,14 +1,8 @@
-import React from "react";
-import FindStack from "../../navigation/FindStack";
-import Search from "../../components/Search";
+import React from 'react';
+import FindStack from '../../navigation/FindStack';
 
 const FindScreen = () => {
-    return (
-        <>
-            <Search />
-            <FindStack />
-        </>
-    );
+  return <FindStack />;
 };
 
 export default FindScreen;

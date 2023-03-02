@@ -1,6 +1,8 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsString, IsNumber, IsBoolean, IsOptional } from 'class-validator';
+import { IsDate, IsNotEmpty, IsOptional, IsString, MinDate } from 'class-validator';
+import { RENT } from '../../../schemas/rent.schema';
+
 export class RentDto {
   @Transform(({ value }) => value.toString())
   _id: string;
@@ -9,32 +11,33 @@ export class RentDto {
     example: 'unix date',
     description: 'Timestamp in unix when the game is delivered',
   })
-  @IsString()
-  readonly startDate: string;
-
-  @ApiPropertyOptional({
-    example: 'unix date',
-    description: 'Timestamp in unix when the game is return',
-  })
-  @IsString()
-  @IsOptional()
-  readonly endDate?: string;
-
-  @ApiPropertyOptional({
-    example: '1200000',
-    description: 'Number of miliseconds of the location',
-  })
-  @IsNumber()
-  @IsOptional()
-  readonly duration?: number;
+  @IsNotEmpty()
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
+  @MinDate(new Date())
+  readonly startDate: Date | string;
 
   @ApiProperty({
-    example: 'true',
-    description: 'If the user got the location in present',
+    example: 'unix date',
+    description: 'Timestamp in unix when the game is delivered',
   })
-  @IsBoolean()
   @IsOptional()
-  readonly is_delivered: boolean;
+  endDate: string | null;
+
+  @ApiProperty({
+    example: 'unix date',
+    description: 'Timestamp in unix when the game is delivered',
+  })
+  @IsOptional()
+  deliveredDate: string | null;
+
+  @ApiProperty({
+    example: 'unix date',
+    description: 'Timestamp in unix when the game is delivered',
+  })
+  @IsString()
+  @IsNotEmpty()
+  readonly type: RENT;
 
   @ApiProperty({
     example: '62e16c1b3f6a897c767bec7d',

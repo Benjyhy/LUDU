@@ -45,9 +45,7 @@ export const GameSeed = () => {
         const categories = await categoryService.findAll();
         const gameWithCategory = games.map((element) => {
           const categoryId =
-            categories[
-              Math.round(Math.floor(Math.random() * categories.length))
-            ]._id.toString();
+            categories[Math.round(Math.floor(Math.random() * categories.length))]._id.toString();
 
           return Object.assign({}, element, {
             categories: [categoryId],

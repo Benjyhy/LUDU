@@ -1,17 +1,10 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import {
-  IsString,
-  IsNotEmpty,
-  IsPhoneNumber,
-  IsBase64,
-  IsOptional,
-} from 'class-validator';
+import { IsString, IsNotEmpty, IsPhoneNumber, IsOptional } from 'class-validator';
 
 import { OauthDto } from './oauth.dto';
 import { LocalDto } from './local.dto';
 import { ROLES } from '../../../schemas/user.schema';
-import { StoreDocument } from '../../../schemas/store.schema';
 
 interface ICredentials {
   local: LocalDto;
@@ -55,7 +48,7 @@ export class UserDto {
   readonly role: ROLES;
 
   @ApiProperty({
-    example: 'popolito',
+    example: 'impsdc',
     description: 'Your nickname',
   })
   @IsNotEmpty()
@@ -63,7 +56,6 @@ export class UserDto {
   readonly username: string;
 
   @ApiProperty({ type: CredentialsProperty })
-  @ApiProperty()
   credentials: ICredentials;
 
   @ApiProperty({
@@ -84,13 +76,5 @@ export class UserDto {
 
   @ApiPropertyOptional({ description: 'avatar' })
   @IsOptional()
-  @IsBase64()
   avatar: string;
-
-  @ApiProperty({
-    example: 'Store ID',
-    description: 'Mongoose ID related to a existing store',
-  })
-  @ApiPropertyOptional({ description: 'Stores' })
-  readonly stores: StoreDocument[];
 }

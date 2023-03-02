@@ -40,7 +40,7 @@ npm run seed:drop
 npm run test:e2e
 
 # refresh seeder
-npm run seed:drop && npm run test:e2e
+npm run seed:refresh
 ```
 
 ## Images path

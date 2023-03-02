@@ -56,10 +56,7 @@ export const getAllFiles = async (path: string): Promise<string[]> => {
  *
  * @returns {Promise<void>}
  */
-export const deleteFile = async (
-  path: string,
-  filename: string,
-): Promise<void> => {
+export const deleteFile = async (path: string, filename: string): Promise<void> => {
   const unlinkFunction = promisify(unlink);
 
   return await unlinkFunction(`${path}${filename}.json`);

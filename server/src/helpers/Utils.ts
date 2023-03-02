@@ -15,15 +15,12 @@ export const imageFileFilter = (req, file, callback) => {
   callback(null, true);
 };
 
-export const saveImage = async (
-  base64: string,
-  path: string,
-): Promise<string> => {
+export const saveImage = async (base64: string, path: string): Promise<string> => {
   const validUriForBuffer = base64.split(';base64,').pop();
   const buffer = Buffer.from(validUriForBuffer, 'base64');
   const filename = v4();
   await Sharp(buffer)
-    .resize(100, 100)
+    .resize(400, 400)
     .webp({ lossless: true })
     .toFile(`${path}${filename}.webp`)
     .catch((err) => {

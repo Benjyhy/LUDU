@@ -23,9 +23,7 @@ export const CategorySeed = () => {
           DbModule({
             uri: appConfig().database.prod,
           }),
-          MongooseModule.forFeature([
-            { name: Category.name, schema: CategorySchema },
-          ]),
+          MongooseModule.forFeature([{ name: Category.name, schema: CategorySchema }]),
         ],
         providers: [CategoryService],
       }).compile();

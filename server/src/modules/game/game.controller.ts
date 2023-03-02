@@ -12,7 +12,7 @@ import {
   NotFoundException,
   Logger,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { GameService } from './game.service';
 import { GameDto } from './dto/game.dto';
 import { GameUpdateDto } from './dto/game.update.dto';
@@ -61,18 +61,20 @@ export class GameController {
         HttpStatus.FORBIDDEN,
       );
     // check if each categories exist
-    gameDto.categories.map(async (category) => {
-      const isCategory = await this.categoryService.findById(category);
-      console.log(isCategory);
-      if (!isCategory)
-        throw new HttpException(
-          {
-            status: HttpStatus.FORBIDDEN,
-            error: 'category not found',
-          },
-          HttpStatus.FORBIDDEN,
-        );
-    });
+    await Promise.all(
+      gameDto.categories.map(async (category) => {
+        const isCategory = await this.categoryService.findById(category);
+
+        if (!isCategory)
+          throw new HttpException(
+            {
+              status: HttpStatus.FORBIDDEN,
+              error: `One of the categories was not found`,
+            },
+            HttpStatus.FORBIDDEN,
+          );
+      }),
+    );
     gameDto.thumbnail = await saveImage(
       gameDto.thumbnail,
       `${appConfig().game.staticFolder}/thumbnail/`,
@@ -104,10 +106,7 @@ export class GameController {
     });
 
     // if image was not updated
-    if (
-      existingGame.thumbnail &&
-      existingGame.thumbnail === gameDto.thumbnail
-    ) {
+    if (existingGame.thumbnail && existingGame.thumbnail === gameDto.thumbnail) {
       return this.gameService.update(id, gameDto);
     }
 

@@ -1,50 +1,64 @@
 import { Review } from './Review';
 export declare enum ROLES {
-    USER = 0,
-    SELLER = 1,
-    ADMIN = 2,
+  USER = 'USER',
+  SELLER = 'SELLER',
+  ADMIN = 'ADMIN',
 }
 export type LocalAuth = {
-    email: string;
-    password: string;
-    emailVerified: boolean;
+  email: string;
+  password?: string;
+  emailVerified?: boolean;
 };
+export type LoginPayload = {
+  username: string;
+  password: string;
+};
+
 export type Credentials = {
-    local: LocalAuth;
+  local: LocalAuth;
 };
 
 export interface UserCreate {
-    username?: string;
-    credentials?: Credentials;
-    role?: ROLES;
-    phone?: string | number;
-    avatar?: string;
-    address?: string;
-    city?: string;
-    postCode?: string | number;
+  _id?: string;
+  username?: string;
+  credentials?: Credentials;
+  role?: string;
+  phone?: string;
+  avatar?: string;
+  address?: string;
+}
+
+export interface UserUpdate {
+  id: string;
+  username?: string;
+  credentials?: Credentials;
+  phone?: string;
+  avatar?: string;
+  address?: string;
+}
+
+export interface UserState {
+  token: string;
+  id: string;
+  username: string;
+  role: string;
+  email: string;
+  phone: string;
+  address: string;
+  avatar: string;
 }
 
 export interface User extends UserCreate {
-    _id: string;
-    phone: number;
-    postalCode: number;
-    store: string | null;
-    reviews: Review[] | [];
+  _id: string;
+  createdAt: string;
+  reviews: Review[] | [];
 }
 
-export const InitalUser = {
-    username: '',
-    credentials: {
-        local: {
-            email: '',
-            password: '',
-            emailVerified: false,
-        },
-    },
-    // role: ROLES.USER,
-    phone: '',
-    address: '',
-    city: '',
-    postCode: '',
-    avatar: '',
-};
+export interface UserFromQuery extends User {
+  _id: string;
+}
+
+export interface UserLoged {
+  token: string;
+  user: UserFromQuery;
+}

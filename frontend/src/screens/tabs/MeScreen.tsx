@@ -1,8 +1,8 @@
-import React from "react";
-import { Text } from "react-native-paper";
+import React from 'react';
+import MeStack from '../../navigation/MeStack';
 
 const MeScreen = () => {
-    return <Text>MeScreen</Text>;
+  return <MeStack />;
 };
 
 export default MeScreen;
