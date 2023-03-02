@@ -8,9 +8,9 @@ const extendedApi = emptySplitApi.injectEndpoints({
         url: '/user',
       }),
     }),
-    getUserById: builder.query<User, { id: string }>({
+    getUserById: builder.query<User, { _id: string }>({
       query: (user) => ({
-        url: `/user/${user.id}`,
+        url: `/user/${user._id}`,
       }),
     }),
     updateUser: builder.mutation<UserLoged, UserUpdate>({
@@ -20,9 +20,9 @@ const extendedApi = emptySplitApi.injectEndpoints({
         body: userToUpdate,
       }),
     }),
-    deleteUser: builder.mutation<User, { id: string }>({
+    deleteUser: builder.mutation<User, { _id: string }>({
       query: (userToDelete) => ({
-        url: `/user/${userToDelete.id}`,
+        url: `/user/${userToDelete._id}`,
         method: 'DELETE',
       }),
     }),

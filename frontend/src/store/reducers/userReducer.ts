@@ -6,6 +6,10 @@ const InitalUserState = {
   id: '',
   username: '',
   role: null,
+  email: '',
+  phone: '',
+  address: '',
+  avatar: '',
 };
 
 const userReducer = (state = InitalUserState, action: Action<any>) => {
@@ -17,6 +21,10 @@ const userReducer = (state = InitalUserState, action: Action<any>) => {
         id: action.payload.id,
         username: action.payload.username,
         role: action.payload.role,
+        email: action.payload.email,
+        phone: action.payload.phone,
+        address: action.payload.address,
+        avatar: action.payload.avatar,
       };
     case REMOVE_USER:
       return {
@@ -25,6 +33,10 @@ const userReducer = (state = InitalUserState, action: Action<any>) => {
         id: '',
         username: '',
         role: null,
+        email: '',
+        phone: '',
+        address: '',
+        avatar: '',
       };
     case UPDATE_USER:
       return {
@@ -33,6 +45,10 @@ const userReducer = (state = InitalUserState, action: Action<any>) => {
         id: action.payload.id,
         username: action.payload.username,
         role: action.payload.role,
+        email: action.payload.email,
+        phone: action.payload.phone,
+        address: action.payload.address,
+        avatar: action.payload.avatar,
       };
     default:
       return state;

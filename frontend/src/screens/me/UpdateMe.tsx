@@ -12,7 +12,7 @@ import {
 } from '../../utils/const';
 import { Button, Text, TextInput } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useGetUserByIdQuery, useUpdateUserMutation } from '../../services/LUDU_API/users';
+import { useUpdateUserMutation } from '../../services/LUDU_API/users';
 import { useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
 import AvatarMe from './Avatar';
@@ -23,23 +23,16 @@ import meRoutes from '../../navigation/appRoutes/meRoutes';
 
 const UpdateMeScreen = ({ navigation }: any) => {
   const userFromStore = useSelector((state: MainAppState) => state.user);
-  const {
-    data: user,
-    isFetching,
-    isSuccess,
-  } = useGetUserByIdQuery({
-    id: userFromStore.id,
-  });
   const [
     updateUser,
-    { data, isLoading: isloadingM, isSuccess: isSuccessM, isError: isErrorM, error: error },
+    { data, isLoading: isloading, isSuccess: isSuccess, isError: isError, error: error },
   ] = useUpdateUserMutation();
   const [usernameInput, setUsernameInput] = useState<string>('');
   const [emailInput, setEmailInput] = useState<string>('');
   const [addressInput, setAddressInput] = useState<string>('');
   const [phoneInput, setPhoneInput] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
-  const [avatarPreview, setAvatarPreview] = useState<string>(getUserImg(user.avatar));
+  const [avatarPreview, setAvatarPreview] = useState<string>(getUserImg(userFromStore.avatar));
   const [errorQuery, setError] = useState<string[]>([]);
 
   const pickImage = async () => {
@@ -61,7 +54,7 @@ const UpdateMeScreen = ({ navigation }: any) => {
   };
   const handleValidate = () => {
     const newUser = {
-      id: user._id,
+      id: userFromStore.id,
       ...(usernameInput.length !== 0 && { username: usernameInput }),
       ...(addressInput.length !== 0 && { address: addressInput }),
       ...(phoneInput.length !== 0 && { phone: `0${phoneInput}` }),
@@ -73,10 +66,10 @@ const UpdateMeScreen = ({ navigation }: any) => {
   };
 
   useEffect(() => {
-    if (isSuccessM) {
+    if (isSuccess) {
       navigation.navigate(meRoutes.ME_SCREEN);
     }
-    if (isErrorM) {
+    if (isError) {
       console.log(error);
       if (isApiResponse(error)) {
         setError(error.data.message);
@@ -84,11 +77,11 @@ const UpdateMeScreen = ({ navigation }: any) => {
         console.log(error);
       }
     }
-  }, [isSuccessM, isErrorM]);
+  }, [isSuccess, isError]);
 
   return (
     <>
-      {(isFetching || isloadingM) && (
+      {isloading && (
         <View
           style={{
             flex: 1,
@@ -100,15 +93,15 @@ const UpdateMeScreen = ({ navigation }: any) => {
           <ActivityIndicator animating={true} color={primaryColor} />
         </View>
       )}
-      {!isloadingM && !isFetching && isSuccess && (
+      {!isloading && (
         <ScrollView showsVerticalScrollIndicator={false}>
           <>
             <View style={styles.wrapperView}>
               <TouchableOpacity style={styles.row} onPress={pickImage}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <AvatarMe
-                    avatarUri={user.avatar.length !== 0 ? avatarPreview : ''}
-                    username={user.username}
+                    avatarUri={userFromStore.avatar.length !== 0 ? avatarPreview : ''}
+                    username={userFromStore.username}
                   />
                   <Text variant="bodyMedium" style={{ marginLeft: 10 }}>
                     Change your avatar
@@ -127,7 +120,7 @@ const UpdateMeScreen = ({ navigation }: any) => {
                   Change your Username
                 </Text>
                 <TextInput
-                  placeholder={user.username}
+                  placeholder={userFromStore.username}
                   value={usernameInput}
                   mode={'flat'}
                   activeOutlineColor={primaryColor}
@@ -150,7 +143,7 @@ const UpdateMeScreen = ({ navigation }: any) => {
                   Change your email
                 </Text>
                 <TextInput
-                  placeholder={user.credentials.local.email}
+                  placeholder={userFromStore.email}
                   value={emailInput}
                   mode={'flat'}
                   activeOutlineColor={primaryColor}
@@ -173,7 +166,7 @@ const UpdateMeScreen = ({ navigation }: any) => {
                   Change your Address
                 </Text>
                 <TextInput
-                  placeholder={user.address}
+                  placeholder={userFromStore.address}
                   value={addressInput}
                   mode={'flat'}
                   activeOutlineColor={primaryColor}
@@ -196,7 +189,7 @@ const UpdateMeScreen = ({ navigation }: any) => {
                   Change your Username
                 </Text>
                 <TextInput
-                  placeholder={user.phone.toString()}
+                  placeholder={userFromStore.phone.toString()}
                   value={phoneInput.toString()}
                   mode={'flat'}
                   activeOutlineColor={primaryColor}
