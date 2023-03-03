@@ -22,7 +22,7 @@ interface FilterProps {
 
 const Filter = ({ filters, filterType, title, setDone, setDelivered }: FilterProps) => {
   const dispatch = useDispatch();
-  const [checked, setChecked] = useState<string[]>([]);
+  const [checked, setChecked] = useState([]);
   const filterIsActive = useSelector((state: MainAppState) =>
     filterType === 'status'
       ? state.filterBookingsByStatus.active
@@ -32,7 +32,20 @@ const Filter = ({ filters, filterType, title, setDone, setDelivered }: FilterPro
   const onButtonPress = () => {
     if (filterType === 'status') {
       dispatch(toggleStatusFilter());
-      dispatch(setStatusFilter(checked));
+      dispatch(setStatusFilter(checked[0]));
+      if (checked.includes('Delivered & Returned')) {
+        setDone(true);
+        setDelivered(true);
+      } else if (checked.includes('Delivered')) {
+        setDone(true);
+        setDelivered(false);
+      } else if (checked.includes('In Progress')) {
+        setDone(false);
+        setDelivered(false);
+      } else if (!checked.length) {
+        setDone('');
+        setDelivered('');
+      }
     } else {
       dispatch(toggleCategoryFilter());
       dispatch(setCategoryFilter(checked));
@@ -40,11 +53,13 @@ const Filter = ({ filters, filterType, title, setDone, setDelivered }: FilterPro
   };
   const handleCheckChange = (filter: string, include: boolean) => {
     if (!include) {
-      setChecked([...checked, filter]);
+      checked.push(filter);
+      setChecked([...checked]);
     } else {
       setChecked(checked.filter((e) => e !== filter));
     }
   };
+  console.log(checked);
 
   return (
     <Modal animationType="slide" transparent={true} visible={filterIsActive}>

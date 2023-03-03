@@ -1,8 +1,5 @@
 import { CreateRentPayload, Rent } from '../../models/states/Rent';
 import { emptySplitApi } from './api';
-import { QueryApi } from '@reduxjs/toolkit/dist/query/endpointDefinitions';
-import { useGetCopyByIdQuery } from './copies';
-import { Copy } from '../../models/states/Copy';
 
 const extendedApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -33,15 +30,6 @@ const extendedApi = emptySplitApi.injectEndpoints({
             is_delivered,
           },
         };
-      },
-      transformResponse: (response: any) => {
-        return response.map(async (rent) => {
-          const newRent = { ...rent };
-          const copy = useGetCopyByIdQuery({ _id: newRent.game });
-          console.log(copy);
-          newRent.game = copy;
-          return newRent;
-        });
       },
     }),
     setRentToDone: builder.query<Rent, { _id: string }>({

@@ -22,6 +22,7 @@ export interface CreateRentPayload {
 }
 
 export enum RentStatus {
+  DELIVERED_AND_RETURNED = 'Delivered & Returned',
   DELIVERED = 'Delivered',
   INPROGRESS = 'In Progress',
 }
@@ -31,4 +32,4 @@ export enum RentType {
   STORE = 'STORE',
 }
 
-export type RentStatusToDisplay = ('Delivered' | 'In Progress')[];
+export type RentStatusToDisplay = ('Delivered & Returned' | 'Delivered' | 'In Progress')[];

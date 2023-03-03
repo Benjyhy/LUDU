@@ -12,21 +12,14 @@ const BookingTabsScreen = () => {
   const userLogged = useSelector((state: MainAppState) => state.user);
   const [done, setDone] = useState();
   const [delivered, setDelivered] = useState();
-  const { data: rents = [] } = useGetUserRentsQuery({
-    _id: userLogged.id,
-    done: done,
-    is_delivered: delivered,
-  });
-
-  // const [currentRents, setCurrentRents] = useState<any>([...rents]);
-  // const getRents = () => {
-  //   return currentRents.map((rent) => {
-  //     // const { data: copy } = useGetCopyByIdQuery({ _id: rent.game });
-  //     // rent.game = copy;
-  //     return rent;
-  //   });
-  // };
-  console.log(rents);
+  const { data: rents = [] } = useGetUserRentsQuery(
+    {
+      _id: userLogged.id,
+      done: done,
+      is_delivered: delivered,
+    },
+    { refetchOnMountOrArgChange: true },
+  );
 
   return (
     <Layout>
