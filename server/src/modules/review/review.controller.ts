@@ -15,9 +15,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { GameService } from '../game/game.service';
 import { UserService } from '../user/user.service';
 import { StoreService } from '../store/store.service';
+import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('review')
 @ApiTags('Review')
+@JWTAuth()
 export class ReviewController {
   constructor(
     private readonly reviewService: ReviewService,

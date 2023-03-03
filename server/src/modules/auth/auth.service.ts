@@ -6,6 +6,7 @@ import { UserDto } from '../user/dto/user.dto';
 import { ObjectId } from 'mongoose';
 import { ROLES } from '../../schemas/user.schema';
 import { comparePassword } from '../../helpers/Bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 interface AuthToken {
   id: ObjectId;
@@ -22,7 +23,11 @@ interface UserToken {
 }
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService, private readonly jwtService: JwtService) {}
+  constructor(
+    private userService: UserService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async validateUser(userToken: UserToken): Promise<boolean> {
     const user = await this.userService.findById(userToken.id);
@@ -34,7 +39,7 @@ export class AuthService {
 
   createToken(payload: AuthToken) {
     return this.jwtService.sign(payload, {
-      expiresIn: '1d',
+      expiresIn: this.configService.get<string>('app.jwtExpire'),
     });
   }
 
