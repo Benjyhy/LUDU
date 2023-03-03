@@ -1,11 +1,11 @@
 import { Categories } from './Category';
 import { Location } from './Location';
 import { RentStatus } from './Rent';
-import { User } from './User';
+import { UserState } from './User';
 
 export type MainAppState = {
   currentLocation: Location;
-  user: User;
+  user: UserState;
   filterBookingsByStatus: {
     active: false;
     filters: Array<keyof typeof RentStatus | ''>;

@@ -6,8 +6,8 @@ export declare enum ROLES {
 }
 export type LocalAuth = {
   email: string;
-  password: string;
-  emailVerified: boolean;
+  password?: string;
+  emailVerified?: boolean;
 };
 export type LoginPayload = {
   username: string;
@@ -19,18 +19,37 @@ export type Credentials = {
 };
 
 export interface UserCreate {
+  _id?: string;
   username?: string;
   credentials?: Credentials;
   role?: string;
-  phone?: string | number;
+  phone?: string;
   avatar?: string;
   address?: string;
-  city?: string;
-  postCode?: string | number;
+}
+
+export interface UserUpdate {
+  id: string;
+  username?: string;
+  credentials?: Credentials;
+  phone?: string;
+  avatar?: string;
+  address?: string;
+}
+
+export interface UserState {
+  token: string;
+  id: string;
+  username: string;
+  role: string;
+  email: string;
+  phone: string;
+  address: string;
+  avatar: string;
 }
 
 export interface User extends UserCreate {
-  id: string;
+  _id: string;
   createdAt: string;
   reviews: Review[] | [];
 }

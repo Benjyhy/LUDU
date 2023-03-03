@@ -7,13 +7,15 @@ import { borderRadius, errorColor, lowGray, primaryColor, secondaryColor } from 
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/actions/userAction';
 import { useLoginMutation } from '../services/LUDU_API/auth';
+import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width: ScreenWidth } = Dimensions.get('screen');
 const headerHeight = StatusBar.currentHeight;
 
 export default function Login({ navigation }: any) {
-  const [usernameInput, setUsernameInput] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [usernameInput, setUsernameInput] = useState<string>('User');
+  const [password, setPassword] = useState<string>('password');
   const [error, setError] = useState<boolean>(false);
   const dispatch = useDispatch();
   const [login, { data, isLoading, isSuccess, isError }] = useLoginMutation();
@@ -21,18 +23,30 @@ export default function Login({ navigation }: any) {
   const handleLogin = async () => {
     await login({ username: usernameInput, password });
   };
+  const saveAuthToken = async (token) => {
+    await SecureStore.setItemAsync('authToken', token);
+    await AsyncStorage.setItem('authToken', token);
+  };
+
   useEffect(() => {
-    console.log(isError);
-    if (isSuccess) {
-      const user = {
-        token: data.token,
-        id: data.user._id,
-        username: data.user.username,
-        role: data.user.role,
-      };
-      dispatch(setUser(user));
-      navigation.navigate(appRoutes.TAB_NAVIGATOR);
-    }
+    const getUser = async () => {
+      if (isSuccess) {
+        const user = {
+          token: data.token,
+          id: data.user._id,
+          username: data.user.username,
+          role: data.user.role,
+          email: data.user.credentials.local.email,
+          phone: data.user.phone,
+          address: data.user.address,
+          avatar: data.user.avatar,
+        };
+        dispatch(setUser(user));
+        navigation.navigate(appRoutes.TAB_NAVIGATOR);
+        await saveAuthToken(user.token);
+      }
+    };
+    getUser().catch((e) => console.log(e));
     if (isError) {
       setError(true);
     }
@@ -99,8 +113,8 @@ export default function Login({ navigation }: any) {
                 textColor="white"
                 style={{
                   borderRadius: borderRadius,
-                  paddingHorizontal: 16,
-                  marginBottom: 12,
+                  marginHorizontal: 16,
+                  marginVertical: 12,
                 }}
               >
                 Login

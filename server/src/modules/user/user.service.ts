@@ -5,6 +5,7 @@ import appConfig from '../../config/app.config';
 import { deleteImage, saveImage } from '../../helpers/Utils';
 import { Review } from '../../schemas/review.schema';
 import { UserDocument } from '../../schemas/user.schema';
+import { UserUpdateDto } from './dto/update.dto';
 import { UserDto } from './dto/user.dto';
 
 @Injectable()
@@ -48,15 +49,13 @@ export class UserService {
     return this.userModel.create(UserDto);
   }
 
-  public async update(id: string, updateUserDto: UserDto): Promise<UserDocument> {
-    const existingUser = await this.userModel.findById(id);
-
-    if (!existingUser) throw new NotFoundException(`User #${id} not found`);
+  public async update(id: string, updateUserDto: UserUpdateDto): Promise<UserDocument> {
+    const existingUser = await this.findById(id);
 
     // checking if avatar has been changed
-    if (existingUser.avatar === updateUserDto.avatar) {
-      const updatedUser = await this.userModel.findByIdAndUpdate({ _id: id }, updateUserDto);
-      return updatedUser;
+    if (updateUserDto.avatar === undefined) {
+      await this.userModel.updateOne({ _id: id }, { $set: updateUserDto });
+      return await this.userModel.findById(id);
     }
 
     const isImageDeleted = await deleteImage(
@@ -79,6 +78,7 @@ export class UserService {
       `${appConfig().user.staticFolder}/avatar/`,
     );
 
+    await this.userModel.updateOne({ _id: id }, { $set: updateUserDto });
     return await this.userModel.findById(id);
   }
 

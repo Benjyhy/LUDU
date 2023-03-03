@@ -2,67 +2,55 @@ import React, { useState } from 'react';
 import { View, Modal, Dimensions } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Button, Checkbox } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { primaryColor } from '../utils/const';
-import { setStatusFilter, toggleStatusFilter } from '../store/actions/filterBookingsByStatusAction';
-import {
-  setCategoryFilter,
-  toggleCategoryFilter,
-} from '../store/actions/filterGamesByCategoriesAction';
-import { MainAppState } from '../models/states';
-import { FilterOptions } from '../models/Filter';
+import { FilterTypes } from '../models/Filter';
+import FilterService from '../services/filterService';
 
 interface FilterProps {
-  filters: FilterOptions;
-  filterType: string;
-  title: string;
+  filterType: FilterTypes;
   setDone: any;
   setDelivered: any;
 }
 
-const Filter = ({ filters, filterType, title, setDone, setDelivered }: FilterProps) => {
+const Filter = ({ filterType, setDone, setDelivered }: FilterProps) => {
   const dispatch = useDispatch();
-  const [checked, setChecked] = useState([]);
-  const filterIsActive = useSelector((state: MainAppState) =>
-    filterType === 'status'
-      ? state.filterBookingsByStatus.active
-      : state.filterGamesByCategories.active,
-  );
+
+  const filterService = new FilterService(filterType);
+  const { toggleFilter, setFilter, filteredElements, filters, title } = filterService.reduxAssets;
+
+  const [checked, setChecked] = useState<string[]>(filteredElements);
+  const [query, setQuery] = useState([...checked]);
 
   const onButtonPress = () => {
-    if (filterType === 'status') {
-      dispatch(toggleStatusFilter());
-      dispatch(setStatusFilter(checked[0]));
-      if (checked.includes('Delivered & Returned')) {
-        setDone(true);
-        setDelivered(true);
-      } else if (checked.includes('Delivered')) {
-        setDone(true);
-        setDelivered(false);
-      } else if (checked.includes('In Progress')) {
-        setDone(false);
-        setDelivered(false);
-      } else if (!checked.length) {
-        setDone('');
-        setDelivered('');
-      }
-    } else {
-      dispatch(toggleCategoryFilter());
-      dispatch(setCategoryFilter(checked));
+    dispatch(toggleFilter());
+    dispatch(setFilter(query));
+    if (query.includes('Delivered & Returned')) {
+      setDone(true);
+      setDelivered(true);
+    } else if (query.includes('Delivered')) {
+      setDone(true);
+      setDelivered(false);
+    } else if (query.includes('In Progress')) {
+      setDone(false);
+      setDelivered(false);
+    } else if (!query.length) {
+      setDone('');
+      setDelivered('');
     }
   };
+
   const handleCheckChange = (filter: string, include: boolean) => {
     if (!include) {
-      checked.push(filter);
-      setChecked([...checked]);
+      query.push(filter);
+      setQuery([...query]);
     } else {
-      setChecked(checked.filter((e) => e !== filter));
+      setQuery(query.filter((e) => e !== filter));
     }
   };
-  console.log(checked);
 
   return (
-    <Modal animationType="slide" transparent={true} visible={filterIsActive}>
+    <Modal animationType="slide" transparent={true}>
       <View
         style={{
           justifyContent: 'space-between',
@@ -93,8 +81,8 @@ const Filter = ({ filters, filterType, title, setDone, setDelivered }: FilterPro
                 <Checkbox.Android
                   color={primaryColor}
                   uncheckedColor={primaryColor}
-                  status={checked.includes(filter) ? 'checked' : 'unchecked'}
-                  onPress={() => handleCheckChange(filter, checked.includes(filter))}
+                  status={query.includes(filter) ? 'checked' : 'unchecked'}
+                  onPress={() => handleCheckChange(filter, query.includes(filter))}
                   key={index}
                 />
                 <Text>{filter}</Text>
