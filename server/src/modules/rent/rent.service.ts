@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { RentDto } from './dto/rent.dto';
 import { Model } from 'mongoose';
-import { RENT, RentDocument } from '../../schemas/rent.schema';
+import { RentDocument } from '../../schemas/rent.schema';
 
 @Injectable()
 export class RentService {
@@ -11,18 +11,25 @@ export class RentService {
     private rentModel: Model<RentDocument>,
   ) {}
 
-  public async findAll(done?: string, is_delivered?: string): Promise<RentDocument[]> {
+  public async findAll(done?: string, delivered?: string): Promise<RentDocument[]> {
+    const rents = await this.rentModel.find();
     //  If not params return all rents
-    if (!done && !is_delivered) return await this.rentModel.find();
+    if (!done && !delivered) return rents;
     // filter if rent is still
     if (done === 'true') {
       return await this.rentModel.find({
-        is_delivered: JSON.parse(is_delivered),
+        // Rent done
         endDate: { $ne: null },
       });
-    } else {
+    } else if (delivered === 'false') {
+      // Rent booked but not delivered
       return await this.rentModel.find({
-        is_delivered: JSON.parse(is_delivered),
+        deliveredDate: { $eq: null },
+      });
+    } else if (delivered === 'true') {
+      // Rent delivered but not done
+      return await this.rentModel.find({
+        deliveredDate: { $ne: null },
         endDate: { $eq: null },
       });
     }
@@ -30,7 +37,7 @@ export class RentService {
 
   public async findById(id: string): Promise<RentDocument> {
     return await this.rentModel.findById(id).then((rent) => {
-      if (!rent) throw new NotFoundException(`Game #${id} not found`);
+      if (!rent) throw new NotFoundException(`Rent #${id} not found`);
       return rent;
     });
   }
@@ -38,33 +45,37 @@ export class RentService {
   public async findByUserId(
     userId: string,
     done: string,
-    is_delivered: string,
+    delivered: string,
   ): Promise<RentDocument[]> {
     const rents = await this.rentModel.find({
       user: userId,
     });
     //  If not params return all rents
-    if (!done && !is_delivered) return rents;
+    if (!done && !delivered) return rents;
     // filter if rent is still
     if (done === 'true') {
       return await this.rentModel.find({
+        // Rent done
         user: userId,
-        is_delivered: JSON.parse(is_delivered) ? { $ne: null } : { $eq: null },
         endDate: { $ne: null },
       });
-    } else {
+    } else if (delivered === 'false') {
+      // Rent booked but not delivered
       return await this.rentModel.find({
         user: userId,
-        is_delivered: JSON.parse(is_delivered) ? { $ne: null } : { $eq: null },
+        deliveredDate: { $eq: null },
+      });
+    } else if (delivered === 'true') {
+      // Rent delivered but not done
+      return await this.rentModel.find({
+        user: userId,
+        deliveredDate: { $ne: null },
         endDate: { $eq: null },
       });
     }
   }
 
   public async create(rentDto: RentDto): Promise<RentDocument> {
-    const dateEndDateStore = new Date(rentDto.startDate);
-    dateEndDateStore.setHours(dateEndDateStore.getHours() + 2);
-    if (rentDto.type === RENT.STORE) rentDto.endDate = dateEndDateStore.toISOString();
     return await this.rentModel.create(rentDto);
   }
 

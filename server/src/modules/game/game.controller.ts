@@ -21,9 +21,11 @@ import { GameDocument } from '../../schemas/game.schema';
 import { ValidateMongoId } from '../../middlewares/validateMongoId';
 import { deleteImage, saveImage } from '../../helpers/Utils';
 import appConfig from '../../config/app.config';
+import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('game')
 @ApiTags('Game')
+@JWTAuth()
 export class GameController {
   constructor(
     private readonly gameService: GameService,

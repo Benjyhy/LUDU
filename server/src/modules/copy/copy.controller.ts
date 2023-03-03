@@ -14,9 +14,11 @@ import { CopyDto } from './dto/copy.dto';
 import { StoreService } from '../store/store.service';
 import { GameService } from '../game/game.service';
 import { ApiTags } from '@nestjs/swagger';
+import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('copy')
 @ApiTags('Copy')
+@JWTAuth()
 export class CopyController {
   constructor(
     private readonly copyService: CopyService,

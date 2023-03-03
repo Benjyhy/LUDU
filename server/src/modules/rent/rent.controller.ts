@@ -6,9 +6,12 @@ import { NotFoundException, HttpException, HttpStatus, Query } from '@nestjs/com
 import { CopyService } from '../copy/copy.service';
 import { UserService } from '../user/user.service';
 import { Rent } from '../../schemas/rent.schema';
+import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('rent')
 @ApiTags('Rent')
+@JWTAuth()
+// @JWTAuth()
 export class RentController {
   constructor(
     private readonly rentService: RentService,
@@ -71,12 +74,14 @@ export class RentController {
     summary: 'Filter all Rent of a specific user by "done" and "is_delivered" params',
   })
   @ApiOkResponse({ description: 'Success', type: Rent })
-  findAllByUserWithParams(
+  async findAllByUserWithParams(
     @Param('id') userId: string,
     @Query('done') done?: string,
-    @Query('is_delivered') is_delivered?: string,
+    @Query('delivered') delivered?: string,
   ) {
-    return this.rentService.findByUserId(userId, done, is_delivered);
+    const userExist = await this.UserService.findById(userId);
+    if (!userExist) throw new NotFoundException(`User #${userId} not found`);
+    return this.rentService.findByUserId(userId, done, delivered);
   }
 
   @Get(':id')
@@ -104,8 +109,6 @@ export class RentController {
   @ApiOkResponse({ description: 'Success', type: Rent })
   async updateEndDate(@Param('id') id: string) {
     const rent = await this.rentService.findById(id);
-    if (!rent) throw new NotFoundException(`Rent #${id} not found`);
-
     // Set the copy available
     this.CopyService.toggleAvailable(rent.game.toString());
     return this.rentService.updateEndDate(id);

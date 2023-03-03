@@ -4,6 +4,7 @@ import { IsEmail } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { hashPassword } from '../helpers/Bcrypt';
 import { Review } from './review.schema';
+import { Exclude } from 'class-transformer';
 
 export type UserDocument = User & Document;
 
@@ -35,6 +36,7 @@ export class LocalAuth {
     minlength: 6,
     select: false,
   })
+  @Exclude()
   password: string;
 
   @Prop()

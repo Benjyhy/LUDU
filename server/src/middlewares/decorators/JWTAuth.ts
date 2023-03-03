@@ -4,8 +4,9 @@ import { JwtAuthGuard } from '../jwt-auth.guard';
 import { RolesGuard } from '../role.guard';
 
 export function JWTAuth() {
+  console.log('in');
   return applyDecorators(
-    UseGuards(JwtAuthGuard, RolesGuard),
+    UseGuards(JwtAuthGuard),
     ApiBearerAuth('JWT'),
     ApiUnauthorizedResponse({
       description: 'Unauthorized',

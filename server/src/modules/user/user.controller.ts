@@ -15,9 +15,11 @@ import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import { ROLES, UserDocument } from '../../schemas/user.schema';
 import { Roles } from '../../middlewares/decorators/RoleAuth';
+import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('user')
 @ApiTags('User')
+@JWTAuth()
 export class UserController {
   constructor(private userService: UserService) {}
 
