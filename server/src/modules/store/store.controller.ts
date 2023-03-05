@@ -15,15 +15,16 @@ import { StoreDocument } from '../../schemas/store.schema';
 import { StoreDto } from './dto/store.dto';
 import { Roles } from '../../middlewares/decorators/RoleAuth';
 import { ROLES } from '../../schemas/user.schema';
+import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('store')
 @ApiTags('Store')
-// @JWTAuth()
+@JWTAuth()
 export class StoreController {
   constructor(private storeService: StoreService) {}
 
   @Get('')
-  @Roles(ROLES.ADMIN)
+  // @Roles(ROLES.ADMIN)
   @ApiOperation({ summary: 'Fetch all stores' })
   @ApiOkResponse({ description: 'Success', type: StoreDto, isArray: true })
   findAll(): Promise<StoreDocument[]> {
@@ -47,11 +48,6 @@ export class StoreController {
     } catch (e) {
       console.log(e);
     }
-
-    /*.then((store) => {
-      if (!store) 
-      return store;
-    });*/
   }
 
   @Post('')

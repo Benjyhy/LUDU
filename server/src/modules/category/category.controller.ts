@@ -16,9 +16,11 @@ import { CategoryDto } from './dto/category.dto';
 import { GameService } from '../game/game.service';
 import { ApiTags } from '@nestjs/swagger';
 import { GameDocument } from '../../schemas/game.schema';
+import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('category')
 @ApiTags('Category')
+@JWTAuth()
 export class CategoryController {
   constructor(
     private readonly categoryService: CategoryService,

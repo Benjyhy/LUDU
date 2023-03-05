@@ -2,12 +2,12 @@ import { registerAs } from '@nestjs/config';
 
 export default registerAs('app', () => ({
   port: process.env.PORT || 3000,
+  jwtSecret: process.env.JWT_SECRET,
+  jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
+  jwtExpire: process.env.JWT_EXPIRE,
   database: {
     dev: process.env.DATABASE_URL,
     prod: process.env.DATABASE_URL_PRODUCTION,
-  },
-  auth: {
-    jwtSecret: process.env.JWT_SECRET,
   },
   user: {
     staticFolder: process.env.STATIC_USER_FOLDER,

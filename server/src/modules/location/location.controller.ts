@@ -10,12 +10,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Location, LocationDocument } from '../../schemas/location.schema';
+import { LocationDocument } from '../../schemas/location.schema';
 import { LocationService } from './location.service';
 import { LocationDto } from './dto/location.dto';
+import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('location')
 @ApiTags('Location')
+@JWTAuth()
 export class LocationController {
   constructor(private locationService: LocationService) {}
 
@@ -53,11 +55,6 @@ export class LocationController {
     } catch (e) {
       console.log(e);
     }
-
-    /*.then((location) => {
-      if (!location) throw new NotFoundException(`Location #${id} not found`);
-      return location;
-    });*/
   }
 
   @Post('')
