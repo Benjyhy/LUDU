@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../store/actions/userAction';
 import { useLoginMutation } from '../services/LUDU_API/auth';
 import * as SecureStore from 'expo-secure-store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width: ScreenWidth } = Dimensions.get('screen');
 const headerHeight = StatusBar.currentHeight;
@@ -25,7 +24,6 @@ export default function Login({ navigation }: any) {
   };
   const saveAuthToken = async (token) => {
     await SecureStore.setItemAsync('authToken', token);
-    await AsyncStorage.setItem('authToken', token);
   };
 
   useEffect(() => {

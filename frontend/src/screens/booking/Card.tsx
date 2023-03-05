@@ -34,18 +34,42 @@ const CardItem = ({ item }) => {
   const { data: copy, isSuccess } = useGetCopyByIdQuery({ _id: newItem.game });
   newItem.game = copy;
 
+  const rightBadge = () => {
+    if (newItem.endDate && newItem.deliveredDate) {
+      return 'Delivered & Returned';
+    } else if (newItem.endDate && !newItem.deliveredDate) {
+      return 'Delivered';
+    } else if (!newItem.endDate) {
+      return 'In Progress';
+    }
+  };
+
   return (
     <Card style={styles.cardStyle} mode={!newItem.deliveredDate ? 'elevated' : 'contained'}>
       {isSuccess && (
         <>
-          <Card.Title
-            title={newItem.game.game.name}
-            titleStyle={styles.title}
-            subtitle={newItem.game.game.version}
-            subtitleStyle={styles.subtitle}
-            left={() => LeftContent(newItem.game.game.thumbnail)}
-            right={() => rightContent(!newItem.endDate ? 'In Progress' : 'Delivered')}
-          />
+          <ControlledTooltip
+            containerStyle={{ width: 220, height: 160 }}
+            backgroundColor={'white'}
+            popover={
+              <View>
+                <Text style={styles.title}>{newItem.game.game.name}</Text>
+                <Text style={{ fontSize: 15, marginLeft: 20, marginTop: 20 }}>
+                  {newItem.game.game.version}
+                </Text>
+              </View>
+            }
+          >
+            <Card.Title
+              title={newItem.game.game.name}
+              titleStyle={styles.title}
+              subtitle={newItem.game.game.version}
+              subtitleStyle={styles.subtitle}
+              left={() => LeftContent(newItem.game.game.thumbnail)}
+              right={() => rightContent(rightBadge())}
+            />
+          </ControlledTooltip>
+
           <Card.Content style={styles.content}>
             <View style={{ flexDirection: 'row' }}>
               <View>
@@ -122,6 +146,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 15,
     marginLeft: 20,
+    marginTop: 10,
   },
   content: {
     marginTop: 20,

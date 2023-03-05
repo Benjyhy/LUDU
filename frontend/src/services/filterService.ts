@@ -84,7 +84,6 @@ export default class FilterService {
     const toggleFilter = this.getToggleFn();
     const setFilter = this.getSetFilterFn();
     const filteredElements = this.getFilteredElements();
-    console.log(setFilter, filteredElements);
     const filters = this.getFilters();
     const title = this.getTitle();
     return { toggleFilter, setFilter, filteredElements, filters, title };
