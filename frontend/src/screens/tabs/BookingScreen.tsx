@@ -11,27 +11,23 @@ import { RentStatus } from '../../models/states/Rent';
 
 const BookingTabsScreen = () => {
   const userLogged = useSelector((state: MainAppState) => state.user);
-  const filterStatus = useSelector((state:MainAppState) => state.filterBookingsByStatus);
+  const filterStatus = useSelector((state: MainAppState) => state.filterBookingsByStatus);
   const getParams = () => {
-    let params = {_id: userLogged.id}
-    if(!filterStatus.filters.length){
-      return params
+    const params = { _id: userLogged.id };
+    if (!filterStatus.filters.length) {
+      return params;
     }
     return {
       ...params,
       done: filterStatus.filters.includes(RentStatus.DELIVERED_AND_RETURNED),
-      is_delivered: filterStatus.filters.includes(RentStatus.DELIVERED)
-    }
-  }
-  console.log(filterStatus.filters)
+      delivered: filterStatus.filters.includes(RentStatus.DELIVERED),
+    };
+  };
   const {
     data: rents,
     isError,
     error,
-  } = useGetUserRentsQuery(
-    getParams(),
-    { refetchOnMountOrArgChange: true },
-  );
+  } = useGetUserRentsQuery(getParams(), { refetchOnMountOrArgChange: true });
 
   if (isError) {
     console.log(error);

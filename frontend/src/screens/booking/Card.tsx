@@ -79,7 +79,7 @@ const CardItem = ({ item }) => {
                   text={`${newItem.game.game.likes} Likes`}
                 />
               </View>
-              <View style={{ marginHorizontal: 1 }}>
+              <View>
                 <InlineTextIcon
                   iconColor={primaryColor}
                   icon={'play'}
