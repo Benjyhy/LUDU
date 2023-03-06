@@ -8,7 +8,7 @@ export type MainAppState = {
   user: UserState;
   filterBookingsByStatus: {
     active: false;
-    filters: Array<keyof typeof RentStatus | ''>;
+    filters;
   };
   filterGamesByCategories: {
     active: false;

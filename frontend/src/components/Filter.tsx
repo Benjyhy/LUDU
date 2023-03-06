@@ -9,43 +9,26 @@ import FilterService from '../services/filterService';
 
 interface FilterProps {
   filterType: FilterTypes;
-  setDone: any;
-  setDelivered: any;
 }
 
-const Filter = ({ filterType, setDone, setDelivered }: FilterProps) => {
+const Filter = ({ filterType }: FilterProps) => {
   const dispatch = useDispatch();
 
   const filterService = new FilterService(filterType);
   const { toggleFilter, setFilter, filteredElements, filters, title } = filterService.reduxAssets;
 
   const [checked, setChecked] = useState<string[]>(filteredElements);
-  const [query, setQuery] = useState([...checked]);
 
   const onButtonPress = () => {
     dispatch(toggleFilter());
-    dispatch(setFilter(query));
-    if (query.includes('Delivered & Returned')) {
-      setDone(true);
-      setDelivered(true);
-    } else if (query.includes('Delivered')) {
-      setDone(true);
-      setDelivered(false);
-    } else if (query.includes('In Progress')) {
-      setDone(false);
-      setDelivered(false);
-    } else if (!query.length) {
-      setDone('');
-      setDelivered('');
-    }
+    dispatch(setFilter(checked));
   };
 
   const handleCheckChange = (filter: string, include: boolean) => {
     if (!include) {
-      query.push(filter);
-      setQuery([...query]);
+      setChecked([...checked, filter]);
     } else {
-      setQuery(query.filter((e) => e !== filter));
+      setChecked(checked.filter((e) => e !== filter));
     }
   };
 
@@ -81,8 +64,8 @@ const Filter = ({ filterType, setDone, setDelivered }: FilterProps) => {
                 <Checkbox.Android
                   color={primaryColor}
                   uncheckedColor={primaryColor}
-                  status={query.includes(filter) ? 'checked' : 'unchecked'}
-                  onPress={() => handleCheckChange(filter, query.includes(filter))}
+                  status={checked.includes(filter) ? 'checked' : 'unchecked'}
+                  onPress={() => handleCheckChange(filter, checked.includes(filter))}
                   key={index}
                 />
                 <Text>{filter}</Text>

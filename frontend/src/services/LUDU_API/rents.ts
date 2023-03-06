@@ -15,12 +15,12 @@ const extendedApi = emptySplitApi.injectEndpoints({
         url: '/rent',
       }),
     }),
-    getRentById: builder.query<Rent, { _id: string }>({
-      query: (rent) => ({
-        url: `/rent/user/${rent._id}`,
-      }),
-    }),
-    getUserRents: builder.query<any, { _id: string; done: any; is_delivered: any }>({
+    // getRentById: builder.query<Rent, { _id: string }>({
+    //   query: (rent) => ({
+    //     url: `/rent/user/${rent._id}`,
+    //   }),
+    // }),
+    getUserRents: builder.query<any, { _id: string; done?: any; is_delivered?: any }>({
       query: (args) => {
         const { _id, done, is_delivered } = args;
         return {
@@ -56,7 +56,7 @@ export const {
   useCreateRentMutation,
   useDeleteRentMutation,
   useGetAllRentsQuery,
-  useGetRentByIdQuery,
+  // useGetRentByIdQuery,
   useGetUserRentsQuery,
   useSetRentToDoneQuery,
   useSetRentToDeliveredQuery,

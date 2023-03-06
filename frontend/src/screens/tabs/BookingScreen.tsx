@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FlatList, View } from 'react-native';
 import Filter from '../../components/Filter';
 import Layout from '../Layout';
@@ -7,21 +7,29 @@ import { useGetUserRentsQuery } from '../../services/LUDU_API/rents';
 import { FilterTypes } from '../../models/Filter';
 import { useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
+import { RentStatus } from '../../models/states/Rent';
 
 const BookingTabsScreen = () => {
   const userLogged = useSelector((state: MainAppState) => state.user);
-  const [done, setDone] = useState();
-  const [delivered, setDelivered] = useState();
+  const filterStatus = useSelector((state:MainAppState) => state.filterBookingsByStatus);
+  const getParams = () => {
+    let params = {_id: userLogged.id}
+    if(!filterStatus.filters.length){
+      return params
+    }
+    return {
+      ...params,
+      done: filterStatus.filters.includes(RentStatus.DELIVERED_AND_RETURNED),
+      is_delivered: filterStatus.filters.includes(RentStatus.DELIVERED)
+    }
+  }
+  console.log(filterStatus.filters)
   const {
-    data: rents = [],
+    data: rents,
     isError,
     error,
   } = useGetUserRentsQuery(
-    {
-      _id: userLogged.id,
-      done: done,
-      is_delivered: delivered,
-    },
+    getParams(),
     { refetchOnMountOrArgChange: true },
   );
 
@@ -29,7 +37,6 @@ const BookingTabsScreen = () => {
     console.log(error);
   }
 
-  const isActiveFilter = useSelector((state: MainAppState) => state.filterBookingsByStatus.active);
   return (
     <Layout>
       <View style={{ backgroundColor: '#fff', paddingBottom: 10 }}>
@@ -39,8 +46,8 @@ const BookingTabsScreen = () => {
           renderItem={({ item }) => <CardItem item={item} />}
           keyExtractor={(item) => item._id}
         />
-        {isActiveFilter ? (
-          <Filter filterType={FilterTypes.Status} setDone={setDone} setDelivered={setDelivered} />
+        {filterStatus.active ? (
+          <Filter filterType={FilterTypes.Status} />
         ) : (
           ''
         )}
