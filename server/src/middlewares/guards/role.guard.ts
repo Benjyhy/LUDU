@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ROLES } from '../schemas/user.schema';
-import { ROLES_KEY } from './decorators/RoleAuth';
+import { ROLES } from '../../schemas/user.schema';
+import { ROLES_KEY } from '../decorators/RoleAuth';
 
 /**
  * Check if the given roles match the role extract from JWT token
