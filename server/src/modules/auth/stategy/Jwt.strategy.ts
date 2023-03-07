@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongoose';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { AuthService } from '../auth.service';
@@ -5,8 +6,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { ROLES } from '../../../schemas/user.schema';
 
-interface IUserPayload {
-  id: string;
+export interface IActiveUser {
+  id: ObjectId;
   username: string;
   role: ROLES;
   iat: number;
@@ -27,7 +28,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   // Return user Data from token
-  async validate(payload: any): Promise<IUserPayload> {
+  async validate(payload: any): Promise<IActiveUser> {
     if (!payload) {
       throw new NotFoundException(`Bearer Token no found or corrupted`);
     }

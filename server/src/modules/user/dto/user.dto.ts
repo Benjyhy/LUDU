@@ -5,6 +5,7 @@ import { IsString, IsNotEmpty, IsPhoneNumber, IsOptional } from 'class-validator
 import { OauthDto } from './oauth.dto';
 import { LocalDto } from './local.dto';
 import { ROLES } from '../../../schemas/user.schema';
+import { ObjectId } from 'mongoose';
 
 interface ICredentials {
   local: LocalDto;
@@ -37,7 +38,7 @@ class CredentialsProperty {
 
 export class UserDto {
   @Transform(({ value }) => value.toString())
-  _id: string;
+  _id: ObjectId | string;
 
   @ApiProperty({
     example: 'USER | SELLER | ADMIN',

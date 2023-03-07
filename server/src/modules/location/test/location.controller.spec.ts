@@ -51,7 +51,6 @@ describe('LocationController', () => {
       });
 
       test('then it should return a location', () => {
-        console.log(location);
         expect(location).toEqual([locationStub()]);
       });
     });

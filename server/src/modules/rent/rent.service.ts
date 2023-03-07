@@ -88,7 +88,6 @@ export class RentService {
       { _id: id },
       { $set: { deliveredDate: new Date(Date.now()).toISOString() } },
     );
-    console.log(rent);
     return await this.rentModel.findById(id);
   }
 

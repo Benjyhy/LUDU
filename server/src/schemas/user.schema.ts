@@ -2,7 +2,7 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectId, Types } from 'mongoose';
 import { IsEmail } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { hashPassword } from '../helpers/Bcrypt';
+import { hash } from '../helpers/Bcrypt';
 import { Review } from './review.schema';
 import { Exclude } from 'class-transformer';
 
@@ -44,7 +44,7 @@ export class LocalAuth {
 }
 
 export class Credentials {
-  @Prop({ type: LocalAuth, select: false })
+  @Prop({ type: LocalAuth })
   local: LocalAuth;
 
   @Prop({ type: Oauth })
@@ -81,6 +81,9 @@ export class User {
   @Prop({ type: Types.ObjectId, ref: 'Store' })
   store: string;
 
+  @Prop({ default: null, select: false })
+  refreshToken: string;
+
   @Prop({ type: [Types.ObjectId], ref: 'Review', default: [] })
   reviews: Review[];
 }
@@ -100,7 +103,7 @@ UserSchema.pre<UserDocument>('save', function (next) {
     //     HttpStatus.BAD_REQUEST,
     //   );
 
-    this.credentials.local.password = hashPassword(this.credentials.local.password);
+    this.credentials.local.password = hash(this.credentials.local.password);
   }
   next();
 });
