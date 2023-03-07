@@ -10,7 +10,6 @@ import { primaryColor } from '../../utils/const';
 import Layout from '../Layout';
 import { toggleCategoryFilter } from '../../store/actions/filterGamesByCategoriesAction';
 import Filter from '../../components/Filter';
-import { Categories } from '../../models/states/Category';
 import { FilterTypes } from '../../models/Filter';
 
 const HomeFeedScreen = ({ navigation }: any) => {
