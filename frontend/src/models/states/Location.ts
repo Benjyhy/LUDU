@@ -3,6 +3,7 @@ import { Store } from './Store';
 export interface Location {
   longitude: number;
   latitude: number;
+  zipCode?: number;
 }
 
 export interface LocationAPI {

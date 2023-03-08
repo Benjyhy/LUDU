@@ -5,6 +5,7 @@ import { Action } from '../../models/Action';
 const initialState: Location = {
   latitude: 0,
   longitude: 0,
+  zipCode: null,
 };
 
 const currentLocationReducer = (state = initialState, action: Action<any>) => {
@@ -14,6 +15,7 @@ const currentLocationReducer = (state = initialState, action: Action<any>) => {
         ...state,
         latitude: action.payload.latitude,
         longitude: action.payload.longitude,
+        zipCode: action.payload.zipCode,
       };
     default:
       return state;
