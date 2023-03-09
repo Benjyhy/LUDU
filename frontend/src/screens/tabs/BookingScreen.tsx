@@ -12,6 +12,8 @@ import { RentStatus } from '../../models/states/Rent';
 const BookingTabsScreen = () => {
   const userLogged = useSelector((state: MainAppState) => state.user);
   const filterStatus = useSelector((state: MainAppState) => state.filterBookingsByStatus);
+  const [done, setDone] = React.useState();
+  const [delivered, setDelivered] = React.useState();
   const getParams = () => {
     const params = { _id: userLogged.id };
     if (!filterStatus.filters.length) {

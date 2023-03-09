@@ -32,4 +32,4 @@ export enum RentType {
   STORE = 'STORE',
 }
 
-export type RentStatusToDisplay = ('OVER' | 'In Progress' | 'Incoming')[];
+export type RentStatusToDisplay = ('Over' | 'In Progress' | 'Incoming')[];
