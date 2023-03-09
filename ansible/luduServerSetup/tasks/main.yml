@@ -118,6 +118,16 @@
         verbose_output: yes
       register: image_info
 
+    - name: Prune everything (including non-dangling images)
+      community.docker.docker_prune:
+        containers: yes
+        images: yes
+        images_filters:
+          dangling: false
+        networks: yes
+        volumes: yes
+        builder_cache: yes
+
     - name: Remove all images
       docker_image:
         name: "{{ item }}"
