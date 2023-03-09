@@ -107,11 +107,6 @@
         state: stopped
       loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
 
-    - name: Remove Stoped docker containers
-      shell: |
-        docker rm $(docker ps -a -q);
-      when: docker_info.containers != 0
-
     - name: Get details of all images
       docker_host_info:
         images: yes
