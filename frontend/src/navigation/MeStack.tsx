@@ -5,6 +5,7 @@ import UpdateMeScreen from '../screens/me/UpdateMe';
 import { TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import meRoutes from './appRoutes/meRoutes';
+
 const Stack = createNativeStackNavigator();
 
 const MeStack = () => {

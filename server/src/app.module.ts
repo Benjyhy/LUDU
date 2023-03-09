@@ -25,7 +25,7 @@ import { ReviewModule } from './modules/review/review.module';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('app.database.dev'),
+        uri: configService.get<string>('app.database.prod'),
         useNewUrlParser: true,
       }),
       inject: [ConfigService],

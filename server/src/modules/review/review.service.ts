@@ -20,7 +20,7 @@ export class ReviewService {
   }
 
   public async findOne(id: string): Promise<ReviewDocument> {
-    return await this.reviewModel.findById(id);
+    return await this.reviewModel.findById(id).populate('user', 'avatar username');
   }
 
   public async findIfAlreadyExist(reviewDto: ReviewDto): Promise<ReviewDocument | any> {

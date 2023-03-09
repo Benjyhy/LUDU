@@ -25,7 +25,7 @@ import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('game')
 @ApiTags('Game')
-@JWTAuth()
+// @JWTAuth()
 export class GameController {
   constructor(
     private readonly gameService: GameService,
@@ -35,6 +35,11 @@ export class GameController {
   @Get('')
   async findAll(): Promise<GameDocument[]> {
     return await this.gameService.findAll();
+  }
+
+  @Get('/random')
+  async findRandom(): Promise<GameDocument[]> {
+    return await this.gameService.random();
   }
 
   @Get('/:id')
