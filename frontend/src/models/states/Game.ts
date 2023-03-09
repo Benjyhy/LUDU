@@ -1,5 +1,4 @@
 import { Category } from './Category';
-import { Review } from './Review';
 
 export declare class Game {
   _id: string;
@@ -12,7 +11,7 @@ export declare class Game {
   thumbnail: string;
   tags: Tags;
   categories: Category[];
-  reviews: Review[];
+  reviews: string[];
 }
 
 export interface Tags {

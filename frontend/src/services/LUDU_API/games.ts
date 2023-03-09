@@ -15,6 +15,12 @@ const extendedApi = emptySplitApi.injectEndpoints({
         url: '/game',
       }),
     }),
+    randomGame: builder.query<Game[], void>({
+      query: () => ({
+        url: `/game/random`,
+        method: 'GET',
+      }),
+    }),
     getGameById: builder.query<Game, { _id: string }>({
       query: (game) => ({
         url: `/game/${game._id}`,
@@ -42,5 +48,6 @@ export const {
   useUpdateGameMutation,
   useDeleteGameMutation,
   useGetAllGamesQuery,
+  useRandomGameQuery,
   useGetGameByIdQuery,
 } = extendedApi;
