@@ -36,11 +36,11 @@ const CardItem = ({ item }) => {
 
   const rightBadge = () => {
     if (newItem.endDate && newItem.deliveredDate) {
-      return 'Delivered & Returned';
+      return 'Over';
     } else if (newItem.endDate && !newItem.deliveredDate) {
-      return 'Delivered';
-    } else if (!newItem.endDate) {
       return 'In Progress';
+    } else if (!newItem.endDate) {
+      return 'Incoming';
     }
   };
 

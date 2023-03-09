@@ -19,8 +19,10 @@ const BookingTabsScreen = () => {
     }
     return {
       ...params,
-      done: filterStatus.filters.includes(RentStatus.DELIVERED_AND_RETURNED),
-      delivered: filterStatus.filters.includes(RentStatus.DELIVERED),
+      done: filterStatus.filters.includes(RentStatus.OVER),
+      delivered:
+        filterStatus.filters.includes(RentStatus.OVER) ||
+        filterStatus.filters.includes(RentStatus.INPROGRESS),
     };
   };
   const {

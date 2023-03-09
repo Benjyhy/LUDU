@@ -22,9 +22,9 @@ export interface CreateRentPayload {
 }
 
 export enum RentStatus {
-  DELIVERED_AND_RETURNED = 'Delivered & Returned',
-  DELIVERED = 'Delivered',
+  OVER = 'Over',
   INPROGRESS = 'In Progress',
+  INCOMING = 'Incoming',
 }
 
 export enum RentType {
@@ -32,4 +32,4 @@ export enum RentType {
   STORE = 'STORE',
 }
 
-export type RentStatusToDisplay = ('Delivered & Returned' | 'Delivered' | 'In Progress')[];
+export type RentStatusToDisplay = ('OVER' | 'In Progress' | 'Incoming')[];
