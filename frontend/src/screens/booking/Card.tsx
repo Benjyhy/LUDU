@@ -1,32 +1,131 @@
 import React from 'react';
 import moment from 'moment';
-import { StyleSheet } from 'react-native';
-import { Text, Avatar, Card, Title } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Avatar, Card, Text } from 'react-native-paper';
+import { Tooltip } from 'react-native-elements';
 import { lowGray, primaryColor } from '../../utils/const';
+import { useGetCopyByIdQuery } from '../../services/LUDU_API/copies';
+import { InlineTextIcon } from '../../components/InlineTextIcon';
+
 const LeftContent = (image) => <Avatar.Image size={60} source={image} />;
 
 const rightContent = (status) => (
-  <Text style={status === 'inprogress' ? styles.inprogress : styles.finished}>{status}</Text>
+  <Text style={status === 'In Progress' ? styles.inprogress : styles.finished}>{status}</Text>
 );
 
-const CardItem = ({ item }) => {
+const ControlledTooltip = (props: any) => {
+  const [open, setOpen] = React.useState(false);
   return (
-    <Card style={styles.cardStyle} mode={item.status === 'inprogress' ? 'elevated' : 'contained'}>
-      <Card.Title
-        title={item.gameName}
-        titleStyle={styles.title}
-        subtitle={item.storeName}
-        subtitleStyle={styles.subtitle}
-        left={() => LeftContent(item.gameImgUrl)}
-        right={() => rightContent(item.status)}
-      />
-      <Card.Content style={styles.content}>
-        <Title>
-          <Text style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>Delivery:</Text>{' '}
-          {item.bookingType}
-        </Title>
-        <Text style={styles.text}>Booked at {moment(item.startDate).format('LLLL')}</Text>
-      </Card.Content>
+    <Tooltip
+      visible={open}
+      onOpen={() => {
+        setOpen(true);
+      }}
+      onClose={() => {
+        setOpen(false);
+      }}
+      {...props}
+    />
+  );
+};
+
+const CardItem = ({ item }) => {
+  const newItem = { ...item };
+  const { data: copy, isSuccess } = useGetCopyByIdQuery({ _id: newItem.game });
+  newItem.game = copy;
+
+  const rightBadge = () => {
+    if (newItem.endDate && newItem.deliveredDate) {
+      return 'Over';
+    } else if (!newItem.endDate && newItem.deliveredDate) {
+      return 'In Progress';
+    } else if (!newItem.deliveredDate) {
+      return 'Incoming';
+    }
+  };
+
+  return (
+    <Card style={styles.cardStyle} mode={!newItem.deliveredDate ? 'elevated' : 'contained'}>
+      {isSuccess && (
+        <>
+          <ControlledTooltip
+            containerStyle={{ width: 220, height: 160 }}
+            backgroundColor={'white'}
+            popover={
+              <View>
+                <Text style={styles.title}>{newItem.game.game.name}</Text>
+                <Text style={{ fontSize: 15, marginLeft: 20, marginTop: 20 }}>
+                  {newItem.game.game.version}
+                </Text>
+              </View>
+            }
+          >
+            <Card.Title
+              title={newItem.game.game.name}
+              titleStyle={styles.title}
+              subtitle={newItem.game.game.version}
+              subtitleStyle={styles.subtitle}
+              left={() => LeftContent(newItem.game.game.thumbnail)}
+              right={() => rightContent(rightBadge())}
+            />
+          </ControlledTooltip>
+
+          <Card.Content style={styles.content}>
+            <View style={{ flexDirection: 'row' }}>
+              <View>
+                <InlineTextIcon
+                  iconColor={primaryColor}
+                  icon={'star'}
+                  text={`${newItem.game.game.likes} Likes`}
+                />
+              </View>
+              <View>
+                <InlineTextIcon
+                  iconColor={primaryColor}
+                  icon={'play'}
+                  text={`${newItem.game.game.tags.playTime || 0} plays`}
+                />
+              </View>
+              <View>
+                <InlineTextIcon
+                  iconColor={primaryColor}
+                  icon={'chatbubble'}
+                  text={`${newItem.game.game.meanReviews || 0} Average Reviews`}
+                />
+              </View>
+            </View>
+            <View style={{ marginTop: 20 }}>
+              <Text style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>
+                Delivery: <Text style={{ textTransform: 'capitalize' }}>{newItem.type}</Text>
+              </Text>
+              <ControlledTooltip
+                containerStyle={{ width: 220, height: 260 }}
+                backgroundColor={'white'}
+                popover={
+                  <Text style={{ textTransform: 'capitalize' }}>
+                    {newItem.game.game.description}
+                  </Text>
+                }
+              >
+                <Text
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                  style={{ marginTop: 20, fontWeight: 'bold', textTransform: 'uppercase' }}
+                >
+                  Description:{' '}
+                  <Text style={{ textTransform: 'capitalize' }}>
+                    {newItem.game.game.description}
+                  </Text>
+                </Text>
+              </ControlledTooltip>
+              <Text style={styles.text}>
+                <Text style={{ fontWeight: 'bold' }}>Booked At</Text>{' '}
+                {moment(newItem.startDate).format('LLLL')}
+              </Text>
+            </View>
+          </Card.Content>
+        </>
+      )}
     </Card>
   );
 };
@@ -36,7 +135,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginHorizontal: 10,
     borderRadius: 10,
-    height: 170,
+    height: 260,
     backgroundColor: lowGray,
   },
   title: {
@@ -47,12 +146,13 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 15,
     marginLeft: 20,
+    marginTop: 10,
   },
   content: {
     marginTop: 20,
   },
   text: {
-    marginTop: 10,
+    marginTop: 20,
   },
   inprogress: {
     color: 'green',

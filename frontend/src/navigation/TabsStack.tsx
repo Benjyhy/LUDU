@@ -64,7 +64,7 @@ const TabsStack = () => {
         options={{
           headerRight: () => (
             <TouchableOpacity onPress={() => dispatch(toggleStatusFilter())}>
-              <Ionicons name="funnel" size={24} color={primaryColor} />
+              <Ionicons name="funnel" size={24} color={primaryColor} style={{ marginRight: 10 }} />
             </TouchableOpacity>
           ),
         }}

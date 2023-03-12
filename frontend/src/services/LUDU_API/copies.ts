@@ -16,8 +16,8 @@ const extendedApi = emptySplitApi.injectEndpoints({
       }),
     }),
     getCopyById: builder.query<Copy, { _id: string }>({
-      query: (copy) => ({
-        url: `/copy/${copy._id}`,
+      query: (game) => ({
+        url: `/copy/${game._id}`,
       }),
     }),
     updateCopy: builder.mutation<Copy, Copy>({

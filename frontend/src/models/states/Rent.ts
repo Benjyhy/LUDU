@@ -4,11 +4,13 @@ import { User } from './User';
 export interface Rent {
   _id: string;
   game: Copy;
+  copy: any;
   user: User;
   startDate: Date | string;
   endDate?: string | null;
   deliveredDate?: string | null;
-  duration: number;
+  createdAt: Date | string;
+  updatedAt: string | null;
   type: RentType;
 }
 
@@ -20,8 +22,9 @@ export interface CreateRentPayload {
 }
 
 export enum RentStatus {
-  DELIVERED = 'Delivered',
+  OVER = 'Over',
   INPROGRESS = 'In Progress',
+  INCOMING = 'Incoming',
 }
 
 export enum RentType {
@@ -29,4 +32,4 @@ export enum RentType {
   STORE = 'STORE',
 }
 
-export type RentStatusToDisplay = ('Delivered' | 'In Progress')[];
+export type RentStatusToDisplay = ('Over' | 'In Progress' | 'Incoming')[];

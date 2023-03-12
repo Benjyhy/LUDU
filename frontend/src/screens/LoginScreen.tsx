@@ -7,6 +7,7 @@ import { borderRadius, errorColor, lowGray, primaryColor, secondaryColor } from 
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/actions/userAction';
 import { useLoginMutation } from '../services/LUDU_API/auth';
+import * as SecureStore from 'expo-secure-store';
 
 const { width: ScreenWidth } = Dimensions.get('screen');
 const headerHeight = StatusBar.currentHeight;
@@ -21,21 +22,29 @@ export default function Login({ navigation }: any) {
   const handleLogin = async () => {
     await login({ username: usernameInput, password });
   };
+  const saveAuthToken = async (token) => {
+    await SecureStore.setItemAsync('authToken', token);
+  };
+
   useEffect(() => {
-    if (isSuccess) {
-      const user = {
-        token: data.token,
-        id: data.user._id,
-        username: data.user.username,
-        role: data.user.role,
-        email: data.user.credentials.local.email,
-        phone: data.user.phone,
-        address: data.user.address,
-        avatar: data.user.avatar,
-      };
-      dispatch(setUser(user));
-      navigation.navigate(appRoutes.TAB_NAVIGATOR);
-    }
+    const getUser = async () => {
+      if (isSuccess) {
+        const user = {
+          token: data.token,
+          id: data.user._id,
+          username: data.user.username,
+          role: data.user.role,
+          email: data.user.credentials.local.email,
+          phone: data.user.phone,
+          address: data.user.address,
+          avatar: data.user.avatar,
+        };
+        dispatch(setUser(user));
+        navigation.navigate(appRoutes.TAB_NAVIGATOR);
+        await saveAuthToken(user.token);
+      }
+    };
+    getUser().catch((e) => console.log(e));
     if (isError) {
       console.log(errorMutation);
       setError(true);
