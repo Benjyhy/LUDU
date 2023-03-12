@@ -9,7 +9,7 @@ export const locations: LocationDto[] = [
   },
   {
     postalCode: 69000,
-    name: 'Lille',
+    name: 'Lyon',
     _id: undefined,
     stores: [],
   },

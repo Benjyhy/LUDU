@@ -19,7 +19,7 @@ import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('user')
 @ApiTags('User')
-@JWTAuth()
+// @JWTAuth()
 export class UserController {
   constructor(private userService: UserService) {}
 

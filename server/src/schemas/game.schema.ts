@@ -1,6 +1,5 @@
-import { IsNumber, IsString } from 'class-validator';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { ObjectId, Types } from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import { Transform } from 'class-transformer';
 import { Category } from './category.schema';
 import { Review } from './review.schema';
@@ -21,7 +20,7 @@ export class Tags {
 @Schema({ timestamps: true })
 export class Game {
   @Transform(({ value }) => value.toString())
-  _id: mongoose.Types.ObjectId;
+  _id: ObjectId;
 
   @Prop({ required: true, unique: true, immutable: true })
   ean: string;

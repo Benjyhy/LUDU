@@ -1,10 +1,10 @@
 export const gameReviews = [
   {
-    review: 'reiciendis',
+    review: 'Pellentesque molestie tellus vitae purus eleifend dignissim.',
     score: 1,
   },
   {
-    review: 'vitae',
+    review: 'Sed molestie dui at tempus accumsan.',
     score: 2.2,
   },
   {
@@ -36,17 +36,49 @@ export const gameReviews = [
   },
   {
     review:
-      'Eum voluptas error similique sunt cupiditate error culpa officiis minus. Accusantium quos quam nihil. Libero voluptates soluta sequi eum. Itaque aut vel quam. Ratione illum iure maxime nam.\n' +
-      'Magnam eos impedit eveniet velit ea dolore perferendis amet. Minima quo exercitationem suscipit a accusantium dolore. Facilis molestiae incidunt. Corrupti magnam consectetur ipsum a quidem quidem.\n' +
-      'Tempore voluptatibus veritatis. Porro impedit dolorem repellendus optio odio voluptatem porro sint. Illo nesciunt facere velit fugit sit vitae. Porro minima eveniet eos cumque deleniti vitae qui. Dolore impedit excepturi officiis doloribus.',
+      'Eum voluptas error similique sunt cupiditate error culpa officiis minus. Accusantium quos quam nihil. Libero voluptates soluta sequi eum. Itaque aut vel quam. Ratione illum iure maxime nam.',
     score: 1.1,
   },
   {
     review:
-      'Aut iusto odio corporis labore excepturi veritatis fugit delectus. Ipsa libero facilis unde explicabo. Consequatur soluta placeat.\n' +
-      'Ab enim in dicta nobis molestias. Repellendus modi odit. Saepe inventore itaque perspiciatis voluptate. Incidunt suscipit quam ex. Odit deserunt sequi quibusdam cumque possimus laboriosam.\n' +
-      'Deleniti nostrum sint ex eius repudiandae consequuntur. Veritatis sint provident rem inventore explicabo. Magnam ut accusantium alias fugit ullam facilis ipsa. Error blanditiis laboriosam ratione sed. Dolor laboriosam excepturi tenetur unde.',
+      'Aut iusto odio corporis labore excepturi veritatis fugit delectus. Ipsa libero facilis unde explicabo. Consequatur soluta placeat.',
     score: 0.8,
+  },
+  {
+    review: 'Proin eget ex gravida, dignissim lectus sed, lobortis justo.',
+    score: 5,
+  },
+  {
+    review: 'Etiam malesuada eros et turpis viverra egestas.',
+    score: 5,
+  },
+  {
+    review: 'Nunc ac enim in sapien semper accumsan.',
+    score: 5,
+  },
+  {
+    review: 'Vivamus et justo vel mi vestibulum interdum at in tellus.',
+    score: 4.9,
+  },
+  {
+    review: 'Ut aliquam massa nec lorem dictum condimentum.',
+    score: 3.6,
+  },
+  {
+    review: 'Etiam vel dolor imperdiet metus porta consectetur nec vitae urna.',
+    score: 0.5,
+  },
+  {
+    review: 'Pellentesque molestie tellus vitae purus eleifend dignissim.',
+    score: 1.2,
+  },
+  {
+    review: 'Nullam mollis nulla quis odio porttitor cursus.',
+    score: 3.1,
+  },
+  {
+    review: 'Nam tincidunt ex ac nibh eleifend venenatis.',
+    score: 2.2,
   },
 ];
 
@@ -96,12 +128,39 @@ export const storeReviews = [
     score: 3,
   },
   {
-    review:
-      'Et quas laboriosam ipsam ad mollitia officiis provident alias.\n' +
-      'Neque ducimus neque consequuntur recusandae dolore officiis.\n' +
-      'Accusamus iusto rem deleniti voluptatibus consectetur unde quas.\n' +
-      'Consequuntur fugiat aperiam ipsum est.\n' +
-      'Officia officia quasi tempore.',
-    score: 3.5,
+    review: 'Proin eget ex gravida, dignissim lectus sed, lobortis justo.',
+    score: 5,
+  },
+  {
+    review: 'Etiam malesuada eros et turpis viverra egestas.',
+    score: 5,
+  },
+  {
+    review: 'Nunc ac enim in sapien semper accumsan.',
+    score: 5,
+  },
+  {
+    review: 'Vivamus et justo vel mi vestibulum interdum at in tellus.',
+    score: 4.9,
+  },
+  {
+    review: 'Ut aliquam massa nec lorem dictum condimentum.',
+    score: 3.6,
+  },
+  {
+    review: 'Etiam vel dolor imperdiet metus porta consectetur nec vitae urna.',
+    score: 0.5,
+  },
+  {
+    review: 'Pellentesque molestie tellus vitae purus eleifend dignissim.',
+    score: 1.2,
+  },
+  {
+    review: 'Nullam mollis nulla quis odio porttitor cursus.',
+    score: 3.1,
+  },
+  {
+    review: 'Nam tincidunt ex ac nibh eleifend venenatis.',
+    score: 2.2,
   },
 ];

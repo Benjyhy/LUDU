@@ -33,6 +33,10 @@ export class UserService {
       .select('credentials.local.password');
   }
 
+  public async findOneRefreshToken(id: ObjectId): Promise<UserDocument> {
+    return await this.userModel.findOne({ _id: id }).select('refreshToken');
+  }
+
   public async findOneUsername(username: string): Promise<UserDocument> {
     return this.userModel.findOne({ username: username });
   }
@@ -79,6 +83,17 @@ export class UserService {
     );
 
     await this.userModel.updateOne({ _id: id }, { $set: updateUserDto });
+    return await this.userModel.findById(id);
+  }
+
+  public async updateToken(id: ObjectId, token: string): Promise<UserDocument> {
+    const updatedUser = await this.userModel.updateOne(
+      { _id: id },
+      { $set: { refreshToken: token } },
+    );
+
+    if (!updatedUser) throw new NotFoundException(`User #${id} not found`);
+
     return await this.userModel.findById(id);
   }
 

@@ -19,7 +19,7 @@ import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('review')
 @ApiTags('Review')
-@JWTAuth()
+// @JWTAuth()
 export class ReviewController {
   constructor(
     private readonly reviewService: ReviewService,

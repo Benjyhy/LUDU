@@ -1,3 +1,4 @@
+import { GameModule } from './game.module';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { GameDto } from './dto/game.dto';
 import { GameUpdateDto } from './dto/game.update.dto';
@@ -20,6 +21,12 @@ export class GameService {
 
   public async findAll(): Promise<GameDocument[]> {
     return await this.gameModel.find().populate('categories', 'name');
+  }
+
+  public async random(): Promise<GameDocument[]> {
+    const random = Math.floor(Math.random() * 5);
+
+    return this.gameModel.aggregate([{ $sample: { size: random } }]);
   }
 
   public async findById(id: string): Promise<GameDocument> {
@@ -76,9 +83,18 @@ export class GameService {
 
     await this.gameModel.updateOne(
       { _id: id },
-      { $set: { tags: { meanReviews: average(arrayOfReviewStart) } } },
+      {
+        $set: {
+          tags: {
+            playTime: updatedGame.tags.playTime,
+            players: updatedGame.tags.players,
+            meanReviews: average(arrayOfReviewStart),
+          },
+        },
+      },
     );
-
+    const lol = await this.gameModel.findById(id);
+    console.log(lol);
     return await this.gameModel.findById(id);
   }
 

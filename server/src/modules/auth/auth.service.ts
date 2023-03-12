@@ -1,12 +1,14 @@
-import { Injectable, NotFoundException, Logger, HttpException, HttpStatus } from '@nestjs/common';
+import { users } from './../../../test/seed/data/user.data';
+import { Injectable, HttpException, HttpStatus, ForbiddenException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { UserDto } from '../user/dto/user.dto';
 import { ObjectId } from 'mongoose';
 import { ROLES } from '../../schemas/user.schema';
-import { comparePassword } from '../../helpers/Bcrypt';
+import { compare, hash } from '../../helpers/Bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { UserResponse } from './auth.controller';
 
 interface AuthToken {
   id: ObjectId;
@@ -21,6 +23,7 @@ interface UserToken {
   iat: string;
   exp: string;
 }
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -37,47 +40,90 @@ export class AuthService {
     return true;
   }
 
-  createToken(payload: AuthToken) {
-    return this.jwtService.sign(payload, {
-      expiresIn: this.configService.get<string>('app.jwtExpire'),
-    });
-  }
-
-  async login(userLogin: LoginDto): Promise<any> {
+  async login(userLogin: LoginDto): Promise<UserResponse> {
     // find an user mathcing the username
     const userExist = await this.userService.findOnePassword(userLogin.username);
-
-    if (!userExist) throw new NotFoundException(`User #${userLogin.username} not found`);
+    if (!userExist) throw new ForbiddenException(`User #${userLogin.username} not found`);
 
     // checking password
-    const isCorrectPassword = comparePassword(
-      userLogin.password,
-      userExist.credentials.local.password,
-    );
-
-    if (!isCorrectPassword) throw new NotFoundException(`Wrong password`);
+    const isCorrectPassword = compare(userLogin.password, userExist.credentials.local.password);
+    if (!isCorrectPassword) throw new ForbiddenException(`Wrong password`);
 
     const user = await this.userService.findById(userExist._id);
 
-    const token = this.createToken({
-      id: user._id,
+    const tokens = await this.getTokens({
       username: user.username,
+      id: user._id,
       role: user.role,
     });
 
-    return { token: token, user: user };
+    await this.updateRefreshToken(user._id, tokens.refreshToken);
+
+    return {
+      token: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      user: user,
+    };
   }
 
-  async register(userDto: UserDto): Promise<any> {
+  async register(userDto: UserDto): Promise<UserResponse> {
     const user = await this.userService.create(userDto);
 
-    const token = this.createToken({
+    const tokens = await this.getTokens({
+      username: user.username,
+      id: user._id,
+      role: user.role,
+    });
+
+    return { token: tokens.accessToken, refreshToken: tokens.refreshToken, user: user };
+  }
+
+  async updateRefreshToken(userId: ObjectId, refreshToken: string) {
+    const hashedRefreshToken = await hash(refreshToken);
+    await this.userService.updateToken(userId, hashedRefreshToken);
+  }
+
+  async getTokens(userDto: AuthToken) {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(
+        {
+          id: userDto.id,
+          username: userDto.username,
+          role: userDto.role,
+        },
+        {
+          secret: this.configService.get<string>('app.jwtSecret'),
+          expiresIn: this.configService.get<string>('app.jwtExpire'),
+        },
+      ),
+      this.jwtService.signAsync(
+        {
+          id: userDto.id,
+        },
+        {
+          secret: this.configService.get<string>('app.jwtRefreshSecret'),
+          expiresIn: this.configService.get<string>('app.jwtExpireRefresh'),
+        },
+      ),
+    ]);
+    return {
+      accessToken,
+      refreshToken,
+    };
+  }
+
+  async refreshTokens(userId: ObjectId, refreshToken: string) {
+    const user = await this.userService.findOneRefreshToken(userId);
+    if (!user || !user.refreshToken) throw new ForbiddenException('Access Denied');
+    const refreshTokenMatches = await compare(refreshToken, user.refreshToken);
+    if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
+    const tokens = await this.getTokens({
       id: user._id,
       username: user.username,
       role: user.role,
     });
-
-    return { token: token, user: user };
+    await this.updateRefreshToken(user._id, tokens.refreshToken);
+    return tokens;
   }
 
   async checkUniqueField(userDto: UserDto): Promise<any> {
@@ -103,5 +149,9 @@ export class AuthService {
         },
         HttpStatus.FORBIDDEN,
       );
+  }
+
+  async logout(userId: ObjectId) {
+    return this.userService.updateToken(userId, null);
   }
 }

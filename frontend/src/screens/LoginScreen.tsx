@@ -17,7 +17,7 @@ export default function Login({ navigation }: any) {
   const [password, setPassword] = useState<string>('password');
   const [error, setError] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const [login, { data, isLoading, isSuccess, isError }] = useLoginMutation();
+  const [login, { data, isLoading, isSuccess, isError, error: errorMutation }] = useLoginMutation();
 
   const handleLogin = async () => {
     await login({ username: usernameInput, password });
@@ -46,6 +46,7 @@ export default function Login({ navigation }: any) {
     };
     getUser().catch((e) => console.log(e));
     if (isError) {
+      console.log(errorMutation);
       setError(true);
     }
     // navigation.navigate(appRoutes.TAB_NAVIGATOR);
