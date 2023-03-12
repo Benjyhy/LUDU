@@ -6,6 +6,7 @@ import { Tooltip } from 'react-native-elements';
 import { lowGray, primaryColor } from '../../utils/const';
 import { useGetCopyByIdQuery } from '../../services/LUDU_API/copies';
 import { InlineTextIcon } from '../../components/InlineTextIcon';
+import { getGameImg } from '../../utils/const';
 
 const LeftContent = (image) => <Avatar.Image size={60} source={image} />;
 
@@ -65,7 +66,7 @@ const CardItem = ({ item }) => {
               titleStyle={styles.title}
               subtitle={newItem.game.game.version}
               subtitleStyle={styles.subtitle}
-              left={() => LeftContent(newItem.game.game.thumbnail)}
+              left={() => LeftContent(getGameImg(newItem.game.game.thumbnail))}
               right={() => rightContent(rightBadge())}
             />
           </ControlledTooltip>
