@@ -1,38 +1,71 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import findRoutes from '../navigation/appRoutes/findRoutes';
 import Tag from './Tag';
 import { Dimensions, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-paper';
+import { useGetCopyByIdQuery } from '../services/LUDU_API/copies';
+import { Game } from '../models/states/Game';
 
 const GameCard = ({ item, navigation, size }: any) => {
-  return (
-    <TouchableOpacity onPress={() => navigation.navigate(findRoutes.GAME_SCREEN, { item })}>
-      <View style={[styles.card, size === 'small' ? styles.smallCard : styles.largeCard]}>
-        <Image
-          style={[size === 'small' ? styles.smallImg : styles.largeImg]}
-          resizeMode="cover"
-          source={{
-            uri: 'https://via.placeholder.com/150',
-          }}
-        />
-        <View style={styles.content}>
-          <View style={{ marginBottom: 15 }}>
-            <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>
-              {item.gameName}
-            </Text>
-            <View style={{ margin: 3, flexDirection: 'row', flexWrap: 'wrap' }}>
-              {item.tags.map((tag: string, index: React.Key | null | undefined) => (
+  const [game, setGame] = useState<Game>();
+
+  const {
+    data: copy,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+  } = useGetCopyByIdQuery({ _id: item });
+
+  useEffect(() => {
+    if (isSuccess) setGame(copy.game);
+  }, [copy]);
+
+  if (isLoading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View>
+        <Text>Error loading elements</Text>
+      </View>
+    );
+  }
+  if (game) {
+    return (
+      <TouchableOpacity onPress={() => navigation.navigate(findRoutes.GAME_SCREEN, { item })}>
+        <View style={[styles.card, size === 'small' ? styles.smallCard : styles.largeCard]}>
+          <Image
+            style={[size === 'small' ? styles.smallImg : styles.largeImg]}
+            resizeMode="cover"
+            source={{
+              uri: 'https://via.placeholder.com/150',
+            }}
+          />
+          <View style={styles.content}>
+            <View style={{ marginBottom: 15 }}>
+              <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>
+                {game.name}
+              </Text>
+              {/* <View style={{ margin: 3, flexDirection: 'row', flexWrap: 'wrap' }}>
+              {game.tags.map((tag: string, index: React.Key | null | undefined) => (
                 <Tag tagName={tag} key={index} />
               ))}
+            </View> */}
+            </View>
+            <View style={{ marginBottom: 8 }}>
+              <Text variant="bodySmall">{game.description}</Text>
             </View>
           </View>
-          <View style={{ marginBottom: 8 }}>
-            <Text variant="bodySmall">{item.description}</Text>
-          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  }
 };
 
 export default GameCard;
