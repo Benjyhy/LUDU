@@ -5,6 +5,7 @@ import { Dimensions, View, Image, StyleSheet, TouchableOpacity } from 'react-nat
 import { Text } from 'react-native-paper';
 import { useGetCopyByIdQuery } from '../services/LUDU_API/copies';
 import { Game } from '../models/states/Game';
+import { getGameImg } from '../utils/const';
 
 const GameCard = ({ item, navigation, size }: any) => {
   const [game, setGame] = useState<Game>();
@@ -44,7 +45,7 @@ const GameCard = ({ item, navigation, size }: any) => {
             style={[size === 'small' ? styles.smallImg : styles.largeImg]}
             resizeMode="cover"
             source={{
-              uri: 'https://via.placeholder.com/150',
+              uri: getGameImg(game.thumbnail),
             }}
           />
           <View style={styles.content}>
@@ -52,11 +53,17 @@ const GameCard = ({ item, navigation, size }: any) => {
               <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>
                 {game.name}
               </Text>
-              {/* <View style={{ margin: 3, flexDirection: 'row', flexWrap: 'wrap' }}>
-              {game.tags.map((tag: string, index: React.Key | null | undefined) => (
-                <Tag tagName={tag} key={index} />
-              ))}
-            </View> */}
+              <View style={{ margin: 3, flexDirection: 'row', flexWrap: 'wrap' }}>
+                {Object.values(game.tags).map(
+                  (tag: string, index: React.Key | null | undefined) => (
+                    <Tag
+                      tagValue={tag}
+                      tagName={Object.keys(game.tags).find((key) => game.tags[key] === tag)}
+                      key={index}
+                    />
+                  ),
+                )}
+              </View>
             </View>
             <View style={{ marginBottom: 8 }}>
               <Text variant="bodySmall">{game.description}</Text>
@@ -74,10 +81,10 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 15,
     overflow: 'hidden',
-    borderWidth: 1,
     height: 'auto',
     borderRadius: 5,
     width: '50%',
+    borderWidth: 1,
   },
   smallCard: {
     width: Dimensions.get('window').width / 2,

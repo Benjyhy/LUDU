@@ -1,7 +1,7 @@
 import React from 'react';
 import GameCard from '../../components/GameCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { TouchableOpacity, ScrollView, View } from 'react-native';
+import { TouchableOpacity, ScrollView, View, ActivityIndicator, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
@@ -25,22 +25,14 @@ const HomeFeedScreen = ({ navigation }: any) => {
     isFetching,
   } = useGetCopiesByZipCodeQuery({ postalCode: zipCode });
 
-  if (isLoadingIds) {
+  if (isLoadingIds || isErrorIds) {
     return (
-      <View>
-        <Text>Loading...</Text>
+      <View style={styles.center}>
+        <ActivityIndicator animating={true} size="large" color={primaryColor} />
       </View>
     );
   }
-
-  if (isErrorIds) {
-    return (
-      <View>
-        <Text>Error loading elements</Text>
-      </View>
-    );
-  }
-
+  console.log(userState);
   if (isSuccess && !isFetching) {
     return (
       <>
@@ -72,3 +64,15 @@ const HomeFeedScreen = ({ navigation }: any) => {
 };
 
 export default HomeFeedScreen;
+
+const styles = StyleSheet.create({
+  center: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
