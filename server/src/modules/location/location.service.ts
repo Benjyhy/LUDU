@@ -21,7 +21,44 @@ export class LocationService {
   }
 
   public async findByZip(zip: number): Promise<LocationDocument[]> {
-    const location = await this.locationModel.find({ postalCode: zip }).populate('stores').exec();
+    // const location = await this.locationModel.find({ postalCode: zip }).populate('stores').exec();
+    const location = await this.locationModel.aggregate([
+      {
+        $match: {
+          postalCode: 59000,
+        },
+      },
+      {
+        $lookup: {
+          from: 'stores',
+          let: { stores: '$stores' },
+          pipeline: [
+            { $match: { $expr: { $in: ['$_id', '$$stores'] } } },
+            {
+              $lookup: {
+                from: 'copies',
+                let: { copies: '$copies' },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $in: ['$_id', '$$copies'],
+                      },
+                    },
+                  },
+                  {
+                    $match: { available: true },
+                  },
+                ],
+                as: 'copies',
+              },
+            },
+          ],
+          as: 'stores',
+        },
+      },
+    ]);
+    console.log(location);
 
     if (location.length === 0)
       throw new NotFoundException(`Location with zipcode ${zip} not found`);
