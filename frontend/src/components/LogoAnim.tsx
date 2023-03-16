@@ -15,7 +15,7 @@ const LogoAnim = () => {
     <View style={styles.animationContainer}>
       <LottieView
         autoPlay
-        loop={false}
+        loop={true}
         ref={animation}
         style={{
           width: 200,

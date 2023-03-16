@@ -1,3 +1,3 @@
 declare module '@env' {
-  export const API_URL: string;
+  export const GOOGLE_CLOUD_API_KEY: string;
 }

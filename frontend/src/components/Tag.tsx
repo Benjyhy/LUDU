@@ -1,23 +1,23 @@
 import React from 'react';
-import { Text } from 'react-native-paper';
+import { View } from 'react-native';
+import { InlineTextIcon } from './InlineTextIcon';
+import RatingsStars from './RatingsStars';
 
-const Tag = ({ tagName }: any) => {
+const Tag = ({ tagValue, tagName }: any) => {
   return (
-    <Text
+    <View
       style={{
-        borderRadius: 3,
-        borderWidth: 1,
-        fontSize: 11,
-        fontWeight: 'bold',
-        paddingHorizontal: 1,
-        paddingVertical: 1,
-        width: 'auto',
-        marginRight: 10,
-        marginBottom: 5,
+        paddingRight: 10,
       }}
     >
-      {tagName}
-    </Text>
+      {tagName === 'playtime' && (
+        <InlineTextIcon icon={'time-outline'} text={`${tagValue} minutes`} />
+      )}
+      {tagName === 'players' && (
+        <InlineTextIcon icon={'people-outline'} text={`${tagValue.join('-')} Players`} />
+      )}
+      {tagName === 'meanReviews' && <RatingsStars rating={tagValue} />}
+    </View>
   );
 };
 

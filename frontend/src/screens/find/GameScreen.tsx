@@ -187,16 +187,15 @@ const GameScreen = ({ navigation }: any) => {
                   marginVertical: 8,
                 }}
               >
-                <View style={{ marginHorizontal: 8 }}>
-                  <RatingsStars rating={game.tags.meanReviews} />
-                </View>
-                <InlineTextIcon
-                  icon={'people-outline'}
-                  text={`${game.tags.players.join('-')} Players`}
-                />
-                <View style={{ marginHorizontal: 8 }}>
-                  <InlineTextIcon icon={'time-outline'} text={`${game.tags.playtime} minutes`} />
-                </View>
+                {Object.values(game.tags).map(
+                  (tag: string, index: React.Key | null | undefined) => (
+                    <Tag
+                      tagValue={tag}
+                      tagName={Object.keys(game.tags).find((key) => game.tags[key] === tag)}
+                      key={index}
+                    />
+                  ),
+                )}
               </View>
 
               <Text style={{ fontSize: 12 }}>{game.description}</Text>
