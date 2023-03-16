@@ -10,7 +10,7 @@ import Layout from '../Layout';
 import { toggleCategoryFilter } from '../../store/actions/filterGamesByCategoriesAction';
 import Filter from '../../components/Filter';
 import { FilterTypes } from '../../models/Filter';
-import { useGetCopiesByZipCodeQuery } from '../../services/LUDU_API/locations';
+import { useGetEntitiesByZipCodeQuery } from '../../services/LUDU_API/locations';
 
 const HomeFeedScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
@@ -23,8 +23,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
     isError: isErrorIds,
     isSuccess,
     isFetching,
-  } = useGetCopiesByZipCodeQuery({ postalCode: zipCode });
-
+  } = useGetEntitiesByZipCodeQuery({ postalCode: zipCode, entity: 'copies' });
   if (isLoadingIds || isErrorIds) {
     return (
       <View style={styles.center}>

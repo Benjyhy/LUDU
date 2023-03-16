@@ -10,7 +10,6 @@ import Layout from '../Layout';
 function BookingGameScreen({ route, navigation }: any) {
   const item = route.params.game;
   const gamePlaces = storeMockData;
-  console.log(item);
   const game = gamePlaces.find((game) => game.gameId.id === item.id);
   const gameName = game.gameId.gameName;
   const items = gamePlaces.filter((game) => game.gameId.id === item.id);

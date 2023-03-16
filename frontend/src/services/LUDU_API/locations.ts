@@ -1,5 +1,8 @@
 import { LocationAPI } from '../../models/states/Location';
+import { Store } from '../../models/states/Store';
 import { emptySplitApi } from './api';
+
+type EntityByZipCode = Array<string> | Array<Store>;
 
 const extendedApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,25 +18,29 @@ const extendedApi = emptySplitApi.injectEndpoints({
         url: '/location',
       }),
     }),
-    // getLocationByZipCode: builder.query<LocationAPI, { postalCode: number }>({
-    //   query: (location) => ({
-    //     url: `/location/${location.postalCode}`,
-    //   }),
-    // }),
-    getCopiesByZipCode: builder.query<Array<string>, { postalCode: number }>({
+    getEntitiesByZipCode: builder.query<EntityByZipCode, { postalCode: number; entity: string }>({
       query: (location) => ({
         url: `/location/${location.postalCode}`,
       }),
-      transformResponse: (response: Array<LocationAPI>): Array<string> => {
-        const copies = [];
-        for (const location of response) {
-          for (const store of location['stores']) {
-            for (const copy of store['copies']) {
-              copies.push(copy);
+      transformResponse: (response: Array<LocationAPI>, meta, arg) => {
+        const { entity } = arg;
+        const res = [];
+        if (entity == 'copies') {
+          for (const location of response) {
+            for (const store of location['stores']) {
+              for (const copy of store['copies']) {
+                res.push(copy._id);
+              }
+            }
+          }
+        } else {
+          for (const location of response) {
+            for (const store of location['stores']) {
+              res.push(store);
             }
           }
         }
-        return copies;
+        return res;
       },
     }),
     getLocationById: builder.query<LocationAPI, { _id: string }>({
@@ -64,5 +71,5 @@ export const {
   useDeleteLocationMutation,
   useGetAllLocationsQuery,
   useGetLocationByIdQuery,
-  useGetCopiesByZipCodeQuery,
+  useGetEntitiesByZipCodeQuery,
 } = extendedApi;

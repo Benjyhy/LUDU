@@ -53,7 +53,6 @@ const Reviews = ({ reviews }: { reviews: string[] }) => {
 
 const Suggestion = ({ navigation }: any) => {
   const { data: game, isLoading, isSuccess, isError, error } = useRandomGameQuery();
-  // console.log(game);
   return (
     <View
       style={{

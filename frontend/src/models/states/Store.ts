@@ -1,5 +1,6 @@
 import { Copy } from './Copy';
 import { Review } from './Review';
+import { Location } from './Location';
 
 export interface Store {
   _id: string;
