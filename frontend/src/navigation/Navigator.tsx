@@ -13,12 +13,16 @@ import Avatar from '../screens/register/Avatar';
 import { RegisterContext } from '../utils/registerContext';
 import { UserCreate } from '../models/states/User';
 import { getZipCode } from '../services/geocodingService';
+import { MainAppState } from '../models/states';
+import { useGetUserByIdQuery } from '../services/LUDU_API/users';
 
 const Stack = createNativeStackNavigator();
 
 const StackNav = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState<UserCreate | null>(null);
+  const userId = useSelector((state: MainAppState) => state.user.id);
+  const { data, isSuccess, isError } = useGetUserByIdQuery({ _id: userId });
   //Before any navigation, get current position of the user and set it in redux
   useEffect(() => {
     (async () => {
@@ -42,12 +46,17 @@ const StackNav = () => {
         initialRouteName={appRoutes.LOGIN_SCREEN}
         screenOptions={{ headerShown: false }}
       >
+        {isSuccess ? (
+          <Stack.Screen name={appRoutes.TAB_NAVIGATOR} component={TabsStack} />
+        ) : (
+          <>
+            <Stack.Screen name={appRoutes.LOGIN_SCREEN} component={LoginScreen} />
+            <Stack.Screen name={appRoutes.REGISTER_SCREEN} component={RegisterScreen} />
+            <Stack.Screen name={appRoutes.REGISTER_PHONE_SCREEN} component={Phone} />
+            <Stack.Screen name={appRoutes.REGISTER_AVATAR_SCREEN} component={Avatar} />
+          </>
+        )}
         <Stack.Screen name={appRoutes.LOADING_SCREEN} component={LoadingScreen} />
-        <Stack.Screen name={appRoutes.LOGIN_SCREEN} component={LoginScreen} />
-        <Stack.Screen name={appRoutes.REGISTER_SCREEN} component={RegisterScreen} />
-        <Stack.Screen name={appRoutes.REGISTER_PHONE_SCREEN} component={Phone} />
-        <Stack.Screen name={appRoutes.REGISTER_AVATAR_SCREEN} component={Avatar} />
-        <Stack.Screen name={appRoutes.TAB_NAVIGATOR} component={TabsStack} />
       </Stack.Navigator>
     </RegisterContext.Provider>
   );
