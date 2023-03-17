@@ -52,7 +52,13 @@ const HomeFeedScreen = ({ navigation }: any) => {
               </TouchableOpacity>
             </View>
             {copies.map((item) => (
-              <GameCard id={item} navigation={navigation} size="large" isGame={false} key={item} />
+              <GameCard
+                id={item}
+                navigation={navigation}
+                size="large"
+                isGameAlike={false}
+                key={item}
+              />
             ))}
           </ScrollView>
         </Layout>

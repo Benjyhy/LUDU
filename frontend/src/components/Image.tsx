@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, ImageResizeMode, ActivityIndicator } from 'react-native';
-import { getGameImg } from '../utils/const';
+import { getGameImg, primaryColor } from '../utils/const';
 import { Text } from 'react-native-paper';
 
 interface IImageHandle {
@@ -15,9 +15,7 @@ const ImageHandle: React.FC<IImageHandle> = ({ src, size, resizeMode }: IImageHa
   useEffect(() => {
     const fetchImage = async () => {
       const url = getGameImg(src);
-      console.log(url);
       const res = await fetch(url);
-      console.log(res.status);
       if (res.status === 404) {
         setImageError(true);
       } else {
@@ -38,7 +36,7 @@ const ImageHandle: React.FC<IImageHandle> = ({ src, size, resizeMode }: IImageHa
   if (!imageUrl) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator />
+        <ActivityIndicator animating={true} size="large" color={primaryColor} />
       </View>
     );
   }

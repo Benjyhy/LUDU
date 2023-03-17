@@ -45,11 +45,7 @@ const BookingTabsScreen = () => {
           renderItem={({ item }) => <CardItem item={item} />}
           keyExtractor={(item) => item._id}
         />
-        {filterStatus.active ? (
-          <Filter filterType={FilterTypes.Status} />
-        ) : (
-          ''
-        )}
+        {filterStatus.active ? <Filter filterType={FilterTypes.Status} /> : ''}
       </View>
     </Layout>
   );

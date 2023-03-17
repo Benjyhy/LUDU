@@ -12,21 +12,14 @@ interface IGameCard {
   id: string;
   navigation: any;
   size: string;
-  isGame: boolean;
+  isGameAlike: boolean;
 }
 
-const GameCard = ({ id, navigation, size, isGame }: IGameCard) => {
+const GameCard = ({ id, navigation, size, isGameAlike }: IGameCard) => {
   const [game, setGame] = useState<Game>();
 
-  if (!isGame) {
-    const {
-      data: copy,
-      isLoading,
-      isError,
-      isFetching,
-      isSuccess,
-      error,
-    } = useGetCopyByIdQuery({ _id: id });
+  if (!isGameAlike) {
+    const { data: copy, isLoading, isError, isSuccess, error } = useGetCopyByIdQuery({ _id: id });
 
     useEffect(() => {
       if (isSuccess) setGame(copy.game);
@@ -49,17 +42,10 @@ const GameCard = ({ id, navigation, size, isGame }: IGameCard) => {
       );
     }
   } else {
-    const {
-      data: game,
-      isLoading,
-      isError,
-      isFetching,
-      isSuccess,
-    } = useGetGameByIdQuery({ _id: id });
+    const { data: game, isLoading, isError, isSuccess } = useGetGameByIdQuery({ _id: id });
 
     useEffect(() => {
       if (isSuccess) setGame(game);
-      console.log(game.thumbnail);
     }, [game]);
 
     if (isLoading) {
@@ -102,9 +88,21 @@ const GameCard = ({ id, navigation, size, isGame }: IGameCard) => {
               </View>
             </View>
             <View style={{ marginBottom: 8 }}>
-              <Text variant="bodySmall" style={styles.description}>
-                {game.description}
-              </Text>
+              {!isGameAlike && (
+                <Text variant="bodySmall" style={styles.description}>
+                  {game.description}
+                </Text>
+              )}
+              {isGameAlike && (
+                <Text
+                  variant="bodySmall"
+                  numberOfLines={3}
+                  ellipsizeMode="tail"
+                  style={styles.description}
+                >
+                  {game.description}
+                </Text>
+              )}
             </View>
           </View>
         </View>

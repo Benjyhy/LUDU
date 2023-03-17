@@ -52,8 +52,13 @@ const Reviews = ({ reviews }: { reviews: string[] }) => {
   );
 };
 
-const Suggestion = ({ navigation }: any) => {
-  const { data: games, isLoading, isSuccess, isError, error } = useRandomGameQuery();
+const Suggestion = ({ navigation, gameId }: any) => {
+  const { data: games, refetch, isLoading, isSuccess } = useRandomGameQuery();
+
+  useEffect(() => {
+    refetch(); // Prevent cache
+    console.log('in');
+  }, [gameId]);
   return (
     <View
       style={{
@@ -93,7 +98,7 @@ const Suggestion = ({ navigation }: any) => {
               id={game._id}
               navigation={navigation}
               size="small"
-              isGame={true}
+              isGameAlike={true}
               key={index}
             />
           ))}
@@ -253,11 +258,9 @@ const GameScreen = ({ route, navigation }: any) => {
           </View>
           <Divider style={{ marginVertical: 16 }} />
           {/* render 'they loved playing it' */}
-
-          <Reviews reviews={game.reviews} />
-
+          {game.reviews.length !== 0 && <Reviews reviews={game.reviews} />}
           {/* render 'game alike' */}
-          <Suggestion navigation={navigation} />
+          <Suggestion navigation={navigation} gameId={route.params} />
         </ScrollView>
       )}
     </>
