@@ -27,9 +27,7 @@ const MapViewScreen = () => {
       setStores(storesWithCoords);
     }
 
-    fetchData()
-      .then((results) => console.log(results))
-      .catch((e) => console.log(e));
+    fetchData();
   }, [isSuccess]);
   if (stores) {
     return (
