@@ -10,9 +10,7 @@ const Tag = ({ tagValue, tagName }: any) => {
         paddingRight: 10,
       }}
     >
-      {tagName === 'playtime' && (
-        <InlineTextIcon icon={'time-outline'} text={`${tagValue} minutes`} />
-      )}
+      {tagName === 'playTime' && <InlineTextIcon icon={'time-outline'} text={`${tagValue} min`} />}
       {tagName === 'players' && (
         <InlineTextIcon icon={'people-outline'} text={`${tagValue.join('-')} Players`} />
       )}
