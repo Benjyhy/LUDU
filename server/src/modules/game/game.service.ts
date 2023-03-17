@@ -94,7 +94,6 @@ export class GameService {
       },
     );
     const lol = await this.gameModel.findById(id);
-    console.log(lol);
     return await this.gameModel.findById(id);
   }
 

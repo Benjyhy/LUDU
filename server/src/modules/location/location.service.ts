@@ -58,7 +58,6 @@ export class LocationService {
         },
       },
     ]);
-    console.log(location);
 
     if (location.length === 0)
       throw new NotFoundException(`Location with zipcode ${zip} not found`);
