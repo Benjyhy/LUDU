@@ -27,7 +27,9 @@ const MapViewScreen = () => {
       setStores(storesWithCoords);
     }
 
-    fetchData();
+    fetchData()
+      .then((results) => console.log(results))
+      .catch((e) => console.log(e));
   }, [isSuccess]);
   if (stores) {
     return (
@@ -41,16 +43,19 @@ const MapViewScreen = () => {
             longitudeDelta: 0.0421,
           }}
         >
-          {stores.map((marker, index) => (
-            <Marker
-              key={index}
-              coordinate={{
-                latitude: marker.coords.lat,
-                longitude: marker.coords.lng,
-              }}
-              title={marker.name}
-            />
-          ))}
+          {stores.map(
+            (marker, index) =>
+              marker.coords && (
+                <Marker
+                  key={index}
+                  coordinate={{
+                    latitude: marker.coords.lat,
+                    longitude: marker.coords.lng,
+                  }}
+                  title={marker.name}
+                />
+              ),
+          )}
         </MapView>
       </View>
     );
