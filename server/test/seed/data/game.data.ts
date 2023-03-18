@@ -127,7 +127,7 @@ export const games = [
   },
   {
     name: 'Intrigue',
-    version: 'optical archaeology',
+    version: 'Classic',
     tags: {
       playTime: 30,
       players: [2, 6],
@@ -141,7 +141,7 @@ export const games = [
   },
   {
     name: 'Uno',
-    version: 'optical archaeology',
+    version: 'Classic',
     tags: {
       playTime: 30,
       players: [2, 10],
@@ -252,8 +252,8 @@ export const games = [
     _id: undefined,
   },
   {
-    name: 'Age of Empire - The Board Game',
-    version: 'Classic',
+    name: 'Age of Empire',
+    version: 'The Board Game',
     tags: {
       playTime: 80,
       players: [1, 6],
@@ -280,8 +280,8 @@ export const games = [
     _id: undefined,
   },
   {
-    name: 'A Game of Throne - The Board Game',
-    version: 'Classic',
+    name: 'Game of Throne ',
+    version: 'The Board Game',
     tags: {
       playTime: 90,
       players: [2, 3],

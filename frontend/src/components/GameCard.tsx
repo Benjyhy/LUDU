@@ -68,9 +68,21 @@ const GameCard = ({ id, navigation, size, isGameAlike }: IGameCard) => {
           <ImageHandle src={game.thumbnail} resizeMode={'cover'} size={'small'} />
           <View style={styles.content}>
             <View style={{ marginBottom: 15 }}>
-              <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>
-                {game.name}
-              </Text>
+              {!isGameAlike && (
+                <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>
+                  {game.name}
+                </Text>
+              )}
+              {isGameAlike && (
+                <Text
+                  variant="titleLarge"
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                  style={{ fontWeight: 'bold' }}
+                >
+                  {game.name}
+                </Text>
+              )}
               <View style={{ margin: 3, flexDirection: 'row', flexWrap: 'wrap' }}>
                 {Object.values(game.tags).map(
                   (tag: string, index: React.Key | null | undefined) => (
