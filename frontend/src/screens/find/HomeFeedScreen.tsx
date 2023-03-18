@@ -26,7 +26,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
   } = useGetEntitiesByZipCodeQuery({ postalCode: zipCode, entity: 'copies' });
   if (isLoadingIds || isErrorIds) {
     return (
-      <View style={styles.center}>
+      <View style={styles.loader}>
         <ActivityIndicator animating={true} size="large" color={primaryColor} />
       </View>
     );
@@ -51,17 +51,23 @@ const HomeFeedScreen = ({ navigation }: any) => {
                 <Ionicons name="funnel" size={24} color={primaryColor} />
               </TouchableOpacity>
             </View>
-            {copies.map((item) => (
-              <GameCard
-                id={item.id}
-                navigation={navigation}
-                size="large"
-                isGameAlike={false}
-                key={item.id}
-              />
-            ))}
+            <View style={styles.loader}>
+              <ActivityIndicator animating={true} size="large" color={primaryColor} />
+            </View>
+            <View style={styles.wrapperGameList}>
+              {copies.map((item) => (
+                <GameCard
+                  id={item.id}
+                  navigation={navigation}
+                  size="large"
+                  isGameAlike={false}
+                  key={item.id}
+                />
+              ))}
+            </View>
           </ScrollView>
         </Layout>
+
         {isActiveFilter ? <Filter filterType={FilterTypes.Category} /> : ''}
       </>
     );
@@ -71,7 +77,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
 export default HomeFeedScreen;
 
 const styles = StyleSheet.create({
-  center: {
+  loader: {
     position: 'absolute',
     left: 0,
     right: 0,
@@ -79,5 +85,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 1,
+  },
+  wrapperGameList: {
+    zIndex: 10,
   },
 });

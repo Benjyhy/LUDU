@@ -26,11 +26,7 @@ const GameCard = ({ id, navigation, size, isGameAlike }: IGameCard) => {
     }, [copy]);
 
     if (isLoading) {
-      return (
-        <View>
-          <Text>Loading...</Text>
-        </View>
-      );
+      return <></>;
     }
 
     if (isError) {
@@ -67,7 +63,7 @@ const GameCard = ({ id, navigation, size, isGameAlike }: IGameCard) => {
 
   if (game) {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate(findRoutes.GAME_SCREEN, game._id)}>
+      <TouchableOpacity onPress={() => navigation.push(findRoutes.GAME_SCREEN, game._id)}>
         <View style={[styles.card, size === 'small' ? styles.smallCard : styles.largeCard]}>
           <ImageHandle src={game.thumbnail} resizeMode={'cover'} size={'small'} />
           <View style={styles.content}>
@@ -151,7 +147,6 @@ const styles = StyleSheet.create({
   },
   description: {
     maxWidth: '100%',
-    // display: '-webkit-box',
     WebkitBoxOrient: 'vertical',
     WebkitLineClamp: 3,
     overflow: 'hidden',

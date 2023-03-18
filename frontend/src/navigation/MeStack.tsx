@@ -22,7 +22,11 @@ const MeStack = () => {
           ),
         })}
       />
-      <Stack.Screen name={meRoutes.UPDATE_ME} component={UpdateMeScreen} />
+      <Stack.Screen
+        name={meRoutes.UPDATE_ME}
+        component={UpdateMeScreen}
+        options={{ animation: 'slide_from_right' }}
+      />
     </Stack.Navigator>
   );
 };

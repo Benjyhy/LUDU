@@ -58,7 +58,7 @@ const Suggestion = ({ navigation, gameId }: any) => {
     refetch(); // Prevent cache
   }, [gameId]);
 
-  if (games.length === 0) {
+  if (isSuccess && games.length === 0) {
     return <></>;
   }
   return (

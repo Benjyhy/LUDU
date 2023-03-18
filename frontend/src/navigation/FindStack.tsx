@@ -25,6 +25,7 @@ const FindStack = () => {
             ? { headerTitle: () => <Search active={false} /> }
             : {
                 header: () => <Search active={false} />,
+                animation: 'slide_from_right',
               }
         }
       />
@@ -37,7 +38,11 @@ const FindStack = () => {
           gestureEnabled: false,
         }}
       />
-      <Stack.Screen name={findRoutes.GAME_SCREEN} component={GameScreen} />
+      <Stack.Screen
+        name={findRoutes.GAME_SCREEN}
+        component={GameScreen}
+        options={{ animation: 'slide_from_right' }}
+      />
       <Stack.Screen name={findRoutes.BOOKING_FEED} component={BookingGameScreen} />
       <Stack.Screen name={findRoutes.DATEPICKER_FEED} component={DatePickerScreen} />
       <Stack.Screen name={findRoutes.PERIOD_FEED} component={PeriodScreen} />
