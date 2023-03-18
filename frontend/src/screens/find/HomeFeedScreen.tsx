@@ -53,11 +53,11 @@ const HomeFeedScreen = ({ navigation }: any) => {
             </View>
             {copies.map((item) => (
               <GameCard
-                id={item}
+                id={item.id}
                 navigation={navigation}
                 size="large"
                 isGameAlike={false}
-                key={item}
+                key={item.id}
               />
             ))}
           </ScrollView>

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import gameData from '../../mocks/gameMockData';
 import GameReviewCard from '../../components/GameReviewCard';
 import GameCard from '../../components/GameCard';
 import { ActivityIndicator, Dimensions } from 'react-native';
@@ -17,8 +16,8 @@ import {
   secondaryColor,
 } from '../../utils/const';
 import { useGetGameByIdQuery, useRandomGameQuery } from '../../services/LUDU_API/games';
-import RatingsStars from '../../components/RatingsStars';
 import { Game } from '../../models/states/Game';
+import { Category } from '../../models/states/Category';
 
 const Reviews = ({ reviews }: { reviews: string[] }) => {
   return (
@@ -57,8 +56,11 @@ const Suggestion = ({ navigation, gameId }: any) => {
 
   useEffect(() => {
     refetch(); // Prevent cache
-    console.log('in');
   }, [gameId]);
+
+  if (games.length === 0) {
+    return <></>;
+  }
   return (
     <View
       style={{
@@ -153,7 +155,7 @@ const GameScreen = ({ route, navigation }: any) => {
           </Button>
         </View>
       )}
-      {isSuccess && game && (
+      {isSuccess && (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: '#fff' }}>
           {/* Display likes reviews and share number*/}
           <View
@@ -186,6 +188,7 @@ const GameScreen = ({ route, navigation }: any) => {
                 }}
               />
             </View>
+            <View></View>
             <View
               style={{
                 flex: 1,
@@ -194,6 +197,27 @@ const GameScreen = ({ route, navigation }: any) => {
                 marginVertical: 16,
               }}
             >
+              {game.categories.length !== 0 && (
+                <>
+                  {game.categories.map((item: Category, index: number) => {
+                    return (
+                      <Text
+                        variant="bodyLarge"
+                        key={index}
+                        style={{
+                          color: primaryColor,
+                          borderWidth: 1,
+                          borderColor: primaryColor,
+                          borderRadius: borderRadius,
+                          padding: 4,
+                        }}
+                      >
+                        {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+                      </Text>
+                    );
+                  })}
+                </>
+              )}
               <View
                 style={{
                   flexDirection: 'row',
@@ -201,15 +225,17 @@ const GameScreen = ({ route, navigation }: any) => {
                   marginVertical: 8,
                 }}
               >
-                {Object.values(game.tags).map(
-                  (tag: string, index: React.Key | null | undefined) => (
-                    <Tag
-                      tagValue={tag}
-                      tagName={Object.keys(game.tags).find((key) => game.tags[key] === tag)}
-                      key={index}
-                    />
-                  ),
-                )}
+                <>
+                  {Object.values(game.tags).map(
+                    (tag: string, index: React.Key | null | undefined) => (
+                      <Tag
+                        tagValue={tag}
+                        tagName={Object.keys(game.tags).find((key) => game.tags[key] === tag)}
+                        key={index}
+                      />
+                    ),
+                  )}
+                </>
               </View>
 
               <Text style={{ fontSize: 12 }}>{game.description}</Text>
