@@ -18,6 +18,7 @@ import {
 } from '../../utils/const';
 import { useGetGameByIdQuery, useRandomGameQuery } from '../../services/LUDU_API/games';
 import RatingsStars from '../../components/RatingsStars';
+import { Game } from '../../models/states/Game';
 
 const Reviews = ({ reviews }: { reviews: string[] }) => {
   return (
@@ -51,8 +52,13 @@ const Reviews = ({ reviews }: { reviews: string[] }) => {
   );
 };
 
-const Suggestion = ({ navigation }: any) => {
-  const { data: game, isLoading, isSuccess, isError, error } = useRandomGameQuery();
+const Suggestion = ({ navigation, gameId }: any) => {
+  const { data: games, refetch, isLoading, isSuccess } = useRandomGameQuery();
+
+  useEffect(() => {
+    refetch(); // Prevent cache
+    console.log('in');
+  }, [gameId]);
   return (
     <View
       style={{
@@ -69,38 +75,47 @@ const Suggestion = ({ navigation }: any) => {
       >
         Game alike
       </Text>
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingRight: horizontalPadding,
-        }}
-        horizontal
-        contentOffset={{ x: -horizontalPadding, y: 0 }}
-        style={{
-          overflow: 'visible',
-          width: Dimensions.get('window').width,
-        }}
-      >
-        {gameData.map((game: any, index) => (
-          <GameCard item={game} navigation={navigation} size="small" key={game.id} />
-        ))}
-        {/* {games.map((game: Game, index: number) => (
-          <GameCard game={game} navigation={navigation} size="small" key={index} />
-        ))} */}
-      </ScrollView>
+      {isLoading && (
+        <View style={styles.center}>
+          <ActivityIndicator animating={true} size="large" color={primaryColor} />
+        </View>
+      )}
+      {isSuccess && (
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingRight: horizontalPadding,
+          }}
+          horizontal
+          contentOffset={{ x: -horizontalPadding, y: 0 }}
+          style={{
+            overflow: 'visible',
+            width: Dimensions.get('window').width,
+          }}
+        >
+          {games.map((game: Game, index: number) => (
+            <GameCard
+              id={game._id}
+              navigation={navigation}
+              size="small"
+              isGameAlike={true}
+              key={index}
+            />
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };
 
-const GameScreen = ({ navigation }: any) => {
-  // const game = gameData.find((game) => game.id === route.params.item.id);
+const GameScreen = ({ route, navigation }: any) => {
   const {
     data: game,
     isLoading,
     isSuccess,
     isError,
     error,
-  } = useGetGameByIdQuery({ _id: '6407934b181cb90d58d6ca4a' });
+  } = useGetGameByIdQuery({ _id: route.params });
 
   useEffect(() => {
     navigation.setOptions({ title: '' });
@@ -243,11 +258,9 @@ const GameScreen = ({ navigation }: any) => {
           </View>
           <Divider style={{ marginVertical: 16 }} />
           {/* render 'they loved playing it' */}
-
-          <Reviews reviews={game.reviews} />
-
+          {game.reviews.length !== 0 && <Reviews reviews={game.reviews} />}
           {/* render 'game alike' */}
-          <Suggestion navigation={navigation} />
+          <Suggestion navigation={navigation} gameId={route.params} />
         </ScrollView>
       )}
     </>
