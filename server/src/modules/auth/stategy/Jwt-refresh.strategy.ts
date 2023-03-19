@@ -23,7 +23,7 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-ref
   }
 
   validate(req: Request, payload: any) {
-    if (payload.username == undefined) {
+    if (payload.id == undefined) {
       throw new NotFoundException(`Bearer Token no found or corrupted`);
     }
     const refreshToken = req.get('Authorization').replace('Bearer', '').trim();
