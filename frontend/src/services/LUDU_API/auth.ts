@@ -17,15 +17,21 @@ export const extendedApi = emptySplitApi.injectEndpoints({
         body: userToLogin,
       }),
     }),
-    refresh: builder.mutation({
-      query: (token) => ({
-        url: '/auth/refresh',
-        method: 'POST',
-        body: { refreshToken: token },
+    refresh: builder.query({
+      query: () => ({
+        url: '/local/refresh',
+        method: 'GET',
+      }),
+    }),
+    logout: builder.query({
+      query: () => ({
+        url: '/local/logout',
+        method: 'GET',
       }),
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useRegisterMutation, useLoginMutation, useRefreshMutation } = extendedApi;
+export const { useRegisterMutation, useLoginMutation, useRefreshQuery, useLogoutQuery } =
+  extendedApi;
