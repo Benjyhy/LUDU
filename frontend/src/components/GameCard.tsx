@@ -1,58 +1,88 @@
 import React, { useEffect, useState } from 'react';
 import findRoutes from '../navigation/appRoutes/findRoutes';
 import Tag from './Tag';
-import { Dimensions, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Dimensions, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useGetCopyByIdQuery } from '../services/LUDU_API/copies';
 import { Game } from '../models/states/Game';
-import { getGameImg } from '../utils/const';
+import { useGetGameByIdQuery } from '../services/LUDU_API/games';
+import ImageHandle from './Image';
 
-const GameCard = ({ item, navigation, size }: any) => {
+interface IGameCard {
+  id: string;
+  navigation: any;
+  size: string;
+  isGameAlike: boolean;
+}
+
+const GameCard = ({ id, navigation, size, isGameAlike }: IGameCard) => {
   const [game, setGame] = useState<Game>();
 
-  const {
-    data: copy,
-    isLoading,
-    isError,
-    isFetching,
-    isSuccess,
-  } = useGetCopyByIdQuery({ _id: item });
+  if (!isGameAlike) {
+    const { data: copy, isLoading, isError, isSuccess, error } = useGetCopyByIdQuery({ _id: id });
 
-  useEffect(() => {
-    if (isSuccess) setGame(copy.game);
-  }, [copy]);
+    useEffect(() => {
+      if (isSuccess) setGame(copy.game);
+    }, [copy]);
 
-  if (isLoading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    if (isLoading) {
+      return <></>;
+    }
+
+    if (isError) {
+      console.log(error);
+      return (
+        <View>
+          <Text>Error loading elements</Text>
+        </View>
+      );
+    }
+  } else {
+    const { data: game, isLoading, isError, isSuccess } = useGetGameByIdQuery({ _id: id });
+
+    useEffect(() => {
+      if (isSuccess) setGame(game);
+    }, [game]);
+
+    if (isLoading) {
+      return (
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      );
+    }
+
+    if (isError) {
+      return (
+        <View>
+          <Text>Error loading elements</Text>
+        </View>
+      );
+    }
   }
 
-  if (isError) {
-    return (
-      <View>
-        <Text>Error loading elements</Text>
-      </View>
-    );
-  }
   if (game) {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate(findRoutes.GAME_SCREEN, { item })}>
+      <TouchableOpacity onPress={() => navigation.push(findRoutes.GAME_SCREEN, game._id)}>
         <View style={[styles.card, size === 'small' ? styles.smallCard : styles.largeCard]}>
-          <Image
-            style={[size === 'small' ? styles.smallImg : styles.largeImg]}
-            resizeMode="cover"
-            source={{
-              uri: getGameImg(game.thumbnail),
-            }}
-          />
+          <ImageHandle src={game.thumbnail} resizeMode={'cover'} size={'small'} />
           <View style={styles.content}>
             <View style={{ marginBottom: 15 }}>
-              <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>
-                {game.name}
-              </Text>
+              {!isGameAlike && (
+                <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>
+                  {game.name}
+                </Text>
+              )}
+              {isGameAlike && (
+                <Text
+                  variant="titleLarge"
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                  style={{ fontWeight: 'bold' }}
+                >
+                  {game.name}
+                </Text>
+              )}
               <View style={{ margin: 3, flexDirection: 'row', flexWrap: 'wrap' }}>
                 {Object.values(game.tags).map(
                   (tag: string, index: React.Key | null | undefined) => (
@@ -66,7 +96,21 @@ const GameCard = ({ item, navigation, size }: any) => {
               </View>
             </View>
             <View style={{ marginBottom: 8 }}>
-              <Text variant="bodySmall">{game.description}</Text>
+              {!isGameAlike && (
+                <Text variant="bodySmall" style={styles.description}>
+                  {game.description}
+                </Text>
+              )}
+              {isGameAlike && (
+                <Text
+                  variant="bodySmall"
+                  numberOfLines={3}
+                  ellipsizeMode="tail"
+                  style={styles.description}
+                >
+                  {game.description}
+                </Text>
+              )}
             </View>
           </View>
         </View>
@@ -112,5 +156,12 @@ const styles = StyleSheet.create({
     margin: 3,
     flex: 1,
     marginLeft: 0,
+  },
+  description: {
+    maxWidth: '100%',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: 3,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 });

@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "rimraf dist && nest build",
+    "build": "rimraf dist && nest build && npm run copy:static",
     "format": "prettier --write **/*.ts{,x}",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -19,7 +19,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "seed:drop": "npx ts-node src/seeders/seed.ts --drop",
-    "seed:refresh": "npm run seed:drop && npm run test:e2e"
+    "seed:refresh": "npm run seed:drop && npm run test:e2e",
+    "copy:static": "cpx 'static/**' 'dist/static'"
   },
   "dependencies": {
     "@faker-js/faker": "^7.5.0",

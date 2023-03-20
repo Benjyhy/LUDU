@@ -38,16 +38,13 @@ export class StoreController {
     @Param('id')
     id: string,
   ): Promise<StoreDocument> {
-    try {
-      const store = await this.storeService.findById(id);
+    const store = await this.storeService.findById(id);
+    console.log(store);
 
-      if (!store) {
-        throw new NotFoundException(`Store #${id} not found`);
-      }
-      return store;
-    } catch (e) {
-      console.log(e);
+    if (!store) {
+      throw new NotFoundException(`Store #${id} not found`);
     }
+    return store;
   }
 
   @Post('')

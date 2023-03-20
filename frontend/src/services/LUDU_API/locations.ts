@@ -29,7 +29,10 @@ const extendedApi = emptySplitApi.injectEndpoints({
           for (const location of response) {
             for (const store of location['stores']) {
               for (const copy of store['copies']) {
-                res.push(copy._id);
+                const gameAlreadyInResponse = res.some((el) => el.game === copy.game);
+                if (!gameAlreadyInResponse) {
+                  res.push({ id: copy._id, game: copy.game });
+                }
               }
             }
           }

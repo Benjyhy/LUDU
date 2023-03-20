@@ -17,7 +17,7 @@ export const games = [
     name: '7 Wonders',
     version: 'Toys VGA',
     tags: {
-      playTime: 28,
+      playTime: 70,
       players: [3, 7],
     },
     thumbnail: '7d199e8c-e60b-45dd-b6ee-24153c4d6211',
@@ -31,7 +31,7 @@ export const games = [
     name: 'Carcassonne',
     version: 'Automotive Dynamic',
     tags: {
-      playTime: 78,
+      playTime: 50,
       players: [2, 5],
     },
     thumbnail: '076be7a6-77c7-49a3-9634-bf75c59eeb00',
@@ -45,7 +45,7 @@ export const games = [
     name: 'Tickets to ride',
     version: 'id Architect',
     tags: {
-      playTime: 43,
+      playTime: 55,
       players: [2, 9],
     },
     thumbnail: '288e4b91-ac5e-4c3a-87d4-e2cda526f179',
@@ -87,7 +87,7 @@ export const games = [
     name: 'Cyclades',
     version: 'Sedan Bicycle',
     tags: {
-      playTime: 28,
+      playTime: 90,
       players: [3, 5],
     },
     thumbnail: 'af64ae02-a350-4180-8da6-a9c64dd3f466',
@@ -101,7 +101,7 @@ export const games = [
     name: 'Catan',
     version: 'specific Tricycle',
     tags: {
-      playTime: 23,
+      playTime: 45,
       players: [2, 5],
     },
     thumbnail: '3c3f8285-e8b8-4e79-87c3-96943be4e630',
@@ -115,7 +115,7 @@ export const games = [
     name: 'Dungeons and Dragons',
     version: 'Diesel period',
     tags: {
-      playTime: 28,
+      playTime: 40,
       players: [1, 2],
     },
     thumbnail: 'b1bf88d9-6fda-46aa-a603-33e1dd15d812',
@@ -127,7 +127,7 @@ export const games = [
   },
   {
     name: 'Intrigue',
-    version: 'optical archaeology',
+    version: 'Classic',
     tags: {
       playTime: 30,
       players: [2, 6],
@@ -141,7 +141,7 @@ export const games = [
   },
   {
     name: 'Uno',
-    version: 'optical archaeology',
+    version: 'Classic',
     tags: {
       playTime: 30,
       players: [2, 10],
@@ -252,8 +252,8 @@ export const games = [
     _id: undefined,
   },
   {
-    name: 'Age of Empire - The Board Game',
-    version: 'Classic',
+    name: 'Age of Empire',
+    version: 'The Board Game',
     tags: {
       playTime: 80,
       players: [1, 6],
@@ -280,8 +280,8 @@ export const games = [
     _id: undefined,
   },
   {
-    name: 'A Game of Throne - The Board Game',
-    version: 'Classic',
+    name: 'Game of Throne ',
+    version: 'The Board Game',
     tags: {
       playTime: 90,
       players: [2, 3],
