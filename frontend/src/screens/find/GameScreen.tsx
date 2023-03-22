@@ -9,7 +9,6 @@ import Tag from '../../components/Tag';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
 import {
   borderRadius,
-  errorColor,
   getGameImg,
   horizontalPadding,
   primaryColor,
@@ -18,6 +17,7 @@ import {
 import { useGetGameByIdQuery, useRandomGameQuery } from '../../services/LUDU_API/games';
 import { Game } from '../../models/states/Game';
 import { Category } from '../../models/states/Category';
+import NotFound from '../../components/NotFound';
 
 const Reviews = ({ reviews }: { reviews: string[] }) => {
   return (
@@ -111,13 +111,7 @@ const Suggestion = ({ navigation, gameId }: any) => {
 };
 
 const GameScreen = ({ route, navigation }: any) => {
-  const {
-    data: game,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetGameByIdQuery({ _id: route.params });
+  const { data: game, isLoading, isSuccess, isError } = useGetGameByIdQuery({ _id: route.params });
 
   useEffect(() => {
     navigation.setOptions({ title: '' });
@@ -138,21 +132,21 @@ const GameScreen = ({ route, navigation }: any) => {
       )}
       {isError && (
         <View style={styles.center}>
-          <Text variant="headlineSmall" style={{ color: errorColor }}>
-            Game not found
-          </Text>
-          <Button
-            onPress={() => navigation.navigate(findRoutes.HOME_FEED)}
-            buttonColor={primaryColor}
-            textColor="white"
-            style={{
-              borderRadius: borderRadius,
-              marginHorizontal: 16,
-              marginVertical: 12,
-            }}
-          >
-            Back
-          </Button>
+          <View style={styles.center}>
+            <NotFound info={'These game was not found'} />
+            <Button
+              onPress={() => navigation.navigate(findRoutes.HOME_FEED)}
+              buttonColor={primaryColor}
+              textColor="white"
+              style={{
+                borderRadius: borderRadius,
+                marginHorizontal: 16,
+                marginVertical: 12,
+              }}
+            >
+              Go Back
+            </Button>
+          </View>
         </View>
       )}
       {isSuccess && (

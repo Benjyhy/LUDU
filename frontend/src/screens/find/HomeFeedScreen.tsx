@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import GameCard from '../../components/GameCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { TouchableOpacity, ScrollView, View, ActivityIndicator, StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Text, Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
-import { primaryColor } from '../../utils/const';
+import { borderRadius, primaryColor } from '../../utils/const';
 import Layout from '../Layout';
 import { toggleCategoryFilter } from '../../store/actions/filterGamesByCategoriesAction';
 import Filter from '../../components/Filter';
 import { FilterTypes } from '../../models/Filter';
 import { useGetEntitiesByZipCodeQuery } from '../../services/LUDU_API/locations';
+import NotFound from '../../components/NotFound';
+import appRoutes from '../../navigation/appRoutes';
 
 const HomeFeedScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
@@ -18,21 +20,49 @@ const HomeFeedScreen = ({ navigation }: any) => {
   const zipCode = useSelector((state: MainAppState) => state.currentLocation.zipCode);
   const {
     data: copies,
-    isLoading: isLoadingIds,
-    isError: isErrorIds,
+    isLoading: isLoading,
+    isError: isError,
     isSuccess,
     isFetching,
   } = useGetEntitiesByZipCodeQuery({ postalCode: zipCode, entity: 'copies' });
-  if (isLoadingIds || isErrorIds) {
-    return (
-      <View style={styles.loader}>
-        <ActivityIndicator animating={true} size="large" color={primaryColor} />
-      </View>
-    );
-  }
+
+  useEffect(() => {
+    if (isError) {
+      navigation.setOptions({ headerShown: false });
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigation.setOptions({ headerShown: false });
+    }
+  }, [isSuccess]);
+
   if (isSuccess && !isFetching) {
     return (
       <>
+        {isLoading && (
+          <View style={styles.center}>
+            <ActivityIndicator animating={true} size="large" color={primaryColor} />
+          </View>
+        )}
+        {isError && (
+          <View style={styles.center}>
+            <NotFound info={'Unfortunately, there is no game in your current location'} />
+            <Button
+              onPress={() => navigation.navigate(appRoutes.LOGIN_SCREEN)}
+              buttonColor={primaryColor}
+              textColor="white"
+              style={{
+                borderRadius: borderRadius,
+                marginHorizontal: 16,
+                marginVertical: 12,
+              }}
+            >
+              Go Back
+            </Button>
+          </View>
+        )}
         <Layout>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View
@@ -49,7 +79,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
                 <Ionicons name="funnel" size={24} color={primaryColor} />
               </TouchableOpacity>
             </View>
-            <View style={styles.loader}>
+            <View style={styles.center}>
               <ActivityIndicator animating={true} size="large" color={primaryColor} />
             </View>
             <View style={styles.wrapperGameList}>
@@ -75,7 +105,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
 export default HomeFeedScreen;
 
 const styles = StyleSheet.create({
-  loader: {
+  center: {
     position: 'absolute',
     left: 0,
     right: 0,
