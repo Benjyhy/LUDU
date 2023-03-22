@@ -15,7 +15,6 @@ import { useGetEntitiesByZipCodeQuery } from '../../services/LUDU_API/locations'
 const HomeFeedScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
   const isActiveFilter = useSelector((state: MainAppState) => state.filterGamesByCategories.active);
-  const userState = useSelector((state: MainAppState) => state.user);
   const zipCode = useSelector((state: MainAppState) => state.currentLocation.zipCode);
   const {
     data: copies,
@@ -31,7 +30,6 @@ const HomeFeedScreen = ({ navigation }: any) => {
       </View>
     );
   }
-  console.log(userState);
   if (isSuccess && !isFetching) {
     return (
       <>

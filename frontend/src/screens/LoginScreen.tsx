@@ -15,7 +15,7 @@ const headerHeight = StatusBar.currentHeight;
 export default function Login({ navigation }: any) {
   const [usernameInput, setUsernameInput] = useState<string>('User');
   const [password, setPassword] = useState<string>('password');
-  const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
   const dispatch = useDispatch();
   const [login, { data, isLoading, isSuccess, isError, error: errorMutation }] = useLoginMutation();
 
@@ -47,7 +47,7 @@ export default function Login({ navigation }: any) {
     getUser().catch((e) => console.log(e));
     if (isError) {
       console.log(errorMutation);
-      setError(true);
+      setError(errorMutation.error as string);
     }
     // navigation.navigate(appRoutes.TAB_NAVIGATOR);
   }, [isSuccess, isError]);
@@ -95,9 +95,9 @@ export default function Login({ navigation }: any) {
                 setPassword(text);
               }}
             />
-            {error && (
+            {error.length !== 0 && (
               <View style={styles.error}>
-                <Text style={{ color: '#fff', fontSize: 14 }}>Wrong credentials</Text>
+                <Text style={{ color: '#fff', fontSize: 14 }}>{error}</Text>
               </View>
             )}
             <View
