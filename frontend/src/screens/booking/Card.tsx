@@ -69,7 +69,6 @@ const CardItem = ({ item }) => {
               left={() => LeftContent(getGameImg(newItem.game.game.thumbnail))}
               right={() => rightContent(rightBadge())}
             />
-            {console.log(getGameImg(newItem.game.game.thumbnail))}
           </ControlledTooltip>
 
           <Card.Content style={styles.content}>

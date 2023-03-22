@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { GOOGLE_CLOUD_API_KEY } from '@env';
-import store from '../store';
 
 export async function getZipCode(latitude, longitude) {
   const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_CLOUD_API_KEY}`;

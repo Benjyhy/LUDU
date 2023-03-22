@@ -29,7 +29,6 @@ const StackNav = () => {
         try {
           const zipCode = await getZipCode(latitude, longitude);
           dispatch(setCurrentLocation({ latitude, longitude, zipCode }));
-          console.log(zipCode);
         } catch (e) {
           console.log(e);
         }
