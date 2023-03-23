@@ -45,5 +45,5 @@ lerna-debug.log*
 # Default Image
 /static/images/game/thumbnail/*
 /static/images/user/avatar/*
-!/static/images/game/thumbnail/3c3f8285-e8b8-4e79-87c3-96943be4e630.webp
+!/static/images/game/thumbnail/bc9801de-182b-45a9-8b03-8112f65cd6ee.webp
 !/static/images/user/avatar/6ecd936f-6d9b-4d4e-b147-db198e6b8b2c.webp

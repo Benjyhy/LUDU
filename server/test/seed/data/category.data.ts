@@ -1,23 +1,34 @@
-import { CategoryDto } from './../../../src/modules/category/dto/category.dto';
-export const categories: CategoryDto[] = [
+export const categories = [
   {
-    name: 'Jeux à boire',
+    name: 'Drinking games',
     _id: undefined,
   },
   {
-    name: "Jeux d'évasion",
+    name: 'Escape games',
     _id: undefined,
   },
   {
-    name: 'jeux de cartes',
+    name: 'Card games',
     _id: undefined,
   },
   {
-    name: 'jeux de roles',
+    name: 'Rolepay',
     _id: undefined,
   },
   {
-    name: 'Jeux de stratégie',
+    name: 'Strategy games',
+    _id: undefined,
+  },
+  {
+    name: 'Bord games',
+    _id: undefined,
+  },
+  {
+    name: 'Communication games',
+    _id: undefined,
+  },
+  {
+    name: 'Family games',
     _id: undefined,
   },
 ];

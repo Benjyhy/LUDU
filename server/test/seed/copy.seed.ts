@@ -13,6 +13,7 @@ import { CopyService } from '../../src/modules/copy/copy.service';
 import { StoreService } from '../../src/modules/store/store.service';
 import { CopyController } from '../../src/modules/copy/copy.controller';
 import { Category, CategorySchema } from '../../src/schemas/category.schema';
+import { LocationService } from '../../src/modules/location/location.service';
 
 export const CopySeed = () => {
   describe('Copy', () => {
@@ -20,6 +21,7 @@ export const CopySeed = () => {
     let gameService: GameService;
     let copyService: CopyService;
     let storeService: StoreService;
+    let locationService: LocationService;
     let connection: Connection;
 
     beforeAll(async () => {
@@ -41,23 +43,27 @@ export const CopySeed = () => {
           ]),
         ],
         controllers: [CopyController],
-        providers: [GameService, CopyService, StoreService],
+        providers: [GameService, CopyService, StoreService, LocationService],
       }).compile();
 
       connection = await module.get(getConnectionToken());
       gameService = module.get<GameService>(GameService);
       copyService = module.get<CopyService>(CopyService);
       storeService = module.get<StoreService>(StoreService);
+      locationService = module.get<LocationService>(LocationService);
       copyController = new CopyController(copyService, storeService, gameService);
     });
 
     test('seed', async () => {
-      const stores = await storeService.findAll();
+      const location = await locationService.findAll();
       const games = await gameService.findAll();
       const copies = [];
-      for (let i = 0; i < 60; i++) {
+
+      for (let i = 0; i < 40; i++) {
         const storesId =
-          stores[Math.round(Math.floor(Math.random() * stores.length))]._id.toString();
+          location[0].stores[
+            Math.round(Math.floor(Math.random() * location[0].stores.length))
+          ]._id.toString();
 
         const gamesId = games[Math.round(Math.floor(Math.random() * games.length))]._id.toString();
 
@@ -68,14 +74,31 @@ export const CopySeed = () => {
           available: true,
         });
       }
+      // console.log(copies);
+      // console.log(copies.length);
 
+      for (let i = 0; i < 40; i++) {
+        const storesId =
+          location[1].stores[
+            Math.round(Math.floor(Math.random() * location[1].stores.length))
+          ]._id.toString();
+
+        const gamesId = games[Math.round(Math.floor(Math.random() * games.length))]._id.toString();
+
+        copies.push({
+          game: gamesId,
+          store: storesId,
+          _id: undefined,
+          available: true,
+        });
+      }
       await Promise.all(
         copies.map(async (item) => {
           await copyController.create(item);
         }),
       );
       const result = await copyService.findAll();
-      expect(result).toHaveLength(60);
+      expect(result).toHaveLength(80);
     });
 
     afterAll(async () => {

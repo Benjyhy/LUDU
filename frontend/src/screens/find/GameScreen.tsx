@@ -4,20 +4,15 @@ import GameCard from '../../components/GameCard';
 import { ActivityIndicator, Dimensions } from 'react-native';
 import { InlineTextIcon } from '../../components/InlineTextIcon';
 import { Button, Divider, Text } from 'react-native-paper';
-import { View, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import Tag from '../../components/Tag';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
-import {
-  borderRadius,
-  getGameImg,
-  horizontalPadding,
-  primaryColor,
-  secondaryColor,
-} from '../../utils/const';
+import { borderRadius, horizontalPadding, primaryColor, secondaryColor } from '../../utils/const';
 import { useGetGameByIdQuery, useRandomGameQuery } from '../../services/LUDU_API/games';
 import { Game } from '../../models/states/Game';
 import { Category } from '../../models/states/Category';
 import NotFound from '../../components/NotFound';
+import ImageHandle from '../../components/Image';
 
 const Reviews = ({ reviews }: { reviews: string[] }) => {
   return (
@@ -96,13 +91,7 @@ const Suggestion = ({ navigation, gameId }: any) => {
           }}
         >
           {games.map((game: Game, index: number) => (
-            <GameCard
-              id={game._id}
-              navigation={navigation}
-              size="small"
-              isGameAlike={true}
-              key={index}
-            />
+            <GameCard id={game._id} navigation={navigation} size="small" key={index} />
           ))}
         </ScrollView>
       )}
@@ -171,15 +160,12 @@ const GameScreen = ({ route, navigation }: any) => {
           {/* display image, tags, description */}
           <View style={{ paddingRight: horizontalPadding, paddingLeft: horizontalPadding }}>
             <View>
-              <Image
-                resizeMode="cover"
-                style={{
-                  width: Dimensions.get('window').width - horizontalPadding * 2,
-                  height: 400,
-                }}
-                source={{
-                  uri: getGameImg(game.thumbnail),
-                }}
+              <ImageHandle
+                src={game.thumbnail}
+                resizeMode={'cover'}
+                size={'small'}
+                width={Dimensions.get('window').width - horizontalPadding * 2}
+                height={200}
               />
             </View>
             <View></View>

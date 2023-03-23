@@ -14,6 +14,7 @@ import { LocationDocument } from '../../schemas/location.schema';
 import { LocationService } from './location.service';
 import { LocationDto } from './dto/location.dto';
 import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
+import { ValidateMongoId } from '../../middlewares/validateMongoId';
 
 @Controller('location')
 @ApiTags('Location')
@@ -37,10 +38,25 @@ export class LocationController {
   })
   findByZip(
     @Param('zip')
-    zip: number,
+    zip: string,
   ): Promise<LocationDocument[]> {
-    console.log(zip);
     return this.locationService.findByZip(zip);
+  }
+
+  @Get('/:zip/:categoryId')
+  @ApiOperation({ summary: 'Get location by zip code and copies by category' })
+  @ApiOkResponse({
+    description: 'Success',
+    type: LocationDto,
+    isArray: true,
+  })
+  findByZipAndCategory(
+    @Param('zip')
+    zip: string,
+    @Param('categoryId', new ValidateMongoId())
+    categoryId: string,
+  ): Promise<LocationDocument[]> {
+    return this.locationService.findByZipAndCategory(zip, categoryId);
   }
 
   @Get('/id/:id')

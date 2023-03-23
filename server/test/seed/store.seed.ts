@@ -45,8 +45,8 @@ export const StoreSeeder = () => {
 
     describe('seed', () => {
       it('', async () => {
-        const locationLille = await locationService.findByZip(59000);
-        const locationLyon = await locationService.findByZip(69000);
+        const locationLille = await locationService.findByZip('59000');
+        const locationLyon = await locationService.findByZip('69000');
         const lille = storesLille.map((store) => {
           const locationId =
             locationLille[

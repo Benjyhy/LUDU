@@ -25,7 +25,7 @@ import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 
 @Controller('game')
 @ApiTags('Game')
-// @JWTAuth()
+@JWTAuth()
 export class GameController {
   constructor(
     private readonly gameService: GameService,

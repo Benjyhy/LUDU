@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Location, LocationDocument } from '../../schemas/location.schema';
 import { LocationDto } from './dto/location.dto';
 import { ObjectId } from 'mongodb';
@@ -20,12 +20,12 @@ export class LocationService {
     return await this.locationModel.findById(id).populate('stores');
   }
 
-  public async findByZip(zip: number): Promise<LocationDocument[]> {
-    // const location = await this.locationModel.find({ postalCode: zip }).populate('stores').exec();
+  public async findByZip(zip: string): Promise<LocationDocument[]> {
+    const department = zip.slice(0, 2);
     const location = await this.locationModel.aggregate([
       {
         $match: {
-          postalCode: 59000,
+          postalCode: Number(`${department}000`),
         },
       },
       {
@@ -48,6 +48,105 @@ export class LocationService {
                   },
                   {
                     $match: { available: true },
+                  },
+                  {
+                    $addFields: {
+                      convertedGameId: { $toObjectId: '$game' },
+                    },
+                  },
+                  {
+                    $lookup: {
+                      from: 'games',
+                      let: { game: '$convertedGameId' },
+                      pipeline: [
+                        {
+                          $match: {
+                            $expr: {
+                              $eq: ['$_id', '$$game'],
+                            },
+                          },
+                        },
+                        {
+                          $project: { _id: 1 },
+                        },
+                      ],
+                      as: 'game',
+                    },
+                  },
+                ],
+                as: 'copies',
+              },
+            },
+          ],
+          as: 'stores',
+        },
+      },
+    ]);
+    if (location.length === 0)
+      throw new NotFoundException(`Location with zipcode ${zip} not found`);
+
+    return location;
+  }
+
+  public async findByZipAndCategory(zip: string, categoryId: string): Promise<LocationDocument[]> {
+    const department = zip.slice(0, 2);
+    const location = await this.locationModel.aggregate([
+      {
+        $match: {
+          postalCode: Number(`${department}000`),
+        },
+      },
+      {
+        $lookup: {
+          from: 'stores',
+          let: { stores: '$stores' },
+          pipeline: [
+            { $match: { $expr: { $in: ['$_id', '$$stores'] } } },
+            {
+              $lookup: {
+                from: 'copies',
+                let: { copies: '$copies' },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $in: ['$_id', '$$copies'],
+                      },
+                    },
+                  },
+                  {
+                    $match: { available: true },
+                  },
+                  {
+                    $addFields: {
+                      convertedGameId: { $toObjectId: '$game' },
+                    },
+                  },
+                  {
+                    $lookup: {
+                      from: 'games',
+                      let: { game: '$convertedGameId' },
+                      pipeline: [
+                        {
+                          $match: {
+                            $expr: {
+                              $eq: ['$_id', '$$game'],
+                            },
+                          },
+                        },
+                        {
+                          $match: {
+                            categories: {
+                              $in: [new mongoose.Types.ObjectId(categoryId)],
+                            },
+                          },
+                        },
+                        {
+                          $project: { _id: 1 },
+                        },
+                      ],
+                      as: 'game',
+                    },
                   },
                 ],
                 as: 'copies',
