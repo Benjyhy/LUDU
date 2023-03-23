@@ -7,8 +7,10 @@ interface IImageHandle {
   src: string;
   size: string;
   resizeMode: ImageResizeMode;
+  width?: number;
+  height: number;
 }
-const ImageHandle: React.FC<IImageHandle> = ({ src, size, resizeMode }: IImageHandle) => {
+const ImageHandle: React.FC<IImageHandle> = ({ src, resizeMode, width, height }: IImageHandle) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageError, setImageError] = useState<boolean>(false);
 
@@ -28,7 +30,11 @@ const ImageHandle: React.FC<IImageHandle> = ({ src, size, resizeMode }: IImageHa
   if (imageError) {
     return (
       <View style={styles.center}>
-        <Text>Image not found</Text>
+        <Image
+          style={{ width: width ? width : '100%', height: height }}
+          resizeMode={resizeMode}
+          source={require('../../assets/not-found.png')}
+        />
       </View>
     );
   }
@@ -43,7 +49,7 @@ const ImageHandle: React.FC<IImageHandle> = ({ src, size, resizeMode }: IImageHa
 
   return (
     <Image
-      style={[size === 'small' ? styles.smallImg : styles.largeImg]}
+      style={{ width: width ? width : '100%', height: height }}
       resizeMode={resizeMode}
       source={{
         uri: imageUrl,
@@ -53,14 +59,6 @@ const ImageHandle: React.FC<IImageHandle> = ({ src, size, resizeMode }: IImageHa
 };
 
 const styles = StyleSheet.create({
-  smallImg: {
-    width: '100%',
-    height: 150,
-  },
-  largeImg: {
-    width: '100%',
-    height: 150,
-  },
   center: {
     height: 150,
     width: '100%',

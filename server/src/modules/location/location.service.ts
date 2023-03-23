@@ -21,10 +21,11 @@ export class LocationService {
   }
 
   public async findByZip(zip: string): Promise<LocationDocument[]> {
+    const department = zip.slice(0, 2);
     const location = await this.locationModel.aggregate([
       {
         $match: {
-          postalCode: Number(zip),
+          postalCode: Number(`${department}000`),
         },
       },
       {
@@ -65,6 +66,9 @@ export class LocationService {
                             },
                           },
                         },
+                        {
+                          $project: { _id: 1 },
+                        },
                       ],
                       as: 'game',
                     },
@@ -85,10 +89,11 @@ export class LocationService {
   }
 
   public async findByZipAndCategory(zip: string, categoryId: string): Promise<LocationDocument[]> {
+    const department = zip.slice(0, 2);
     const location = await this.locationModel.aggregate([
       {
         $match: {
-          postalCode: Number(zip),
+          postalCode: Number(`${department}000`),
         },
       },
       {
@@ -135,6 +140,9 @@ export class LocationService {
                               $in: [new mongoose.Types.ObjectId(categoryId)],
                             },
                           },
+                        },
+                        {
+                          $project: { _id: 1 },
                         },
                       ],
                       as: 'game',

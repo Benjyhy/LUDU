@@ -3,8 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 
 export const emptySplitApi = createApi({
   baseQuery: fetchBaseQuery({
-    // baseUrl: 'http://13.39.77.202',
-    baseUrl: 'http://192.168.136.58:3000',
+    baseUrl: 'http://13.39.77.202',
     prepareHeaders: async (headers) => {
       const token = await SecureStore.getItemAsync('authToken');
       if (token) {

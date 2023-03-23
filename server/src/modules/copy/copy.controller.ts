@@ -41,7 +41,8 @@ export class CopyController {
 
     const store = await this.storeService.findById(copyDto.store);
     // merge old copies with the new one
-    const newCopies = [...store.copies, copyCreated._id.toString()];
+    const newCopies = [...store.copies, copyCreated];
+    // console.log(newCopies);
 
     // store with his copies
     await this.storeService.updateCopies(copyDto.store, newCopies);
