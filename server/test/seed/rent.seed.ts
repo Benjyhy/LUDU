@@ -13,12 +13,16 @@ import { Rent, RentSchema } from '../../src/schemas/rent.schema';
 import { User, UserSchema } from '../../src/schemas/user.schema';
 import { rentsForUser1, rentsForUser2, rentsForUser3 } from './data/rent.data';
 import { Game, GameSchema } from '../../src/schemas/game.schema';
+import { StoreService } from '../../src/modules/store/store.service';
+import { Store, StoreSchema } from '../../src/schemas/store.schema';
+import { Location, LocationSchema } from '../../src/schemas/location.schema';
 
 export const RentSeed = () => {
   describe('Rent', () => {
     let userService: UserService;
     let copyService: CopyService;
     let rentService: RentService;
+    let storeService: StoreService;
     let rentController: RentController;
     let connection: Connection;
 
@@ -30,64 +34,112 @@ export const RentSeed = () => {
             load: [appConfig],
           }),
           DbModule({
-            uri: appConfig().database.prod,
+            uri: appConfig().database.dev,
           }),
           MongooseModule.forFeature([
             { name: User.name, schema: UserSchema },
             { name: Copy.name, schema: CopySchema },
             { name: Rent.name, schema: RentSchema },
             { name: Game.name, schema: GameSchema },
+            { name: Store.name, schema: StoreSchema },
+            { name: Location.name, schema: LocationSchema },
           ]),
         ],
-        providers: [UserService, CopyService, RentService],
+        providers: [UserService, CopyService, RentService, StoreService],
       }).compile();
 
       connection = await module.get(getConnectionToken());
       userService = module.get<UserService>(UserService);
       copyService = module.get<CopyService>(CopyService);
+      storeService = module.get<StoreService>(StoreService);
       rentService = module.get<RentService>(RentService);
-      rentController = new RentController(rentService, copyService, userService);
+      rentController = new RentController(rentService, copyService, userService, storeService);
     });
 
     describe('seed', () => {
       it('', async () => {
         const users = await userService.findAll();
+        const store = await storeService.findAll();
         const copies = await copyService.findByAvailability();
+        let ownerId;
 
         for (let i = 0; i < rentsForUser1.length; i++) {
           const copyId = copies.shift()._id.toString();
           const userId = users[0]._id.toString();
-
-          const rent = Object.assign({}, rentsForUser1[i], {
-            game: copyId,
-            user: userId,
-            _id: undefined,
-          });
-          await rentController.create(rent);
+          for (let y = 0; y < store.length; y++) {
+            if (store[y].copies.toString().includes(copyId)) {
+              ownerId = store[y]._id.toString();
+              break;
+            }
+          }
+          for (let o = 0; o < users.length; o++) {
+            if (users[o].copies.toString().includes(copyId)) {
+              ownerId = users[o]._id.toString();
+              break;
+            }
+          }
+          if (typeof ownerId !== 'undefined') {
+            const rent = Object.assign({}, rentsForUser1[i], {
+              game: copyId,
+              user: userId,
+              owner_id: ownerId,
+              _id: undefined,
+            });
+            await rentController.create(rent);
+          }
         }
 
         for (let i = 0; i < rentsForUser2.length; i++) {
           const copyId = copies.shift()._id.toString();
           const userId = users[1]._id.toString();
-
-          const rent = Object.assign({}, rentsForUser2[i], {
-            game: copyId,
-            user: userId,
-            _id: undefined,
-          });
-          await rentController.create(rent);
+          for (let y = 0; y < store.length; y++) {
+            if (store[y].copies.toString().includes(copyId)) {
+              ownerId = store[y]._id.toString();
+              break;
+            }
+          }
+          for (let o = 0; o < users.length; o++) {
+            if (users[o].copies.toString().includes(copyId)) {
+              ownerId = users[o]._id.toString();
+              break;
+            }
+          }
+          if (typeof ownerId !== 'undefined') {
+            const rent = Object.assign({}, rentsForUser2[i], {
+              game: copyId,
+              user: userId,
+              owner_id: ownerId,
+              _id: undefined,
+            });
+            await rentController.create(rent);
+          }
         }
 
         for (let i = 0; i < rentsForUser3.length; i++) {
           const copyId = copies.shift()._id.toString();
           const userId = users[2]._id.toString();
 
-          const rent = Object.assign({}, rentsForUser3[i], {
-            game: copyId,
-            user: userId,
-            _id: undefined,
-          });
-          await rentController.create(rent);
+          for (let y = 0; y < store.length; y++) {
+            if (store[y].copies.toString().includes(copyId)) {
+              ownerId = store[y]._id.toString();
+              break;
+            }
+          }
+          for (let o = 0; o < users.length; o++) {
+            if (users[o].copies.toString().includes(copyId)) {
+              ownerId = users[o]._id.toString();
+              break;
+            }
+          }
+          if (typeof ownerId !== 'undefined') {
+            const rent = Object.assign({}, rentsForUser3[i], {
+              game: copyId,
+              user: userId,
+              owner_id: ownerId,
+              _id: undefined,
+            });
+            await rentController.create(rent);
+          }
         }
 
         const allrents = [...rentsForUser1, ...rentsForUser2, ...rentsForUser3];

@@ -25,6 +25,13 @@ export class RentDto {
   endDate: string | null;
 
   @ApiProperty({
+    example: '62e16c1b3f6a897c767bec7d',
+    description: "Id d'un User/Store qui détient la copy",
+  })
+  @IsString()
+  owner_id: string;
+
+  @ApiProperty({
     example: 'unix date',
     description: 'Timestamp in unix when the game is delivered',
   })

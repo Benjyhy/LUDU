@@ -52,8 +52,8 @@ export class StoreService {
     return await this.storeModel.findById(id).populate('location').exec();
   }
 
-  public async updateCopies(id: string, copyId: (Copy | Copy)[]): Promise<any> {
-    const updatedStore = await this.storeModel.updateOne({ _id: id }, { $set: { copies: copyId } });
+  public async updateCopies(id: string, copyID: (string | Copy)[]): Promise<any> {
+    const updatedStore = await this.storeModel.updateOne({ _id: id }, { $set: { copies: copyID } });
 
     if (!updatedStore) throw new NotFoundException(`Store #${id} not found`);
 

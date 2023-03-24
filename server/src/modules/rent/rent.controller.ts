@@ -7,6 +7,7 @@ import { CopyService } from '../copy/copy.service';
 import { UserService } from '../user/user.service';
 import { Rent } from '../../schemas/rent.schema';
 import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
+import { StoreService } from '../store/store.service';
 
 @Controller('rent')
 @ApiTags('Rent')
@@ -17,6 +18,7 @@ export class RentController {
     private readonly rentService: RentService,
     private readonly CopyService: CopyService,
     private readonly UserService: UserService,
+    private readonly StoreService: StoreService,
   ) {}
 
   @Get()
@@ -34,6 +36,16 @@ export class RentController {
     if (!availableCopy) throw new NotFoundException(`Copy #${RentDto.game} not found`);
     const userExist = await this.UserService.findById(RentDto.user);
     if (!userExist) throw new NotFoundException(`User #${RentDto.user} not found`);
+    const userOwner = await this.UserService.findById(RentDto.owner_id);
+    const storeOwner = await this.StoreService.findById(RentDto.owner_id);
+    let owner;
+
+    if (userOwner !== null) {
+      owner = userOwner;
+    } else {
+      owner = storeOwner;
+    }
+    if (!owner) throw new NotFoundException(`Owner #${RentDto.owner_id} not found`);
 
     if (!availableCopy.available)
       throw new HttpException(

@@ -11,9 +11,9 @@ describe('Test', () => {
   CategorySeed();
   LocationSeed();
   StoreSeeder();
+  UserSeed();
   GameSeed();
   CopySeed();
-  UserSeed();
   ReviewSeed();
   RentSeed();
 });

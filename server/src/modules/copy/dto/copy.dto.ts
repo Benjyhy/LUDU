@@ -17,6 +17,11 @@ export class CopyDto {
     example: 'Store mongoose ID',
     description: 'store id',
   })
-  @IsNotEmpty()
   readonly store: string;
+
+  @ApiProperty({
+    example: 'User mongoose ID',
+    description: 'user id',
+  })
+  readonly user: string;
 }

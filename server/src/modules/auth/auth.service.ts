@@ -152,6 +152,6 @@ export class AuthService {
   }
 
   async logout(userId: ObjectId) {
-    return this.userService.updateToken(userId, null);
+    return await this.userService.updateToken(userId, null);
   }
 }
