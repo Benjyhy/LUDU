@@ -3,7 +3,7 @@ import { Action } from '../../models/Action';
 
 const InitalUserState = {
   token: '',
-  id: '',
+  id: null,
   username: '',
   role: null,
   email: '',
@@ -30,7 +30,7 @@ const userReducer = (state = InitalUserState, action: Action<any>) => {
       return {
         ...state,
         token: '',
-        id: '',
+        id: null,
         username: '',
         role: null,
         email: '',

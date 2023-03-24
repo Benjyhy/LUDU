@@ -26,12 +26,16 @@ export const extendedApi = emptySplitApi.injectEndpoints({
     logout: builder.query({
       query: () => ({
         url: '/local/logout',
-        method: 'GET',
       }),
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useRegisterMutation, useLoginMutation, useRefreshQuery, useLogoutQuery } =
-  extendedApi;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useRefreshQuery,
+  useLogoutQuery,
+  useLazyLogoutQuery,
+} = extendedApi;

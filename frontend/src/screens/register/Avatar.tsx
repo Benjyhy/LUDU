@@ -3,7 +3,6 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { StyleSheet, Dimensions, TouchableOpacity, Image, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import appRoutes from '../../navigation/appRoutes/index';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/actions/userAction';
 import { Button, Text, Divider } from 'react-native-paper';
@@ -12,6 +11,7 @@ import { borderRadius, primaryColor, secondaryColor } from '../../utils/const';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRegisterMutation } from '../../services/LUDU_API/auth';
 const { width: ScreenWidth } = Dimensions.get('screen');
+import * as SecureStore from 'expo-secure-store';
 
 export default function Avatar({ navigation }: any) {
   const [image, setImage] = useState(null);
@@ -31,6 +31,11 @@ export default function Avatar({ navigation }: any) {
 
   useEffect(() => {
     if (isSuccess) {
+      const setTokens = async () => {
+        await SecureStore.setItemAsync('refreshToken', data.refreshToken);
+        await SecureStore.setItemAsync('accessToken', data.token);
+      };
+      setTokens();
       const user = {
         token: data.token,
         id: data.user._id,
@@ -42,7 +47,6 @@ export default function Avatar({ navigation }: any) {
         avatar: data.user.avatar,
       };
       dispatch(setUser(user));
-      navigation.navigate(appRoutes.TAB_NAVIGATOR);
     }
   }, [isSuccess]);
 

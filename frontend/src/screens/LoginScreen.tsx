@@ -26,7 +26,6 @@ export default function Login({ navigation }: any) {
   useEffect(() => {
     const getUser = async () => {
       if (isSuccess) {
-        console.log(data);
         const user = {
           token: data.token,
           id: data.user._id,
@@ -38,7 +37,6 @@ export default function Login({ navigation }: any) {
           avatar: data.user.avatar,
         };
         dispatch(setUser(user));
-        navigation.navigate(appRoutes.TAB_NAVIGATOR);
         await SecureStore.setItemAsync('accessToken', data.token);
         await SecureStore.setItemAsync('refreshToken', data.refreshToken);
       }

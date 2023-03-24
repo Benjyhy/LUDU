@@ -14,18 +14,21 @@ import {
 import AvatarMe from '../me/Avatar';
 import { MaterialIcons } from '@expo/vector-icons';
 import { removeUser } from '../../store/actions/userAction';
-import appRoutes from '../../navigation/appRoutes';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
+import * as SecureStore from 'expo-secure-store';
+import { useLazyLogoutQuery } from '../../services/LUDU_API/auth';
 
-const MeScreen = ({ navigation }: any) => {
+const MeScreen = () => {
   const dispatch = useDispatch();
   const userFromStore = useSelector((state: MainAppState) => state.user);
-  console.log(userFromStore);
+  const [trigger, data] = useLazyLogoutQuery();
 
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
     dispatch(removeUser());
-    navigation.navigate(appRoutes.LOGIN_SCREEN);
+    trigger('');
+    await SecureStore.deleteItemAsync('refreshToken');
+    await SecureStore.deleteItemAsync('accesToken');
   };
 
   return (
