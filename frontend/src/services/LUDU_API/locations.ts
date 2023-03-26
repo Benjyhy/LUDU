@@ -20,7 +20,7 @@ const extendedApi = emptySplitApi.injectEndpoints({
     }),
     getEntitiesByZipCode: builder.query<EntityByZipCode, { postalCode: number; entity: string }>({
       query: (location) => ({
-        url: `/location/${location.postalCode}`,
+        url: `/location/59000`,
       }),
       transformResponse: (response: Array<LocationAPI>, meta, arg) => {
         const { entity } = arg;

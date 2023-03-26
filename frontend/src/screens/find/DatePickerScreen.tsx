@@ -26,6 +26,7 @@ function DatePickerScreen({ route, navigation }: any) {
     };
   }, [selected]);
 
+  const store = route.params.selectedStore;
   const game = route.params.game;
   return (
     <Layout>
@@ -39,10 +40,10 @@ function DatePickerScreen({ route, navigation }: any) {
             }}
           >
             <Text variant="headlineMedium" style={{ fontWeight: 'bold' }}>
-              Booking for: {game.gameId.gameName}
+              Booking for: {game.name}
             </Text>
             <Text variant="bodyLarge">
-              at <Text style={{ fontWeight: 'bold' }}>{game.storeName}</Text>
+              at <Text style={{ fontWeight: 'bold' }}>{store.name}</Text>
             </Text>
           </View>
           <View style={{ marginTop: 40 }}>
@@ -72,8 +73,9 @@ function DatePickerScreen({ route, navigation }: any) {
           style={[styles.btn]}
           onPress={() =>
             navigation.navigate(findRoutes.PERIOD_FEED, {
-              date: moment(selected).format('DD/MM/YYYY'),
+              date: new Date(selected).getTime(),
               game: game,
+              store: store,
             })
           }
         >

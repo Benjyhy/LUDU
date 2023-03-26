@@ -5,12 +5,16 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
 import { primaryColor } from '../../utils/const';
 import Layout from '../Layout';
+import { useSelector } from 'react-redux';
+import { MainAppState } from '../../models/states';
+import { useCreateRentMutation } from '../../services/LUDU_API/rents';
+import { RentType } from '../../models/states/Rent';
 
 function TimePickerScreen({ route, navigation }: any) {
+  const game = route.params.game;
+  const store = route.params.selectedStore;
   const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
   const onChange = (event, selectedDate) => {
-    setShow(false);
     if (event?.type === 'dismissed') {
       setDate(date);
       return;
@@ -18,9 +22,34 @@ function TimePickerScreen({ route, navigation }: any) {
     setDate(selectedDate);
   };
 
-  const handleNavigation = () => {
+  const deliveryTime = new Date(date);
+  const hoursToAdd = 2;
+  deliveryTime.setUTCHours(deliveryTime.getUTCHours() + hoursToAdd);
+  const user = useSelector((state: MainAppState) => state.user);
+  const [createRent] = useCreateRentMutation();
+
+  const handleSubmit = () => {
+    const formData = {
+      startDate: deliveryTime,
+      game: store.copies[0]._id,
+      user: user.id,
+      type: RentType.HOME,
+    };
+    createRent(formData)
+      .unwrap()
+      .then((res) => {
+        handleNavigation(res);
+      })
+      .then((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleNavigation = (response) => {
     navigation.navigate(findRoutes.BOOKING_CONFIRMATION, {
-      game: route.params.game,
+      game: game,
+      store: store,
+      response: response,
     });
   };
   return (
@@ -35,12 +64,12 @@ function TimePickerScreen({ route, navigation }: any) {
             }}
           >
             <Text variant="headlineMedium" style={{ fontWeight: 'bold' }}>
-              Booking for: {route.params.game.gameId.gameName}
+              Booking for: {game.name}
             </Text>
             <Text variant="bodyLarge">
               at{' '}
               <Text style={{ fontWeight: 'bold' }}>
-                {route.params.game.storeName} <Text style={{ fontWeight: 'bold' }}>today</Text>
+                {store.name} <Text style={{ fontWeight: 'bold' }}>today</Text>
               </Text>
             </Text>
           </View>
@@ -50,8 +79,8 @@ function TimePickerScreen({ route, navigation }: any) {
           </View>
         </View>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ marginRight: 5 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 40 }}>
+          <View style={{ marginRight: 10 }}>
             <Text variant="bodyLarge">Chosen time:</Text>
           </View>
           <DateTimePicker
@@ -66,7 +95,7 @@ function TimePickerScreen({ route, navigation }: any) {
           style={[styles.btn]}
           buttonColor={primaryColor}
           textColor="white"
-          onPress={() => handleNavigation()}
+          onPress={() => handleSubmit()}
         >
           Continue
         </Button>

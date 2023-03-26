@@ -1,25 +1,54 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { Text, Button } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
-import storeMockData from '../../mocks/storeMockData';
 import StoreListing from '../../components/StoreListing';
 import { primaryColor } from '../../utils/const';
 import Layout from '../Layout';
+import { useSelector } from 'react-redux';
+import { MainAppState } from '../../models/states';
+import { useGetEntitiesByZipCodeQuery } from '../../services/LUDU_API/locations';
 
 function BookingGameScreen({ route, navigation }: any) {
   const item = route.params.game;
-  const gamePlaces = storeMockData;
-  const game = gamePlaces.find((game) => game.gameId.id === item.id);
-  const gameName = game.gameId.gameName;
-  const items = gamePlaces.filter((game) => game.gameId.id === item.id);
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-  const [selected, setSelected] = useState(null);
-  const selectedGame = (it) => {
+  const zipCode = useSelector((state: MainAppState) => state.currentLocation.zipCode);
+  const { data, isSuccess } = useGetEntitiesByZipCodeQuery(
+    {
+      postalCode: zipCode,
+      entity: 'stores',
+    },
+    { refetchOnMountOrArgChange: true },
+  );
+
+  const [stores, setStores] = React.useState([]);
+
+  React.useEffect(() => {
+    if (isSuccess) {
+      setStores(data);
+    }
+  }, [isSuccess]);
+
+  const filterStore = (store) => {
+    return store.copies.some((copy) => copy.game[0]._id === item._id && copy.available);
+  };
+
+  const gamePlaces = stores.filter((store) => filterStore(store));
+  const [selectedStore, setSelected] = useState(null);
+  const selectStore = (it) => {
     setSelected(it);
   };
 
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+  const handleNavigation = () => {
+    if (selectedStore) {
+      navigation.navigate(findRoutes.DATEPICKER_FEED, {
+        selectedStore: selectedStore,
+        game: item,
+      });
+    } else {
+      return '';
+    }
+  };
+
   return (
     <Layout>
       <View
@@ -32,7 +61,7 @@ function BookingGameScreen({ route, navigation }: any) {
       >
         <View>
           <Text variant="headlineMedium" style={{ fontWeight: 'bold', textAlign: 'center' }}>
-            Booking for {gameName}
+            Booking for {item.name}
           </Text>
           <Text variant="titleSmall" style={{ textAlign: 'center' }}>
             Game stores based on your current location
@@ -43,14 +72,14 @@ function BookingGameScreen({ route, navigation }: any) {
             Choose your game store :
           </Text>
           <ScrollView style={{ paddingVertical: 20, height: 300 }}>
-            <StoreListing selectedGame={selectedGame} items={items} />
+            <StoreListing selectedStore={selectStore} items={gamePlaces} />
           </ScrollView>
         </View>
         <Button
           buttonColor={primaryColor}
           textColor="white"
           style={{ borderRadius: 5, width: 'auto' }}
-          onTouchEnd={() => navigation.navigate(findRoutes.DATEPICKER_FEED, { game: selected })}
+          onPress={() => handleNavigation()}
         >
           Continue
         </Button>

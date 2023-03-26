@@ -15,8 +15,8 @@ export interface Rent {
 }
 
 export interface CreateRentPayload {
-  startDate: string;
-  game: string;
+  startDate: Date;
+  game: any;
   user: string;
   type: RentType;
 }
