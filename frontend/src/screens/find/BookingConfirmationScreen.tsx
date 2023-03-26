@@ -11,7 +11,6 @@ function BookingConfirmationScreen({ route, navigation }: any) {
   const game = route.params.game;
   const store = route.params.store;
   const result = route.params.response;
-  console.log(result);
   const animation = useRef(null);
 
   useEffect(() => {
