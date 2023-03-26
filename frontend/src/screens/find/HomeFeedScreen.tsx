@@ -24,11 +24,15 @@ const HomeFeedScreen = ({ navigation }: any) => {
     isError: isError,
     isSuccess,
     isFetching,
+    error,
   } = useGetEntitiesByZipCodeQuery({ postalCode: zipCode, entity: 'copies' });
 
   useEffect(() => {
     if (isError || isLoading || isFetching) {
       navigation.setOptions({ headerShown: false });
+    }
+    if (isError) {
+      console.log(error);
     }
   }, [isError, isLoading, isFetching]);
 

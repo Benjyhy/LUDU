@@ -4,7 +4,7 @@ import appRoutes from './appRoutes';
 import TabsStack from './TabsStack';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/register/RegisterScreen';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCurrentLocation } from '../store/actions/currentLocationAction';
 import * as Location from 'expo-location';
 import Phone from '../screens/register/Phone';

@@ -12,7 +12,7 @@ import { StoreService } from '../store/store.service';
 @Controller('rent')
 @ApiTags('Rent')
 @JWTAuth()
-// @JWTAuth()
+@JWTAuth()
 export class RentController {
   constructor(
     private readonly rentService: RentService,
