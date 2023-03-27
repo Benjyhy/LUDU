@@ -5,7 +5,7 @@ import { ApiTags, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { NotFoundException, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { CopyService } from '../copy/copy.service';
 import { UserService } from '../user/user.service';
-import { Rent } from '../../schemas/rent.schema';
+import { RENT, Rent } from '../../schemas/rent.schema';
 import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 import { StoreService } from '../store/store.service';
 
@@ -36,16 +36,19 @@ export class RentController {
     if (!availableCopy) throw new NotFoundException(`Copy #${RentDto.game} not found`);
     const userExist = await this.UserService.findById(RentDto.user);
     if (!userExist) throw new NotFoundException(`User #${RentDto.user} not found`);
-    const userOwner = await this.UserService.findById(RentDto.owner_id);
-    const storeOwner = await this.StoreService.findById(RentDto.owner_id);
-    let owner;
 
-    if (userOwner !== null) {
-      owner = userOwner;
-    } else {
-      owner = storeOwner;
+    if (RentDto.type === RENT.USER) {
+      const userOwner = await this.UserService.findById(RentDto.owner_id);
+      if (RentDto.owner_id == userOwner._id.toString()) {
+        throw new HttpException(
+          {
+            status: HttpStatus.FORBIDDEN,
+            error: 'User cant rent one of its game',
+          },
+          HttpStatus.FORBIDDEN,
+        );
+      }
     }
-    if (!owner) throw new NotFoundException(`Owner #${RentDto.owner_id} not found`);
 
     if (!availableCopy.available)
       throw new HttpException(
