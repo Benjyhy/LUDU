@@ -7,6 +7,8 @@ import { Review } from '../../schemas/review.schema';
 import { UserDocument } from '../../schemas/user.schema';
 import { UserUpdateDto } from './dto/update.dto';
 import { UserDto } from './dto/user.dto';
+import { Copy } from '../../schemas/copy.schema';
+import { StoreDocument } from '../../schemas/store.schema';
 
 @Injectable()
 export class UserService {
@@ -20,7 +22,7 @@ export class UserService {
   }
 
   public async findById(id: ObjectId | string): Promise<UserDocument> {
-    return await this.userModel.findById(id);
+    return this.userModel.findById(id);
   }
 
   public async findOne(field: any): Promise<UserDocument> {
@@ -28,13 +30,11 @@ export class UserService {
   }
 
   public async findOnePassword(username: string): Promise<UserDocument> {
-    return await this.userModel
-      .findOne({ username: username })
-      .select('credentials.local.password');
+    return this.userModel.findOne({ username: username }).select('credentials.local.password');
   }
 
   public async findOneRefreshToken(id: ObjectId): Promise<UserDocument> {
-    return await this.userModel.findOne({ _id: id }).select('refreshToken');
+    return this.userModel.findOne({ _id: id }).select('refreshToken');
   }
 
   public async findOneUsername(username: string): Promise<UserDocument> {
@@ -59,10 +59,10 @@ export class UserService {
     // checking if avatar has been changed
     if (updateUserDto.avatar === undefined) {
       await this.userModel.updateOne({ _id: id }, { $set: updateUserDto });
-      return await this.userModel.findById(id);
+      return this.userModel.findById(id);
     }
 
-    const isImageDeleted = await deleteImage(
+    const isImageDeleted = deleteImage(
       existingUser.avatar,
       `${appConfig().user.staticFolder}/avatar/`,
     );
@@ -83,7 +83,7 @@ export class UserService {
     );
 
     await this.userModel.updateOne({ _id: id }, { $set: updateUserDto });
-    return await this.userModel.findById(id);
+    return this.userModel.findById(id);
   }
 
   public async updateToken(id: ObjectId, token: string): Promise<UserDocument> {
@@ -94,7 +94,7 @@ export class UserService {
 
     if (!updatedUser) throw new NotFoundException(`User #${id} not found`);
 
-    return await this.userModel.findById(id);
+    return this.userModel.findById(id);
   }
 
   public async updateReviews(id: string, reviewId: (string | Review)[]): Promise<UserDocument> {
@@ -105,7 +105,7 @@ export class UserService {
 
     if (!updatedUser) throw new NotFoundException(`User #${id} not found`);
 
-    return await this.userModel.findById(id);
+    return this.userModel.findById(id);
   }
 
   public async remove(id: string): Promise<any> {
@@ -114,5 +114,20 @@ export class UserService {
     if (!isUser) throw new NotFoundException(`User #${id} not found`);
 
     return isUser;
+  }
+
+  public async updateCopies(id: string, copyID: (string | Copy)[]): Promise<any> {
+    const updateUserCopy = await this.userModel.updateOne(
+      { _id: id },
+      { $set: { copies: copyID } },
+    );
+
+    if (!updateUserCopy) throw new NotFoundException(`User #${id} not found`);
+
+    return this.userModel.findById(id);
+  }
+
+  public async findByCopy(id: string | Copy): Promise<StoreDocument> {
+    return this.userModel.findOne({ copies: id });
   }
 }

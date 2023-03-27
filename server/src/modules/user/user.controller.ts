@@ -58,7 +58,7 @@ export class UserController {
       const existingUser = await this.userService.findOneUsername(userDto.username);
       if (existingUser) throw new NotFoundException(`User with same Username already exist`);
     }
-    return this.userService.update(id, userDto);
+    return await this.userService.update(id, userDto);
   }
 
   @Delete('/:id')

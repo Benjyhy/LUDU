@@ -5,6 +5,7 @@ import { Transform } from 'class-transformer';
 import { hash } from '../helpers/Bcrypt';
 import { Review } from './review.schema';
 import { Exclude } from 'class-transformer';
+import { Copy } from './copy.schema';
 
 export type UserDocument = User & Document;
 
@@ -83,6 +84,9 @@ export class User {
 
   @Prop({ default: null, select: false })
   refreshToken: string;
+
+  @Prop({ type: [Types.ObjectId], ref: 'Copy', default: [] })
+  copies: Copy[];
 
   @Prop({ type: [Types.ObjectId], ref: 'Review', default: [] })
   reviews: Review[];

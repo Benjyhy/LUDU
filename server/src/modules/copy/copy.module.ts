@@ -7,15 +7,19 @@ import { GameModule } from '../game/game.module';
 import { Game, GameSchema } from '../../schemas/game.schema';
 import { Store, StoreSchema } from '../../schemas/store.schema';
 import { Copy, CopySchema } from '../../schemas/copy.schema';
+import { User, UserSchema } from '../../schemas/user.schema';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
     StoreModule,
     GameModule,
+    UserModule,
     MongooseModule.forFeature([
       { name: Game.name, schema: GameSchema },
       { name: Store.name, schema: StoreSchema },
       { name: Copy.name, schema: CopySchema },
+      { name: User.name, schema: UserSchema },
     ]),
   ],
   exports: [CopyService],

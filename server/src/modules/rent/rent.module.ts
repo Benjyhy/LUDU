@@ -7,10 +7,13 @@ import { CopyModule } from '../copy/copy.module';
 import { UserModule } from '../user/user.module';
 import { User, UserSchema } from '../../schemas/user.schema';
 import { Copy, CopySchema } from '../../schemas/copy.schema';
+import { StoreModule } from '../store/store.module';
+import { Store, StoreSchema } from '../../schemas/store.schema';
 @Module({
   imports: [
     CopyModule,
     UserModule,
+    StoreModule,
     MongooseModule.forFeature([
       {
         name: Rent.name,
@@ -23,6 +26,10 @@ import { Copy, CopySchema } from '../../schemas/copy.schema';
       {
         name: Copy.name,
         schema: CopySchema,
+      },
+      {
+        name: Store.name,
+        schema: StoreSchema,
       },
     ]),
   ],

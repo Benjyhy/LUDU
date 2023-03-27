@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsDate, IsNotEmpty, IsOptional, IsString, MinDate } from 'class-validator';
+import { IsDate, IsEnum, IsNotEmpty, IsOptional, IsString, MinDate } from 'class-validator';
 import { RENT } from '../../../schemas/rent.schema';
 
 export class RentDto {
@@ -25,6 +25,13 @@ export class RentDto {
   endDate: string | null;
 
   @ApiProperty({
+    example: '62e16c1b3f6a897c767bec7d',
+    description: "Id d'un User/Store qui détient la copy",
+  })
+  @IsString()
+  owner_id: string;
+
+  @ApiProperty({
     example: 'unix date',
     description: 'Timestamp in unix when the game is delivered',
   })
@@ -35,7 +42,7 @@ export class RentDto {
     example: 'unix date',
     description: 'Timestamp in unix when the game is delivered',
   })
-  @IsString()
+  @IsEnum(RENT)
   @IsNotEmpty()
   readonly type: RENT;
 
