@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 import { FilterTypes } from '../models/Filter';
 import { MainAppState } from '../models/states';
-import { Categories } from '../models/states/Category';
 import { RentStatus } from '../models/states/Rent';
 import { setStatusFilter, toggleStatusFilter } from '../store/actions/filterBookingsByStatusAction';
 import {
@@ -9,13 +8,12 @@ import {
   toggleCategoryFilter,
 } from '../store/actions/filterGamesByCategoriesAction';
 import { FilterTitles } from '../utils/wording';
+import { extendedApi as catApi } from '../services/LUDU_API/categories';
 
-export default class FilterService {
-  constructor(private filterType: FilterTypes) {}
-
-  private getToggleFn() {
+export const useFilter = (filterType: FilterTypes) => {
+  function getToggleFn(filterType) {
     let toggleFn;
-    switch (this.filterType) {
+    switch (filterType) {
       case FilterTypes.Category:
         toggleFn = toggleCategoryFilter;
         break;
@@ -26,9 +24,9 @@ export default class FilterService {
     return toggleFn;
   }
 
-  private getSetFilterFn() {
+  function getSetFilterFn(filterType) {
     let setFilterFn;
-    switch (this.filterType) {
+    switch (filterType) {
       case FilterTypes.Category:
         setFilterFn = setCategoryFilter;
         break;
@@ -39,37 +37,23 @@ export default class FilterService {
     return setFilterFn;
   }
 
-  private getFilteredElements() {
-    let filteredElements;
-    useSelector((state: MainAppState) => {
-      switch (this.filterType) {
+  function getFilteredElements(filterType) {
+    const filteredElements = useSelector((state: MainAppState) => {
+      switch (filterType) {
         case FilterTypes.Status:
-          filteredElements = state.filterBookingsByStatus.filters;
-          break;
+          return state.filterBookingsByStatus.filters;
         case FilterTypes.Category:
-          filteredElements = state.filterGamesByCategories.filters;
-          break;
+          return state.filterGamesByCategories.filters;
+        default:
+          return null;
       }
     });
     return filteredElements;
   }
 
-  private getFilters() {
-    let items;
-    switch (this.filterType) {
-      case FilterTypes.Category:
-        items = Object.values(Categories);
-        break;
-      case FilterTypes.Status:
-        items = Object.values(RentStatus);
-        break;
-    }
-    return items;
-  }
-
-  private getTitle() {
+  function getTitle(filterType) {
     let title;
-    switch (this.filterType) {
+    switch (filterType) {
       case FilterTypes.Category:
         title = FilterTitles.CATEGORY;
         break;
@@ -80,12 +64,34 @@ export default class FilterService {
     return title;
   }
 
-  public get reduxAssets() {
-    const toggleFilter = this.getToggleFn();
-    const setFilter = this.getSetFilterFn();
-    const filteredElements = this.getFilteredElements();
-    const filters = this.getFilters();
-    const title = this.getTitle();
+  function getAssets(filterType) {
+    const toggleFilter = getToggleFn(filterType);
+    const setFilter = getSetFilterFn(filterType);
+    const filteredElements = getFilteredElements(filterType);
+    const filters = getCategoryFilters(filterType);
+    const title = getTitle(filterType);
     return { toggleFilter, setFilter, filteredElements, filters, title };
   }
+  const result = getAssets(filterType);
+  return result;
+};
+
+export function getCategoryFilters(filterType) {
+  let categories = [];
+
+  switch (filterType) {
+    case FilterTypes.Category:
+      const data = catApi.endpoints.getAllCategories.useQuery();
+      if (data) {
+        data.currentData?.forEach((cat) => {
+          const { name } = cat;
+          categories.push(name);
+        });
+      }
+      break;
+    case FilterTypes.Status:
+      categories = Object.values(RentStatus);
+      break;
+  }
+  return categories;
 }

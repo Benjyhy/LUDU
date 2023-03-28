@@ -1,7 +1,7 @@
 import { Category } from '../../models/states/Category';
 import { emptySplitApi } from './api';
 
-const extendedApi = emptySplitApi.injectEndpoints({
+export const extendedApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     createCategory: builder.mutation<Category, { name: string }>({
       query: (categoryToCreate) => ({
@@ -42,5 +42,6 @@ export const {
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
   useGetAllCategoriesQuery,
+  useLazyGetAllCategoriesQuery,
   useGetCategoryByIdQuery,
 } = extendedApi;
