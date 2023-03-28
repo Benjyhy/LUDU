@@ -60,5 +60,6 @@ export interface UserFromQuery extends User {
 
 export interface UserLoged {
   token: string;
+  refreshToken: string;
   user: UserFromQuery;
 }

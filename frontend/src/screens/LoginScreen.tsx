@@ -22,9 +22,6 @@ export default function Login({ navigation }: any) {
   const handleLogin = async () => {
     await login({ username: usernameInput, password });
   };
-  const saveAuthToken = async (token) => {
-    await SecureStore.setItemAsync('authToken', token);
-  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -40,8 +37,8 @@ export default function Login({ navigation }: any) {
           avatar: data.user.avatar,
         };
         dispatch(setUser(user));
-        navigation.navigate(appRoutes.TAB_NAVIGATOR);
-        await saveAuthToken(user.token);
+        await SecureStore.setItemAsync('accessToken', data.token);
+        await SecureStore.setItemAsync('refreshToken', data.refreshToken);
       }
     };
     getUser().catch((e) => console.log(e));
