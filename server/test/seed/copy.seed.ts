@@ -61,11 +61,9 @@ export const CopySeed = () => {
       const users = await userService.findAll();
       const games = await gameService.findAll();
       const copies = [];
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 80; i++) {
         const storesId =
-          location[1].stores[
-            Math.round(Math.floor(Math.random() * location[1].stores.length))
-          ]._id.toString();
+          stores[Math.round(Math.floor(Math.random() * stores.length))]._id.toString();
 
         const gamesId = games[Math.round(Math.floor(Math.random() * games.length))]._id.toString();
 

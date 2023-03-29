@@ -52,7 +52,7 @@ export class StoreService {
     return await this.storeModel.findById(id).populate('location').exec();
   }
 
-  public async updateCopies(id: string, copies: Copy[]): Promise<Store> {
+  public async updateCopies(id: string, copies: (string | Copy)[]): Promise<Store> {
     const updatedStore = await this.storeModel.findOneAndUpdate(
       { _id: id },
       { $set: { copies: copies } },

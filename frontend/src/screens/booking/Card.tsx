@@ -6,12 +6,7 @@ import { lowGray, primaryColor, middleGray, strongGray, borderRadius } from '../
 import { useGetCopyByIdQuery } from '../../services/LUDU_API/copies';
 import { getGameImg } from '../../utils/const';
 import { MaterialIcons } from '@expo/vector-icons';
-
-enum RentStatus {
-  OVER = 'OVER',
-  ONGOING = 'ONGOING',
-  BOOKED = 'BOOKED',
-}
+import { RentStatus } from '../../models/states/Rent';
 
 const CardItem = ({ rent, isAction }) => {
   const { data: copy, isSuccess, isError } = useGetCopyByIdQuery({ _id: rent.game });

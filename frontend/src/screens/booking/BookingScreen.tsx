@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  ScrollView,
-  TouchableOpacity,
-  TouchableOpacityBase,
-} from 'react-native';
+import { View, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
 import Filter from '../../components/Filter';
 import Layout from '../Layout';
 import CardItem from '../booking/Card';
@@ -17,7 +10,6 @@ import { MainAppState } from '../../models/states';
 import { Rent, RentStatus } from '../../models/states/Rent';
 import { primaryColor } from '../../utils/const';
 import bookingRoute from '../../navigation/appRoutes/bookingRoutes';
-import { Button } from 'react-native-paper';
 
 const BookingTabsScreen = ({ navigation }) => {
   const userLogged = useSelector((state: MainAppState) => state.user);
@@ -32,7 +24,7 @@ const BookingTabsScreen = ({ navigation }) => {
       done: filterStatus.filters.includes(RentStatus.OVER),
       delivered:
         filterStatus.filters.includes(RentStatus.OVER) ||
-        filterStatus.filters.includes(RentStatus.INPROGRESS),
+        filterStatus.filters.includes(RentStatus.ONGOING),
     };
   };
   const {
