@@ -34,7 +34,7 @@ export const RentSeed = () => {
             load: [appConfig],
           }),
           DbModule({
-            uri: appConfig().database.dev,
+            uri: appConfig().database.prod,
           }),
           MongooseModule.forFeature([
             { name: User.name, schema: UserSchema },
@@ -60,7 +60,7 @@ export const RentSeed = () => {
       it('', async () => {
         const users = await userService.findAll();
         const store = await storeService.findAll();
-        const copies = await copyService.findByAvailability();
+        const copies = await copyService.findAll();
         let ownerId;
 
         for (let i = 0; i < rentsForUser1.length; i++) {
@@ -78,7 +78,7 @@ export const RentSeed = () => {
               break;
             }
           }
-          if (typeof ownerId !== 'undefined') {
+          if (typeof ownerId !== 'undefined' || ownerId !== userId) {
             const rent = Object.assign({}, rentsForUser1[i], {
               game: copyId,
               user: userId,
@@ -104,7 +104,7 @@ export const RentSeed = () => {
               break;
             }
           }
-          if (typeof ownerId !== 'undefined') {
+          if (typeof ownerId !== 'undefined' || ownerId !== userId) {
             const rent = Object.assign({}, rentsForUser2[i], {
               game: copyId,
               user: userId,
@@ -131,7 +131,7 @@ export const RentSeed = () => {
               break;
             }
           }
-          if (typeof ownerId !== 'undefined') {
+          if (typeof ownerId !== 'undefined' || ownerId !== userId) {
             const rent = Object.assign({}, rentsForUser3[i], {
               game: copyId,
               user: userId,

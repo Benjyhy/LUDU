@@ -37,18 +37,18 @@ export class RentController {
     const userExist = await this.UserService.findById(RentDto.user);
     if (!userExist) throw new NotFoundException(`User #${RentDto.user} not found`);
 
-    if (RentDto.type === RENT.USER) {
-      const userOwner = await this.UserService.findById(RentDto.owner_id);
-      if (RentDto.owner_id == userOwner._id.toString()) {
-        throw new HttpException(
-          {
-            status: HttpStatus.FORBIDDEN,
-            error: 'User cant rent one of its game',
-          },
-          HttpStatus.FORBIDDEN,
-        );
-      }
-    }
+    // if (RentDto.type === RENT.USER) {
+    //   const userOwner = await this.UserService.findById(RentDto.owner_id);
+    //   if (RentDto.owner_id == userOwner._id.toString()) {
+    //     throw new HttpException(
+    //       {
+    //         status: HttpStatus.FORBIDDEN,
+    //         error: 'User cant rent one of its game',
+    //       },
+    //       HttpStatus.FORBIDDEN,
+    //     );
+    //   }
+    // }
 
     if (!availableCopy.available)
       throw new HttpException(

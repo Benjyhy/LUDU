@@ -61,7 +61,7 @@ export const CopySeed = () => {
       const users = await userService.findAll();
       const games = await gameService.findAll();
       const copies = [];
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 80; i++) {
         const storesId =
           stores[Math.round(Math.floor(Math.random() * stores.length))]._id.toString();
 
@@ -92,7 +92,7 @@ export const CopySeed = () => {
         await copyController.create(item);
       }
       const result = await copyService.findAll();
-      expect(result).toHaveLength(60);
+      expect(result).toHaveLength(80 + 30);
     });
 
     afterAll(async () => {

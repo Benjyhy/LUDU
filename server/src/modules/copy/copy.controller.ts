@@ -49,7 +49,6 @@ export class CopyController {
 
       // store with his copies
       await this.userService.updateCopies(copyDto.user, newCopies);
-
       return copyCreated;
     }
   }
@@ -80,8 +79,6 @@ export class CopyController {
 
     const store = await this.storeService.findByCopy(id);
     const user = await this.userService.findByCopy(id);
-    console.log(store);
-    console.log(user);
 
     if (store != null) {
       const newCopies = store.copies.filter((item) => {

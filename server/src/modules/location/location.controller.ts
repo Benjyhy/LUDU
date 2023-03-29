@@ -43,7 +43,7 @@ export class LocationController {
     return this.locationService.findByZip(zip);
   }
 
-  @Get('/:zip/:categoryId')
+  @Get('/:zip/category/:categoryId')
   @ApiOperation({ summary: 'Get location by zip code and copies by category' })
   @ApiOkResponse({
     description: 'Success',
