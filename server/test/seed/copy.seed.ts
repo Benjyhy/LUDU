@@ -1,6 +1,6 @@
-import { Game, GameSchema } from './../../src/schemas/game.schema';
-import { Copy, CopySchema } from './../../src/schemas/copy.schema';
-import { GameService } from './../../src/modules/game/game.service';
+import { Game, GameSchema } from '../../src/schemas/game.schema';
+import { Copy, CopySchema } from '../../src/schemas/copy.schema';
+import { GameService } from '../../src/modules/game/game.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import appConfig from '../../src/config/app.config';
 import { Connection } from 'mongoose';
@@ -13,15 +13,16 @@ import { CopyService } from '../../src/modules/copy/copy.service';
 import { StoreService } from '../../src/modules/store/store.service';
 import { CopyController } from '../../src/modules/copy/copy.controller';
 import { Category, CategorySchema } from '../../src/schemas/category.schema';
-import { LocationService } from '../../src/modules/location/location.service';
+import { UserService } from '../../src/modules/user/user.service';
+import { User, UserSchema } from '../../src/schemas/user.schema';
 
 export const CopySeed = () => {
   describe('Copy', () => {
     let copyController: CopyController;
     let gameService: GameService;
     let copyService: CopyService;
+    let userService: UserService;
     let storeService: StoreService;
-    let locationService: LocationService;
     let connection: Connection;
 
     beforeAll(async () => {
@@ -39,31 +40,30 @@ export const CopySeed = () => {
             { name: Copy.name, schema: CopySchema },
             { name: Game.name, schema: GameSchema },
             { name: Category.name, schema: CategorySchema },
+            { name: User.name, schema: UserSchema },
             { name: Location.name, schema: LocationSchema },
           ]),
         ],
         controllers: [CopyController],
-        providers: [GameService, CopyService, StoreService, LocationService],
+        providers: [GameService, CopyService, StoreService, UserService],
       }).compile();
 
       connection = await module.get(getConnectionToken());
       gameService = module.get<GameService>(GameService);
       copyService = module.get<CopyService>(CopyService);
       storeService = module.get<StoreService>(StoreService);
-      locationService = module.get<LocationService>(LocationService);
-      copyController = new CopyController(copyService, storeService, gameService);
+      userService = module.get<UserService>(UserService);
+      copyController = new CopyController(copyService, storeService, userService, gameService);
     });
 
     test('seed', async () => {
-      const location = await locationService.findAll();
+      const stores = await storeService.findAll();
+      const users = await userService.findAll();
       const games = await gameService.findAll();
       const copies = [];
-
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 80; i++) {
         const storesId =
-          location[0].stores[
-            Math.round(Math.floor(Math.random() * location[0].stores.length))
-          ]._id.toString();
+          stores[Math.round(Math.floor(Math.random() * stores.length))]._id.toString();
 
         const gamesId = games[Math.round(Math.floor(Math.random() * games.length))]._id.toString();
 
@@ -74,31 +74,25 @@ export const CopySeed = () => {
           available: true,
         });
       }
-      // console.log(copies);
-      // console.log(copies.length);
 
-      for (let i = 0; i < 40; i++) {
-        const storesId =
-          location[1].stores[
-            Math.round(Math.floor(Math.random() * location[1].stores.length))
-          ]._id.toString();
+      for (let y = 0; y < 30; y++) {
+        const userId = users[Math.round(Math.floor(Math.random() * users.length))]._id.toString();
 
         const gamesId = games[Math.round(Math.floor(Math.random() * games.length))]._id.toString();
 
         copies.push({
           game: gamesId,
-          store: storesId,
+          user: userId,
           _id: undefined,
           available: true,
         });
       }
-      await Promise.all(
-        copies.map(async (item) => {
-          await copyController.create(item);
-        }),
-      );
+
+      for (const item of copies) {
+        await copyController.create(item);
+      }
       const result = await copyService.findAll();
-      expect(result).toHaveLength(80);
+      expect(result).toHaveLength(80 + 30);
     });
 
     afterAll(async () => {

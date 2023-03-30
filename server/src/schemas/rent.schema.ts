@@ -8,6 +8,7 @@ export type RentDocument = Rent & Document;
 export enum RENT {
   HOME = 'HOME',
   STORE = 'STORE',
+  USER = 'USER',
 }
 
 @Schema({ timestamps: true })
@@ -20,6 +21,9 @@ export class Rent {
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   user: User;
+
+  @Prop({ type: Types.ObjectId })
+  owner_id: ObjectId;
 
   @Prop({ type: Date, required: true })
   startDate: Date;

@@ -8,6 +8,7 @@ import DbModule, { closeMongoConnection } from '../db-test-module';
 import { UserService } from '../../src/modules/user/user.service';
 import { User, UserSchema } from '../../src/schemas/user.schema';
 import { users } from './data/user.data';
+import { Copy, CopySchema } from '../../src/schemas/copy.schema';
 
 export const UserSeed = () => {
   describe('User', () => {
@@ -27,6 +28,7 @@ export const UserSeed = () => {
           MongooseModule.forFeature([
             { name: User.name, schema: UserSchema },
             { name: Review.name, schema: ReviewSchema },
+            { name: Copy.name, schema: CopySchema },
           ]),
         ],
         providers: [UserService],

@@ -20,8 +20,8 @@ export const rentsForUser1 = [
     type: RENT.STORE,
   },
   {
-    startDate: '2023-04-20T12:07:06.514Z',
-    deliveredDate: '2023-04-14T13:07:06.514Z',
+    startDate: '2023-04-14T12:07:06.514Z',
+    deliveredDate: '2023-04-15T13:07:06.514Z',
     endDate: null,
     type: RENT.STORE,
   },
@@ -54,6 +54,18 @@ export const rentsForUser1 = [
     deliveredDate: '2023-04-14T20:07:06.514Z',
     endDate: '2023-04-17T19:07:06.514Z',
     type: RENT.HOME,
+  },
+  {
+    startDate: '2023-04-12T19:07:06.514Z',
+    deliveredDate: '2023-04-12T20:07:06.514Z',
+    endDate: null,
+    type: RENT.USER,
+  },
+  {
+    startDate: '2023-04-12T19:07:06.514Z',
+    deliveredDate: '2023-04-12T21:07:06.514Z',
+    endDate: '2023-04-15T21:07:06.514Z',
+    type: RENT.USER,
   },
 ];
 
@@ -112,6 +124,18 @@ export const rentsForUser2 = [
     endDate: '2023-04-17T19:07:06.514Z',
     type: RENT.HOME,
   },
+  {
+    startDate: '2023-04-13T15:07:06.514Z',
+    deliveredDate: '2023-04-13T19:07:06.514Z',
+    endDate: '2023-04-17T19:07:06.514Z',
+    type: RENT.USER,
+  },
+  {
+    startDate: '2023-04-12T19:07:06.514Z',
+    deliveredDate: '2023-04-12T20:07:06.514Z',
+    endDate: null,
+    type: RENT.USER,
+  },
 ];
 
 export const rentsForUser3 = [
@@ -168,5 +192,17 @@ export const rentsForUser3 = [
     deliveredDate: '2023-04-14T20:07:06.514Z',
     endDate: '2023-04-17T19:07:06.514Z',
     type: RENT.HOME,
+  },
+  {
+    startDate: '2023-04-12T19:07:06.514Z',
+    deliveredDate: '2023-04-12T21:07:06.514Z',
+    endDate: null,
+    type: RENT.USER,
+  },
+  {
+    startDate: '2023-04-12T19:07:06.514Z',
+    deliveredDate: '2023-04-12T20:07:06.514Z',
+    endDate: '2023-04-13T21:07:06.514Z',
+    type: RENT.USER,
   },
 ];

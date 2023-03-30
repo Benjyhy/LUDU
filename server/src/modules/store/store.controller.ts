@@ -39,7 +39,6 @@ export class StoreController {
     id: string,
   ): Promise<StoreDocument> {
     const store = await this.storeService.findById(id);
-    console.log(store);
 
     if (!store) {
       throw new NotFoundException(`Store #${id} not found`);

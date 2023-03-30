@@ -1,7 +1,7 @@
 import { UserLoged, UserUpdate, User } from './../../models/states/User';
 import { emptySplitApi } from './api';
 
-const extendedApi = emptySplitApi.injectEndpoints({
+export const extendedApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllUsers: builder.query<User[], void>({
       query: () => ({
@@ -35,4 +35,5 @@ export const {
   useDeleteUserMutation,
   useGetAllUsersQuery,
   useGetUserByIdQuery,
+  useLazyGetUserByIdQuery,
 } = extendedApi;

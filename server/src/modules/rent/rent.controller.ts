@@ -5,8 +5,9 @@ import { ApiTags, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { NotFoundException, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { CopyService } from '../copy/copy.service';
 import { UserService } from '../user/user.service';
-import { Rent } from '../../schemas/rent.schema';
+import { RENT, Rent } from '../../schemas/rent.schema';
 import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
+import { StoreService } from '../store/store.service';
 
 @Controller('rent')
 @ApiTags('Rent')
@@ -17,6 +18,7 @@ export class RentController {
     private readonly rentService: RentService,
     private readonly CopyService: CopyService,
     private readonly UserService: UserService,
+    private readonly StoreService: StoreService,
   ) {}
 
   @Get()
@@ -34,6 +36,19 @@ export class RentController {
     if (!availableCopy) throw new NotFoundException(`Copy #${RentDto.game} not found`);
     const userExist = await this.UserService.findById(RentDto.user);
     if (!userExist) throw new NotFoundException(`User #${RentDto.user} not found`);
+
+    // if (RentDto.type === RENT.USER) {
+    //   const userOwner = await this.UserService.findById(RentDto.owner_id);
+    //   if (RentDto.owner_id == userOwner._id.toString()) {
+    //     throw new HttpException(
+    //       {
+    //         status: HttpStatus.FORBIDDEN,
+    //         error: 'User cant rent one of its game',
+    //       },
+    //       HttpStatus.FORBIDDEN,
+    //     );
+    //   }
+    // }
 
     if (!availableCopy.available)
       throw new HttpException(
