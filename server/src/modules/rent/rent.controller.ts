@@ -33,7 +33,7 @@ export class RentController {
 
   @Get()
   @ApiOperation({
-    summary: 'Filter all Rent by "status" params',
+    summary: 'Filter all Rent by "done" and "is_delivered" params',
   })
   @ApiOkResponse({ description: 'Success', type: Rent })
   findAll() {
