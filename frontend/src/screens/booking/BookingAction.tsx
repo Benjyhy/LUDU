@@ -16,12 +16,12 @@ const RentAction = ({ route, navigation }) => {
         <View style={styles.containerAction}>
           {isOngoingRent && (
             <Text style={styles.question}>
-              Does the game has been <Text style={{ fontWeight: 'bold' }}>return</Text> the game ?{' '}
+              Has this game been <Text style={{ fontWeight: 'bold' }}>returned</Text> ?{' '}
             </Text>
           )}
           {!isOngoingRent && (
             <Text style={styles.question}>
-              Does the games has been <Text style={{ fontWeight: 'bold' }}>deliver</Text> ?
+              Has this game been <Text style={{ fontWeight: 'bold' }}>delivered</Text> ?
             </Text>
           )}
         </View>
