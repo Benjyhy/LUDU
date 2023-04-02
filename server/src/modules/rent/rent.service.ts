@@ -49,7 +49,7 @@ export class RentService {
   }
 
   public async findByUserId(userId: string, status: any): Promise<RentDocument[]> {
-    const rents = await this.rentModel.find().sort({ startDate: 1 });
+    const rents = await this.rentModel.find().sort({ startDate: -1 });
     //  If not params return all rents
     if (!status) {
       return rents;
@@ -64,7 +64,7 @@ export class RentService {
                 deliveredDate: null,
                 endDate: null,
               })
-              .sort({ startDate: 1 })),
+              .sort({ startDate: -1 })),
           );
           break;
         case RentStatus.ONGOING:
@@ -74,7 +74,7 @@ export class RentService {
                 deliveredDate: { $ne: null },
                 endDate: null,
               })
-              .sort({ startDate: 1 })),
+              .sort({ startDate: -1 })),
           );
           break;
         case RentStatus.OVER:
@@ -83,7 +83,7 @@ export class RentService {
               .find({
                 endDate: { $ne: null },
               })
-              .sort({ startDate: 1 })),
+              .sort({ startDate: -1 })),
           );
           break;
         default:
