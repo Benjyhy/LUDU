@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
@@ -26,12 +26,13 @@ function TimePickerScreen({ route, navigation }: any) {
   const hoursToAdd = 2;
   deliveryTime.setUTCHours(deliveryTime.getUTCHours() + hoursToAdd);
   const user = useSelector((state: MainAppState) => state.user);
-  const [createRent] = useCreateRentMutation();
+  const [createRent, { isError }] = useCreateRentMutation();
 
   const handleSubmit = () => {
     const formData = {
       startDate: deliveryTime,
       game: store.copies[0]._id,
+      owner_id: store._id,
       user: user.id,
       type: RentType.HOME,
     };
@@ -40,8 +41,10 @@ function TimePickerScreen({ route, navigation }: any) {
       .then((res) => {
         handleNavigation(res);
       })
-      .then((error) => {
-        console.log(error);
+      .catch((error) => {
+        if (isError) {
+          console.log(error.data);
+        }
       });
   };
 
@@ -103,6 +106,7 @@ function TimePickerScreen({ route, navigation }: any) {
     </Layout>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',

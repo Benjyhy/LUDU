@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text, Button } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import findRoutes from '../../navigation/appRoutes/findRoutes';

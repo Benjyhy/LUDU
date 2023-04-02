@@ -18,7 +18,7 @@ function PeriodScreen({ route, navigation }: any) {
   const [isSelected, setSelection] = useState(false);
   const [date, setDate] = useState(new Date(deliveredDate));
   const user = useSelector((state: MainAppState) => state.user);
-  const [createRent] = useCreateRentMutation();
+  const [createRent, { isError }] = useCreateRentMutation();
   const onChange = (event, selectedDate) => {
     if (event?.type === 'dismissed') {
       setDate(date);
@@ -34,6 +34,7 @@ function PeriodScreen({ route, navigation }: any) {
     const formData = {
       startDate: deliveryTime,
       game: store.copies[0]._id,
+      owner_id: store._id,
       user: user.id,
       type: isSelected ? RentType.HOME : RentType.STORE,
     };
@@ -42,8 +43,10 @@ function PeriodScreen({ route, navigation }: any) {
       .then((res) => {
         handleNavigation(res);
       })
-      .then((error) => {
-        console.log(error);
+      .catch((error) => {
+        if (isError) {
+          console.log(error.data);
+        }
       });
   };
 
@@ -130,6 +133,7 @@ function PeriodScreen({ route, navigation }: any) {
     </Layout>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
