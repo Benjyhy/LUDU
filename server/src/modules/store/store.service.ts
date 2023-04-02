@@ -52,12 +52,15 @@ export class StoreService {
     return await this.storeModel.findById(id).populate('location').exec();
   }
 
-  public async updateCopies(id: string, copyID: (string | Copy)[]): Promise<any> {
-    const updatedStore = await this.storeModel.updateOne({ _id: id }, { $set: { copies: copyID } });
+  public async updateCopies(id: string, copies: (string | Copy)[]): Promise<Store> {
+    const updatedStore = await this.storeModel.findOneAndUpdate(
+      { _id: id },
+      { $set: { copies: copies } },
+      { new: true },
+    );
 
     if (!updatedStore) throw new NotFoundException(`Store #${id} not found`);
-
-    return await this.storeModel.findById(id);
+    return updatedStore;
   }
 
   public async updateReviews(id: string, reviewId: (string | Review)[]): Promise<any> {

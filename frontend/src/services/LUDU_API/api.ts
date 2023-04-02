@@ -6,6 +6,7 @@ export const emptySplitApi = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://13.39.77.202',
+    // baseUrl: 'http://192.168.1.131:3000',
     prepareHeaders: async (headers) => {
       const accessToken = await SecureStore.getItemAsync('accessToken');
       const refreshToken = await SecureStore.getItemAsync('refreshToken');

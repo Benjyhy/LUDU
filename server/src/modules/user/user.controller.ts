@@ -36,7 +36,7 @@ export class UserController {
   @ApiOkResponse({ description: 'Success', type: UserDto })
   findById(@Param('id') id: string): Promise<UserDocument> {
     return this.userService.findById(id).then((store) => {
-      if (!store) throw new NotFoundException(`Store #${id} not found`);
+      if (!store) throw new NotFoundException(`User #${id} not found`);
       return store;
     });
   }

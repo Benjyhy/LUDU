@@ -22,14 +22,15 @@ export interface CreateRentPayload {
 }
 
 export enum RentStatus {
-  OVER = 'Over',
-  INPROGRESS = 'In Progress',
-  INCOMING = 'Incoming',
+  OVER = 'OVER',
+  ONGOING = 'ONGOING',
+  BOOKED = 'BOOKED',
 }
 
 export enum RentType {
   HOME = 'HOME',
   STORE = 'STORE',
+  USER = 'USER',
 }
 
-export type RentStatusToDisplay = ('Over' | 'In Progress' | 'Incoming')[];
+export type RentStatusToDisplay = ('Over' | 'Ongoing' | 'Booked')[];
