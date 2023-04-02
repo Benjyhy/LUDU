@@ -5,9 +5,9 @@ import { Model } from 'mongoose';
 import { RentDocument } from '../../schemas/rent.schema';
 
 export enum RentStatus {
-  INCOMING = 'Incoming',
-  INPROGRESS = 'Inprogress',
-  OVER = 'Over',
+  OVER = 'OVER',
+  ONGOING = 'ONGOING',
+  BOOKED = 'BOOKED',
 }
 
 @Injectable()
@@ -49,7 +49,7 @@ export class RentService {
   }
 
   public async findByUserId(userId: string, status: any): Promise<RentDocument[]> {
-    const rents = await this.rentModel.find();
+    const rents = await this.rentModel.find().sort({ startDate: 1 });
     //  If not params return all rents
     if (!status) {
       return rents;
@@ -57,27 +57,33 @@ export class RentService {
     let promises = [];
     for (const item of status.split(',')) {
       switch (item) {
-        case RentStatus.INCOMING:
+        case RentStatus.BOOKED:
           promises.push(
-            ...(await this.rentModel.find({
-              deliveredDate: null,
-              endDate: null,
-            })),
+            ...(await this.rentModel
+              .find({
+                deliveredDate: null,
+                endDate: null,
+              })
+              .sort({ startDate: 1 })),
           );
           break;
-        case RentStatus.INPROGRESS:
+        case RentStatus.ONGOING:
           promises.push(
-            ...(await this.rentModel.find({
-              deliveredDate: { $ne: null },
-              endDate: null,
-            })),
+            ...(await this.rentModel
+              .find({
+                deliveredDate: { $ne: null },
+                endDate: null,
+              })
+              .sort({ startDate: 1 })),
           );
           break;
         case RentStatus.OVER:
           promises.push(
-            ...(await this.rentModel.find({
-              endDate: { $ne: null },
-            })),
+            ...(await this.rentModel
+              .find({
+                endDate: { $ne: null },
+              })
+              .sort({ startDate: 1 })),
           );
           break;
         default:
