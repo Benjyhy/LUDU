@@ -165,7 +165,7 @@ const GameScreen = ({ route, navigation }: any) => {
                 resizeMode={'cover'}
                 size={'small'}
                 width={Dimensions.get('window').width - horizontalPadding * 2}
-                height={200}
+                height={350}
               />
             </View>
             <View></View>

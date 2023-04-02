@@ -62,11 +62,7 @@ const TabsStack = () => {
         name={tabRoutes.BOOKING_TABS_SCREEN}
         component={BookingTabsScreen}
         options={{
-          headerRight: () => (
-            <TouchableOpacity onPress={() => dispatch(toggleStatusFilter())}>
-              <Ionicons name="funnel" size={24} color={primaryColor} style={{ marginRight: 10 }} />
-            </TouchableOpacity>
-          ),
+          headerShown: false,
         }}
       />
       <Tab.Screen name={tabRoutes.PLAY_SCREEN} component={PlayScreen} />

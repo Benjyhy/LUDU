@@ -6,6 +6,7 @@ import { Text } from 'react-native-paper';
 import { Game } from '../models/states/Game';
 import { useGetGameByIdQuery } from '../services/LUDU_API/games';
 import ImageHandle from './Image';
+import { lowGray } from '../utils/const';
 
 interface IGameCard {
   id: string;
@@ -16,7 +17,7 @@ interface IGameCard {
 const GameCard = ({ id, navigation, size }: IGameCard) => {
   const [game, setGame] = useState<Game>();
 
-  const { data: item, isLoading, isError, isSuccess } = useGetGameByIdQuery({ _id: id });
+  const { data: item, isLoading, isError, isSuccess, error } = useGetGameByIdQuery({ _id: id });
 
   useEffect(() => {
     if (isSuccess) setGame(item);
@@ -27,6 +28,7 @@ const GameCard = ({ id, navigation, size }: IGameCard) => {
   }
 
   if (isError) {
+    console.log(error);
     return (
       <View>
         <Text>Error Game Card</Text>
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: '50%',
     borderWidth: 1,
+    backgroundColor: lowGray,
   },
   smallCard: {
     width: Dimensions.get('window').width / 2,

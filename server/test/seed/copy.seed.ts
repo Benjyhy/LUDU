@@ -87,7 +87,6 @@ export const CopySeed = () => {
           available: true,
         });
       }
-
       for (const item of copies) {
         await copyController.create(item);
       }

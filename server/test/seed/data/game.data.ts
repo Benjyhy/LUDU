@@ -6,7 +6,7 @@ export const games = [
       playTime: 30,
       players: [2, 10],
     },
-    thumbnail: '17efc741-dd4e-4125-9dec-2fcd187d7703',
+    thumbnail: '0dd951ef-f8d8-4966-92ee-38921a396f3c',
     likes: 84,
     description:
       'If you’ve already settled Catan and taken all the risks you can afford, it’s time to move on to a board game with more complex strategy and a new set of missions. Arriving with game play that’s familiar enough to comprehend yet unique enough to keep every round fresh, the Puerto Rico Board Game from Rio Grande Games makes game night something to look forward to again.',
@@ -62,7 +62,7 @@ export const games = [
       playTime: 15,
       players: [2, 6],
     },
-    thumbnail: '0760a208-da7e-4e62-9eb9-da59e29d82a1',
+    thumbnail: '92d6eaaa-e115-4653-bb49-3f09bde27801',
     likes: 68,
     description:
       'Join the Mascarade where appearances are often deceiving. Don the right Mask at the right time, use its power, and amass a fortune large enough to win the game. The task won’t be easy; masks will be swapped between players… Can you remember which Mask is hidden on your card?',
@@ -146,7 +146,7 @@ export const games = [
       playTime: 30,
       players: [2, 10],
     },
-    thumbnail: 'e9050b1e-9c3c-496a-a307-03c5d40cc486',
+    thumbnail: '3dd075ca-66d2-489e-9857-965e8481a9ab',
     likes: 98,
     description:
       'To win, get rid of all your cards by playing a card of the same suit, number, or an Action card! Use Action Cards to trick your opponents, and when you have only one card left in your hand, never forget to say UNO!',
