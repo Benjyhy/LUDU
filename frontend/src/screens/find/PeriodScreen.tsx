@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text, Checkbox, SegmentedButtons, Button } from 'react-native-paper';
+import { Button, Checkbox, Text } from 'react-native-paper';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { primaryColor } from '../../utils/const';
 import Layout from '../Layout';
+import { useCreateRentMutation } from '../../services/LUDU_API/rents';
+import { useSelector } from 'react-redux';
+import { MainAppState } from '../../models/states';
+import moment from 'moment';
+import { RentType } from '../../models/states/Rent';
 
 function PeriodScreen({ route, navigation }: any) {
-  const [buttonSelected, setButtonSelected] = useState('morning');
+  const game = route.params.game;
+  const store = route.params.store;
+  const deliveredDate = route.params.date;
   const [isSelected, setSelection] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date(deliveredDate));
+  const user = useSelector((state: MainAppState) => state.user);
+  const [createRent, { isError }] = useCreateRentMutation();
   const onChange = (event, selectedDate) => {
     if (event?.type === 'dismissed') {
       setDate(date);
@@ -17,15 +26,42 @@ function PeriodScreen({ route, navigation }: any) {
     }
     setDate(selectedDate);
   };
-  const game = route.params.game;
+  const deliveryTime = new Date(date);
+  const hoursToAdd = 2;
+  deliveryTime.setUTCHours(deliveryTime.getUTCHours() + hoursToAdd);
 
-  const handleNavigation = () => {
-    isSelected
-      ? navigation.navigate(findRoutes.BOOKING_CONFIRMATION, {
-          game: game,
-        })
-      : navigation.goBack();
+  const handleSubmit = () => {
+    const formData = {
+      startDate: deliveryTime,
+      game: store.copies[0]._id,
+      owner_id: store._id,
+      user: user.id,
+      type: isSelected ? RentType.HOME : RentType.STORE,
+    };
+    createRent(formData)
+      .unwrap()
+      .then((res) => {
+        handleNavigation(res);
+      })
+      .catch((error) => {
+        if (isError) {
+          console.log(error.data);
+        }
+      });
   };
+
+  const handleNavigation = (response) => {
+    navigation.navigate(findRoutes.BOOKING_CONFIRMATION, {
+      game: game,
+      store: store,
+      response: response,
+    });
+  };
+
+  const handleCheck = () => {
+    setSelection(!isSelected);
+  };
+
   return (
     <Layout>
       <View style={{ position: 'relative', height: '100%', alignItems: 'center' }}>
@@ -38,13 +74,15 @@ function PeriodScreen({ route, navigation }: any) {
             }}
           >
             <Text variant="headlineMedium" style={{ fontWeight: 'bold' }}>
-              Booking for: {game.gameId.gameName}
+              Booking for: {game.name}
             </Text>
             <Text variant="bodyLarge">
               at{' '}
               <Text style={{ fontWeight: 'bold' }}>
-                {game.storeName} <Text>on</Text>{' '}
-                <Text style={{ fontWeight: 'bold' }}>{route.params.date}</Text>
+                {store.name} <Text>on</Text>{' '}
+                <Text style={{ fontWeight: 'bold' }}>
+                  {moment(route.params.date).format('DD/MM/YYYY')}
+                </Text>
               </Text>
             </Text>
           </View>
@@ -62,58 +100,32 @@ function PeriodScreen({ route, navigation }: any) {
               status={isSelected ? 'checked' : 'unchecked'}
               color={primaryColor}
               uncheckedColor={primaryColor}
-              onPress={() => {
-                setSelection(!isSelected);
-              }}
+              onPress={() => handleCheck()}
             />
           </View>
         </View>
-        {!isSelected ? (
-          <View style={styles.container}>
-            <Text variant="titleMedium" style={{ marginBottom: 10 }}>
-              When do you want to come and play?
-            </Text>
-
-            <SegmentedButtons
-              value={buttonSelected}
-              onValueChange={setButtonSelected}
-              buttons={[
-                {
-                  value: 'morning',
-                  label: 'Morning',
-                },
-                {
-                  value: 'afternon',
-                  label: 'Afternoon',
-                },
-                { value: 'evening', label: 'Evening' },
-              ]}
+        <View style={styles.container}>
+          <Text variant="titleMedium" style={{ marginBottom: 10 }}>
+            What time do you want the game delivered ?
+          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ marginRight: 5 }}>
+              <Text variant="bodyLarge">Chosen time:</Text>
+            </View>
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="time"
+              display="default"
+              onChange={onChange}
             />
           </View>
-        ) : (
-          <View style={styles.container}>
-            <Text variant="titleMedium" style={{ marginBottom: 10 }}>
-              What time do you want the game delivered ?
-            </Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <View style={{ marginRight: 5 }}>
-                <Text variant="bodyLarge">Chosen time:</Text>
-              </View>
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode="time"
-                display="default"
-                onChange={onChange}
-              />
-            </View>
-          </View>
-        )}
+        </View>
         <Button
           style={[styles.btn]}
           buttonColor={primaryColor}
           textColor="white"
-          onPress={() => handleNavigation()}
+          onPress={() => handleSubmit()}
         >
           Continue
         </Button>
@@ -121,12 +133,13 @@ function PeriodScreen({ route, navigation }: any) {
     </Layout>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 15,
-    marginTop: 20,
+    marginTop: 100,
   },
   btn: {
     borderRadius: 5,

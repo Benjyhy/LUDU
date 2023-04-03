@@ -6,16 +6,47 @@ import storeMockData from '../../mocks/storeMockData';
 import StoreListing from '../../components/StoreListing';
 import { primaryColor } from '../../utils/const';
 import Layout from '../Layout';
+import { useSelector } from 'react-redux';
+import { MainAppState } from '../../models/states';
+import { useGetEntitiesByZipCodeQuery } from '../../services/LUDU_API/locations';
 
 function StorePickScreen({ route, navigation }: any) {
   const item = route.params.game;
-  const gamePlaces = storeMockData;
-  const game = gamePlaces.find((game) => game.gameId.id === item.id);
-  const gameName = game.gameId.gameName;
-  const items = gamePlaces.filter((game) => game.gameId.id === item.id);
+  const zipCode = useSelector((state: MainAppState) => state.currentLocation.zipCode);
+  const { data, isSuccess } = useGetEntitiesByZipCodeQuery(
+    {
+      postalCode: zipCode,
+      entity: 'stores',
+    },
+    { refetchOnMountOrArgChange: true },
+  );
+
+  const [stores, setStores] = React.useState([]);
+
+  React.useEffect(() => {
+    if (isSuccess) {
+      setStores(data);
+    }
+  }, [isSuccess]);
+  const filterStore = (store) => {
+    return store.copies.some((copy) => copy.game[0]._id === item._id && copy.available);
+  };
+
+  const gamePlaces = stores.filter((store) => filterStore(store));
   const [selected, setSelected] = useState(null);
   const selectedGame = (it) => {
     setSelected(it);
+  };
+
+  const handleNavigation = () => {
+    if (selected) {
+      navigation.navigate(findRoutes.TIME_FEED, {
+        selectedStore: selected,
+        game: item,
+      });
+    } else {
+      return '';
+    }
   };
 
   return (
@@ -30,7 +61,7 @@ function StorePickScreen({ route, navigation }: any) {
       >
         <View>
           <Text variant="headlineMedium" style={{ fontWeight: 'bold', textAlign: 'center' }}>
-            Play {gameName} today
+            Play {item.name} today
           </Text>
           <Text variant="titleSmall" style={{ textAlign: 'center' }}>
             Game stores based on your current location
@@ -41,14 +72,14 @@ function StorePickScreen({ route, navigation }: any) {
             Game availability in your area:
           </Text>
           <ScrollView style={{ paddingVertical: 20, height: 300 }}>
-            <StoreListing selectedGame={selectedGame} items={items} />
+            <StoreListing selectedStore={selectedGame} items={gamePlaces} />
           </ScrollView>
         </View>
         <Button
           buttonColor={primaryColor}
           textColor="white"
           style={{ borderRadius: 5, width: 'auto' }}
-          onTouchEnd={() => navigation.navigate(findRoutes.TIME_FEED, { game: selected })}
+          onTouchEnd={() => handleNavigation()}
         >
           Continue
         </Button>
