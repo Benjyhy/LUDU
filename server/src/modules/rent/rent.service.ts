@@ -4,6 +4,12 @@ import { RentDto } from './dto/rent.dto';
 import { Model } from 'mongoose';
 import { RentDocument } from '../../schemas/rent.schema';
 
+export enum RentStatus {
+  OVER = 'OVER',
+  ONGOING = 'ONGOING',
+  BOOKED = 'BOOKED',
+}
+
 @Injectable()
 export class RentService {
   constructor(
@@ -42,37 +48,50 @@ export class RentService {
     });
   }
 
-  public async findByUserId(
-    userId: string,
-    done: string,
-    delivered: string,
-  ): Promise<RentDocument[]> {
-    const rents = await this.rentModel.find({
-      user: userId,
-    });
+  public async findByUserId(userId: string, status: any): Promise<RentDocument[]> {
+    const rents = await this.rentModel.find().sort({ startDate: -1 });
     //  If not params return all rents
-    if (!done && !delivered) return rents;
-    // filter if rent is still
-    if (done === 'true') {
-      return await this.rentModel.find({
-        // Rent done
-        user: userId,
-        endDate: { $ne: null },
-      });
-    } else if (delivered === 'false') {
-      // Rent booked but not delivered
-      return await this.rentModel.find({
-        user: userId,
-        deliveredDate: { $eq: null },
-      });
-    } else if (delivered === 'true') {
-      // Rent delivered but not done
-      return await this.rentModel.find({
-        user: userId,
-        deliveredDate: { $ne: null },
-        endDate: { $eq: null },
-      });
+    if (!status) {
+      return rents;
     }
+    let promises = [];
+    for (const item of status.split(',')) {
+      switch (item) {
+        case RentStatus.BOOKED:
+          promises.push(
+            ...(await this.rentModel
+              .find({
+                deliveredDate: null,
+                endDate: null,
+              })
+              .sort({ startDate: -1 })),
+          );
+          break;
+        case RentStatus.ONGOING:
+          promises.push(
+            ...(await this.rentModel
+              .find({
+                deliveredDate: { $ne: null },
+                endDate: null,
+              })
+              .sort({ startDate: -1 })),
+          );
+          break;
+        case RentStatus.OVER:
+          promises.push(
+            ...(await this.rentModel
+              .find({
+                endDate: { $ne: null },
+              })
+              .sort({ startDate: -1 })),
+          );
+          break;
+        default:
+          promises = [...rents];
+          break;
+      }
+    }
+    return promises;
   }
 
   public async create(rentDto: RentDto): Promise<RentDocument> {

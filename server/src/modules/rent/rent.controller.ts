@@ -1,11 +1,21 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { RentService } from './rent.service';
 import { RentDto } from './dto/rent.dto';
-import { ApiTags, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
-import { NotFoundException, HttpException, HttpStatus, Query } from '@nestjs/common';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CopyService } from '../copy/copy.service';
 import { UserService } from '../user/user.service';
-import { RENT, Rent } from '../../schemas/rent.schema';
+import { Rent } from '../../schemas/rent.schema';
 import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
 import { StoreService } from '../store/store.service';
 
@@ -86,17 +96,16 @@ export class RentController {
 
   @Get('user/:id')
   @ApiOperation({
-    summary: 'Filter all Rent of a specific user by "done" and "is_delivered" params',
+    summary: 'Filter all Rent of a specific user by "status" params',
   })
   @ApiOkResponse({ description: 'Success', type: Rent })
-  async findAllByUserWithParams(
-    @Param('id') userId: string,
-    @Query('done') done?: string,
-    @Query('delivered') delivered?: string,
-  ) {
+  async findAllByUserWithParams(@Param('id') userId: string, @Query('status') status?: any) {
     const userExist = await this.UserService.findById(userId);
     if (!userExist) throw new NotFoundException(`User #${userId} not found`);
-    return this.rentService.findByUserId(userId, done, delivered);
+    if (!Array.isArray(status)) {
+      status = [status].join();
+    }
+    return this.rentService.findByUserId(userId, status);
   }
 
   @Get(':id')
