@@ -39,8 +39,8 @@ const extendedApi = emptySplitApi.injectEndpoints({
             for (const store of location['stores']) {
               for (const copy of store['copies']) {
                 const gameAlreadyInResponse = res.some((el) => el.id === copy.game[0]._id);
-                let gameHasCat = true;
-                if (copy.game[0].categories.length > 0) {
+                let gameHasCat = filteredCategories.length == 0;
+                if (copy.game[0].categories.length) {
                   copy.game[0].categories.map((c) => allCatObj[c]);
                 }
                 for (const cat of filteredCategories) {
