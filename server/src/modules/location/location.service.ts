@@ -67,7 +67,7 @@ export class LocationService {
                           },
                         },
                         {
-                          $project: { _id: 1 },
+                          $project: { _id: 1, categories: 1 },
                         },
                       ],
                       as: 'game',

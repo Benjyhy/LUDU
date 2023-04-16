@@ -1,6 +1,7 @@
 import { LocationAPI } from '../../models/states/Location';
 import { Store } from '../../models/states/Store';
 import { emptySplitApi } from './api';
+import { extendedApi as catApi } from '../LUDU_API/categories';
 import store from '../../store';
 
 type EntityByZipCode = Array<string> | Array<Store>;
@@ -29,15 +30,25 @@ const extendedApi = emptySplitApi.injectEndpoints({
       transformResponse: (response: Array<LocationAPI>, meta, arg) => {
         const { entity, filteredCategories } = arg;
         const res = [];
+        const allCatSelector = catApi.endpoints.getAllCategories.select();
+        const allCat = allCatSelector(store.getState());
+        const allCatObj = {};
+        allCat.data?.forEach((cat) => (allCatObj[cat._id] = cat.name));
         if (entity == 'copies') {
           for (const location of response) {
             for (const store of location['stores']) {
               for (const copy of store['copies']) {
                 const gameAlreadyInResponse = res.some((el) => el.id === copy.game[0]._id);
-                if (
-                  !gameAlreadyInResponse &&
-                  filteredCategories.includes(copy.game[0].category.name)
-                ) {
+                let gameHasCat = true;
+                if (copy.game[0].categories.length > 0) {
+                  copy.game[0].categories.map((c) => allCatObj[c]);
+                }
+                for (const cat of filteredCategories) {
+                  if (copy.game[0].categories.includes(cat)) {
+                    gameHasCat = true;
+                  }
+                }
+                if (!gameAlreadyInResponse && gameHasCat) {
                   res.push({ id: copy.game[0]._id });
                 }
               }
