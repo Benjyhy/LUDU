@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Filter from '../../components/Filter';
 import Layout from '../Layout';
 import CardItem from '../booking/Card';
@@ -7,7 +7,7 @@ import { useGetUserRentsQuery } from '../../services/LUDU_API/rents';
 import { FilterTypes } from '../../models/Filter';
 import { useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
-import { Rent, RentStatus } from '../../models/states/Rent';
+import { Rent } from '../../models/states/Rent';
 import { primaryColor } from '../../utils/const';
 import bookingRoute from '../../navigation/appRoutes/bookingRoutes';
 
@@ -21,10 +21,7 @@ const BookingTabsScreen = ({ navigation }) => {
     }
     return {
       ...params,
-      done: filterStatus.filters.includes(RentStatus.OVER),
-      delivered:
-        filterStatus.filters.includes(RentStatus.OVER) ||
-        filterStatus.filters.includes(RentStatus.ONGOING),
+      status: filterStatus.filters.join(),
     };
   };
   const {

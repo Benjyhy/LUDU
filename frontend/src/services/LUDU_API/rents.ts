@@ -15,14 +15,13 @@ const extendedApi = emptySplitApi.injectEndpoints({
         url: '/rent',
       }),
     }),
-    getUserRents: builder.query<Rent[], { _id: string; done?: any; delivered?: any }>({
+    getUserRents: builder.query<any, { _id: string; status?: any }>({
       query: (args) => {
-        const { _id, done, delivered } = args;
+        const { _id, status } = args;
         return {
           url: `/rent/user/${_id}`,
           params: {
-            done,
-            delivered,
+            status,
           },
         };
       },
