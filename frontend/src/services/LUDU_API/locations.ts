@@ -1,6 +1,7 @@
 import { LocationAPI } from '../../models/states/Location';
 import { Store } from '../../models/states/Store';
 import { emptySplitApi } from './api';
+import store from '../../store';
 
 type EntityByZipCode = Array<string> | Array<Store>;
 
@@ -18,19 +19,25 @@ const extendedApi = emptySplitApi.injectEndpoints({
         url: '/location',
       }),
     }),
-    getEntitiesByZipCode: builder.query<EntityByZipCode, { postalCode: number; entity: string }>({
+    getEntitiesByZipCode: builder.query<
+      EntityByZipCode,
+      { postalCode: number; entity: string; filteredCategories: [] }
+    >({
       query: (location) => ({
         url: `/location/59000`,
       }),
       transformResponse: (response: Array<LocationAPI>, meta, arg) => {
-        const { entity } = arg;
+        const { entity, filteredCategories } = arg;
         const res = [];
         if (entity == 'copies') {
           for (const location of response) {
             for (const store of location['stores']) {
               for (const copy of store['copies']) {
                 const gameAlreadyInResponse = res.some((el) => el.id === copy.game[0]._id);
-                if (!gameAlreadyInResponse) {
+                if (
+                  !gameAlreadyInResponse &&
+                  filteredCategories.includes(copy.game[0].category.name)
+                ) {
                   res.push({ id: copy.game[0]._id });
                 }
               }

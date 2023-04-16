@@ -17,6 +17,9 @@ import appRoutes from '../../navigation/appRoutes';
 const HomeFeedScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
   const isActiveFilter = useSelector((state: MainAppState) => state.filterGamesByCategories.active);
+  const filteredCategories = useSelector(
+    (state: MainAppState) => state.filterGamesByCategories.filters,
+  );
   const zipCode = useSelector((state: MainAppState) => state.currentLocation.zipCode);
   const {
     data: games,
@@ -25,7 +28,10 @@ const HomeFeedScreen = ({ navigation }: any) => {
     isSuccess,
     isFetching,
     error,
-  } = useGetEntitiesByZipCodeQuery({ postalCode: zipCode, entity: 'copies' });
+  } = useGetEntitiesByZipCodeQuery(
+    { postalCode: zipCode, entity: 'copies', filteredCategories },
+    { refetchOnMountOrArgChange: true },
+  );
 
   useEffect(() => {
     if (isError || isLoading || isFetching) {

@@ -11,6 +11,6 @@ export type MainAppState = {
   };
   filterGamesByCategories: {
     active: false;
-    filters: Array<keyof typeof Categories | ''>;
+    filters: [];
   };
 };
