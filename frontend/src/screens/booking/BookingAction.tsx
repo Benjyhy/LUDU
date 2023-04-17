@@ -29,7 +29,11 @@ const RentAction = ({ route, navigation }) => {
           buttonColor={primaryColor}
           textColor="white"
           style={{ borderRadius: borderRadius, width: 'auto' }}
-          onTouchEnd={() => navigation.navigate(findRoutes.BOOKING_CONFIRMATION)}
+          onTouchEnd={() =>
+            navigation.navigate(findRoutes.BOOKING_CONFIRMATION, {
+              rent,
+            })
+          }
         >
           Confirm
         </Button>
