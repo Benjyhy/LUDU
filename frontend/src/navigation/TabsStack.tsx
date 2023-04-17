@@ -6,9 +6,6 @@ import MeScreen from '../screens/tabs/MeScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { primaryColor } from '../utils/const';
 import BookingTabsScreen from '../screens/tabs/BookingScreen';
-import { TouchableOpacity } from 'react-native';
-import { toggleStatusFilter } from '../store/actions/filterBookingsByStatusAction';
-import { useDispatch } from 'react-redux';
 
 type Props = {
   ionIconsName: keyof typeof Ionicons.glyphMap;
@@ -17,7 +14,6 @@ type Props = {
 const Tab = createBottomTabNavigator();
 
 const TabsStack = () => {
-  const dispatch = useDispatch();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({

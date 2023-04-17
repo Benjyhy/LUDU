@@ -57,7 +57,9 @@ const HomeFeedScreen = ({ navigation }: any) => {
       )}
       {isError && (
         <View style={styles.center}>
-          <NotFound info={'Unfortunately, there is no game in your current location'} />
+          <NotFound
+            info={`Unfortunately, there is no game in your current location whit zipcode ${zipCode} \n \n Our main gamestores is based in Lille`}
+          />
           <Button
             onPress={() => navigation.navigate(appRoutes.LOGIN_SCREEN)}
             buttonColor={primaryColor}

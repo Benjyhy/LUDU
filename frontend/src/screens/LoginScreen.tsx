@@ -39,6 +39,8 @@ export default function Login({ navigation }: any) {
         dispatch(setUser(user));
         await SecureStore.setItemAsync('accessToken', data.token);
         await SecureStore.setItemAsync('refreshToken', data.refreshToken);
+
+        navigation.navigate(appRoutes.TAB_NAVIGATOR);
       }
     };
     getUser().catch((e) => console.log(e));

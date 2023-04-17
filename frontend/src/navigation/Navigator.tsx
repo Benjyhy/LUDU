@@ -18,7 +18,6 @@ import * as SecureStore from 'expo-secure-store';
 import jwtDecode from 'jwt-decode';
 import { useLazyGetUserByIdQuery } from '../services/LUDU_API/users';
 import { DecodedJWT } from '../services/jwtService';
-import NotFound from '../components/NotFound';
 import LoadingScreen from '../screens/LoadingScreen';
 
 const Stack = createNativeStackNavigator();
@@ -94,7 +93,15 @@ const StackNav = () => {
             <Stack.Screen name={appRoutes.REGISTER_AVATAR_SCREEN} component={Avatar} />
           </>
         ) : (
-          <Stack.Screen name={appRoutes.TAB_NAVIGATOR} component={TabsStack} />
+          <>
+            <Stack.Screen name={appRoutes.TAB_NAVIGATOR} component={TabsStack} />
+
+            {/* Stack needed in case no games in location */}
+            <Stack.Screen name={appRoutes.LOGIN_SCREEN} component={LoginScreen} />
+            <Stack.Screen name={appRoutes.REGISTER_SCREEN} component={RegisterScreen} />
+            <Stack.Screen name={appRoutes.REGISTER_PHONE_SCREEN} component={Phone} />
+            <Stack.Screen name={appRoutes.REGISTER_AVATAR_SCREEN} component={Avatar} />
+          </>
         )}
       </Stack.Navigator>
     </RegisterContext.Provider>
@@ -102,3 +109,10 @@ const StackNav = () => {
 };
 
 export default StackNav;
+function StackNavigator(arg0: {
+  Auth: { screen: any };
+  Onboarding: { screen: any };
+  Tabs: { screen: () => JSX.Element };
+}) {
+  throw new Error('Function not implemented.');
+}
