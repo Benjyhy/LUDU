@@ -1,10 +1,10 @@
 export const allCat = {
-  'Card games': '642418913a2015bf58b97aee',
-  Rolepay: '642418913a2015bf58b97aef',
-  'Strategy games': '642418913a2015bf58b97af0',
-  'Escape games': '642418913a2015bf58b97aed',
-  'Communication games': '642418913a2015bf58b97af2',
-  'Family games': '642418913a2015bf58b97af3',
-  'Drinking games': '642418913a2015bf58b97aec',
-  'Bord games': '642418913a2015bf58b97af1',
+  'Card games': '643d3846127ad3ac0ff82440',
+  Rolepay: '643d3846127ad3ac0ff82441',
+  'Strategy games': '643d3846127ad3ac0ff82442',
+  'Escape games': '643d3846127ad3ac0ff8243f',
+  'Communication games': '643d3846127ad3ac0ff82444',
+  'Family games': '643d3846127ad3ac0ff82445',
+  'Drinking games': '643d3846127ad3ac0ff8243e',
+  'Bord games': '643d3846127ad3ac0ff82443',
 };
