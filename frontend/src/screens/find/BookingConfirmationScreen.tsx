@@ -8,9 +8,10 @@ import moment from 'moment';
 import tabRoutes from '../../navigation/appRoutes/tabRoutes';
 
 function BookingConfirmationScreen({ route, navigation }: any) {
-  const game = route.params.game;
-  const store = route.params.store;
-  const result = route.params.response;
+  const game = route.params?.game;
+  const rent = route.params?.rent;
+  const store = route.params?.store;
+  const result = route.params?.response;
   const animation = useRef(null);
 
   useEffect(() => {
@@ -28,19 +29,25 @@ function BookingConfirmationScreen({ route, navigation }: any) {
         }}
       >
         <Text variant="headlineMedium" style={{ fontWeight: 'bold', textAlign: 'center' }}>
-          Booking confirmation !
+          {game ? 'Booking confirmation !' : 'Status changed !'}
         </Text>
         <View>
           <Text variant="titleMedium" style={{ textAlign: 'center' }}>
-            Congrats ! You've booked the game{' '}
-            <Text style={{ fontStyle: 'italic' }}>{game.name}</Text> at{' '}
-            <Text style={{ fontWeight: 'bold' }}>{store.name}</Text> for{' '}
+            {game
+              ? "Congrats ! You've booked the game "
+              : "You've just changed to delivery status for game "}
+            <Text style={{ fontStyle: 'italic' }}>{game ? game.name : rent.game}</Text>{' '}
+            {game ? 'at ' : ''}
+            <Text style={{ fontWeight: 'bold' }}>{store ? store.name : ''}</Text> for{' '}
             <Text style={{ fontStyle: 'italic' }}>
-              {moment(result.startDate).utc().format('dddd, MMMM Do YYYY [at] hh:mm a')}.
+              {moment(result ? result.startDate : rent.startDate)
+                .utc()
+                .format('dddd, MMMM Do YYYY [at] hh:mm a')}
+              .
             </Text>
           </Text>
           <Text style={{ marginTop: 40, fontSize: 15, fontStyle: 'italic' }}>
-            Delivery Mode: {result.type}
+            Delivery Mode: {result ? result.type : rent.type}
           </Text>
           <Text style={{ textAlign: 'center', marginTop: 40 }}>
             You can see your bookings in the <Text style={{ fontWeight: 'bold' }}>booking</Text>{' '}

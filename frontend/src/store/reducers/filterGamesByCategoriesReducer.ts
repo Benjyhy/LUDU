@@ -20,7 +20,11 @@ const filterGamesByCategoriesReducer = (state = initialState, action: Action<any
       if (!state.filters.includes(action.payload))
         return {
           ...state,
-          filters: [...action.payload],
+          filters: [
+            ...new Set(
+              [...state.filters, ...action.payload].filter((e) => action.payload.includes(e)),
+            ),
+          ],
         };
     case RESET_CATEGORY_FILTER:
       return initialState;
