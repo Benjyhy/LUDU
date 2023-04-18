@@ -32,6 +32,7 @@ export default function Avatar({ navigation }: any) {
     const newUser = { ...user, ...{ avatar: image } };
     console.log(newUser);
     await register(newUser);
+    navigation.navigate(appRoutes.LOGIN_SCREEN);
   };
 
   useEffect(() => {
