@@ -26,7 +26,7 @@ export default function Phone({ navigation }: any) {
       } else {
         setPhoneError('');
       }
-    }, 5000);
+    }, 2000);
   }, [phone]);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function Phone({ navigation }: any) {
       } else {
         setZipError('');
       }
-    }, 5000);
+    }, 2000);
   }, [postcode]);
 
   const isInputInValid = phoneError.length !== 0 || zipError.length !== 0;
@@ -90,13 +90,13 @@ export default function Phone({ navigation }: any) {
             label="Phone"
             placeholder="0618273625"
             placeholderTextColor="gray"
-            activeOutlineColor={`${primaryColor}`}
+            activeOutlineColor={`${phoneError ? errorColor : primaryColor}`}
             outlineColor={`${lowGray}`}
-            selectionColor={`${primaryColor}`}
+            selectionColor={`${phoneError ? errorColor : primaryColor}`}
             underlineColor="transparent"
             theme={{
               colors: {
-                primary: primaryColor,
+                primary: phoneError ? errorColor : primaryColor,
               },
             }}
             onChangeText={(text) => {
@@ -147,13 +147,13 @@ export default function Phone({ navigation }: any) {
             label="Postcode"
             placeholder="59000"
             placeholderTextColor="gray"
-            activeOutlineColor={`${primaryColor}`}
+            activeOutlineColor={`${zipError ? errorColor : primaryColor}`}
             outlineColor={`${lowGray}`}
-            selectionColor={`${primaryColor}`}
+            selectionColor={`${zipError ? errorColor : primaryColor}`}
             underlineColor="transparent"
             theme={{
               colors: {
-                primary: primaryColor,
+                primary: zipError ? errorColor : primaryColor,
               },
             }}
             onChangeText={(text) => {
@@ -170,8 +170,7 @@ export default function Phone({ navigation }: any) {
         </View>
         <View
           style={{
-            position: 'absolute',
-            bottom: 100,
+            paddingTop: 60,
             alignSelf: 'center',
           }}
         >
@@ -215,9 +214,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 2,
-    borderWidth: 1,
   },
   inputError: {
+    borderWidth: 1,
     borderColor: errorColor,
   },
   inputStyle: { fontSize: 16 },

@@ -109,10 +109,3 @@ const StackNav = () => {
 };
 
 export default StackNav;
-function StackNavigator(arg0: {
-  Auth: { screen: any };
-  Onboarding: { screen: any };
-  Tabs: { screen: () => JSX.Element };
-}) {
-  throw new Error('Function not implemented.');
-}

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
-import storeMockData from '../../mocks/storeMockData';
 import StoreListing from '../../components/StoreListing';
 import { primaryColor } from '../../utils/const';
 import Layout from '../Layout';
@@ -17,6 +16,7 @@ function StorePickScreen({ route, navigation }: any) {
     {
       postalCode: zipCode,
       entity: 'stores',
+      filteredCategories: [],
     },
     { refetchOnMountOrArgChange: true },
   );

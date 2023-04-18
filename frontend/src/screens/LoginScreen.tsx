@@ -101,8 +101,7 @@ export default function Login({ navigation }: any) {
             )}
             <View
               style={{
-                position: 'absolute',
-                bottom: 60,
+                paddingTop: 60,
               }}
             >
               <Button

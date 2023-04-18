@@ -8,6 +8,7 @@ interface IAvatarMe {
   username: string;
 }
 const AvatarMe = ({ avatarUri, username }: IAvatarMe) => {
+  console.log(avatarUri);
   const AvatarWithUri = () => {
     return (
       <>
