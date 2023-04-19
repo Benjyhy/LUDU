@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
@@ -8,19 +8,36 @@ import Layout from '../Layout';
 import { useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
 import { useGetEntitiesByZipCodeQuery } from '../../services/LUDU_API/locations';
+import { useFocusEffect } from '@react-navigation/native';
 
 function BookingGameScreen({ route, navigation }: any) {
   const item = route.params.game;
   const zipCode = useSelector((state: MainAppState) => state.currentLocation.zipCode);
-  const { data, isSuccess } = useGetEntitiesByZipCodeQuery(
+  const {
+    data,
+    isSuccess,
+    refetch: refetchGames,
+  } = useGetEntitiesByZipCodeQuery(
     {
       postalCode: zipCode,
       entity: 'stores',
     },
-    { refetchOnMountOrArgChange: true },
+    { refetchOnFocus: true, refetchOnReconnect: true },
   );
 
   const [stores, setStores] = React.useState([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetchGames();
+    }, [refetchGames]),
+  );
+
+  const filterStore = (store) => {
+    return store.copies.find((copy) => copy.convertedGameId === item._id && copy.available);
+  };
+
+  const gamePlaces = stores.filter((store) => filterStore(store));
 
   React.useEffect(() => {
     if (isSuccess) {
@@ -28,11 +45,6 @@ function BookingGameScreen({ route, navigation }: any) {
     }
   }, [isSuccess]);
 
-  const filterStore = (store) => {
-    return store.copies.some((copy) => copy.game[0]._id === item._id && copy.available);
-  };
-
-  const gamePlaces = stores.filter((store) => filterStore(store));
   const [selectedStore, setSelected] = useState(null);
   const selectStore = (it) => {
     setSelected(it);

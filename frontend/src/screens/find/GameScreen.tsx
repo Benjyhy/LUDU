@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import GameReviewCard from '../../components/GameReviewCard';
 import GameCard from '../../components/GameCard';
-import { ActivityIndicator, Dimensions } from 'react-native';
+import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { InlineTextIcon } from '../../components/InlineTextIcon';
 import { Button, Divider, Text } from 'react-native-paper';
-import { View, StyleSheet, ScrollView } from 'react-native';
 import Tag from '../../components/Tag';
 import findRoutes from '../../navigation/appRoutes/findRoutes';
 import { borderRadius, horizontalPadding, primaryColor, secondaryColor } from '../../utils/const';
@@ -244,21 +243,6 @@ const GameScreen = ({ route, navigation }: any) => {
               }}
             >
               Book
-            </Button>
-            <Button
-              onPress={() => navigation.navigate(findRoutes.DELIVERY_FEED, { game: game })}
-              textColor={'white'}
-              buttonColor={primaryColor}
-              mode="contained"
-              icon="dice-6"
-              style={{
-                width: 140,
-                marginBottom: 8,
-                borderRadius: borderRadius,
-                paddingHorizontal: 16,
-              }}
-            >
-              Play now
             </Button>
           </View>
           <Divider style={{ marginVertical: 16 }} />

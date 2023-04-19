@@ -28,6 +28,7 @@ function DatePickerScreen({ route, navigation }: any) {
 
   const store = route.params.selectedStore;
   const game = route.params.game;
+
   return (
     <Layout>
       <View style={{ position: 'relative', height: '100%' }}>
@@ -59,12 +60,6 @@ function DatePickerScreen({ route, navigation }: any) {
                 textDayHeaderFontWeight: '300',
               }}
             />
-            <View style={{ alignItems: 'center', marginTop: 30 }}>
-              <Text variant="titleLarge">Chosen date :</Text>
-              <Text variant="titleMedium" style={{ fontWeight: 'bold' }}>
-                {moment(selected).format('DD/MM/YYYY')}
-              </Text>
-            </View>
           </View>
         </View>
         <Button

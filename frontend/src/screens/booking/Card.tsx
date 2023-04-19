@@ -2,14 +2,24 @@ import React, { useEffect } from 'react';
 import moment from 'moment';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Avatar, Card, Text } from 'react-native-paper';
-import { lowGray, primaryColor, middleGray, strongGray, borderRadius } from '../../utils/const';
+import {
+  borderRadius,
+  getGameImg,
+  lowGray,
+  middleGray,
+  primaryColor,
+  strongGray,
+} from '../../utils/const';
 import { useGetCopyByIdQuery } from '../../services/LUDU_API/copies';
-import { getGameImg } from '../../utils/const';
 import { MaterialIcons } from '@expo/vector-icons';
 import { RentStatus } from '../../models/states/Rent';
 
 const CardItem = ({ rent, isAction }) => {
-  const { data: copy, isSuccess, isError } = useGetCopyByIdQuery({ _id: rent.game });
+  const {
+    data: copy,
+    isSuccess,
+    isError,
+  } = useGetCopyByIdQuery({ _id: rent.game }, { refetchOnMountOrArgChange: true });
 
   useEffect(() => {
     if (isError) {
@@ -70,12 +80,12 @@ const CardItem = ({ rent, isAction }) => {
             </Text>
             <Text style={styles.text}>
               <Text style={{ fontWeight: 'bold', marginBottom: 14 }}>Booked At : </Text>
-              {moment(rent.startDate).format('LLLL')}
+              {moment(rent.startDate).utc().format('LLLL')}
             </Text>
             {status === RentStatus.OVER && (
               <Text style={styles.text}>
                 <Text style={{ fontWeight: 'bold', marginBottom: 14 }}>Return : </Text>
-                {moment(rent.endDate).format('LLLL')}
+                {moment(rent.endDate).utc().format('LLLL')}
               </Text>
             )}
           </Card.Content>

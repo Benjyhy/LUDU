@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Filter from '../../components/Filter';
 import Layout from '../Layout';
@@ -10,6 +10,7 @@ import { MainAppState } from '../../models/states';
 import { Rent } from '../../models/states/Rent';
 import { primaryColor } from '../../utils/const';
 import bookingRoute from '../../navigation/appRoutes/bookingRoutes';
+import { useFocusEffect } from '@react-navigation/native';
 
 const BookingTabsScreen = ({ navigation }) => {
   const userLogged = useSelector((state: MainAppState) => state.user);
@@ -26,15 +27,25 @@ const BookingTabsScreen = ({ navigation }) => {
   };
   const {
     data: rents,
+    refetch: refetchRents,
     isSuccess,
     isLoading,
     isError,
     error,
-  } = useGetUserRentsQuery(getParams(), { refetchOnMountOrArgChange: true });
+  } = useGetUserRentsQuery(getParams(), {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
 
   if (isError) {
     console.log(error);
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      refetchRents();
+    }, [refetchRents]),
+  );
 
   return (
     <>
