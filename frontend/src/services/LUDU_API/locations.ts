@@ -24,7 +24,7 @@ const extendedApi = emptySplitApi.injectEndpoints({
       { postalCode: number; entity: string; filteredCategories: [] }
     >({
       query: (location) => ({
-        url: `/location/${location.postalCode}`,
+        url: `/location/59000`,
         // url: `/location/59000`,
       }),
       transformResponse: (response: Array<LocationAPI>, meta, arg) => {

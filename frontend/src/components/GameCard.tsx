@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import findRoutes from '../navigation/appRoutes/findRoutes';
 import Tag from './Tag';
-import { Dimensions, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Game } from '../models/states/Game';
 import { useGetGameByIdQuery } from '../services/LUDU_API/games';
@@ -17,7 +17,13 @@ interface IGameCard {
 const GameCard = ({ id, navigation, size }: IGameCard) => {
   const [game, setGame] = useState<Game>();
 
-  const { data: item, isLoading, isError, isSuccess, error } = useGetGameByIdQuery({ _id: id });
+  const {
+    data: item,
+    isLoading,
+    isError,
+    isSuccess,
+    error,
+  } = useGetGameByIdQuery({ _id: id }, { refetchOnMountOrArgChange: true });
 
   useEffect(() => {
     if (isSuccess) setGame(item);
