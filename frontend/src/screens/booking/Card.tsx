@@ -29,7 +29,7 @@ const CardItem = ({ rent, isAction }) => {
   return (
     <>
       {isSuccess && (
-        <Card style={styles.cardStyle} mode={!rent.deliveredDate ? 'elevated' : 'contained'}>
+        <Card style={styles.cardStyle} mode={'contained'}>
           <Card.Title
             title={copy.game.name}
             titleStyle={styles.title}

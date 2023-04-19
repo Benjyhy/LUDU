@@ -37,7 +37,6 @@ export default function Avatar({ navigation }: any) {
 
   useEffect(() => {
     if (isSuccess && data) {
-      console.log(data);
       const setTokens = async () => {
         await SecureStore.setItemAsync('refreshToken', data.refreshToken);
         await SecureStore.setItemAsync('accessToken', data.token);

@@ -31,7 +31,7 @@ import { ReviewModule } from './modules/review/review.module';
       inject: [ConfigService],
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'dist/static/images'),
+      rootPath: join(__dirname, '..', 'static/images'),
     }),
     LocationModule,
     StoreModule,
