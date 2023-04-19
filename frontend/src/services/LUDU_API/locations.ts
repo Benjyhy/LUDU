@@ -24,7 +24,7 @@ const extendedApi = emptySplitApi.injectEndpoints({
       { postalCode: number; entity: string; filteredCategories: [] }
     >({
       query: (location) => ({
-        url: `/location/${location.postalCode}`,
+        url: `/location/${location.postalCode}${filteredCategories.length ? '/categories='+allCat[filteredCategories].join(','): ''}`,
         // url: `/location/59000`,
       }),
       transformResponse: (response: Array<LocationAPI>, meta, arg) => {
@@ -35,15 +35,7 @@ const extendedApi = emptySplitApi.injectEndpoints({
             for (const store of location['stores']) {
               for (const copy of store['copies']) {
                 const gameAlreadyInResponse = res.some((el) => el.id === copy.game[0]._id);
-                if (filteredCategories.length > 0) {
-                  for (const cat of filteredCategories) {
-                    if (copy.game[0].categories.includes(allCat[cat])) {
-                      if (!gameAlreadyInResponse) res.push({ id: copy.game[0]._id });
-                    }
-                  }
-                } else {
-                  if (!gameAlreadyInResponse) res.push({ id: copy.game[0]._id });
-                }
+                if (!gameAlreadyInResponse) res.push({ id: copy.game[0]._id });
               }
             }
           }
