@@ -15,19 +15,13 @@ interface IGameCard {
 }
 
 const GameCard = ({ id, navigation, size }: IGameCard) => {
-  const [game, setGame] = useState<Game>();
-
   const {
-    data: item,
+    data: game,
     isLoading,
     isError,
     isSuccess,
     error,
   } = useGetGameByIdQuery({ _id: id }, { refetchOnMountOrArgChange: true });
-
-  useEffect(() => {
-    if (isSuccess) setGame(item);
-  }, [isSuccess]);
 
   if (isLoading) {
     return <></>;
@@ -41,7 +35,7 @@ const GameCard = ({ id, navigation, size }: IGameCard) => {
       </View>
     );
   }
-  if (game) {
+  if (isSuccess) {
     return (
       <TouchableOpacity onPress={() => navigation.push(findRoutes.GAME_SCREEN, game._id)}>
         <View style={[styles.card, size === 'small' ? styles.smallCard : styles.largeCard]}>

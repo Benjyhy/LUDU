@@ -23,14 +23,17 @@ const extendedApi = emptySplitApi.injectEndpoints({
       EntityByZipCode,
       { postalCode: number; entity: string; filteredCategories: [] }
     >({
-      query: (location) => ({
-        url: `/location/${location.postalCode}${
-          filteredCategories.length ? '/categories=' + allCat[filteredCategories].join(',') : ''
-        }`,
-        // url: `/location/59000`,
-      }),
+      query: (arg) => {
+        const { postalCode, filteredCategories } = arg;
+        const categories = filteredCategories.map((fc) => allCat[fc]);
+        return {
+          url: `/location/${postalCode}${
+            categories.length ? '?categories=' + categories.join(',') : ''
+          }`,
+        };
+      },
       transformResponse: (response: Array<LocationAPI>, meta, arg) => {
-        const { entity, filteredCategories } = arg;
+        const { entity } = arg;
         const res = [];
         if (entity == 'copies') {
           for (const location of response) {

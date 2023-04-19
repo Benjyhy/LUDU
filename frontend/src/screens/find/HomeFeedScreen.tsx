@@ -30,7 +30,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
     error,
   } = useGetEntitiesByZipCodeQuery(
     { postalCode: zipCode, entity: 'copies', filteredCategories },
-    { refetchOnMountOrArgChange: true },
+    { refetchOnMountOrArgChange: true, refetchOnFocus: true },
   );
 
   useEffect(() => {
