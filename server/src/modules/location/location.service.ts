@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { Location, LocationDocument } from '../../schemas/location.schema';
 import { LocationDto } from './dto/location.dto';
 import { ObjectId } from 'mongodb';
@@ -88,7 +88,10 @@ export class LocationService {
     return location;
   }
 
-  public async findByZipAndCategory(zip: string, categoryId: string): Promise<LocationDocument[]> {
+  public async findByZipAndCategory(
+    zip: string,
+    categoryIds: ObjectId[],
+  ): Promise<LocationDocument[]> {
     const department = zip.slice(0, 2);
     const location = await this.locationModel.aggregate([
       {
@@ -137,15 +140,20 @@ export class LocationService {
                         {
                           $match: {
                             categories: {
-                              $in: [new mongoose.Types.ObjectId(categoryId)],
+                              $in: [categoryIds],
                             },
                           },
                         },
                         {
-                          $project: { _id: 1 },
+                          $project: { _id: 1, categories: 1 },
                         },
                       ],
                       as: 'game',
+                    },
+                  },
+                  {
+                    $match: {
+                      'game.0': { $exists: true },
                     },
                   },
                 ],

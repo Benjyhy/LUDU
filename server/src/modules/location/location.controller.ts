@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -14,7 +15,7 @@ import { LocationDocument } from '../../schemas/location.schema';
 import { LocationService } from './location.service';
 import { LocationDto } from './dto/location.dto';
 import { JWTAuth } from '../../middlewares/decorators/JWTAuth';
-import { ValidateMongoId } from '../../middlewares/validateMongoId';
+import mongoose from 'mongoose';
 
 @Controller('location')
 @ApiTags('Location')
@@ -30,20 +31,6 @@ export class LocationController {
   }
 
   @Get('/:zip')
-  @ApiOperation({ summary: 'Get location by zip code' })
-  @ApiOkResponse({
-    description: 'Success',
-    type: LocationDto,
-    isArray: true,
-  })
-  findByZip(
-    @Param('zip')
-    zip: string,
-  ): Promise<LocationDocument[]> {
-    return this.locationService.findByZip(zip);
-  }
-
-  @Get('/:zip/category/:categoryId')
   @ApiOperation({ summary: 'Get location by zip code and copies by category' })
   @ApiOkResponse({
     description: 'Success',
@@ -53,10 +40,14 @@ export class LocationController {
   findByZipAndCategory(
     @Param('zip')
     zip: string,
-    @Param('categoryId', new ValidateMongoId())
-    categoryId: string,
+    @Query('categories') categories?: string,
   ): Promise<LocationDocument[]> {
-    return this.locationService.findByZipAndCategory(zip, categoryId);
+    if (categories == undefined) {
+      return this.locationService.findByZip(zip);
+    }
+    const isCategories = categories.split(',');
+    const categoriesMongooseIds = isCategories.map((item) => new mongoose.Types.ObjectId(item));
+    return this.locationService.findByZipAndCategory(zip, categoriesMongooseIds);
   }
 
   @Get('/id/:id')
