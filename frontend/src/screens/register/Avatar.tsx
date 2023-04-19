@@ -1,36 +1,42 @@
 import React, { useState, useContext, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { StyleSheet, Dimensions, TouchableOpacity, Image, View } from 'react-native';
+import {
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/actions/userAction';
-import { Button, Text, Divider } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import { RegisterContext } from '../../utils/registerContext';
-import { borderRadius, primaryColor, secondaryColor } from '../../utils/const';
+import { borderRadius, errorColor, primaryColor, secondaryColor } from '../../utils/const';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRegisterMutation } from '../../services/LUDU_API/auth';
 const { width: ScreenWidth } = Dimensions.get('screen');
 import * as SecureStore from 'expo-secure-store';
+import appRoutes from '../../navigation/appRoutes';
 
 export default function Avatar({ navigation }: any) {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [register, { data, isLoading, isSuccess }] = useRegisterMutation();
+  const [register, { data, isLoading, isSuccess, isError, error }] = useRegisterMutation();
   const dispatch = useDispatch();
   const { user } = useContext(RegisterContext);
 
   const handleRegister = async () => {
     const newUser = { ...user, ...{ avatar: image } };
-    try {
-      await register(newUser);
-    } catch (e) {
-      console.log(e.response.data);
-    }
+    console.log(newUser);
+    await register(newUser);
+    navigation.navigate(appRoutes.LOGIN_SCREEN);
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       const setTokens = async () => {
         await SecureStore.setItemAsync('refreshToken', data.refreshToken);
         await SecureStore.setItemAsync('accessToken', data.token);
@@ -47,8 +53,13 @@ export default function Avatar({ navigation }: any) {
         avatar: data.user.avatar,
       };
       dispatch(setUser(user));
+      // navigation.navigate(appRoutes.LOGIN_SCREEN);
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) console.log({ error });
+  }, [isError]);
 
   const HandleImageSelect = () => {
     const pickImage = async () => {
@@ -188,8 +199,13 @@ export default function Avatar({ navigation }: any) {
           )}
           {isLoading && (
             <>
-              <Divider />
+              <ActivityIndicator animating={true} size="large" color={'white'} />
             </>
+          )}
+          {isError && (
+            <View style={{ padding: 20 }}>
+              <Text style={{ color: errorColor, fontSize: 20 }}>{error.data.error}</Text>
+            </View>
           )}
         </View>
       </LinearGradient>

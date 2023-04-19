@@ -24,7 +24,7 @@ export default function Register({ navigation }: any) {
       } else {
         setEmailError('');
       }
-    }, 5000);
+    }, 2000);
   }, [email]);
 
   // useEffect(() => {
@@ -86,11 +86,11 @@ export default function Register({ navigation }: any) {
             placeholderTextColor="gray"
             activeOutlineColor={`${primaryColor}`}
             outlineColor={`${lowGray}`}
-            selectionColor={`${primaryColor}`}
+            selectionColor={`${emailError ? errorColor : primaryColor}`}
             underlineColor="transparent"
             theme={{
               colors: {
-                primary: primaryColor,
+                primary: emailError ? errorColor : primaryColor,
               },
             }}
             onChangeText={(text) => {
@@ -119,8 +119,7 @@ export default function Register({ navigation }: any) {
         </>
         <View
           style={{
-            position: 'absolute',
-            bottom: 100,
+            paddingTop: 60,
           }}
         >
           {isInputInValid && (

@@ -13,6 +13,7 @@ const MapViewScreen = () => {
   const { data, isSuccess } = useGetEntitiesByZipCodeQuery({
     postalCode: zipCode,
     entity: 'stores',
+    filteredCategories: [],
   });
   const [stores, setStores] = useState([]);
   useEffect(() => {

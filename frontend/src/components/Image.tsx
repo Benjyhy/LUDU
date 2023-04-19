@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, ImageResizeMode, ActivityIndicator } from 'react-native';
 import { getGameImg, primaryColor } from '../utils/const';
-import { Text } from 'react-native-paper';
 
 interface IImageHandle {
   src: string;
-  size: string;
   resizeMode: ImageResizeMode;
   width?: number;
   height: number;

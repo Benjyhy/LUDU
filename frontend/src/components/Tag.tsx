@@ -8,6 +8,9 @@ const Tag = ({ tagValue, tagName }: any) => {
     <View
       style={{
         paddingRight: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
       }}
     >
       {tagName === 'playTime' && <InlineTextIcon icon={'time-outline'} text={`${tagValue} min`} />}

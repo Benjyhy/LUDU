@@ -162,7 +162,6 @@ const GameScreen = ({ route, navigation }: any) => {
               <ImageHandle
                 src={game.thumbnail}
                 resizeMode={'cover'}
-                size={'small'}
                 width={Dimensions.get('window').width - horizontalPadding * 2}
                 height={350}
               />

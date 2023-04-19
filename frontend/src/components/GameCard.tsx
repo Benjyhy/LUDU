@@ -6,7 +6,7 @@ import { Text } from 'react-native-paper';
 import { Game } from '../models/states/Game';
 import { useGetGameByIdQuery } from '../services/LUDU_API/games';
 import ImageHandle from './Image';
-import { lowGray } from '../utils/const';
+import { lowGray, verticalPadding } from '../utils/const';
 
 interface IGameCard {
   id: string;
@@ -41,33 +41,34 @@ const GameCard = ({ id, navigation, size }: IGameCard) => {
       </View>
     );
   }
-
   if (game) {
     return (
       <TouchableOpacity onPress={() => navigation.push(findRoutes.GAME_SCREEN, game._id)}>
         <View style={[styles.card, size === 'small' ? styles.smallCard : styles.largeCard]}>
-          <ImageHandle src={game.thumbnail} resizeMode={'cover'} size={'small'} height={150} />
+          <ImageHandle src={game.thumbnail} resizeMode={'cover'} height={180} />
           <View style={styles.content}>
-            <View style={{ marginBottom: 16 }}>
-              <Text
-                variant="titleLarge"
-                numberOfLines={2}
-                ellipsizeMode="tail"
-                style={{ fontWeight: 'bold' }}
-              >
-                {game.name}
-              </Text>
-              <View style={{ margin: 2, flexDirection: 'row', flexWrap: 'wrap' }}>
-                {Object.values(game.tags).map(
-                  (tag: string, index: React.Key | null | undefined) => (
-                    <Tag
-                      tagValue={tag}
-                      tagName={Object.keys(game.tags).find((key) => game.tags[key] === tag)}
-                      key={index}
-                    />
-                  ),
-                )}
-              </View>
+            <Text
+              variant="titleLarge"
+              numberOfLines={2}
+              ellipsizeMode="tail"
+              style={{ fontWeight: 'bold', marginBottom: 8 }}
+            >
+              {game.name}
+            </Text>
+            <View
+              style={{
+                flexDirection: size === 'small' ? 'column' : 'row',
+                display: 'flex',
+                justifyContent: 'flex-start',
+              }}
+            >
+              {Object.values(game.tags).map((tag: string, index: React.Key | null | undefined) => (
+                <Tag
+                  tagValue={tag}
+                  tagName={Object.keys(game.tags).find((key) => game.tags[key] === tag)}
+                  key={index}
+                />
+              ))}
             </View>
             <View style={{ marginBottom: 8 }}>
               {size !== 'small' && (
@@ -113,24 +114,17 @@ const styles = StyleSheet.create({
     height: 350,
   },
   largeCard: {
-    width: 'auto',
+    width: Dimensions.get('window').width - verticalPadding * 2,
     alignItems: 'center',
     flexDirection: 'column',
-    paddingBottom: 20,
-  },
-  smallImg: {
-    width: '100%',
-    height: 150,
-  },
-  largeImg: {
-    width: '100%',
-    height: 150,
   },
   content: {
-    padding: 10,
-    margin: 3,
-    flex: 1,
-    marginLeft: 0,
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginVertical: 12,
+    width: '90%',
+    alignSelf: 'center',
   },
   description: {
     maxWidth: '100%',

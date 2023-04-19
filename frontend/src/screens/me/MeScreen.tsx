@@ -39,21 +39,21 @@ const MeScreen = () => {
             <View style={styles.wrapperAvatar}>
               <AvatarMe
                 avatarUri={
-                  userFromStore.avatar.length !== 0 ? getUserImg(userFromStore.avatar) : ''
+                  userFromStore?.avatar?.length !== 0 ? getUserImg(userFromStore?.avatar) : ''
                 }
-                username={userFromStore.username}
+                username={userFromStore?.username}
               />
               <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-                {userFromStore.username}
+                {userFromStore?.username}
               </Text>
               <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-                {userFromStore.email}
+                {userFromStore?.email}
               </Text>
               <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-                {userFromStore.address}
+                {userFromStore?.address}
               </Text>
               <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
-                +33{userFromStore.phone}
+                +33{userFromStore?.phone}
               </Text>
             </View>
             <TouchableOpacity style={styles.row}>
