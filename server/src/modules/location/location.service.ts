@@ -140,7 +140,7 @@ export class LocationService {
                         {
                           $match: {
                             categories: {
-                              $in: [categoryIds],
+                              $in: categoryIds,
                             },
                           },
                         },
