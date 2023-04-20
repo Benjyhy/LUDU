@@ -21,6 +21,7 @@ function BookingGameScreen({ route, navigation }: any) {
     {
       postalCode: zipCode,
       entity: 'stores',
+      filteredCategories: [],
     },
     { refetchOnFocus: true, refetchOnReconnect: true },
   );

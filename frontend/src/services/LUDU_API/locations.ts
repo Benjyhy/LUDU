@@ -25,7 +25,9 @@ const extendedApi = emptySplitApi.injectEndpoints({
     >({
       query: (arg) => {
         const { postalCode, filteredCategories } = arg;
-        const categories = filteredCategories.map((fc) => allCat[fc]);
+        const categories = filteredCategories.length
+          ? filteredCategories.map((fc) => allCat[fc])
+          : [];
         return {
           url: `/location/${postalCode}${
             categories.length ? '?categories=' + categories.join(',') : ''
