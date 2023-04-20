@@ -1,5 +1,12 @@
 import React, { useCallback } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Filter from '../../components/Filter';
 import Layout from '../Layout';
 import CardItem from '../booking/Card';
@@ -11,6 +18,7 @@ import { Rent } from '../../models/states/Rent';
 import { primaryColor } from '../../utils/const';
 import bookingRoute from '../../navigation/appRoutes/bookingRoutes';
 import { useFocusEffect } from '@react-navigation/native';
+import NotFound from '../../components/NotFound';
 
 const BookingTabsScreen = ({ navigation }) => {
   const userLogged = useSelector((state: MainAppState) => state.user);
@@ -57,21 +65,38 @@ const BookingTabsScreen = ({ navigation }) => {
       <Layout>
         {isSuccess && (
           <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 14 }}>
-            {rents.map((rent: Rent, index) => {
-              return (
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate(bookingRoute.BOOKING_ACTION_SCREEN, {
-                      rent,
-                    })
-                  }
-                  key={index}
+            <>
+              {rents.length === 0 ? (
+                <View
+                  style={{
+                    height: Dimensions.get('window').height,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
                 >
-                  <CardItem rent={rent} isAction={true} />
-                </TouchableOpacity>
-              );
-            })}
-            {filterStatus.active ? <Filter filterType={FilterTypes.Status} /> : ''}
+                  <NotFound info={`No bookings yet`} />
+                </View>
+              ) : (
+                <>
+                  {rents.map((rent: Rent, index) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate(bookingRoute.BOOKING_ACTION_SCREEN, {
+                            rent,
+                          })
+                        }
+                        key={index}
+                      >
+                        <CardItem rent={rent} isAction={true} />
+                      </TouchableOpacity>
+                    );
+                  })}
+                  {filterStatus.active ? <Filter filterType={FilterTypes.Status} /> : ''}
+                </>
+              )}
+            </>
           </ScrollView>
         )}
       </Layout>

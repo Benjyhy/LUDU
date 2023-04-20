@@ -34,6 +34,7 @@ const StackNav = () => {
     (async () => {
       // If a token is saved in expo-secure-store, we decode it to retrieve the user id
       const token = await SecureStore.getItemAsync('accessToken');
+      console.log(token);
       setToken(token);
       if (token) {
         const decoded: DecodedJWT = jwtDecode(token);
