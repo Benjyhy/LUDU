@@ -8,11 +8,11 @@ import { ReviewSeed } from './seed/review.seed';
 import { RentSeed } from './seed/rent.seed';
 
 describe('Test', () => {
-  CategorySeed();
-  LocationSeed();
-  StoreSeeder();
-  UserSeed();
-  GameSeed();
+  // CategorySeed();
+  // LocationSeed();
+  // StoreSeeder();
+  // UserSeed();
+  // GameSeed();
   CopySeed();
   ReviewSeed();
   RentSeed();

@@ -49,7 +49,7 @@ export class RentService {
   }
 
   public async findByUserId(userId: string, status: any): Promise<RentDocument[]> {
-    const rents = await this.rentModel.find().sort({ startDate: -1 });
+    const rents = await this.rentModel.find({ user: userId }).sort({ startDate: -1 });
     //  If not params return all rents
     if (!status) {
       return rents;
@@ -61,6 +61,7 @@ export class RentService {
           promises.push(
             ...(await this.rentModel
               .find({
+                user: userId,
                 deliveredDate: null,
                 endDate: null,
               })
@@ -71,6 +72,7 @@ export class RentService {
           promises.push(
             ...(await this.rentModel
               .find({
+                user: userId,
                 deliveredDate: { $ne: null },
                 endDate: null,
               })
@@ -81,6 +83,7 @@ export class RentService {
           promises.push(
             ...(await this.rentModel
               .find({
+                user: userId,
                 endDate: { $ne: null },
               })
               .sort({ startDate: -1 })),
