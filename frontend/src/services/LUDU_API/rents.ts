@@ -51,6 +51,6 @@ export const {
   useDeleteRentMutation,
   useGetAllRentsQuery,
   useGetUserRentsQuery,
-  useSetRentToDoneQuery,
-  useSetRentToDeliveredQuery,
+  useLazySetRentToDoneQuery,
+  useLazySetRentToDeliveredQuery,
 } = extendedApi;

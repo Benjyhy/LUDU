@@ -76,22 +76,31 @@ const BookingTabsScreen = ({ navigation }) => {
                   }}
                 >
                   <NotFound info={`No bookings yet`} />
+                  {filterStatus.active ? <Filter filterType={FilterTypes.Status} /> : ''}
                 </View>
               ) : (
                 <>
                   {rents.map((rent: Rent, index) => {
-                    return (
-                      <TouchableOpacity
-                        onPress={() =>
-                          navigation.navigate(bookingRoute.BOOKING_ACTION_SCREEN, {
-                            rent,
-                          })
-                        }
-                        key={index}
-                      >
-                        <CardItem rent={rent} isAction={true} />
-                      </TouchableOpacity>
-                    );
+                    if (rent.endDate === null) {
+                      return (
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate(bookingRoute.BOOKING_ACTION_SCREEN, {
+                              rent,
+                            })
+                          }
+                          key={index}
+                        >
+                          <CardItem rent={rent} isAction={true} />
+                        </TouchableOpacity>
+                      );
+                    } else {
+                      return (
+                        <View key={index}>
+                          <CardItem rent={rent} isAction={true} />
+                        </View>
+                      );
+                    }
                   })}
                   {filterStatus.active ? <Filter filterType={FilterTypes.Status} /> : ''}
                 </>
