@@ -14,7 +14,7 @@ function BookingGameScreen({ route, navigation }: any) {
   const item = route.params.game;
   const zipCode = useSelector((state: MainAppState) => state.currentLocation.zipCode);
   const {
-    data,
+    data: stores,
     isSuccess,
     refetch: refetchGames,
   } = useGetEntitiesByZipCodeQuery(
@@ -22,29 +22,16 @@ function BookingGameScreen({ route, navigation }: any) {
       postalCode: zipCode,
       entity: 'stores',
       filteredCategories: [],
+      gameId: item._id,
     },
-    { refetchOnFocus: true, refetchOnReconnect: true },
+    { refetchOnMountOrArgChange: true, refetchOnFocus: true, refetchOnReconnect: true },
   );
-
-  const [stores, setStores] = React.useState([]);
 
   useFocusEffect(
     useCallback(() => {
       refetchGames();
     }, [refetchGames]),
   );
-
-  const filterStore = (store) => {
-    return store.copies.find((copy) => copy.convertedGameId === item._id && copy.available);
-  };
-
-  const gamePlaces = stores.filter((store) => filterStore(store));
-
-  React.useEffect(() => {
-    if (isSuccess) {
-      setStores(data);
-    }
-  }, [isSuccess]);
 
   const [selectedStore, setSelected] = useState(null);
   const selectStore = (it) => {
@@ -64,39 +51,41 @@ function BookingGameScreen({ route, navigation }: any) {
 
   return (
     <Layout>
-      <View
-        style={{
-          height: '100%',
-          justifyContent: 'space-between',
-          paddingVertical: 70,
-          paddingHorizontal: 15,
-        }}
-      >
-        <View>
-          <Text variant="headlineMedium" style={{ fontWeight: 'bold', textAlign: 'center' }}>
-            Booking for {item.name}
-          </Text>
-          <Text variant="titleSmall" style={{ textAlign: 'center' }}>
-            Game stores based on your current location
-          </Text>
-        </View>
-        <View>
-          <Text variant="headlineSmall" style={{ fontWeight: 'bold', textAlign: 'center' }}>
-            Choose your game store :
-          </Text>
-          <ScrollView style={{ paddingVertical: 20, height: 300 }}>
-            <StoreListing selectedStore={selectStore} items={gamePlaces} />
-          </ScrollView>
-        </View>
-        <Button
-          buttonColor={primaryColor}
-          textColor="white"
-          style={{ borderRadius: 5, width: 'auto' }}
-          onPress={() => handleNavigation()}
+      {isSuccess && (
+        <View
+          style={{
+            height: '100%',
+            justifyContent: 'space-between',
+            paddingVertical: 70,
+            paddingHorizontal: 15,
+          }}
         >
-          Continue
-        </Button>
-      </View>
+          <View>
+            <Text variant="headlineMedium" style={{ fontWeight: 'bold', textAlign: 'center' }}>
+              Booking for {item.name}
+            </Text>
+            <Text variant="titleSmall" style={{ textAlign: 'center' }}>
+              Game stores based on your current location
+            </Text>
+          </View>
+          <View>
+            <Text variant="headlineSmall" style={{ fontWeight: 'bold', textAlign: 'center' }}>
+              Choose your game store :
+            </Text>
+            <ScrollView style={{ paddingVertical: 20, height: 300 }}>
+              <StoreListing selectedStore={selectStore} items={stores} />
+            </ScrollView>
+          </View>
+          <Button
+            buttonColor={primaryColor}
+            textColor="white"
+            style={{ borderRadius: 5, width: 'auto' }}
+            onPress={() => handleNavigation()}
+          >
+            Continue
+          </Button>
+        </View>
+      )}
     </Layout>
   );
 }

@@ -21,7 +21,7 @@ const extendedApi = emptySplitApi.injectEndpoints({
     }),
     getEntitiesByZipCode: builder.query<
       EntityByZipCode,
-      { postalCode: number; entity: string; filteredCategories: [] }
+      { postalCode: number; entity: string; filteredCategories: []; gameId?: string }
     >({
       query: (arg) => {
         const { postalCode, filteredCategories } = arg;
@@ -29,14 +29,12 @@ const extendedApi = emptySplitApi.injectEndpoints({
           ? filteredCategories.map((fc) => allCat[fc])
           : [];
         return {
-          url: `/location/${postalCode}${
-            categories.length ? '?categories=' + categories.join(',') : ''
-          }`,
+          url: `/location/59000${categories.length ? '?categories=' + categories.join(',') : ''}`,
         };
       },
       transformResponse: (response: Array<LocationAPI>, meta, arg) => {
-        const { entity } = arg;
-        const res = [];
+        const { entity, gameId } = arg;
+        let res = [];
         if (entity == 'copies') {
           for (const location of response) {
             for (const store of location['stores']) {
@@ -52,6 +50,9 @@ const extendedApi = emptySplitApi.injectEndpoints({
               res.push(store);
             }
           }
+          res = res.filter((st) =>
+            st.copies.find((copy) => copy.convertedGameId === gameId && copy.available),
+          );
         }
         return res;
       },

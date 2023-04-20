@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import GameCard from '../../components/GameCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { TouchableOpacity, ScrollView, View, ActivityIndicator, StyleSheet } from 'react-native';
-import { Text, Button } from 'react-native-paper';
+import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainAppState } from '../../models/states';
 import { borderRadius, primaryColor } from '../../utils/const';
@@ -13,6 +13,7 @@ import { FilterTypes } from '../../models/Filter';
 import { useGetEntitiesByZipCodeQuery } from '../../services/LUDU_API/locations';
 import NotFound from '../../components/NotFound';
 import appRoutes from '../../navigation/appRoutes';
+import { useFocusEffect } from '@react-navigation/native';
 
 const HomeFeedScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
   const zipCode = useSelector((state: MainAppState) => state.currentLocation.zipCode);
   const {
     data: games,
+    refetch: refetchGames,
     isLoading: isLoading,
     isError: isError,
     isSuccess,
@@ -30,7 +32,7 @@ const HomeFeedScreen = ({ navigation }: any) => {
     error,
   } = useGetEntitiesByZipCodeQuery(
     { postalCode: zipCode, entity: 'copies', filteredCategories },
-    { refetchOnMountOrArgChange: true, refetchOnFocus: true },
+    { refetchOnMountOrArgChange: true, refetchOnFocus: true, refetchOnReconnect: true },
   );
 
   useEffect(() => {
@@ -40,13 +42,16 @@ const HomeFeedScreen = ({ navigation }: any) => {
     if (isError) {
       console.log(error);
     }
-  }, [isError, isLoading, isFetching]);
-
-  useEffect(() => {
     if (isSuccess) {
       navigation.setOptions({ headerShown: true });
     }
-  }, [isSuccess]);
+  }, [isError, isLoading, isFetching, isSuccess]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      refetchGames();
+    }, [refetchGames]),
+  );
 
   return (
     <>

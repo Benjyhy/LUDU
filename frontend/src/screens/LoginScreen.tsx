@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Dimensions, Text, Image, StatusBar } from 'react-native';
+import { Dimensions, Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import appRoutes from '../navigation/appRoutes/index';
 import { LinearGradient } from 'expo-linear-gradient';
-import { TextInput, Button, ActivityIndicator, MD2Colors } from 'react-native-paper';
+import { ActivityIndicator, Button, MD2Colors, TextInput } from 'react-native-paper';
 import { borderRadius, errorColor, lowGray, primaryColor, secondaryColor } from '../utils/const';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/actions/userAction';
