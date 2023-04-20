@@ -29,7 +29,9 @@ const extendedApi = emptySplitApi.injectEndpoints({
           ? filteredCategories.map((fc) => allCat[fc])
           : [];
         return {
-          url: `/location/59000${categories.length ? '?categories=' + categories.join(',') : ''}`,
+          url: `/location/${postalCode}${
+            categories.length ? '?categories=' + categories.join(',') : ''
+          }`,
         };
       },
       transformResponse: (response: Array<LocationAPI>, meta, arg) => {
